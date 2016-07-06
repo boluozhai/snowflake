@@ -1,6 +1,6 @@
 package com.boluozhai.snow.cli.client;
 
-import com.boluozhai.snow.context.SnowContext;
+import com.boluozhai.snowflake.context.SnowContext;
 
 public interface CLIProcess extends Runnable {
 

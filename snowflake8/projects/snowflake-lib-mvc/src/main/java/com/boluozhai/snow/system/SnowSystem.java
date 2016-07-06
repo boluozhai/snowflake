@@ -1,6 +1,6 @@
 package com.boluozhai.snow.system;
 
-import com.boluozhai.snow.context.SnowContext;
+import com.boluozhai.snowflake.context.SnowContext;
 
 public abstract class SnowSystem implements SnowSystemAPI {
 

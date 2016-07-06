@@ -2,7 +2,7 @@ package com.boluozhai.snow.xgit.repository;
 
 import java.net.URI;
 
-import com.boluozhai.snow.context.SnowContext;
+import com.boluozhai.snowflake.context.SnowContext;
 
 public interface RepositoryManager {
 

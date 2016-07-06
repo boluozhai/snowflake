@@ -4,11 +4,11 @@ import java.io.File;
 
 import org.junit.Test;
 
-import com.boluozhai.snow.appdata.AppData;
-import com.boluozhai.snow.test.TestContext;
-import com.boluozhai.snow.test.Tester;
-import com.boluozhai.snow.test.Testing;
-import com.boluozhai.snow.test.support.DefaultTester;
+import com.boluozhai.snowflake.appdata.AppData;
+import com.boluozhai.snowflake.test.TestContext;
+import com.boluozhai.snowflake.test.Tester;
+import com.boluozhai.snowflake.test.Testing;
+import com.boluozhai.snowflake.test.support.DefaultTester;
 
 public class TestAppData {
 

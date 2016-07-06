@@ -1,7 +1,7 @@
 package com.boluozhai.snow.xgit;
 
-import com.boluozhai.snow.context.SnowContext;
 import com.boluozhai.snow.xgit.repository.RepositoryManager;
+import com.boluozhai.snowflake.context.SnowContext;
 
 public class XGit {
 

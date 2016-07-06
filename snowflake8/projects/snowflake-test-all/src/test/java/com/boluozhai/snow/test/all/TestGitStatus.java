@@ -8,16 +8,16 @@ import org.junit.Test;
 import com.boluozhai.snow.cli.CLIUtils;
 import com.boluozhai.snow.cli.client.CLIClient;
 import com.boluozhai.snow.cli.client.CLIProcess;
-import com.boluozhai.snow.context.SnowContext;
-import com.boluozhai.snow.context.utils.SnowAppContextUtils;
-import com.boluozhai.snow.test.TestContext;
-import com.boluozhai.snow.test.Tester;
-import com.boluozhai.snow.test.Testing;
-import com.boluozhai.snow.test.support.DefaultTester;
 import com.boluozhai.snow.xgit.XGit;
 import com.boluozhai.snow.xgit.repository.Repository;
 import com.boluozhai.snow.xgit.repository.RepositoryContext;
 import com.boluozhai.snow.xgit.repository.RepositoryManager;
+import com.boluozhai.snowflake.context.SnowContext;
+import com.boluozhai.snowflake.context.utils.SnowAppContextUtils;
+import com.boluozhai.snowflake.test.TestContext;
+import com.boluozhai.snowflake.test.Tester;
+import com.boluozhai.snowflake.test.Testing;
+import com.boluozhai.snowflake.test.support.DefaultTester;
 
 public class TestGitStatus {
 

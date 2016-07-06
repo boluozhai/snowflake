@@ -1,8 +1,8 @@
 package com.boluozhai.snow.cli;
 
 import com.boluozhai.snow.cli.client.CLIClient;
-import com.boluozhai.snow.context.SnowContext;
-import com.boluozhai.snow.context.utils.SnowAppContextUtils;
+import com.boluozhai.snowflake.context.SnowContext;
+import com.boluozhai.snowflake.context.utils.SnowAppContextUtils;
 
 public class SnowCLI {
 

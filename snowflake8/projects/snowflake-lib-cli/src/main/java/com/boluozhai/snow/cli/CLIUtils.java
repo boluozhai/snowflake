@@ -4,7 +4,7 @@ import com.boluozhai.snow.cli.client.CLIClient;
 import com.boluozhai.snow.cli.client.CLIClientFactory;
 import com.boluozhai.snow.cli.service.CLIService;
 import com.boluozhai.snow.cli.service.CLIServiceFactory;
-import com.boluozhai.snow.context.SnowContext;
+import com.boluozhai.snowflake.context.SnowContext;
 
 public class CLIUtils {
 

@@ -4,6 +4,8 @@ import java.io.PrintStream;
 
 import org.junit.Test;
 
+import com.boluozhai.snowflake.appdata.AppData;
+
 public class AppTest {
 
 	@Test
