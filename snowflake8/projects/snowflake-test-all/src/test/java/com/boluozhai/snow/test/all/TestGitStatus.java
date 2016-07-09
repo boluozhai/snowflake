@@ -8,16 +8,15 @@ import org.junit.Test;
 import com.boluozhai.snow.cli.CLIUtils;
 import com.boluozhai.snow.cli.client.CLIClient;
 import com.boluozhai.snow.cli.client.CLIProcess;
-import com.boluozhai.snow.xgit.XGit;
-import com.boluozhai.snow.xgit.repository.Repository;
-import com.boluozhai.snow.xgit.repository.RepositoryContext;
-import com.boluozhai.snow.xgit.repository.RepositoryManager;
 import com.boluozhai.snowflake.context.SnowContext;
-import com.boluozhai.snowflake.context.utils.SnowAppContextUtils;
+import com.boluozhai.snowflake.context.utils.SnowContextUtils;
 import com.boluozhai.snowflake.test.TestContext;
 import com.boluozhai.snowflake.test.Tester;
 import com.boluozhai.snowflake.test.Testing;
-import com.boluozhai.snowflake.test.support.DefaultTester;
+import com.boluozhai.snowflake.xgit.XGit;
+import com.boluozhai.snowflake.xgit.repository.Repository;
+import com.boluozhai.snowflake.xgit.repository.RepositoryContext;
+import com.boluozhai.snowflake.xgit.repository.RepositoryManager;
 
 public class TestGitStatus {
 
@@ -25,7 +24,7 @@ public class TestGitStatus {
 	public void test() {
 
 		Testing testing = null;
-		Tester tester = new DefaultTester();
+		Tester tester = Tester.Factory.newInstance();
 
 		try {
 			testing = tester.open(this);
@@ -38,11 +37,11 @@ public class TestGitStatus {
 
 	public void test_git_status(TestContext tc) {
 
-		File path = tc.workingPath();
+		File path = tc.getWorkingPath();
 		path = new File(path, "a/b/c");
 		URI uri = path.toURI();
 
-		SnowContext context = SnowAppContextUtils.getContext();
+		SnowContext context = SnowContextUtils.getContext();
 		RepositoryManager xgit_man = XGit.getRepositoryManager(context);
 		Repository repo = xgit_man.open(context, uri, null);
 		RepositoryContext repo_context = repo.context();

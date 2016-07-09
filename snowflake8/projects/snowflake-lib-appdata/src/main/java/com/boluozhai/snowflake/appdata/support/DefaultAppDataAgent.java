@@ -5,16 +5,20 @@ import com.boluozhai.snowflake.appdata.AppDataAgent;
 
 public class DefaultAppDataAgent extends AppDataAgent {
 
+	private final AppDataAgent _inner;
+
+	public DefaultAppDataAgent() {
+		this._inner = new StaticAppDataAgent();
+	}
+
 	@Override
 	public AppData getAppData() {
-		// TODO Auto-generated method stub
-		return null;
+		return _inner.getAppData();
 	}
 
 	@Override
 	public AppData getAppData(boolean throw_exception) {
-		// TODO Auto-generated method stub
-		return null;
+		return _inner.getAppData(throw_exception);
 	}
 
 }

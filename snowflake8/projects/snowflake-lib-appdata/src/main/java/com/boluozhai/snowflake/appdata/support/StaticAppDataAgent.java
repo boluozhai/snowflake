@@ -37,7 +37,7 @@ public class StaticAppDataAgent extends AppDataAgent {
 		}
 
 		@Override
-		public File getDataPath(Class<?> clazz) {
+		public File getDataSchemaPath(Class<?> clazz) {
 			File base = this._app_data_path;
 			if (base == null) {
 				return null;
@@ -153,8 +153,8 @@ public class StaticAppDataAgent extends AppDataAgent {
 		}
 
 		@Override
-		public File getDataPath(Class<?> clazz) {
-			return this._target.getDataPath(clazz);
+		public File getDataSchemaPath(Class<?> clazz) {
+			return this._target.getDataSchemaPath(clazz);
 		}
 
 		@Override

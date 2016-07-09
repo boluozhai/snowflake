@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" 
+ "http://www.springframework.org/dtd/spring-beans-2.0.dtd" >
+<beans>
+
+	<bean id='com.boluozhai.snowflake.appdata.AppDataAgent'
+		class='com.boluozhai.snowflake.appdata.support.DefaultAppDataAgent'></bean>
+
+	<bean id='com.boluozhai.snowflake.xgit.repository.RepositoryManager'
+		class='com.boluozhai.snowflake.xgit.support.DefaultRepositoryManager'>
+
+		<property name="drivers">
+			<map>
+				<entry key="file">
+					<ref bean="xgit:driver:file" />
+				</entry>
+			</map>
+		</property>
+
+	</bean>
+
+	<bean id='xgit:driver:file'
+		class='com.boluozhai.snowflake.xgit.vfs.support.FileRepositoryDriver'></bean>
+
+</beans>

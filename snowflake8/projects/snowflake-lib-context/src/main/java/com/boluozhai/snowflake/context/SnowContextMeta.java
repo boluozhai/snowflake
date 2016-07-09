@@ -8,7 +8,7 @@ public interface SnowContextMeta {
 
 	String getDescription();
 
-	long birthday();
+	long getBirthday();
 
 	URI getURI();
 

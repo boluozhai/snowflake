@@ -4,11 +4,15 @@ import java.io.IOException;
 
 public interface DiscoveryHub {
 
+	int getBufferSize();
+
 	int getPort();
 
 	void start();
 
 	void stop();
+
+	void join() throws InterruptedException;
 
 	/***
 	 * @param port

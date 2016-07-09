@@ -26,11 +26,13 @@ public class TestAppData {
 
 			File cp = ad.getCodePath();
 			File pp = ad.getPropertiesPath();
-			File dp = ad.getDataPath();
+			File dp = ad.getDataBasePath();
+			File wp = context.getWorkingPath();
 
 			System.out.format("code-path: %s\n", cp);
 			System.out.format("prop-path: %s\n", pp);
 			System.out.format("data-path: %s\n", dp);
+			System.out.format("work-path: %s\n", wp);
 
 		} finally {
 			tester.close(testing);

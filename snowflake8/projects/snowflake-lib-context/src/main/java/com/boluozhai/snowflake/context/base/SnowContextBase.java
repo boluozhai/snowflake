@@ -33,7 +33,7 @@ public class SnowContextBase implements SnowContextBaseAPI {
 	}
 
 	@Override
-	public long birthday() {
+	public long getBirthday() {
 		return this._birthday;
 	}
 

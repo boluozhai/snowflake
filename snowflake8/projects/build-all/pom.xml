@@ -1,0 +1,32 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>ananas.ab4c.ltv</groupId>
+	<artifactId>ltv-final-all</artifactId>
+	<version>0.1</version>
+	<packaging>pom</packaging>
+
+	<modules>
+
+		<module>../snowflake-lib-appdata</module>
+		<module>../snowflake-lib-cli</module>
+		<module>../snowflake-lib-context</module>
+		<module>../snowflake-lib-core</module>
+		<module>../snowflake-lib-discovery</module>
+		<module>../snowflake-lib-httpclient</module>
+		<module>../snowflake-lib-mvc</module>
+		<module>../snowflake-lib-spring</module>
+		<module>../snowflake-lib-spring-web</module>
+		<module>../snowflake-lib-template</module>
+		<module>../snowflake-lib-vfs</module>
+		<module>../snowflake-lib-xgit</module>
+		<module>../snowflake-lib-xgit-vfs</module>
+		<!-- module>../snowflake-test-all</module -->
+		<module>../snowflake-test-lib</module>
+		<module>../snowflake-tool-project-manager</module>
+		<module>../snowflake-web-resource</module>
+
+	</modules>
+
+</project>

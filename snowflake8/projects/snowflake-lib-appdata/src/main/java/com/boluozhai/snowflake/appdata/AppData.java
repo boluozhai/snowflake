@@ -13,7 +13,7 @@ public interface AppData {
 
 	File getDataBasePath();
 
-	File getDataPath(Class<?> clazz);
+	File getDataSchemaPath(Class<?> clazz);
 
 	Exception getError();
 

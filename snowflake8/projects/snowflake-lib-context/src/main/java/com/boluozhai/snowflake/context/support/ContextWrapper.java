@@ -25,8 +25,8 @@ public class ContextWrapper implements SnowContext {
 		return _inner.getDescription();
 	}
 
-	public long birthday() {
-		return _inner.birthday();
+	public long getBirthday() {
+		return _inner.getBirthday();
 	}
 
 	public URI getURI() {

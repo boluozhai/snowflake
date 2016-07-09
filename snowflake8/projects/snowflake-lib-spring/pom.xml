@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.boluozhai.snow</groupId>
+	<groupId>com.boluozhai.snowflake</groupId>
 	<artifactId>snowflake-lib-spring</artifactId>
 	<version>0.8.0</version>
 	<packaging>jar</packaging>
@@ -23,13 +23,13 @@
 		</dependency>
 
 		<dependency>
-			<groupId>com.boluozhai.snow</groupId>
+			<groupId>com.boluozhai.snowflake</groupId>
 			<artifactId>snowflake-lib-context</artifactId>
 			<version>0.8.0</version>
 		</dependency>
 
 		<dependency>
-			<groupId>com.boluozhai.snow</groupId>
+			<groupId>com.boluozhai.snowflake</groupId>
 			<artifactId>snowflake-lib-mvc</artifactId>
 			<version>0.8.0</version>
 		</dependency>
@@ -37,7 +37,7 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
-			<version>3.2.9.RELEASE</version>
+			<version>4.2.0.RELEASE</version>
 		</dependency>
 
 	</dependencies>

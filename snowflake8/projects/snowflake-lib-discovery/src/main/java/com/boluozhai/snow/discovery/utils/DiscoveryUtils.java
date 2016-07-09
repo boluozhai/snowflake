@@ -1,40 +1,36 @@
 package com.boluozhai.snow.discovery.utils;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.UnsupportedEncodingException;
 
-import com.boluozhai.snow.discovery.DiscoveryPacket;
+import com.boluozhai.snow.discovery.scheme.PrivateScheme;
+import com.boluozhai.snow.discovery.scheme.PublicScheme;
 
 public class DiscoveryUtils {
 
-	public static Map<String, String> packet2map(DiscoveryPacket pack) {
+	final static String enc = "utf-8";
 
-		Map<String, String> map = new HashMap<String, String>();
-
-		return map;
+	public static PublicScheme bytes2publicScheme(byte[] data, int offset,
+			int length) throws UnsupportedEncodingException {
+		String str = new String(data, enc);
+		return PublicScheme.parse(str);
 	}
 
-	public static DiscoveryPacket map2packet(Map<String, String> map) {
-
-		DiscoveryPacket pack = new DiscoveryPacket();
-		return pack;
+	public static byte[] publicScheme2bytes(PublicScheme obj)
+			throws UnsupportedEncodingException {
+		String str = PublicScheme.toString(obj);
+		return str.getBytes(enc);
 	}
 
-	public static String map2string(Map<String, String> map) {
-		StringBuilder sb = new StringBuilder();
-		List<String> keys = new ArrayList<String>(map.keySet());
-		Collections.sort(keys);
-		for (String key : keys) {
-			String value = map.get(key);
-			sb.append(key);
-			sb.append("=");
-			sb.append(value);
-			sb.append("\n");
-		}
-		return sb.toString();
+	public static PrivateScheme bytes2privateScheme(byte[] data, int offset,
+			int length) throws UnsupportedEncodingException {
+		String str = new String(data, offset, length, enc);
+		return PrivateScheme.parse(str);
+	}
+
+	public static byte[] privateScheme2bytes(PrivateScheme obj)
+			throws UnsupportedEncodingException {
+		String str = PrivateScheme.toString(obj);
+		return str.getBytes(enc);
 	}
 
 }

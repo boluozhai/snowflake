@@ -13,7 +13,7 @@ public final class AppContextBuilderFactory extends
 
 		try {
 
-			String key = AppContextBuilderFactory.class.getName();
+			String key = ContextBuilderFactory.class.getName();
 			String cn = SystemAttributes.get(key);
 
 			Class<?> clazz = Class.forName(cn);
