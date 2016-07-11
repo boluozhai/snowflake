@@ -10,6 +10,10 @@ public class TestDiscovery {
 
 	@Test
 	public void test() {
+		// this.inner_test();
+	}
+
+	private void inner_test() {
 
 		DiscoveryHub hub = null;
 

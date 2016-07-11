@@ -14,6 +14,7 @@
 		<module>../snowflake-lib-context</module>
 		<module>../snowflake-lib-core</module>
 		<module>../snowflake-lib-discovery</module>
+		<module>../snowflake-lib-jetty</module>
 		<module>../snowflake-lib-httpclient</module>
 		<module>../snowflake-lib-mvc</module>
 		<module>../snowflake-lib-spring</module>
@@ -22,7 +23,9 @@
 		<module>../snowflake-lib-vfs</module>
 		<module>../snowflake-lib-xgit</module>
 		<module>../snowflake-lib-xgit-vfs</module>
+
 		<!-- module>../snowflake-test-all</module -->
+
 		<module>../snowflake-test-lib</module>
 		<module>../snowflake-tool-project-manager</module>
 		<module>../snowflake-web-resource</module>
