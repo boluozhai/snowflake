@@ -44,6 +44,11 @@
 			<scope>test</scope>
 		</dependency>
 
+		<dependency>
+			<groupId>com.boluozhai.snowflake</groupId>
+			<artifactId>snowflake-lib-mvc</artifactId>
+			<version>0.8.0</version>
+		</dependency>
 
 	</dependencies>
 

@@ -7,19 +7,26 @@ import com.boluozhai.snowflake.xgit.repository.Repository;
 import com.boluozhai.snowflake.xgit.repository.RepositoryDriver;
 import com.boluozhai.snowflake.xgit.repository.RepositoryLocator;
 import com.boluozhai.snowflake.xgit.repository.RepositoryOption;
+import com.boluozhai.snowflake.xgit.support.AbstractRepositoryDriver;
+import com.boluozhai.snowflake.xgit.support.RepositoryProfile;
 
-public class FileRepositoryDriverImpl implements RepositoryDriver {
+public class FileRepositoryDriverImpl extends AbstractRepositoryDriver
+		implements RepositoryDriver {
+
+	public FileRepositoryDriverImpl(RepositoryProfile pf) {
+		this.setProfile(pf);
+	}
 
 	@Override
 	public Repository open(SnowContext context, URI uri, RepositoryOption option) {
-		// TODO Auto-generated method stub
-		return null;
+		RepositoryProfile pf = this.getProfile();
+		FileRepositoryBuilder builder = new FileRepositoryBuilder(context, pf);
+		return builder.create(uri, option);
 	}
 
 	@Override
 	public RepositoryLocator getLocator() {
-		// TODO Auto-generated method stub
-		return null;
+		return new FileRepositoryLocatorImpl();
 	}
 
 }

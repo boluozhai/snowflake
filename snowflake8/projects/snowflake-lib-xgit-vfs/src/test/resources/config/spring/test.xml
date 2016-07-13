@@ -6,6 +6,8 @@
 	<bean id='com.boluozhai.snowflake.appdata.AppDataAgent'
 		class='com.boluozhai.snowflake.appdata.support.DefaultAppDataAgent'></bean>
 
+	<bean id='com.boluozhai.snow.vfs.VFSFactory' class='com.boluozhai.snow.vfs.support.DefaultVFSFactory'></bean>
+
 	<bean id='com.boluozhai.snowflake.xgit.repository.RepositoryManager'
 		class='com.boluozhai.snowflake.xgit.support.DefaultRepositoryManager'>
 
@@ -20,6 +22,42 @@
 	</bean>
 
 	<bean id='xgit:driver:file'
-		class='com.boluozhai.snowflake.xgit.vfs.support.FileRepositoryDriver'></bean>
+		class='com.boluozhai.snowflake.xgit.vfs.support.FileRepositoryDriver'>
+		<property name="profile">
+			<ref bean='xgit:driver:file:profile' />
+		</property>
+	</bean>
+
+	<bean id='xgit:driver:file:profile' class='com.boluozhai.snowflake.xgit.support.RepositoryProfile'>
+
+		<property name="components">
+			<!-- in Map<String,ComponentBuilderFactory> -->
+			<map>
+				<entry key='repository'>
+					<bean
+						class='com.boluozhai.snowflake.xgit.vfs.support.FileRepositoryFactory' />
+				</entry>
+			</map>
+		</property>
+
+		<property name="properties">
+			<!-- in Map<String,String> -->
+			<map>
+				<entry key='abc'>
+					<value>123</value>
+				</entry>
+			</map>
+		</property>
+
+		<property name="avaliableRepositoryDirectoryNames">
+			<list>
+				<value>.git</value>
+				<value>.xgit</value>
+				<value>.snow</value>
+				<value>.snowflake</value>
+			</list>
+		</property>
+
+	</bean>
 
 </beans>
