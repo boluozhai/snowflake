@@ -12,6 +12,7 @@ import com.boluozhai.snowflake.context.ContextBuilder;
 import com.boluozhai.snowflake.xgit.vfs.FileConfig;
 import com.boluozhai.snowflake.xgit.vfs.base.FileXGitComponent;
 import com.boluozhai.snowflake.xgit.vfs.base.FileXGitComponentBuilder;
+import com.boluozhai.snowflake.xgit.vfs.impl.config.FileRepoConfigImpl;
 
 public class FileConfigFactory implements ComponentBuilderFactory {
 
@@ -34,10 +35,12 @@ public class FileConfigFactory implements ComponentBuilderFactory {
 
 		private final ComponentContext _context;
 		private final VFile _file;
+		private final FileRepoConfigImpl _impl;
 
 		private MyComponent(ComponentContext context, VFile file) {
 			this._context = context;
 			this._file = file;
+			this._impl = new FileRepoConfigImpl();
 		}
 
 		@Override
@@ -57,39 +60,34 @@ public class FileConfigFactory implements ComponentBuilderFactory {
 
 		@Override
 		public void load() throws IOException {
-			// TODO Auto-generated method stub
-
+			this._impl.load(this._context, this._file);
 		}
 
 		@Override
 		public void save() throws IOException {
-			// TODO Auto-generated method stub
-
+			this._impl.save(this._context, this._file);
 		}
 
 		@Override
 		public void setProperty(String key, String value) {
-			// TODO Auto-generated method stub
-
+			this._impl.put(key, value);
 		}
 
 		@Override
 		public String[] getPropertyNames() {
-			// TODO Auto-generated method stub
-			return null;
+			return this._impl.keys();
 		}
 
 		@Override
 		public String getProperty(String name) {
-			// TODO Auto-generated method stub
-			return null;
+			return this._impl.get(name);
 		}
 
 		@Override
 		public String getProperty(String name, Object defaultValue) {
-			// TODO Auto-generated method stub
-			return null;
+			return this._impl.get(name, defaultValue);
 		}
+
 	}
 
 	private static class MyLife implements ComponentLifecycle {
