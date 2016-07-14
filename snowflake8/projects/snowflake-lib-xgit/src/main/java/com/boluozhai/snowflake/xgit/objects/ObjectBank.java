@@ -1,7 +1,7 @@
 package com.boluozhai.snowflake.xgit.objects;
 
-import com.boluozhai.snow.mvc.model.Component;
+import com.boluozhai.snowflake.xgit.XGitComponent;
 
-public interface ObjectBank extends Component {
+public interface ObjectBank extends XGitComponent {
 
 }

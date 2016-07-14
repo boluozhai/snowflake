@@ -1,13 +1,14 @@
-package com.boluozhai.snowflake.xgit.repository;
+package com.boluozhai.snowflake.xgit;
 
 import com.boluozhai.snow.mvc.ModelContext;
 import com.boluozhai.snow.mvc.model.ComponentContext;
+import com.boluozhai.snowflake.xgit.repository.Repository;
 
-public interface RepositoryContext extends ModelContext, ComponentContext {
+public interface XGitContext extends ModelContext, ComponentContext {
 
 	/*********
 	 * the Property Keys
-	 * */
+	 */
 
 	public interface property {
 
@@ -19,11 +20,11 @@ public interface RepositoryContext extends ModelContext, ComponentContext {
 
 	/*********
 	 * the Component Keys
-	 * */
+	 */
 
 	public interface component {
 
-		String working = "working"; // the working directory
+		String workspace = "workspace"; // the working directory
 		String repository = "repository";
 
 		// files

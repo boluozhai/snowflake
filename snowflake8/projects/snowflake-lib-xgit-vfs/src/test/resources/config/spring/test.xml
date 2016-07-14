@@ -37,6 +37,17 @@
 					<bean
 						class='com.boluozhai.snowflake.xgit.vfs.support.FileRepositoryFactory' />
 				</entry>
+
+				<entry key='config'>
+					<bean
+						class='com.boluozhai.snowflake.xgit.vfs.support.FileRepositoryFactory' />
+				</entry>
+
+				<entry key='workspace'>
+					<bean
+						class='com.boluozhai.snowflake.xgit.vfs.support.FileRepositoryFactory' />
+				</entry>
+
 			</map>
 		</property>
 

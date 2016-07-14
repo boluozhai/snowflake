@@ -2,11 +2,12 @@ package com.boluozhai.snowflake.xgit.repository;
 
 import java.net.URI;
 
-import com.boluozhai.snow.mvc.model.Component;
+import com.boluozhai.snowflake.xgit.XGitComponent;
+import com.boluozhai.snowflake.xgit.XGitContext;
 
-public interface Repository extends Component {
+public interface Repository extends XGitComponent {
 
-	RepositoryContext context();
+	XGitContext context();
 
 	// RepositoryDriver driver();
 

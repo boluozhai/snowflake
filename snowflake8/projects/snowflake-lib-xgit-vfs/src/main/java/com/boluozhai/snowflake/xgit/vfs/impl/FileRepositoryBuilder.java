@@ -16,8 +16,8 @@ import com.boluozhai.snow.vfs.VPath;
 import com.boluozhai.snowflake.context.ContextBuilder;
 import com.boluozhai.snowflake.context.SnowContext;
 import com.boluozhai.snowflake.context.support.DefaultContextBuilderFactory;
+import com.boluozhai.snowflake.xgit.XGitContext;
 import com.boluozhai.snowflake.xgit.repository.Repository;
-import com.boluozhai.snowflake.xgit.repository.RepositoryContext;
 import com.boluozhai.snowflake.xgit.repository.RepositoryOption;
 import com.boluozhai.snowflake.xgit.support.RepositoryProfile;
 
@@ -77,7 +77,7 @@ public class FileRepositoryBuilder {
 		this.init_com();
 
 		ComponentContext facade = context.context_facade_agent.getFacade();
-		return (Repository) facade.getBean(RepositoryContext.component.repository);
+		return (Repository) facade.getBean(XGitContext.component.repository);
 	}
 
 	private void make_com_context_core() {
@@ -113,8 +113,8 @@ public class FileRepositoryBuilder {
 			VPath path = repo_path.child(key);
 			context.tab_path.put(key, path);
 		}
-		context.tab_path.put(RepositoryContext.component.repository, repo_path);
-		context.tab_path.put(RepositoryContext.component.working, repo_path.parent());
+		context.tab_path.put(XGitContext.component.repository, repo_path);
+		context.tab_path.put(XGitContext.component.workspace, repo_path.parent());
 	}
 
 	private void make_com_builder() {

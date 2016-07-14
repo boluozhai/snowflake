@@ -7,8 +7,8 @@ import com.boluozhai.snow.mvc.model.ComponentContext;
 import com.boluozhai.snow.mvc.model.Element;
 import com.boluozhai.snow.vfs.VFile;
 import com.boluozhai.snowflake.context.SnowContext;
+import com.boluozhai.snowflake.xgit.XGitContext;
 import com.boluozhai.snowflake.xgit.repository.Repository;
-import com.boluozhai.snowflake.xgit.repository.RepositoryContext;
 import com.boluozhai.snowflake.xgit.vfs.FileRepository;
 import com.boluozhai.snowflake.xgit.vfs.context.FileRepositoryContext;
 
@@ -42,7 +42,7 @@ final class FileRepoContextAgent {
 		}
 
 		private FileRepository getFileRepo() {
-			return this.getBean(RepositoryContext.component.repository,
+			return this.getBean(XGitContext.component.repository,
 					FileRepository.class);
 		}
 

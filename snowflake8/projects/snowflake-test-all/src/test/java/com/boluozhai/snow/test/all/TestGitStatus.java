@@ -14,8 +14,8 @@ import com.boluozhai.snowflake.test.TestContext;
 import com.boluozhai.snowflake.test.Tester;
 import com.boluozhai.snowflake.test.Testing;
 import com.boluozhai.snowflake.xgit.XGit;
+import com.boluozhai.snowflake.xgit.XGitContext;
 import com.boluozhai.snowflake.xgit.repository.Repository;
-import com.boluozhai.snowflake.xgit.repository.RepositoryContext;
 import com.boluozhai.snowflake.xgit.repository.RepositoryManager;
 
 public class TestGitStatus {
@@ -44,7 +44,7 @@ public class TestGitStatus {
 		SnowContext context = SnowContextUtils.getContext();
 		RepositoryManager xgit_man = XGit.getRepositoryManager(context);
 		Repository repo = xgit_man.open(context, uri, null);
-		RepositoryContext repo_context = repo.context();
+		XGitContext repo_context = repo.context();
 
 		CLIClient cli = CLIUtils.getClient(repo_context);
 		CLIProcess pro = cli.execute(repo_context, "git status");

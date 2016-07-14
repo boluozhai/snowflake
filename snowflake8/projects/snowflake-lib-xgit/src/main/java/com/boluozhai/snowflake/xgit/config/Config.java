@@ -1,7 +1,14 @@
 package com.boluozhai.snowflake.xgit.config;
 
-import com.boluozhai.snow.mvc.model.Component;
+import java.io.IOException;
 
-public interface Config extends Component {
+import com.boluozhai.snowflake.context.MutableProperties;
+import com.boluozhai.snowflake.xgit.XGitComponent;
+
+public interface Config extends XGitComponent, MutableProperties {
+
+	void load() throws IOException;
+
+	void save() throws IOException;
 
 }

@@ -10,7 +10,7 @@ import com.boluozhai.snowflake.test.TestContext;
 import com.boluozhai.snowflake.test.Tester;
 import com.boluozhai.snowflake.test.Testing;
 import com.boluozhai.snowflake.xgit.XGit;
-import com.boluozhai.snowflake.xgit.repository.RepositoryContext;
+import com.boluozhai.snowflake.xgit.XGitContext;
 import com.boluozhai.snowflake.xgit.repository.RepositoryManager;
 
 public class TestOpenRepository {
@@ -33,10 +33,10 @@ public class TestOpenRepository {
 			ComponentContext repo_context = repo.getComponentContext();
 
 			FileConfig config = repo_context.getBean(
-					RepositoryContext.component.config, FileConfig.class);
+					XGitContext.component.config, FileConfig.class);
 
 			FileObjectBank objects = repo_context.getBean(
-					RepositoryContext.component.objects, FileObjectBank.class);
+					XGitContext.component.objects, FileObjectBank.class);
 
 			VFile repo_path = repo.getFile();
 			System.out.format("open a file-Git-Repo at %s\n", repo_path);
