@@ -22,7 +22,7 @@ public class TestAppData {
 			testing = tester.open(this);
 
 			TestContext context = testing.context();
-			AppData ad = AppData.Helper.getInstance(context);
+			AppData ad = context.getAppData();
 
 			File cp = ad.getCodePath();
 			File pp = ad.getPropertiesPath();

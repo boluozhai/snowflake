@@ -9,12 +9,12 @@ public abstract class AppDataAgent {
 		return context.getBean(key, AppDataAgent.class);
 	}
 
-	public static AppData getAppData(SnowContext context) {
-		return getAgent(context).getAppData();
+	public static AppData getAppData(SnowContext context, Class<?> clazz) {
+		return getAgent(context).getAppData(clazz);
 	}
 
-	public abstract AppData getAppData();
+	public abstract AppData getAppData(Class<?> clazz);
 
-	public abstract AppData getAppData(boolean throw_exception);
+	public abstract AppData getAppData(Class<?> clazz, boolean throw_exception);
 
 }

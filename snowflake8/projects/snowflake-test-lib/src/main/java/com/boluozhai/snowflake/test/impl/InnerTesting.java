@@ -1,5 +1,7 @@
 package com.boluozhai.snowflake.test.impl;
 
+import java.io.File;
+
 import com.boluozhai.snowflake.test.TestContext;
 import com.boluozhai.snowflake.test.Testing;
 
@@ -27,7 +29,8 @@ final class InnerTesting implements Testing {
 		return name;
 	}
 
-	final static String bar = "/***********************************/";
+	final static String bar1 = "============================================================================================\n";
+	final static String bar = bar1 + bar1 + bar1;
 
 	@Override
 	public void open() {
@@ -35,6 +38,15 @@ final class InnerTesting implements Testing {
 		String name = this.name();
 		System.out.println(bar);
 		System.out.format("[begin test %s]\n", name);
+
+		File wk_dir = this.context().getWorkingPath();
+		File temp_dir = this.context().getWorksTemplatePath();
+
+		// clean working directory
+		DirTools.clean(wk_dir);
+
+		// copy data to working directory
+		DirTools.copy(temp_dir, wk_dir);
 
 	}
 

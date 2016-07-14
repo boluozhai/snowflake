@@ -12,13 +12,13 @@ public class DefaultAppDataAgent extends AppDataAgent {
 	}
 
 	@Override
-	public AppData getAppData() {
-		return _inner.getAppData();
+	public AppData getAppData(Class<?> schema) {
+		return this.getAppData(schema, true);
 	}
 
 	@Override
-	public AppData getAppData(boolean throw_exception) {
-		return _inner.getAppData(throw_exception);
+	public AppData getAppData(Class<?> schema, boolean throw_exception) {
+		return _inner.getAppData(schema, throw_exception);
 	}
 
 }

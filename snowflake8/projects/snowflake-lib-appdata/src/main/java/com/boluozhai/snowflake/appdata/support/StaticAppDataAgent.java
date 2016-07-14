@@ -4,6 +4,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
 import com.boluozhai.snow.util.IOTools;
@@ -12,42 +15,93 @@ import com.boluozhai.snowflake.appdata.AppDataAgent;
 
 public class StaticAppDataAgent extends AppDataAgent {
 
-	private static InnerAppData s_inner;
+	private static final ADManager s_manager;
 
-	private class InnerAppData implements AppData {
+	static {
+		s_manager = new ADManager();
+	}
+
+	private static class ADManager {
+
+		private final Map<String, ADHolder> holders;
+
+		public ADManager() {
+			Map<String, ADHolder> map = new HashMap<String, ADHolder>();
+			holders = Collections.synchronizedMap(map);
+		}
+
+		public ADHolder getHolder(Class<?> clazz) {
+			String key = clazz.getName();
+			ADHolder holder = holders.get(key);
+			if (holder == null) {
+				holder = new ADHolder(key, clazz);
+				holders.put(key, holder);
+			}
+			return holder;
+		}
+	}
+
+	private static class ADHolder {
+
+		private AppData _cache;
+		private final Class<?> _target;
+		private final String _key;
+
+		public ADHolder(String key, Class<?> clazz) {
+			this._target = clazz;
+			this._key = key;
+		}
+
+		public AppData getAppData(boolean throw_exception) {
+			AppData ad = this._cache;
+			if (ad == null) {
+				ad = this.build();
+				Exception err = ad.getError();
+				if (err == null) {
+					this._cache = ad;
+				} else if (throw_exception) {
+					this.throw_exception(err);
+				}
+			}
+			return ad;
+		}
+
+		private void throw_exception(Exception err) {
+			RuntimeException re = null;
+			if (err instanceof RuntimeException) {
+				re = (RuntimeException) err;
+			} else {
+				re = new RuntimeException(err);
+			}
+			throw re;
+		}
+
+		private AppData build() {
+			InnerAppData ad = new InnerAppData(this);
+			ad.init();
+			return new FacadeAppData(ad);
+		}
+
+	}
+
+	private static class InnerAppData implements AppData {
+
+		private final Class<?> _target;
+		private final String _key;
 
 		public Exception _error;
+
 		private File _code_path;
 		private File _properties_path;
-		private File _app_data_path;
+		private File _data_base_path;
+		private File _data_scheme_path;
 
-		@Override
-		public File getCodePath() {
-			return this._code_path;
+		public InnerAppData(ADHolder holder) {
+			this._target = holder._target;
+			this._key = holder._key;
 		}
 
-		@Override
-		public File getPropertiesPath() {
-			return this._properties_path;
-		}
-
-		@Override
-		public File getDataBasePath() {
-			return this._app_data_path;
-		}
-
-		@Override
-		public File getDataSchemaPath(Class<?> clazz) {
-			File base = this._app_data_path;
-			if (base == null) {
-				return null;
-			} else {
-				String name = clazz.getName();
-				return new File(base, name);
-			}
-		}
-
-		public void init(boolean do_throw) {
+		public void init() {
 
 			InputStream in = null;
 
@@ -55,7 +109,7 @@ public class StaticAppDataAgent extends AppDataAgent {
 
 				// code path
 
-				final URL loc = this.getClass().getProtectionDomain()
+				final URL loc = this._target.getProtectionDomain()
 						.getCodeSource().getLocation();
 				final File code_path = new File(loc.toURI());
 				this._code_path = code_path;
@@ -92,25 +146,15 @@ public class StaticAppDataAgent extends AppDataAgent {
 							+ data_base_path_key + ", file=" + pro_file;
 					throw new RuntimeException(msg);
 				} else {
-					this._app_data_path = new File(app_data_path);
+					File data_base = new File(app_data_path);
+					File data_schema = new File(data_base, this._key);
+					this._data_base_path = data_base;
+					this._data_scheme_path = data_schema;
 				}
 
 			} catch (Exception e) {
 
 				this._error = e;
-
-				final RuntimeException re;
-				if (e instanceof RuntimeException) {
-					re = (RuntimeException) e;
-				} else {
-					re = new RuntimeException(e);
-				}
-
-				if (do_throw) {
-					throw re;
-				} else {
-					System.err.println(e);
-				}
 
 			} finally {
 				IOTools.close(in);
@@ -123,18 +167,9 @@ public class StaticAppDataAgent extends AppDataAgent {
 			return this._error;
 		}
 
-	}
-
-	private class FacadeAppData implements AppData {
-
-		private final File _code_path;
-		private final File _properties_path;
-		private final AppData _target;
-
-		public FacadeAppData(AppData target) {
-			this._code_path = target.getCodePath();
-			this._properties_path = target.getPropertiesPath();
-			this._target = target;
+		@Override
+		public Class<?> getTargetClass() {
+			return this._target;
 		}
 
 		@Override
@@ -149,36 +184,59 @@ public class StaticAppDataAgent extends AppDataAgent {
 
 		@Override
 		public File getDataBasePath() {
-			return this._target.getDataBasePath();
+			return this._data_base_path;
 		}
 
 		@Override
-		public File getDataSchemaPath(Class<?> clazz) {
-			return this._target.getDataSchemaPath(clazz);
+		public File getDataSchemaPath() {
+			return this._data_scheme_path;
 		}
 
-		@Override
+	}
+
+	private static class FacadeAppData implements AppData {
+
+		private AppData inner;
+
+		private FacadeAppData(AppData in) {
+			this.inner = in;
+		}
+
+		public Class<?> getTargetClass() {
+			return inner.getTargetClass();
+		}
+
+		public File getCodePath() {
+			return inner.getCodePath();
+		}
+
+		public File getPropertiesPath() {
+			return inner.getPropertiesPath();
+		}
+
+		public File getDataBasePath() {
+			return inner.getDataBasePath();
+		}
+
+		public File getDataSchemaPath() {
+			return inner.getDataSchemaPath();
+		}
+
 		public Exception getError() {
-			return this._target.getError();
+			return inner.getError();
 		}
+
 	}
 
 	@Override
-	public AppData getAppData(boolean throw_exception) {
-		InnerAppData inner = s_inner;
-		if (inner == null) {
-			inner = new InnerAppData();
-			inner.init(throw_exception);
-			if (inner._error == null) {
-				s_inner = inner;
-			}
-		}
-		return new FacadeAppData(inner);
+	public AppData getAppData(Class<?> clazz) {
+		return this.getAppData(clazz, true);
 	}
 
 	@Override
-	public AppData getAppData() {
-		return this.getAppData(true);
+	public AppData getAppData(Class<?> clazz, boolean throw_exception) {
+		ADHolder holder = s_manager.getHolder(clazz);
+		return holder.getAppData(throw_exception);
 	}
 
 }
