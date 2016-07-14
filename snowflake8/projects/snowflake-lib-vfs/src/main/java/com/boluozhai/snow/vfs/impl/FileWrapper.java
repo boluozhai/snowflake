@@ -289,4 +289,9 @@ public class FileWrapper implements VFile {
 		return file.toURI();
 	}
 
+	@Override
+	public String toString() {
+		return file.toString();
+	}
+
 }

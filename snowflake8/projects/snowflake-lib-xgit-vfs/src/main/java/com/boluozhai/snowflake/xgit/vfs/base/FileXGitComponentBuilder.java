@@ -4,7 +4,7 @@ import com.boluozhai.snow.mvc.model.ComponentBuilder;
 import com.boluozhai.snow.vfs.MutablePathNode;
 import com.boluozhai.snow.vfs.VPath;
 
-public abstract class FileRepoComponentBuilder implements MutablePathNode,
+public abstract class FileXGitComponentBuilder implements MutablePathNode,
 		ComponentBuilder {
 
 	private VPath _path;

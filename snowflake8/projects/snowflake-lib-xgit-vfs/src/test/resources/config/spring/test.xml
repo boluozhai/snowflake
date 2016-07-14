@@ -39,13 +39,17 @@
 				</entry>
 
 				<entry key='config'>
-					<bean
-						class='com.boluozhai.snowflake.xgit.vfs.support.FileRepositoryFactory' />
+					<bean class='com.boluozhai.snowflake.xgit.vfs.support.FileConfigFactory' />
 				</entry>
 
 				<entry key='workspace'>
 					<bean
-						class='com.boluozhai.snowflake.xgit.vfs.support.FileRepositoryFactory' />
+						class='com.boluozhai.snowflake.xgit.vfs.support.FileWorkspaceFactory' />
+				</entry>
+
+				<entry key='objects'>
+					<bean
+						class='com.boluozhai.snowflake.xgit.vfs.support.FileObjectBankFactory' />
 				</entry>
 
 			</map>

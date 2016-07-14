@@ -11,7 +11,7 @@ import com.boluozhai.snow.vfs.VFile;
 import com.boluozhai.snow.vfs.VPath;
 import com.boluozhai.snowflake.context.ContextBuilder;
 import com.boluozhai.snowflake.xgit.vfs.FileRepository;
-import com.boluozhai.snowflake.xgit.vfs.base.FileRepoComponentBuilder;
+import com.boluozhai.snowflake.xgit.vfs.base.FileXGitComponentBuilder;
 import com.boluozhai.snowflake.xgit.vfs.context.FileRepositoryContext;
 
 public class FileRepositoryFactory implements ComponentBuilderFactory {
@@ -21,23 +21,23 @@ public class FileRepositoryFactory implements ComponentBuilderFactory {
 		return new Builder();
 	}
 
-	private class Builder extends FileRepoComponentBuilder {
+	private class Builder extends FileXGitComponentBuilder {
 
 		@Override
 		public Component create(ComponentContext cc, ContextBuilder cb) {
 			FileRepositoryContext frc = (FileRepositoryContext) cc;
 			VPath path = this.getPath();
-			return new Repo(frc, path);
+			return new MyComponent(frc, path);
 		}
 
 	}
 
-	private class Repo implements FileRepository {
+	private class MyComponent implements FileRepository {
 
 		private final FileRepositoryContext _context;
 		private final VPath _path;
 
-		public Repo(FileRepositoryContext cc, VPath path) {
+		public MyComponent(FileRepositoryContext cc, VPath path) {
 			this._context = cc;
 			this._path = path;
 		}
@@ -70,9 +70,9 @@ public class FileRepositoryFactory implements ComponentBuilderFactory {
 
 	private class Life implements ComponentLifecycle {
 
-		private final Repo _repo;
+		private final MyComponent _repo;
 
-		public Life(Repo repo) {
+		public Life(MyComponent repo) {
 			this._repo = repo;
 		}
 

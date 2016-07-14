@@ -18,12 +18,16 @@ final class FileRepositoryLocatorImpl implements RepositoryLocator {
 		final VFile base = vfs.newFile(uri);
 		VFile config = this.inner_find_config(base);
 
+		if (option == null) {
+			option = new RepositoryOption();
+		}
+
 		if (config == null) {
-			if (option.donot_throw_exception) {
-				return null;
-			} else {
+			if (option.throw_exception) {
 				String msg = "cannot find repository in path of " + uri;
 				throw new XGitRuntimeException(msg);
+			} else {
+				return null;
 			}
 		}
 

@@ -8,6 +8,7 @@ import com.boluozhai.snowflake.context.SnowContext;
 import com.boluozhai.snowflake.xgit.XGitRuntimeException;
 import com.boluozhai.snowflake.xgit.repository.Repository;
 import com.boluozhai.snowflake.xgit.repository.RepositoryDriver;
+import com.boluozhai.snowflake.xgit.repository.RepositoryLocator;
 import com.boluozhai.snowflake.xgit.repository.RepositoryManager;
 import com.boluozhai.snowflake.xgit.repository.RepositoryOption;
 
@@ -36,11 +37,21 @@ public class DefaultRepositoryManager implements RepositoryManager {
 	@Override
 	public Repository open(SnowContext context, URI uri, RepositoryOption option) {
 		RepositoryDriver driver = this.getDriver(context, uri, option);
+
 		if (driver == null) {
 			String msg = "cannot find XGitDriver driver for the uri: " + uri;
 			throw new XGitRuntimeException(msg);
 		}
-		return driver.open(context, uri, option);
+
+		RepositoryLocator locator = driver.getLocator();
+		URI uri2 = locator.locate(context, uri, option);
+
+		if (uri2 == null) {
+			String msg = "cannot find a repo at the uri: " + uri;
+			throw new XGitRuntimeException(msg);
+		}
+
+		return driver.open(context, uri2, option);
 	}
 
 	@Override
