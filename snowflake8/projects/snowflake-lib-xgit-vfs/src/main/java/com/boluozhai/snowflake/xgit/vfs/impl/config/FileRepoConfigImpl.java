@@ -24,9 +24,9 @@ public class FileRepoConfigImpl {
 		table.putAll(map);
 	}
 
-	public void save(ComponentContext context, VFile file) {
-		// TODO Auto-generated method stub
-	//	throw new RuntimeException("no i mpl");
+	public void save(ComponentContext context, VFile file) throws IOException {
+		ConfigSaver saver = new ConfigSaver(context);
+		saver.save(table, file);
 	}
 
 	public void put(String key, String value) {
