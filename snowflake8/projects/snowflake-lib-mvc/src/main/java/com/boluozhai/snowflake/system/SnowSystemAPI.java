@@ -1,4 +1,4 @@
-package com.boluozhai.snow.system;
+package com.boluozhai.snowflake.system;
 
 import java.io.InputStream;
 import java.io.PrintStream;

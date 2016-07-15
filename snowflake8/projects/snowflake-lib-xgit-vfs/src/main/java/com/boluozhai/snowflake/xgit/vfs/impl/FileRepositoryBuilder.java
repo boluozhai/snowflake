@@ -4,16 +4,18 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
-import com.boluozhai.snow.mvc.model.Component;
-import com.boluozhai.snow.mvc.model.ComponentBuilder;
-import com.boluozhai.snow.mvc.model.ComponentBuilderFactory;
-import com.boluozhai.snow.mvc.model.ComponentContext;
-import com.boluozhai.snow.mvc.model.ComponentLifecycle;
 import com.boluozhai.snowflake.context.ContextBuilder;
+import com.boluozhai.snowflake.context.MutableProperties;
 import com.boluozhai.snowflake.context.SnowContext;
 import com.boluozhai.snowflake.context.support.DefaultContextBuilderFactory;
+import com.boluozhai.snowflake.mvc.model.Component;
+import com.boluozhai.snowflake.mvc.model.ComponentBuilder;
+import com.boluozhai.snowflake.mvc.model.ComponentBuilderFactory;
+import com.boluozhai.snowflake.mvc.model.ComponentContext;
+import com.boluozhai.snowflake.mvc.model.ComponentLifecycle;
 import com.boluozhai.snowflake.vfs.MutablePathNode;
 import com.boluozhai.snowflake.vfs.VFS;
 import com.boluozhai.snowflake.vfs.VPath;
@@ -82,17 +84,37 @@ public class FileRepositoryBuilder {
 		this.make_path();
 		this.make_com_builder();
 		this.make_com();
+
+		this.load_default_properties();
 		this.load_config();
+		this.load_final_properties();
 		this.make_com_context_core();
-		this.init_com();
 
 		ComponentContext facade = context.context_facade_agent.getFacade();
-
 		if (option.check_config) {
 			this.check_config(facade);
 		}
+		this.init_com();
 
 		return (Repository) facade.getBean(XGitContext.component.repository);
+	}
+
+	private void load_final_properties() {
+
+		ContextBuilder builder = context.context_builder;
+		RepositoryProfile prof = context.profile;
+		Map<String, String> src = prof.getFinalProperties();
+		put_values_in_a2b(src, builder);
+
+	}
+
+	private void load_default_properties() {
+
+		ContextBuilder builder = context.context_builder;
+		RepositoryProfile prof = context.profile;
+		Map<String, String> src = prof.getDefaultProperties();
+		put_values_in_a2b(src, builder);
+
 	}
 
 	private void check_config(ComponentContext facade) {
@@ -172,8 +194,22 @@ public class FileRepositoryBuilder {
 			ComponentBuilder cb = cbf.newBuilder();
 			context.tab_cb.put(key, cb);
 			VPath path = context.tab_path.get(key);
-			MutablePathNode node = (MutablePathNode) cb;
-			node.setPath(path);
+
+			if (cb instanceof MutablePathNode) {
+				MutablePathNode node = (MutablePathNode) cb;
+				node.setPath(path);
+			}
+
+		}
+	}
+
+	private static void put_values_in_a2b(Map<String, String> a,
+			MutableProperties b) {
+		Set<Entry<String, String>> list = a.entrySet();
+		for (Entry<String, String> item : list) {
+			String key = item.getKey();
+			String val = item.getValue();
+			b.setProperty(key, val);
 		}
 	}
 

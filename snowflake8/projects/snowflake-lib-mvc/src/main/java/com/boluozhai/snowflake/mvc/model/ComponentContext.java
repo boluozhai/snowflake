@@ -1,6 +1,6 @@
-package com.boluozhai.snow.mvc.model;
+package com.boluozhai.snowflake.mvc.model;
 
-import com.boluozhai.snow.mvc.ModelContext;
+import com.boluozhai.snowflake.mvc.ModelContext;
 
 public interface ComponentContext extends ModelContext {
 

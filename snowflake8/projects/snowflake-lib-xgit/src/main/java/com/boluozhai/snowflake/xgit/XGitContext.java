@@ -1,7 +1,7 @@
 package com.boluozhai.snowflake.xgit;
 
-import com.boluozhai.snow.mvc.ModelContext;
-import com.boluozhai.snow.mvc.model.ComponentContext;
+import com.boluozhai.snowflake.mvc.ModelContext;
+import com.boluozhai.snowflake.mvc.model.ComponentContext;
 import com.boluozhai.snowflake.xgit.config.Config;
 import com.boluozhai.snowflake.xgit.objects.ObjectBank;
 import com.boluozhai.snowflake.xgit.repository.Repository;
@@ -27,8 +27,13 @@ public interface XGitContext extends ModelContext, ComponentContext {
 
 	public interface component {
 
+		// base
 		String workspace = "workspace"; // the working directory
 		String repository = "repository";
+
+		// helpers
+		String hash_path_mapper = "hash_path_mapper";
+		String hash_algorithm = "hash_algorithm";
 
 		// files
 		String config = "config";

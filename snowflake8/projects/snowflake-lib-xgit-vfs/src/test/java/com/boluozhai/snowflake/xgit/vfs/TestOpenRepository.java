@@ -5,7 +5,7 @@ import java.net.URI;
 
 import org.junit.Test;
 
-import com.boluozhai.snow.mvc.model.ComponentContext;
+import com.boluozhai.snowflake.mvc.model.ComponentContext;
 import com.boluozhai.snowflake.test.TestContext;
 import com.boluozhai.snowflake.test.Tester;
 import com.boluozhai.snowflake.test.Testing;

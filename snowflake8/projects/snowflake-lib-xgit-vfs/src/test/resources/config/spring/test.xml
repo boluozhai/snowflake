@@ -53,14 +53,36 @@
 						class='com.boluozhai.snowflake.xgit.vfs.support.FileObjectBankFactory' />
 				</entry>
 
+				<entry key='hash_path_mapper'>
+					<bean
+						class='com.boluozhai.snowflake.xgit.vfs.support.FileHashPathMapperFactory' />
+				</entry>
+
+				<entry key='hash_algorithm'>
+					<bean
+						class='com.boluozhai.snowflake.xgit.vfs.support.FileHashAlgorithmFactory' />
+				</entry>
+
 			</map>
 		</property>
 
-		<property name="properties">
+		<property name="defaultProperties">
 			<!-- in Map<String,String> -->
 			<map>
-				<entry key='abc'>
-					<value>123</value>
+				<entry key='xgit.hashalgorithm'>
+					<value>SHA-1</value>
+				</entry>
+				<entry key='xgit.hashpathpattern'>
+					<value>xx/xxxx</value>
+				</entry>
+			</map>
+		</property>
+
+		<property name="finalProperties">
+			<!-- in Map<String,String> -->
+			<map>
+				<entry key='xgit.final'>
+					<value>xxx</value>
 				</entry>
 			</map>
 		</property>

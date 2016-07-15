@@ -1,6 +1,6 @@
 package com.boluozhai.snowflake.xgit.vfs.base;
 
-import com.boluozhai.snow.mvc.model.ComponentBuilder;
+import com.boluozhai.snowflake.mvc.model.ComponentBuilder;
 import com.boluozhai.snowflake.vfs.MutablePathNode;
 import com.boluozhai.snowflake.vfs.VPath;
 

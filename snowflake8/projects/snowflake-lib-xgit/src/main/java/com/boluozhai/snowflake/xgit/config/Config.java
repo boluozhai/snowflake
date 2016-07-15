@@ -16,6 +16,15 @@ public interface Config extends XGitComponent, MutableProperties {
 
 	}
 
+	interface xgit {
+
+		String enable = "xgit.enable"; // {true|false} ,enable the XGit
+										// extensions
+		String hashalgorithm = "xgit.hashalgorithm"; // like 'SHA-1'
+		String hashpathpattern = "xgit.hashpathpattern"; // like 'xx/xxxx'
+
+	}
+
 	interface remote {
 
 		String fetch = "remote..fetch";

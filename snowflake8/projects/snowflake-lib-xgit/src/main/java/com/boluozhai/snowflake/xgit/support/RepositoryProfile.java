@@ -3,7 +3,7 @@ package com.boluozhai.snowflake.xgit.support;
 import java.util.List;
 import java.util.Map;
 
-import com.boluozhai.snow.mvc.model.ComponentBuilderFactory;
+import com.boluozhai.snowflake.mvc.model.ComponentBuilderFactory;
 
 /********************************
  * this is a spring BEAN
@@ -12,7 +12,8 @@ import com.boluozhai.snow.mvc.model.ComponentBuilderFactory;
 public class RepositoryProfile {
 
 	private Map<String, ComponentBuilderFactory> components;
-	private Map<String, String> properties;
+	private Map<String, String> defaultProperties;
+	private Map<String, String> finalProperties;
 	private List<String> avaliableRepositoryDirectoryNames;
 
 	public Map<String, ComponentBuilderFactory> getComponents() {
@@ -23,12 +24,20 @@ public class RepositoryProfile {
 		this.components = components;
 	}
 
-	public Map<String, String> getProperties() {
-		return properties;
+	public Map<String, String> getDefaultProperties() {
+		return defaultProperties;
 	}
 
-	public void setProperties(Map<String, String> properties) {
-		this.properties = properties;
+	public void setDefaultProperties(Map<String, String> defaultProperties) {
+		this.defaultProperties = defaultProperties;
+	}
+
+	public Map<String, String> getFinalProperties() {
+		return finalProperties;
+	}
+
+	public void setFinalProperties(Map<String, String> finalProperties) {
+		this.finalProperties = finalProperties;
 	}
 
 	public List<String> getAvaliableRepositoryDirectoryNames() {

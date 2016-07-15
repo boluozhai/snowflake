@@ -1,6 +1,6 @@
-package com.boluozhai.snow.mvc.controller;
+package com.boluozhai.snowflake.mvc.controller;
 
-import com.boluozhai.snow.mvc.ControllerContext;
+import com.boluozhai.snowflake.mvc.ControllerContext;
 
 public interface FragmentContext extends ControllerContext {
 

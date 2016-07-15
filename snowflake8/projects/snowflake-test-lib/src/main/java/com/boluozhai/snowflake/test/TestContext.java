@@ -2,8 +2,8 @@ package com.boluozhai.snowflake.test;
 
 import java.io.File;
 
-import com.boluozhai.snow.mvc.controller.ProcessContext;
 import com.boluozhai.snowflake.appdata.AppData;
+import com.boluozhai.snowflake.mvc.controller.ProcessContext;
 
 public interface TestContext extends ProcessContext {
 

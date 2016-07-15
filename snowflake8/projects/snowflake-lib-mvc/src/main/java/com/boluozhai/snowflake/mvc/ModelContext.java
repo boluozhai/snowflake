@@ -1,4 +1,4 @@
-package com.boluozhai.snow.mvc;
+package com.boluozhai.snowflake.mvc;
 
 import com.boluozhai.snowflake.context.SnowContext;
 

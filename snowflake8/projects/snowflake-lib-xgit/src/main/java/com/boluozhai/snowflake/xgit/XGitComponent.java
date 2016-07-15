@@ -1,6 +1,6 @@
 package com.boluozhai.snowflake.xgit;
 
-import com.boluozhai.snow.mvc.model.Component;
+import com.boluozhai.snowflake.mvc.model.Component;
 
 public interface XGitComponent extends Component {
 

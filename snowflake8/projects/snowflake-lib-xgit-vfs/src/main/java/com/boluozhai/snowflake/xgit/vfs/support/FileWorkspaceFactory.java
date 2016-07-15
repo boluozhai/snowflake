@@ -1,11 +1,11 @@
 package com.boluozhai.snowflake.xgit.vfs.support;
 
-import com.boluozhai.snow.mvc.model.Component;
-import com.boluozhai.snow.mvc.model.ComponentBuilder;
-import com.boluozhai.snow.mvc.model.ComponentBuilderFactory;
-import com.boluozhai.snow.mvc.model.ComponentContext;
-import com.boluozhai.snow.mvc.model.ComponentLifecycle;
 import com.boluozhai.snowflake.context.ContextBuilder;
+import com.boluozhai.snowflake.mvc.model.Component;
+import com.boluozhai.snowflake.mvc.model.ComponentBuilder;
+import com.boluozhai.snowflake.mvc.model.ComponentBuilderFactory;
+import com.boluozhai.snowflake.mvc.model.ComponentContext;
+import com.boluozhai.snowflake.mvc.model.ComponentLifecycle;
 import com.boluozhai.snowflake.vfs.VFile;
 import com.boluozhai.snowflake.xgit.vfs.FileWorkspace;
 import com.boluozhai.snowflake.xgit.vfs.base.FileXGitComponent;

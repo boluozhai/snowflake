@@ -2,10 +2,10 @@ package com.boluozhai.snowflake.xgit.vfs.impl;
 
 import java.net.URI;
 
-import com.boluozhai.snow.mvc.model.Component;
-import com.boluozhai.snow.mvc.model.ComponentContext;
-import com.boluozhai.snow.mvc.model.Element;
 import com.boluozhai.snowflake.context.SnowContext;
+import com.boluozhai.snowflake.mvc.model.Component;
+import com.boluozhai.snowflake.mvc.model.ComponentContext;
+import com.boluozhai.snowflake.mvc.model.Element;
 import com.boluozhai.snowflake.vfs.VFile;
 import com.boluozhai.snowflake.xgit.XGitContext;
 import com.boluozhai.snowflake.xgit.repository.Repository;
