@@ -1,4 +1,4 @@
-package com.boluozhai.snow.vfs.impl;
+package com.boluozhai.snowflake.vfs.impl;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -9,9 +9,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URI;
 
-import com.boluozhai.snow.vfs.VFile;
-import com.boluozhai.snow.vfs.io.VFSIO;
 import com.boluozhai.snowflake.context.SnowContext;
+import com.boluozhai.snowflake.vfs.VFile;
+import com.boluozhai.snowflake.vfs.io.VFSIO;
 
 public class VFSIOImpl implements VFSIO {
 

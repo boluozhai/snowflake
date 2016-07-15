@@ -1,11 +1,11 @@
-package com.boluozhai.snow.vfs.io;
+package com.boluozhai.snowflake.vfs.io;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import com.boluozhai.snow.vfs.VFile;
 import com.boluozhai.snowflake.context.SnowContext;
+import com.boluozhai.snowflake.vfs.VFile;
 
 public interface VFSIO {
 

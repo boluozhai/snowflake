@@ -1,8 +1,8 @@
 package com.boluozhai.snowflake.xgit.vfs.base;
 
 import com.boluozhai.snow.mvc.model.ComponentBuilder;
-import com.boluozhai.snow.vfs.MutablePathNode;
-import com.boluozhai.snow.vfs.VPath;
+import com.boluozhai.snowflake.vfs.MutablePathNode;
+import com.boluozhai.snowflake.vfs.VPath;
 
 public abstract class FileXGitComponentBuilder implements MutablePathNode,
 		ComponentBuilder {

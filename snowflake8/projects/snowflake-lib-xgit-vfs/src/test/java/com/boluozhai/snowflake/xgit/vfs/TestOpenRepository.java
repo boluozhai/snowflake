@@ -6,10 +6,10 @@ import java.net.URI;
 import org.junit.Test;
 
 import com.boluozhai.snow.mvc.model.ComponentContext;
-import com.boluozhai.snow.vfs.VFile;
 import com.boluozhai.snowflake.test.TestContext;
 import com.boluozhai.snowflake.test.Tester;
 import com.boluozhai.snowflake.test.Testing;
+import com.boluozhai.snowflake.vfs.VFile;
 import com.boluozhai.snowflake.xgit.XGit;
 import com.boluozhai.snowflake.xgit.XGitContext;
 import com.boluozhai.snowflake.xgit.repository.RepositoryManager;

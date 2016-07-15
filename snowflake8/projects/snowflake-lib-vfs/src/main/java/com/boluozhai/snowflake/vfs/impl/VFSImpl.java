@@ -1,12 +1,12 @@
-package com.boluozhai.snow.vfs.impl;
+package com.boluozhai.snowflake.vfs.impl;
 
 import java.io.File;
 import java.net.URI;
 
-import com.boluozhai.snow.vfs.VFS;
-import com.boluozhai.snow.vfs.VFSContext;
-import com.boluozhai.snow.vfs.VFile;
 import com.boluozhai.snowflake.context.SnowContext;
+import com.boluozhai.snowflake.vfs.VFS;
+import com.boluozhai.snowflake.vfs.VFSContext;
+import com.boluozhai.snowflake.vfs.VFile;
 
 final class VFSImpl implements VFS {
 

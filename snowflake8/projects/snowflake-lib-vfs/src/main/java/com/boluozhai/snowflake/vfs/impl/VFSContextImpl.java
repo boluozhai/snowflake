@@ -1,8 +1,8 @@
-package com.boluozhai.snow.vfs.impl;
+package com.boluozhai.snowflake.vfs.impl;
 
-import com.boluozhai.snow.vfs.VFSContext;
 import com.boluozhai.snowflake.context.SnowContext;
 import com.boluozhai.snowflake.context.support.ContextWrapper;
+import com.boluozhai.snowflake.vfs.VFSContext;
 
 public class VFSContextImpl extends ContextWrapper implements VFSContext {
 

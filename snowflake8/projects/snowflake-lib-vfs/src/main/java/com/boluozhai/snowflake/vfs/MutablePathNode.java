@@ -1,4 +1,4 @@
-package com.boluozhai.snow.vfs;
+package com.boluozhai.snowflake.vfs;
 
 public interface MutablePathNode extends VPathNode {
 

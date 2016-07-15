@@ -6,8 +6,8 @@ import java.util.Map;
 import java.util.Set;
 
 import com.boluozhai.snow.mvc.model.ComponentContext;
-import com.boluozhai.snow.vfs.VFile;
 import com.boluozhai.snowflake.context.SnowProperties;
+import com.boluozhai.snowflake.vfs.VFile;
 
 public class FileRepoConfigImpl {
 

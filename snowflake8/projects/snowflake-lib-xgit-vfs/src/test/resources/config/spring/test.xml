@@ -6,8 +6,8 @@
 	<bean id='com.boluozhai.snowflake.appdata.AppDataAgent'
 		class='com.boluozhai.snowflake.appdata.support.DefaultAppDataAgent'></bean>
 
-	<bean id='com.boluozhai.snow.vfs.VFSFactory' class='com.boluozhai.snow.vfs.support.DefaultVFSFactory'></bean>
-	<bean id='com.boluozhai.snow.vfs.io.VFSIOFactory' class='com.boluozhai.snow.vfs.support.DefaultVFSIOFactory'></bean>
+	<bean id='com.boluozhai.snowflake.vfs.VFSFactory' class='com.boluozhai.snowflake.vfs.support.DefaultVFSFactory'></bean>
+	<bean id='com.boluozhai.snowflake.vfs.io.VFSIOFactory' class='com.boluozhai.snowflake.vfs.support.DefaultVFSIOFactory'></bean>
 
 	<bean id='com.boluozhai.snowflake.xgit.repository.RepositoryManager'
 		class='com.boluozhai.snowflake.xgit.support.DefaultRepositoryManager'>

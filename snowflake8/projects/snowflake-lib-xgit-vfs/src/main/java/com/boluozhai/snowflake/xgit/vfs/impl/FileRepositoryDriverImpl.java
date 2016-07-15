@@ -26,7 +26,8 @@ public class FileRepositoryDriverImpl extends AbstractRepositoryDriver
 
 	@Override
 	public RepositoryLocator getLocator() {
-		return new FileRepositoryLocatorImpl();
+		RepositoryProfile prof = this.getProfile();
+		return new FileRepositoryLocatorImpl(prof);
 	}
 
 }

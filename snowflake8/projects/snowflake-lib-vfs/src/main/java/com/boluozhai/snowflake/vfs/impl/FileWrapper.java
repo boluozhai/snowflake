@@ -1,14 +1,14 @@
-package com.boluozhai.snow.vfs.impl;
+package com.boluozhai.snowflake.vfs.impl;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 
-import com.boluozhai.snow.vfs.VFS;
-import com.boluozhai.snow.vfs.VFile;
-import com.boluozhai.snow.vfs.VFileFilter;
-import com.boluozhai.snow.vfs.VFilenameFilter;
-import com.boluozhai.snow.vfs.VPath;
+import com.boluozhai.snowflake.vfs.VFS;
+import com.boluozhai.snowflake.vfs.VFile;
+import com.boluozhai.snowflake.vfs.VFileFilter;
+import com.boluozhai.snowflake.vfs.VFilenameFilter;
+import com.boluozhai.snowflake.vfs.VPath;
 
 public class FileWrapper implements VFile {
 

@@ -1,4 +1,4 @@
-package com.boluozhai.snow.vfs;
+package com.boluozhai.snowflake.vfs;
 
 import java.io.IOException;
 import java.net.URI;

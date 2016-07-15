@@ -8,8 +8,8 @@ import java.util.Map;
 import com.boluozhai.snow.mvc.model.ComponentContext;
 import com.boluozhai.snow.util.IOTools;
 import com.boluozhai.snow.util.TextTools;
-import com.boluozhai.snow.vfs.VFile;
-import com.boluozhai.snow.vfs.io.VFSIO;
+import com.boluozhai.snowflake.vfs.VFile;
+import com.boluozhai.snowflake.vfs.io.VFSIO;
 
 public class ConfigLoader {
 

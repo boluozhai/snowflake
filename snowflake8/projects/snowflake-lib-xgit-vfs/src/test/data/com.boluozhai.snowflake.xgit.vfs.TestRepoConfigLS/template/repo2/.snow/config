@@ -1,3 +1,7 @@
 [abc]
 xxx=123
 
+[core]
+repositoryformatversion=0
+
+

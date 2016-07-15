@@ -1,9 +1,9 @@
-package com.boluozhai.snow.vfs.support;
+package com.boluozhai.snowflake.vfs.support;
 
-import com.boluozhai.snow.vfs.VFS;
-import com.boluozhai.snow.vfs.VFSFactory;
-import com.boluozhai.snow.vfs.impl.VFSFactoryImpl;
 import com.boluozhai.snowflake.context.SnowContext;
+import com.boluozhai.snowflake.vfs.VFS;
+import com.boluozhai.snowflake.vfs.VFSFactory;
+import com.boluozhai.snowflake.vfs.impl.VFSFactoryImpl;
 
 public class DefaultVFSFactory implements VFSFactory {
 

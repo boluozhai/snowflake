@@ -1,6 +1,6 @@
 [core]
 	symlinks = false
-	repositoryformatversion = 0
+	xyz-repositoryformatversion = 0
 	filemode = true
 	logallrefupdates = true
 [remote "origin"]

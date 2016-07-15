@@ -1,5 +1,6 @@
 package com.boluozhai.snowflake.xgit.vfs.impl;
 
+import java.io.IOException;
 import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
@@ -10,13 +11,14 @@ import com.boluozhai.snow.mvc.model.ComponentBuilder;
 import com.boluozhai.snow.mvc.model.ComponentBuilderFactory;
 import com.boluozhai.snow.mvc.model.ComponentContext;
 import com.boluozhai.snow.mvc.model.ComponentLifecycle;
-import com.boluozhai.snow.vfs.MutablePathNode;
-import com.boluozhai.snow.vfs.VFS;
-import com.boluozhai.snow.vfs.VPath;
 import com.boluozhai.snowflake.context.ContextBuilder;
 import com.boluozhai.snowflake.context.SnowContext;
 import com.boluozhai.snowflake.context.support.DefaultContextBuilderFactory;
+import com.boluozhai.snowflake.vfs.MutablePathNode;
+import com.boluozhai.snowflake.vfs.VFS;
+import com.boluozhai.snowflake.vfs.VPath;
 import com.boluozhai.snowflake.xgit.XGitContext;
+import com.boluozhai.snowflake.xgit.config.Config;
 import com.boluozhai.snowflake.xgit.repository.Repository;
 import com.boluozhai.snowflake.xgit.repository.RepositoryOption;
 import com.boluozhai.snowflake.xgit.support.RepositoryProfile;
@@ -63,6 +65,10 @@ public class FileRepositoryBuilder {
 
 	public Repository create(URI uri, RepositoryOption option) {
 
+		if (option == null) {
+			option = new RepositoryOption();
+		}
+
 		DefaultContextBuilderFactory context_factory = new DefaultContextBuilderFactory();
 
 		context.context_builder = context_factory.newBuilder(context.parent);
@@ -70,14 +76,56 @@ public class FileRepositoryBuilder {
 		context.uri = uri;
 		context.option = option;
 
+		// set the temporary context core
+		context.context_facade_agent.setCore(context.parent);
+
 		this.make_path();
 		this.make_com_builder();
 		this.make_com();
+		this.load_config();
 		this.make_com_context_core();
 		this.init_com();
 
 		ComponentContext facade = context.context_facade_agent.getFacade();
+
+		if (option.check_config) {
+			this.check_config(facade);
+		}
+
 		return (Repository) facade.getBean(XGitContext.component.repository);
+	}
+
+	private void check_config(ComponentContext facade) {
+
+		String k1 = Config.core.repositoryformatversion;
+
+		String repo_fmt_ver = facade.getProperty(k1, null);
+
+		if ("0".equals(repo_fmt_ver)) {
+			// ok
+		} else {
+			String msg = "bad config[" + k1 + "] value: " + repo_fmt_ver;
+			throw new RuntimeException(msg);
+		}
+
+	}
+
+	private void load_config() {
+		try {
+			Config config = (Config) this.context.tab_com
+					.get(XGitContext.component.config);
+			config.load();
+			// inject values to context
+			ContextBuilder builder = context.context_builder;
+			String[] keys = config.getPropertyNames();
+			for (String key : keys) {
+				String value = config.getProperty(key);
+				builder.setProperty(key, value);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+		}
 	}
 
 	private void make_com_context_core() {
@@ -114,7 +162,8 @@ public class FileRepositoryBuilder {
 			context.tab_path.put(key, path);
 		}
 		context.tab_path.put(XGitContext.component.repository, repo_path);
-		context.tab_path.put(XGitContext.component.workspace, repo_path.parent());
+		context.tab_path.put(XGitContext.component.workspace,
+				repo_path.parent());
 	}
 
 	private void make_com_builder() {

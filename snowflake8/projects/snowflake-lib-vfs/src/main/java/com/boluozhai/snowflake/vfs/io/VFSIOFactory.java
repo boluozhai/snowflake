@@ -1,4 +1,4 @@
-package com.boluozhai.snow.vfs.io;
+package com.boluozhai.snowflake.vfs.io;
 
 import com.boluozhai.snowflake.context.SnowContext;
 

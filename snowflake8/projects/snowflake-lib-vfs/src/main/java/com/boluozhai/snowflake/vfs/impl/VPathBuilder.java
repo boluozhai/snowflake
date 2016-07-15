@@ -1,10 +1,10 @@
-package com.boluozhai.snow.vfs.impl;
+package com.boluozhai.snowflake.vfs.impl;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.boluozhai.snow.vfs.VFile;
-import com.boluozhai.snow.vfs.VPath;
+import com.boluozhai.snowflake.vfs.VFile;
+import com.boluozhai.snowflake.vfs.VPath;
 
 final class VPathBuilder {
 
