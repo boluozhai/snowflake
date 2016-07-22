@@ -1,9 +1,14 @@
 package com.boluozhai.snowflake.diskman.impl;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Enumeration;
+import java.util.List;
+import java.util.Properties;
+
 import com.boluozhai.snowflake.context.SnowContext;
 import com.boluozhai.snowflake.diskman.model.FsTable;
 import com.boluozhai.snowflake.runtime.ErrorHandler;
-import com.boluozhai.snowflake.runtime.LineHandler;
 import com.boluozhai.snowflake.runtime.RuntimeExe;
 import com.boluozhai.snowflake.runtime.SubProcess;
 import com.boluozhai.snowflake.runtime.SubProcessBuilder;
@@ -62,7 +67,7 @@ final class InnerFsTableLoader {
 		}
 	}
 
-	private class MyOutputHandler implements LineHandler {
+	private class MyOutputHandler extends FstabBuilder {
 
 		private int line_number;
 
@@ -73,11 +78,36 @@ final class InnerFsTableLoader {
 			int ln = this.line_number++;
 			System.out.format("[%4d]%s\n", ln, text);
 
+			super.onLine(sp, text);
+
 		}
 
 		public FsTable build_fstab() {
 			// TODO Auto-generated method stub
+
+			List<Properties> res = this.getResult();
+
+			int index = 0;
+			for (Properties pro : res) {
+
+				System.out.format("p%d\n", index++);
+
+				ArrayList<String> keys = new ArrayList<String>();
+				for (Enumeration<Object> k = pro.keys(); k.hasMoreElements();) {
+					String key = k.nextElement().toString();
+					keys.add(key);
+				}
+				Collections.sort(keys);
+
+				for (String key : keys) {
+					String value = pro.getProperty(key);
+					System.out.format("  %s = %s\n", key, value);
+				}
+
+			}
+
 			return null;
 		}
 	}
+
 }
