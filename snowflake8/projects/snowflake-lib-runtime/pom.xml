@@ -4,11 +4,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.boluozhai.snowflake</groupId>
-	<artifactId>snowflake-lib-template</artifactId>
+	<artifactId>snowflake-lib-runtime</artifactId>
 	<version>0.8.0</version>
 	<packaging>jar</packaging>
 
-	<name>snowflake-lib-template</name>
+	<name>snowflake-lib-runtime</name>
 	<url>http://snow.boluozhai.com</url>
 
 	<properties>
@@ -26,14 +26,14 @@
 
 		<dependency>
 			<groupId>com.boluozhai.snowflake</groupId>
-			<artifactId>snowflake-lib-core</artifactId>
+			<artifactId>snowflake-lib-context</artifactId>
 			<version>0.8.0</version>
 		</dependency>
 
 	</dependencies>
 
 	<build>
-		<finalName>snowflake-lib-template</finalName>
+		<finalName>snowflake-lib-runtime</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

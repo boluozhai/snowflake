@@ -4,11 +4,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.boluozhai.snowflake</groupId>
-	<artifactId>snowflake-lib-template</artifactId>
+	<artifactId>snowflake-lib-disk-manager</artifactId>
 	<version>0.8.0</version>
 	<packaging>jar</packaging>
 
-	<name>snowflake-lib-template</name>
+	<name>snowflake-lib-disk-manager</name>
 	<url>http://snow.boluozhai.com</url>
 
 	<properties>
@@ -26,14 +26,27 @@
 
 		<dependency>
 			<groupId>com.boluozhai.snowflake</groupId>
-			<artifactId>snowflake-lib-core</artifactId>
+			<artifactId>snowflake-test-lib</artifactId>
+			<version>0.8.0</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.boluozhai.snowflake</groupId>
+			<artifactId>snowflake-lib-context</artifactId>
+			<version>0.8.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.boluozhai.snowflake</groupId>
+			<artifactId>snowflake-lib-runtime</artifactId>
 			<version>0.8.0</version>
 		</dependency>
 
 	</dependencies>
 
 	<build>
-		<finalName>snowflake-lib-template</finalName>
+		<finalName>snowflake-lib-disk-manager</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

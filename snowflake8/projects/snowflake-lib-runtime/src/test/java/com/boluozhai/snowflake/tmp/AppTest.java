@@ -1,4 +1,4 @@
-package com.boluozhai.snow.tmp;
+package com.boluozhai.snowflake.tmp;
 
 import org.junit.Test;
 
