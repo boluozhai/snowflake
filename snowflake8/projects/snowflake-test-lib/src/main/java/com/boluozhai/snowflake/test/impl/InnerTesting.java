@@ -39,6 +39,8 @@ final class InnerTesting implements Testing {
 		System.out.println(bar);
 		System.out.format("[begin test %s]\n", name);
 
+		System.out.println("[prepare testing environment]");
+
 		File wk_dir = this.context().getWorkingPath();
 		File temp_dir = this.context().getWorksTemplatePath();
 
@@ -47,6 +49,8 @@ final class InnerTesting implements Testing {
 
 		// copy data to working directory
 		DirTools.copy(temp_dir, wk_dir);
+
+		System.out.println("[testing...]");
 
 	}
 

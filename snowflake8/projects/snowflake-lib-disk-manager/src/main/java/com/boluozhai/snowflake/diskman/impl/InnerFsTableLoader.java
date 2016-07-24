@@ -1,12 +1,14 @@
 package com.boluozhai.snowflake.diskman.impl;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 
 import com.boluozhai.snowflake.context.SnowContext;
+import com.boluozhai.snowflake.diskman.model.FsItem;
 import com.boluozhai.snowflake.diskman.model.FsTable;
 import com.boluozhai.snowflake.runtime.ErrorHandler;
 import com.boluozhai.snowflake.runtime.RuntimeExe;
@@ -69,44 +71,64 @@ final class InnerFsTableLoader {
 
 	private class MyOutputHandler extends FstabBuilder {
 
-		private int line_number;
-
-		@Override
-		public void onLine(SubProcess sp, String text) {
-			// TODO Auto-generated method stub
-
-			int ln = this.line_number++;
-			System.out.format("[%4d]%s\n", ln, text);
-
-			super.onLine(sp, text);
-
-		}
-
 		public FsTable build_fstab() {
-			// TODO Auto-generated method stub
 
 			List<Properties> res = this.getResult();
 
-			int index = 0;
+			FsTable fstab = new FsTable();
+			fstab.setItems(new HashMap<String, FsItem>());
+			fstab.setAlias(new HashMap<String, FsItem>());
+
 			for (Properties pro : res) {
-
-				System.out.format("p%d\n", index++);
-
-				ArrayList<String> keys = new ArrayList<String>();
-				for (Enumeration<Object> k = pro.keys(); k.hasMoreElements();) {
-					String key = k.nextElement().toString();
-					keys.add(key);
+				FsItem item = this.make_item(pro);
+				String key = item.getPrimaryKey();
+				String[] aliases = item.getAlias();
+				fstab.getItems().put(key, item);
+				for (String ali : aliases) {
+					fstab.getAlias().put(ali, item);
 				}
-				Collections.sort(keys);
-
-				for (String key : keys) {
-					String value = pro.getProperty(key);
-					System.out.format("  %s = %s\n", key, value);
-				}
-
 			}
 
-			return null;
+			return fstab;
+		}
+
+		private FsItem make_item(Properties pro) {
+
+			Map<String, String> p2 = new HashMap<String, String>();
+			for (Object k : pro.keySet()) {
+				String key = k.toString();
+				String val = pro.getProperty(key);
+				p2.put(key, val);
+			}
+
+			String pk = p2.get(FsItem.property.device_file);
+			String[] alias = this.find_aliases(p2);
+
+			FsItem item = new FsItem();
+			item.setProperties(p2);
+			item.setPrimaryKey(pk);
+			item.setAlias(alias);
+
+			return item;
+		}
+
+		private String[] find_aliases(Map<String, String> pro) {
+
+			String prefix = FsItem.property.device_file + ".";
+			Set<String> aliases = new HashSet<String>();
+			Set<String> keys = pro.keySet();
+
+			for (String key : keys) {
+				if (key.startsWith(prefix)) {
+					String value = pro.get(key);
+					aliases.add(value);
+				}
+			}
+
+			String pk = pro.get(FsItem.property.device_file);
+			aliases.add(pk);
+
+			return aliases.toArray(new String[aliases.size()]);
 		}
 	}
 

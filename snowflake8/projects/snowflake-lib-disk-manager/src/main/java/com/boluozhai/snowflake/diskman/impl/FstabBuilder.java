@@ -51,7 +51,7 @@ public class FstabBuilder implements LineHandler {
 		StringBuilder sb = new StringBuilder();
 		sb.append(k1).append('.').append(k2);
 		String key = this.make_key_regular(sb.toString());
-		this.current_segment.setProperty(key, value);
+		this.add_property(key, value);
 	}
 
 	private String make_key_regular(String s) {
@@ -70,7 +70,24 @@ public class FstabBuilder implements LineHandler {
 
 	private void on_key_value(String key, String value) {
 		key = this.make_key_regular(key);
-		this.current_segment.setProperty(key, value);
+		this.add_property(key, value);
+	}
+
+	private void add_property(String key, String value) {
+		Properties tab = this.current_segment;
+		if (tab.containsKey(key)) {
+			for (int i = 1; i < 1000; i++) {
+				String k2 = String.format("%s[%d]", key, i);
+				if (tab.containsKey(k2)) {
+					continue;
+				} else {
+					tab.put(k2, value);
+					break;
+				}
+			}
+		} else {
+			tab.put(key, value);
+		}
 	}
 
 	private void flush_buffer() {
