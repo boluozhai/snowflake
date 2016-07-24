@@ -32,4 +32,12 @@ public interface VFS {
 
 	VFile[] listRoots();
 
+	String separator();
+
+	char separatorChar();
+
+	String pathSeparator();
+
+	char pathSeparatorChar();
+
 }

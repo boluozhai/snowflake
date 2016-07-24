@@ -18,6 +18,6 @@ public interface GitObject {
 
 	boolean exists();
 
-	// void delete();
+	void delete();
 
 }

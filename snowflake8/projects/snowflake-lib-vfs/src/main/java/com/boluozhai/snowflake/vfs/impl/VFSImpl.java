@@ -50,4 +50,24 @@ final class VFSImpl implements VFS {
 		return FileWrapper.wrap(this, list);
 	}
 
+	@Override
+	public String separator() {
+		return File.separator;
+	}
+
+	@Override
+	public char separatorChar() {
+		return File.separatorChar;
+	}
+
+	@Override
+	public String pathSeparator() {
+		return File.pathSeparator;
+	}
+
+	@Override
+	public char pathSeparatorChar() {
+		return File.pathSeparatorChar;
+	}
+
 }

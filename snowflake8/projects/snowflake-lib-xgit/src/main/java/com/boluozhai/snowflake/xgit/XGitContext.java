@@ -34,6 +34,7 @@ public interface XGitContext extends ModelContext, ComponentContext {
 		// helpers
 		String hash_path_mapper = "hash_path_mapper";
 		String hash_algorithm = "hash_algorithm";
+		String temporary_files = "temporary_files";
 
 		// files
 		String config = "config";

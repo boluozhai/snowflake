@@ -5,7 +5,6 @@ import com.boluozhai.snowflake.mvc.model.ComponentLifecycle;
 import com.boluozhai.snowflake.vfs.VFile;
 import com.boluozhai.snowflake.xgit.ObjectId;
 import com.boluozhai.snowflake.xgit.XGitContext;
-import com.boluozhai.snowflake.xgit.objects.GitObject;
 import com.boluozhai.snowflake.xgit.objects.GitObjectBuilder;
 import com.boluozhai.snowflake.xgit.objects.HashAlgorithmProvider;
 import com.boluozhai.snowflake.xgit.vfs.FileObject;
@@ -17,12 +16,17 @@ public class FileObjectBankImpl implements FileXGitComponent, FileObjectBank {
 
 	private final ComponentContext _context;
 	private final VFile _file;
+	private final FileObjectBankCore _core;
 	public HashAlgorithmProvider _hash_alg;
 	public HashPathMapper _hash_path_mapper;
 
 	protected FileObjectBankImpl(ComponentContext context, VFile file) {
+
+		FileObjectBankCore core = new FileObjectBankCore(context);
+
 		this._context = context;
 		this._file = file;
+		this._core = core;
 	}
 
 	@Override
@@ -75,6 +79,7 @@ public class FileObjectBankImpl implements FileXGitComponent, FileObjectBank {
 		builder.id = id;
 		builder.file = file;
 		builder.bank = this;
+		builder.core = this._core;
 
 		return builder.create();
 	}
@@ -82,13 +87,15 @@ public class FileObjectBankImpl implements FileXGitComponent, FileObjectBank {
 	@Override
 	public GitObjectBuilder newBuilder(String type) {
 		// TODO Auto-generated method stub
-		return null;
+
+		return new FileObjectBuilderImpl(_core);
 	}
 
 	@Override
 	public GitObjectBuilder newBuilder(String type, long length) {
 		// TODO Auto-generated method stub
-		return null;
+
+		return new FileObjectBuilderImpl(_core);
 	}
 
 }

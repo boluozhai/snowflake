@@ -1,16 +1,17 @@
 package com.boluozhai.snowflake.xgit.objects;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
 public interface GitObjectEntity {
 
-	InputStream openPlainInput();
+	InputStream openPlainInput() throws IOException;
 
-	InputStream openZippedInput();
+	InputStream openZippedInput() throws IOException;
 
-	// OutputStream openPlainOutput();
+	// OutputStream openPlainOutput() throws IOException;
 
-	OutputStream openZippedOutput();
+	OutputStream openZippedOutput() throws IOException;
 
 }

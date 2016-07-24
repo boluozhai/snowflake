@@ -32,4 +32,17 @@ public class VFSIOImpl implements VFSIO {
 		return new FileOutputStream(f2);
 	}
 
+	@Override
+	public OutputStream output(VFile file, boolean mkdirs) throws IOException {
+		URI uri = file.toURI();
+		File f2 = new File(uri);
+		if (mkdirs) {
+			File dir = f2.getParentFile();
+			if (!dir.exists()) {
+				dir.mkdirs();
+			}
+		}
+		return new FileOutputStream(f2);
+	}
+
 }

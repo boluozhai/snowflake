@@ -63,6 +63,11 @@
 						class='com.boluozhai.snowflake.xgit.vfs.support.FileHashAlgorithmFactory' />
 				</entry>
 
+				<entry key='temporary_files'>
+					<bean
+						class='com.boluozhai.snowflake.xgit.vfs.support.TemporaryFileManagerFactory' />
+				</entry>
+
 			</map>
 		</property>
 

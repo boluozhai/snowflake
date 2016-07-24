@@ -23,4 +23,6 @@ public interface VFSIO {
 
 	OutputStream output(VFile file) throws IOException;
 
+	OutputStream output(VFile file, boolean mkdirs) throws IOException;
+
 }
