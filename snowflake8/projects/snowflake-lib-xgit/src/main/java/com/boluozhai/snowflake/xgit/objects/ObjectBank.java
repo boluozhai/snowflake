@@ -7,8 +7,6 @@ public interface ObjectBank extends XGitComponent {
 
 	GitObject object(ObjectId id);
 
-	GitObjectBuilder newBuilder(String type);
-
 	GitObjectBuilder newBuilder(String type, long length);
 
 }

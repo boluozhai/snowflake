@@ -11,8 +11,8 @@ public interface GitObjectBuilder {
 
 	void write(byte[] buffer, int offset, int length) throws IOException;
 
-	OutputStream getOutputStream();
+	OutputStream getOutputStream() throws IOException;
 
-	GitObject create();
+	GitObject create() throws IOException;
 
 }

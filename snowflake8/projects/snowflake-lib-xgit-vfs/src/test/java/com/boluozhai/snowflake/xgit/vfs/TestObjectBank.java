@@ -16,9 +16,12 @@ import java.util.zip.InflaterOutputStream;
 import org.junit.Test;
 
 import com.boluozhai.snow.util.IOTools;
+import com.boluozhai.snowflake.mvc.model.ComponentContext;
 import com.boluozhai.snowflake.test.TestContext;
 import com.boluozhai.snowflake.test.Tester;
 import com.boluozhai.snowflake.test.Testing;
+import com.boluozhai.snowflake.vfs.VFile;
+import com.boluozhai.snowflake.vfs.io.VFSIO;
 import com.boluozhai.snowflake.xgit.ObjectId;
 import com.boluozhai.snowflake.xgit.XGit;
 import com.boluozhai.snowflake.xgit.XGitContext;
@@ -26,14 +29,16 @@ import com.boluozhai.snowflake.xgit.objects.GitObject;
 import com.boluozhai.snowflake.xgit.objects.GitObjectBuilder;
 import com.boluozhai.snowflake.xgit.objects.GitObjectEntity;
 import com.boluozhai.snowflake.xgit.objects.ObjectBank;
-import com.boluozhai.snowflake.xgit.repository.Repository;
 import com.boluozhai.snowflake.xgit.repository.RepositoryManager;
 
 public class TestObjectBank {
 
 	class InnerContext {
 
-		public ObjectBank bank;
+		public FileRepository repository;
+		public FileWorkspace workspace;
+		public FileObjectBank bank;
+
 	}
 
 	@Test
@@ -46,24 +51,29 @@ public class TestObjectBank {
 
 			tester = Tester.Factory.newInstance();
 			testing = tester.open(this);
-			TestContext context = testing.context();
+			TestContext context_t = testing.context();
 
-			File wkdir = context.getWorkingPath();
+			File wkdir = context_t.getWorkingPath();
 			URI uri = (new File(wkdir, "repository")).toURI();
 
-			RepositoryManager repo_man = XGit.getRepositoryManager(context);
-			Repository repo = repo_man.open(context, uri, null);
-			ObjectBank bank = repo.getComponentContext().getBean(
-					XGitContext.component.objects, ObjectBank.class);
+			RepositoryManager repo_man = XGit.getRepositoryManager(context_t);
+			FileRepository repo = (FileRepository) repo_man.open(context_t,
+					uri, null);
+			ComponentContext context_repo = repo.getComponentContext();
+			FileObjectBank bank = context_repo.getBean(
+					XGitContext.component.objects, FileObjectBank.class);
+			FileWorkspace works = context_repo.getBean(
+					XGitContext.component.workspace, FileWorkspace.class);
 
 			InnerContext ic = new InnerContext();
-			ic.bank = bank;
+			ic.bank = (FileObjectBank) bank;
+			ic.repository = repo;
+			ic.workspace = works;
 
 			this.test_zipped_read(ic);
 			this.test_zipped_write(ic);
 			this.test_plain_read(ic);
 
-			this.test_new_builder_1(ic);
 			this.test_new_builder_2(ic);
 
 		} catch (Exception e) {
@@ -204,18 +214,43 @@ public class TestObjectBank {
 
 	}
 
-	private void test_new_builder_2(InnerContext ic) {
-		// TODO Auto-generated method stub
-
+	private void test_new_builder_2(InnerContext ic) throws IOException {
+		test_new_builder_x(ic, 2);
 	}
 
-	private void test_new_builder_1(InnerContext ic) {
+	private void test_new_builder_x(InnerContext ic, int x) throws IOException {
 
-		ObjectBank bank = ic.bank;
-		GitObjectBuilder builder = bank.newBuilder("test");
-		OutputStream out = builder.getOutputStream();
+		InputStream in = null;
+		OutputStream out = null;
 
-		GitObject obj = builder.create();
+		try {
+
+			System.out.format("test object builder(x=%d)\n", x);
+			String filename = "file_4_object_builder_" + x + ".txt";
+
+			FileObjectBank bank = ic.bank;
+			FileWorkspace works = ic.workspace;
+
+			VFSIO io = VFSIO.Agent.getInstance(ic.repository.context());
+			VFile file = works.getFile().child(filename);
+
+			GitObjectBuilder builder = bank.newBuilder("blob", file.length());
+
+			out = builder.getOutputStream();
+			in = io.input(file);
+
+			IOTools.pump(in, out);
+
+			GitObject obj = builder.create();
+			ObjectId id = obj.id();
+			System.out.println("  id=" + id);
+
+		} finally {
+
+			IOTools.close(in);
+			IOTools.close(out);
+
+		}
 
 	}
 

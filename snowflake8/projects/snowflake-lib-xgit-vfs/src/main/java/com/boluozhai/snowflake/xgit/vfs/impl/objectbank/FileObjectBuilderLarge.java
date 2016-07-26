@@ -6,9 +6,9 @@ import java.io.OutputStream;
 import com.boluozhai.snowflake.xgit.objects.GitObject;
 import com.boluozhai.snowflake.xgit.objects.GitObjectBuilder;
 
-final class FileObjectBuilderImpl implements GitObjectBuilder {
+final class FileObjectBuilderLarge implements GitObjectBuilder {
 
-	public FileObjectBuilderImpl(FileObjectBankCore _core) {
+	public FileObjectBuilderLarge(FileObjectBankCore _core, String type, long length) {
 		// TODO Auto-generated constructor stub
 	}
 

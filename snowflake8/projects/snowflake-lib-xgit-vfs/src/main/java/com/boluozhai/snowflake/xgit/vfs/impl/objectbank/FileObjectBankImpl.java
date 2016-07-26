@@ -85,17 +85,8 @@ public class FileObjectBankImpl implements FileXGitComponent, FileObjectBank {
 	}
 
 	@Override
-	public GitObjectBuilder newBuilder(String type) {
-		// TODO Auto-generated method stub
-
-		return new FileObjectBuilderImpl(_core);
-	}
-
-	@Override
 	public GitObjectBuilder newBuilder(String type, long length) {
-		// TODO Auto-generated method stub
-
-		return new FileObjectBuilderImpl(_core);
+		return new FileObjectBuilderDefault(_core, type, length);
 	}
 
 }
