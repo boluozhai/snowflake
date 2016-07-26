@@ -8,7 +8,16 @@ import com.boluozhai.snowflake.xgit.vfs.TemporaryFileManager;
 
 final class FileObjectBankCore {
 
-	public static final int small_object_builder_buffer_size_max = 1024 * 64;
+	public static final int small_object_builder_buffer_size_max;
+
+	static {
+
+		int limit = 1024 * 1024 * 16;
+		small_object_builder_buffer_size_max = limit;
+		String fmt = "for debug[%s]: now set the max small-obj-size is %d bytes.\n";
+		System.err.format(fmt, FileObjectBankCore.class, limit);
+
+	}
 
 	private final SnowContext _context;
 
