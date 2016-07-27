@@ -34,6 +34,8 @@ public final class ContextBuilderConfigHelper {
 			return;
 		}
 
+		ParameterRW rw = new ParameterRW(builder);
+
 		int index = 0;
 		for (String s : arguments) {
 			if (s == null) {
@@ -43,11 +45,13 @@ public final class ContextBuilderConfigHelper {
 			if (s.length() == 0) {
 				continue;
 			}
-			final String is = String.valueOf(index++);
+			final String is = String.valueOf(index);
 			if (s.startsWith("-")) {
 				builder.setParameter(s, is);
 			}
-			builder.setParameter(is, s);
+			rw.set(index, s);
+
+			index++;
 		}
 
 	}

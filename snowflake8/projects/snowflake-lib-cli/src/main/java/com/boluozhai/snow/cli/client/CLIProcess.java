@@ -6,10 +6,12 @@ public interface CLIProcess extends Runnable {
 
 	void start();
 
-	void join();
+	void join() throws InterruptedException;
 
-	SnowContext parentContext();
+	// SnowContext parentContext();
 
-	SnowContext childContext();
+	// SnowContext childContext();
+
+	SnowContext context();
 
 }

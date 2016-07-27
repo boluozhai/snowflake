@@ -16,6 +16,7 @@ public class SnowCLI {
 
 		SnowContext context = SnowContextUtils.getContext();
 		CLIClient client = CLIUtils.getClient(context);
+		client.execute(context, "snow", args);
 
 	}
 }
