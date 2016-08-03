@@ -4,13 +4,18 @@ import java.net.URI;
 import java.util.Map;
 
 import com.boluozhai.snowflake.context.ContextBuilder;
+import com.boluozhai.snowflake.context.SnowAttributes;
 import com.boluozhai.snowflake.context.SnowContext;
+import com.boluozhai.snowflake.context.SnowEnvironments;
+import com.boluozhai.snowflake.context.SnowParameters;
+import com.boluozhai.snowflake.context.SnowProperties;
 
 public class AbstractContextBuilder extends SnowContextBase implements
 		ContextBuilder {
 
 	protected AbstractContextBuilder(SnowContext parent) {
 		super(make_data(parent));
+		this.setParent(parent);
 	}
 
 	private static SnowContextData make_data(SnowContext parent) {
@@ -30,7 +35,16 @@ public class AbstractContextBuilder extends SnowContextBase implements
 
 	@Override
 	public void setParent(SnowContext parent) {
-		this.data().parent = parent;
+
+		SnowContextData d = this.data();
+		d.parent = parent;
+
+		if (parent != null) {
+			d.attr_set.putAll(SnowAttributes.MapGetter.getMap(parent));
+			d.prop_set.putAll(SnowProperties.MapGetter.getMap(parent));
+			d.param_set.putAll(SnowParameters.MapGetter.getMap(parent));
+			d.env_set.putAll(SnowEnvironments.MapGetter.getMap(parent));
+		}
 	}
 
 	@Override

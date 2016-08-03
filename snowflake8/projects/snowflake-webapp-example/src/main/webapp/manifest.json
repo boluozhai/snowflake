@@ -1,0 +1,16 @@
+{
+
+"scheme":"com.boluozhai.snowflake",
+"namespace":"com.boluozhai.snowflake.webapp.example",
+"name":"example",
+"title":"snowflake-webapp-示例",
+"rest":"REST/",
+
+"rest_classes":[
+	"a",
+	"b",
+	"c",
+	"z"
+]
+
+}

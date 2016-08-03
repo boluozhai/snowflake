@@ -5,9 +5,9 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.boluozhai.snow.util.IOTools;
-import com.boluozhai.snow.util.TextTools;
 import com.boluozhai.snowflake.mvc.model.ComponentContext;
+import com.boluozhai.snowflake.util.IOTools;
+import com.boluozhai.snowflake.util.TextTools;
 import com.boluozhai.snowflake.vfs.VFile;
 import com.boluozhai.snowflake.vfs.io.VFSIO;
 

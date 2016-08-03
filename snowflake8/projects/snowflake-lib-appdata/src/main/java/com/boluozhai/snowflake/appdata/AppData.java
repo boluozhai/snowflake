@@ -4,8 +4,9 @@ import java.io.File;
 
 import com.boluozhai.snowflake.appdata.support.StaticAppDataAgent;
 import com.boluozhai.snowflake.context.SnowContext;
+import com.boluozhai.snowflake.context.SnowProperties;
 
-public interface AppData {
+public interface AppData extends SnowProperties {
 
 	Class<?> getTargetClass();
 

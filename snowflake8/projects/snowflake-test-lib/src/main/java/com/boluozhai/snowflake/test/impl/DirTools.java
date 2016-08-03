@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import com.boluozhai.snow.util.IOTools;
+import com.boluozhai.snowflake.util.IOTools;
 
 public class DirTools {
 

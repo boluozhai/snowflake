@@ -3,8 +3,8 @@ package com.boluozhai.snowflake.spring.impl;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import com.boluozhai.snow.util.SystemAttributes;
 import com.boluozhai.snowflake.spring.SpringContextLoader;
+import com.boluozhai.snowflake.util.SystemAttributes;
 
 final class InnerSpringContextLoader implements SpringContextLoader {
 

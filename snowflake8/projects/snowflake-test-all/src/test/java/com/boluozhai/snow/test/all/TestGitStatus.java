@@ -5,9 +5,9 @@ import java.net.URI;
 
 import org.junit.Test;
 
-import com.boluozhai.snow.cli.CLIUtils;
-import com.boluozhai.snow.cli.client.CLIClient;
-import com.boluozhai.snow.cli.client.CLIProcess;
+import com.boluozhai.snowflake.cli.CLIUtils;
+import com.boluozhai.snowflake.cli.client.CLIClient;
+import com.boluozhai.snowflake.cli.client.CLIProcess;
 import com.boluozhai.snowflake.context.SnowContext;
 import com.boluozhai.snowflake.context.utils.SnowContextUtils;
 import com.boluozhai.snowflake.test.TestContext;
@@ -41,7 +41,8 @@ public class TestGitStatus {
 		path = new File(path, "a/b/c");
 		URI uri = path.toURI();
 
-		SnowContext context = SnowContextUtils.getContext();
+		String fn = SnowContextUtils.FactoryName.junit;
+		SnowContext context = SnowContextUtils.getContext(fn);
 		RepositoryManager xgit_man = XGit.getRepositoryManager(context);
 		Repository repo = xgit_man.open(context, uri, null);
 		XGitContext repo_context = repo.context();

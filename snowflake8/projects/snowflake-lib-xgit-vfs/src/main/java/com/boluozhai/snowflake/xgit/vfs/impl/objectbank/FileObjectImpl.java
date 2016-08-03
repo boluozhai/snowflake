@@ -5,8 +5,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.zip.InflaterInputStream;
 
-import com.boluozhai.snow.util.IOTools;
 import com.boluozhai.snowflake.mvc.model.ComponentContext;
+import com.boluozhai.snowflake.util.IOTools;
 import com.boluozhai.snowflake.vfs.VFile;
 import com.boluozhai.snowflake.vfs.io.VFSIO;
 import com.boluozhai.snowflake.xgit.ObjectId;

@@ -15,11 +15,11 @@ import java.util.zip.InflaterOutputStream;
 
 import org.junit.Test;
 
-import com.boluozhai.snow.util.IOTools;
 import com.boluozhai.snowflake.mvc.model.ComponentContext;
 import com.boluozhai.snowflake.test.TestContext;
 import com.boluozhai.snowflake.test.Tester;
 import com.boluozhai.snowflake.test.Testing;
+import com.boluozhai.snowflake.util.IOTools;
 import com.boluozhai.snowflake.vfs.VFile;
 import com.boluozhai.snowflake.vfs.io.VFSIO;
 import com.boluozhai.snowflake.xgit.ObjectId;

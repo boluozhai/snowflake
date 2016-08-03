@@ -6,8 +6,8 @@ import java.io.OutputStream;
 import java.security.MessageDigest;
 import java.util.zip.DeflaterOutputStream;
 
-import com.boluozhai.snow.util.IOTools;
 import com.boluozhai.snowflake.mvc.model.ComponentContext;
+import com.boluozhai.snowflake.util.IOTools;
 import com.boluozhai.snowflake.vfs.VFSTools;
 import com.boluozhai.snowflake.vfs.VFile;
 import com.boluozhai.snowflake.vfs.io.VFSIO;

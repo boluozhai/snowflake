@@ -8,10 +8,12 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 
-import com.boluozhai.snow.util.IOTools;
 import com.boluozhai.snowflake.appdata.AppData;
 import com.boluozhai.snowflake.appdata.AppDataAgent;
+import com.boluozhai.snowflake.context.SnowProperties;
+import com.boluozhai.snowflake.util.IOTools;
 
 public class StaticAppDataAgent extends AppDataAgent {
 
@@ -95,6 +97,7 @@ public class StaticAppDataAgent extends AppDataAgent {
 		private File _properties_path;
 		private File _data_base_path;
 		private File _data_scheme_path;
+		private Properties _properties;
 
 		public InnerAppData(ADHolder holder) {
 			this._target = holder._target;
@@ -136,6 +139,7 @@ public class StaticAppDataAgent extends AppDataAgent {
 				in = new FileInputStream(pro_file);
 				Properties pro = new Properties();
 				pro.load(in);
+				this._properties = pro;
 
 				// data base path
 				final String data_base_path_key = "app_data_path";
@@ -192,6 +196,35 @@ public class StaticAppDataAgent extends AppDataAgent {
 			return this._data_scheme_path;
 		}
 
+		@Override
+		public String[] getPropertyNames() {
+			Set<Object> keys = this._properties.keySet();
+			String[] array = keys.toArray(new String[keys.size()]);
+			return array;
+		}
+
+		@Override
+		public String getProperty(String name) {
+			return this.getProperty(name, SnowProperties.exception);
+		}
+
+		@Override
+		public String getProperty(String name, Object defaultValue) {
+			String value = this._properties.getProperty(name);
+			if (value == null) {
+				if (defaultValue == null) {
+					// NOP
+				} else if (defaultValue == SnowProperties.exception) {
+					String msg = "need key:" + name + " in file:"
+							+ this._properties_path;
+					throw new RuntimeException(msg);
+				} else {
+					value = defaultValue.toString();
+				}
+			}
+			return value;
+		}
+
 	}
 
 	private static class FacadeAppData implements AppData {
@@ -224,6 +257,18 @@ public class StaticAppDataAgent extends AppDataAgent {
 
 		public Exception getError() {
 			return inner.getError();
+		}
+
+		public String[] getPropertyNames() {
+			return inner.getPropertyNames();
+		}
+
+		public String getProperty(String name) {
+			return inner.getProperty(name);
+		}
+
+		public String getProperty(String name, Object defaultValue) {
+			return inner.getProperty(name, defaultValue);
 		}
 
 	}

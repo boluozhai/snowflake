@@ -10,7 +10,7 @@ import java.io.OutputStream;
 
 import javax.swing.JFileChooser;
 
-import com.boluozhai.snow.util.IOTools;
+import com.boluozhai.snowflake.util.IOTools;
 
 public class TestUsbDriverSpeed implements Runnable {
 

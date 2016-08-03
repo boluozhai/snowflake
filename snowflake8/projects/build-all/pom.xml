@@ -28,7 +28,8 @@
 
 		<module>../snowflake-test-lib</module>
 		<module>../snowflake-tool-project-manager</module>
-		<module>../snowflake-web-resource</module>
+		<module>../snowflake-webapp-resource</module>
+		<module>../snowflake-webapp-example</module>
 
 	</modules>
 
