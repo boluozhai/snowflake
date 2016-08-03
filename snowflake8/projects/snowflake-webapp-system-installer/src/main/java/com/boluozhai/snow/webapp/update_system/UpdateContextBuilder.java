@@ -6,8 +6,8 @@ import org.springframework.web.context.WebApplicationContext;
 
 import com.boluozhai.snow.webapp.update_system.pojo.BlzSystemUpdateProperties;
 import com.boluozhai.snowflake.appdata.AppData;
-import com.boluozhai.snowflake.appserver.ApplicationServer;
-import com.boluozhai.snowflake.appserver.ApplicationServerInfo;
+import com.boluozhai.snowflake.libwebapp.server.ApplicationServer;
+import com.boluozhai.snowflake.libwebapp.server.ApplicationServerInfo;
 
 public class UpdateContextBuilder {
 

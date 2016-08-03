@@ -4,7 +4,7 @@
 
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.boluozhai</groupId>
+	<groupId>com.boluozhai.snowflake</groupId>
 	<artifactId>snowflake-webapp-example</artifactId>
 	<packaging>war</packaging>
 	<version>0.0.1-SNAPSHOT</version>
@@ -24,6 +24,12 @@
 		<dependency>
 			<groupId>com.boluozhai.snowflake</groupId>
 			<artifactId>snowflake-lib-spring-web</artifactId>
+			<version>0.8.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.boluozhai.snowflake</groupId>
+			<artifactId>snowflake-lib-webapp</artifactId>
 			<version>0.8.0</version>
 		</dependency>
 

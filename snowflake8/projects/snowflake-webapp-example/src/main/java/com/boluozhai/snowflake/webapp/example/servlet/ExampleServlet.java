@@ -14,7 +14,7 @@ import com.boluozhai.snowflake.context.ContextBuilder;
 import com.boluozhai.snowflake.context.SnowContext;
 import com.boluozhai.snowflake.context.utils.ContextPrinter;
 import com.boluozhai.snowflake.context.utils.SnowContextUtils;
-import com.boluozhai.snowflake.web.utils.WebContextUtils;
+import com.boluozhai.snowflake.libwebapp.utils.WebContextUtils;
 
 public class ExampleServlet extends HttpServlet {
 

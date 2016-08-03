@@ -8,10 +8,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.boluozhai.snowflake.appserver.webappmanager.WebAppManager;
 import com.boluozhai.snowflake.context.SnowContext;
-import com.boluozhai.snowflake.web.rest.JsonRestView;
-import com.boluozhai.snowflake.web.utils.WebContextUtils;
+import com.boluozhai.snowflake.libwebapp.manager.WebAppManager;
+import com.boluozhai.snowflake.libwebapp.rest.JsonRestView;
+import com.boluozhai.snowflake.libwebapp.utils.WebContextUtils;
 
 public class RestExampleServlet extends HttpServlet {
 

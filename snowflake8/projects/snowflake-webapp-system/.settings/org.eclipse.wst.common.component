@@ -12,10 +12,7 @@
         <dependent-module archiveName="snowflake-lib-mvc-0.8.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/snowflake-lib-mvc/snowflake-lib-mvc">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="snowflake-lib-web-0.8.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/snowflake-lib-web/snowflake-lib-web">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="snowflake-lib-app-server-0.8.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/snowflake-lib-app-server/snowflake-lib-app-server">
+        <dependent-module archiveName="snowflake-lib-webapp-0.8.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/snowflake-lib-webapp/snowflake-lib-webapp">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="snowflake-lib-context-0.8.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/snowflake-lib-context/snowflake-lib-context">
@@ -24,7 +21,13 @@
         <dependent-module archiveName="snowflake-lib-core-0.8.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/snowflake-lib-core/snowflake-lib-core">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module archiveName="snowflake-lib-vfs-0.8.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/snowflake-lib-vfs/snowflake-lib-vfs">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="snowflake-lib-appdata-0.8.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/snowflake-lib-appdata/snowflake-lib-appdata">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <property name="java-output-path" value="/snowflake-web-resource/target/classes"/>
-        <property name="context-root" value="snowflake-webapp-resource"/>
+        <property name="context-root" value="snowflake-webapp-system"/>
     </wb-module>
 </project-modules>

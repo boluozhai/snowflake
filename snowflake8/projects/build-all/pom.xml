@@ -2,9 +2,10 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>ananas.ab4c.ltv</groupId>
-	<artifactId>ltv-final-all</artifactId>
-	<version>0.1</version>
+
+	<groupId>com.boluozhai.snowflake</groupId>
+	<artifactId>snowflake-build-all</artifactId>
+	<version>0.8.0</version>
 	<packaging>pom</packaging>
 
 	<modules>
@@ -14,22 +15,28 @@
 		<module>../snowflake-lib-context</module>
 		<module>../snowflake-lib-core</module>
 		<module>../snowflake-lib-discovery</module>
-		<module>../snowflake-lib-jetty</module>
+		<module>../snowflake-lib-disk-manager</module>
 		<module>../snowflake-lib-httpclient</module>
+		<module>../snowflake-lib-jetty</module>
 		<module>../snowflake-lib-mvc</module>
+		<module>../snowflake-lib-runtime</module>
 		<module>../snowflake-lib-spring</module>
 		<module>../snowflake-lib-spring-web</module>
 		<module>../snowflake-lib-template</module>
 		<module>../snowflake-lib-vfs</module>
+		<module>../snowflake-lib-webapp</module>
+		<module>../snowflake-lib-webapp-update</module>
 		<module>../snowflake-lib-xgit</module>
 		<module>../snowflake-lib-xgit-vfs</module>
 
 		<!-- module>../snowflake-test-all</module -->
-
 		<module>../snowflake-test-lib</module>
 		<module>../snowflake-tool-project-manager</module>
-		<module>../snowflake-webapp-resource</module>
+
 		<module>../snowflake-webapp-example</module>
+		<module>../snowflake-webapp-module-manager</module>
+		<module>../snowflake-webapp-system</module>
+		<module>../snowflake-webapp-system-installer</module>
 
 	</modules>
 
