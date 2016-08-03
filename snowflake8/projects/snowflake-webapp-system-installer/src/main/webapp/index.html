@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta charset="utf-8" />
+
+<title>BLZ 系统更新程序</title>
+<link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+
+<style type="text/css">
+.panel {
+	margin-top: 20px;
+}
+</style>
+
+</head>
+<body>
+
+	<div class='container'>
+
+		<div class="panel panel-default">
+			<div class="panel-heading">Snowflake 系统更新程序</div>
+
+			<div class="panel-body">
+
+				<table class='table'>
+					<tr>
+						<th></th>
+						<th>当前版本</th>
+						<th>最新版本</th>
+					</tr>
+					<tr class='field-name'>
+						<td>组件名称</td>
+						<td class='va'>-</td>
+						<td class='vb'>-</td>
+					</tr>
+					<tr class='field-version'>
+						<td>版本</td>
+						<td class='va'>-</td>
+						<td class='vb'>-</td>
+					</tr>
+					<tr class='field-sha256sum'>
+						<td>摘要</td>
+						<td class='va'>-</td>
+						<td class='vb'>-</td>
+					</tr>
+					<tr class='field-size'>
+						<td>尺寸</td>
+						<td class='va'>-</td>
+						<td class='vb'>-</td>
+					</tr>
+					<tr class='field-timestamp'>
+						<td>发布时间</td>
+						<td class='va'>-</td>
+						<td class='vb'>-</td>
+					</tr>
+
+					<tr class=''>
+						<td></td>
+						<td class='va'>
+							<button class='btn btn-success btn-do-start '>开始</button>
+						</td>
+						<td class='vb'>
+							<div class='has-new-version  has-new-version-no   '>已是最新版本</div>
+							<div class='has-new-version  has-new-version-yes  '>
+								<span>有更新</span>
+								<button class='btn btn-warning btn-do-update '>更新</button>
+							</div>
+						</td>
+					</tr>
+
+
+				</table>
+
+				<div></div>
+
+			</div>
+		</div>
+
+		<div class="panel panel-default --hide ">
+			<div class="panel-heading">debug</div>
+			<div class="panel-body">
+				<a href='debug.html' class='btn btn-default'>debug</a>
+				<pre id='output'> </pre>
+			</div>
+		</div>
+
+	</div>
+
+	<script src="js/jquery.min.js"></script>
+	<script src="js/bootstrap.js"></script>
+
+	<script type="text/javascript">
+		var the_resp = null;
+
+		$(document).ready(function() {
+
+			$('.btn-do-update').click(function() {
+				do_update('auto');
+			});
+
+			$('.btn-do-start').click(function() {
+				go_start();
+			});
+
+			do_update('check');
+
+			$('.has-new-version-yes').hide();
+			$('.has-new-version-no').hide();
+
+		});
+
+		function go_start() {
+			var meta = the_resp;
+			var url = '/' + meta.installed.name;
+			// alert(url);
+			window.location = url;
+		}
+
+		function do_update(op) {
+
+			var url = "DoUpdate?op=" + op;
+			var output = $('#output');
+			$.post(url, null, function(response, status, xhr) {
+
+				var str = JSON.stringify(response, null, 4);
+				output.text("response: " + str);
+
+				update_ui(response);
+
+			});
+
+		}
+
+		function set_to_ui(key, remote, local) {
+
+			var style_class = 'warning';
+
+			var v2 = remote[key];
+			var v1 = local[key];
+
+			var jq = $('.field-' + key);
+			jq.find('.va').text(v1);
+			jq.find('.vb').text(v2);
+
+			if (v1 == v2) {
+				jq.removeClass(style_class);
+			} else {
+				jq.addClass(style_class);
+			}
+
+		}
+
+		function update_ui(json) {
+
+			var meta = json.meta;
+			var remote = meta.remote;
+			var local = meta.installed;
+
+			set_to_ui('name', remote, local);
+			set_to_ui('sha256sum', remote, local);
+			set_to_ui('size', remote, local);
+			set_to_ui('timestamp', remote, local);
+			set_to_ui('version', remote, local);
+
+			if (remote.sha256sum == local.sha256sum) {
+				$('.has-new-version-yes').hide();
+				$('.has-new-version-no').show();
+			} else {
+				$('.has-new-version-yes').show();
+				$('.has-new-version-no').hide();
+			}
+
+			the_resp = meta;
+
+		}
+	</script>
+
+</body>
+</html>

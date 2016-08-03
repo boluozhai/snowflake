@@ -4,11 +4,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.boluozhai.snowflake</groupId>
-	<artifactId>snowflake-lib-app-server</artifactId>
+	<artifactId>snowflake-webapp-system</artifactId>
 	<version>0.8.0</version>
-	<packaging>jar</packaging>
+	<packaging>war</packaging>
 
-	<name>snowflake-lib-app-server</name>
+	<name>snowflake-webapp-system</name>
 	<url>http://snow.boluozhai.com</url>
 
 	<properties>
@@ -23,23 +23,22 @@
 			<scope>test</scope>
 		</dependency>
 
-
 		<dependency>
 			<groupId>com.boluozhai.snowflake</groupId>
-			<artifactId>snowflake-lib-context</artifactId>
+			<artifactId>snowflake-lib-spring-web</artifactId>
 			<version>0.8.0</version>
 		</dependency>
 
 		<dependency>
 			<groupId>com.boluozhai.snowflake</groupId>
-			<artifactId>snowflake-lib-web</artifactId>
+			<artifactId>snowflake-lib-app-server</artifactId>
 			<version>0.8.0</version>
 		</dependency>
 
 	</dependencies>
 
 	<build>
-		<finalName>snowflake-lib-app-server</finalName>
+		<finalName>snowflake-webapp-system</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

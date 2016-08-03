@@ -16,6 +16,9 @@
         <dependent-module archiveName="snowflake-lib-core-0.8.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/snowflake-lib-core/snowflake-lib-core">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module archiveName="snowflake-lib-web-0.8.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/snowflake-lib-web/snowflake-lib-web">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <dependent-module archiveName="snowflake-lib-mvc-0.8.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/snowflake-lib-mvc/snowflake-lib-mvc">
             <dependency-type>uses</dependency-type>
         </dependent-module>

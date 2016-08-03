@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" 
+ "http://www.springframework.org/dtd/spring-beans-2.0.dtd" >
+<beans>
+
+	<bean
+		id='com.boluozhai.snow.webapp.update_system.pojo.BlzSystemUpdateProperties'
+		class='com.boluozhai.snow.webapp.update_system.pojo.BlzSystemUpdateProperties'>
+
+		<property name="infoUrl">
+			<value>https://code.puyatech.com/debug/blz-system-update/info.txt</value>
+		</property>
+		<property name="httpsOnly">
+			<value>true</value>
+		</property>
+
+	</bean>
+
+</beans>

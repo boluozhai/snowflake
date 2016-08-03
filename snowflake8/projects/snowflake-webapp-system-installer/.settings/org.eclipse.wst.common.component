@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="blz-app-loader">
+        <wb-resource deploy-path="/" source-path="/target/m2e-wtp/web-resources"/>
+        <wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
+        <dependent-module archiveName="snowflake-lib-httpclient-0.8.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/snowflake-lib-httpclient/snowflake-lib-httpclient">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="snowflake-lib-spring-web-0.8.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/snowflake-lib-spring-web/snowflake-lib-spring-web">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="snowflake-lib-spring-0.8.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/snowflake-lib-spring/snowflake-lib-spring">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="snowflake-lib-mvc-0.8.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/snowflake-lib-mvc/snowflake-lib-mvc">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="snowflake-lib-web-0.8.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/snowflake-lib-web/snowflake-lib-web">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="snowflake-lib-appdata-0.8.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/snowflake-lib-appdata/snowflake-lib-appdata">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="snowflake-lib-context-0.8.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/snowflake-lib-context/snowflake-lib-context">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="snowflake-lib-core-0.8.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/snowflake-lib-core/snowflake-lib-core">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="snowflake-lib-app-server-0.8.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/snowflake-lib-app-server/snowflake-lib-app-server">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="snow-lib-update-0.8.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/snow-lib-update/snow-lib-update">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="snowflake-lib-xgit-vfs-0.8.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/snowflake-lib-xgit-vfs/snowflake-lib-xgit-vfs">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="snowflake-lib-vfs-0.8.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/snowflake-lib-vfs/snowflake-lib-vfs">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="snowflake-lib-xgit-0.8.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/snowflake-lib-xgit/snowflake-lib-xgit">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="snowflake-lib-cli-0.8.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/snowflake-lib-cli/snowflake-lib-cli">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <property name="java-output-path" value="/blz-app-loader/target/classes"/>
+        <property name="context-root" value="snow-webapp-update-system"/>
+    </wb-module>
+</project-modules>

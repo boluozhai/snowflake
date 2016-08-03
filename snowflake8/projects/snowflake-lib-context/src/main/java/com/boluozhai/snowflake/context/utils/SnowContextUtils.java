@@ -12,7 +12,7 @@ public class SnowContextUtils {
 		String child = "com.boluozhai.snowflake.context.support.ChildContextBuilderFactory";
 		String javase = "com.boluozhai.snowflake.spring.support.SpringAppContextBuilderFactory";
 		String junit = "com.boluozhai.snowflake.test.support.TestingContextBuilderFactory";
-		String webapp = "com.boluozhai.snowflake.web.context.support.SpringWebContextBuilderFactory";
+		String webapp = "com.boluozhai.snowflake.spring.web.context.support.SpringWebContextBuilderFactory";
 
 	}
 

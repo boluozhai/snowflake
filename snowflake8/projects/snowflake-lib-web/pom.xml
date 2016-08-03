@@ -4,11 +4,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.boluozhai.snowflake</groupId>
-	<artifactId>snowflake-lib-app-server</artifactId>
+	<artifactId>snowflake-lib-web</artifactId>
 	<version>0.8.0</version>
 	<packaging>jar</packaging>
 
-	<name>snowflake-lib-app-server</name>
+	<name>snowflake-lib-web</name>
 	<url>http://snow.boluozhai.com</url>
 
 	<properties>
@@ -16,6 +16,7 @@
 	</properties>
 
 	<dependencies>
+
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -23,6 +24,12 @@
 			<scope>test</scope>
 		</dependency>
 
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.1.0</version>
+			<scope>provided</scope>
+		</dependency>
 
 		<dependency>
 			<groupId>com.boluozhai.snowflake</groupId>
@@ -30,16 +37,10 @@
 			<version>0.8.0</version>
 		</dependency>
 
-		<dependency>
-			<groupId>com.boluozhai.snowflake</groupId>
-			<artifactId>snowflake-lib-web</artifactId>
-			<version>0.8.0</version>
-		</dependency>
-
 	</dependencies>
 
 	<build>
-		<finalName>snowflake-lib-app-server</finalName>
+		<finalName>snowflake-lib-web</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
