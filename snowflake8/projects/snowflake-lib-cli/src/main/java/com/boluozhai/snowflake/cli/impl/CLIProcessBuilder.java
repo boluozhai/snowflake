@@ -28,7 +28,7 @@ final class CLIProcessBuilder {
 
 	public CLIProcess create() {
 
-		String fn = SnowContextUtils.FactoryName.javase;
+		String fn = SnowContextUtils.FactoryName.child;
 		ContextBuilder context_builder = SnowContextUtils.getContextBuilder(
 				context, fn);
 		MyContextBuilderWrapper cbw = new MyContextBuilderWrapper(
