@@ -2,42 +2,32 @@ package com.boluozhai.snowflake.libwebapp.pojo;
 
 public class WebappPOM {
 
-	private String name;
+	private String groupId;
+	private String artifactId;
+	private String version;
 
-	private String projectGroupId;
-	private String projectArtifactId;
-	private String projectVersion;
-
-	public String getName() {
-		return name;
+	public String getGroupId() {
+		return groupId;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setGroupId(String groupId) {
+		this.groupId = groupId;
 	}
 
-	public String getProjectGroupId() {
-		return projectGroupId;
+	public String getArtifactId() {
+		return artifactId;
 	}
 
-	public void setProjectGroupId(String projectGroupId) {
-		this.projectGroupId = projectGroupId;
+	public void setArtifactId(String artifactId) {
+		this.artifactId = artifactId;
 	}
 
-	public String getProjectArtifactId() {
-		return projectArtifactId;
+	public String getVersion() {
+		return version;
 	}
 
-	public void setProjectArtifactId(String projectArtifactId) {
-		this.projectArtifactId = projectArtifactId;
-	}
-
-	public String getProjectVersion() {
-		return projectVersion;
-	}
-
-	public void setProjectVersion(String projectVersion) {
-		this.projectVersion = projectVersion;
+	public void setVersion(String version) {
+		this.version = version;
 	}
 
 }
