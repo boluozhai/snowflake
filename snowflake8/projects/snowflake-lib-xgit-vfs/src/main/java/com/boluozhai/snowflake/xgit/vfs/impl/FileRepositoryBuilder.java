@@ -77,6 +77,7 @@ public class FileRepositoryBuilder {
 		context.context_facade_agent = new FileRepoContextAgent();
 		context.uri = uri;
 		context.option = option;
+		context.context_builder.setURI(uri);
 
 		// set the temporary context core
 		context.context_facade_agent.setCore(context.parent);

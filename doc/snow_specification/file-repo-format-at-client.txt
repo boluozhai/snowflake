@@ -1,0 +1,13 @@
+		== Snowflake 仓库在客户端的具体格式 ==
+		
+		
+[working-directory]		// 工作目录，名称由用户随意设定
+	|- .snow[dir]			// 内部结构参考.git目录　*1
+	|- image			// 图片媒体
+	|- location			// 位置媒体
+	|- music			// 音乐媒体
+	
+*1:	与.git不同的是，‘.snow/objects’的路径模式不是‘xx/xxxx...’，
+	而是‘xx/xx/xx/xxxxxx...’;
+*2:	对象采用的 hash 算法不是 sha-1，而是 sha-256；
+

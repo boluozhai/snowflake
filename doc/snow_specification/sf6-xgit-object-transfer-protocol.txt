@@ -1,0 +1,50 @@
+		SF6 XGit Object Transfer Protocol(S6XOTP)
+
+
+/////////////////////////////////////////////////////////////////////
+
+1.Content-Type:
+	multipart/form-data
+		or
+	application/x-xgit-object-state-list
+
+
+/////////////////////////////////////////////////////////////////////
+
+2.command(@URI.query):
+	=push-object
+	=fetch-object
+	=get-object-state
+	=list-tree			// for push
+	=list-commit		// for push
+
+2.1.command=push-object
+	request.Content-Type: multipart/form-data
+	response.Content-Type: application/x-xgit-object-state-list
+
+2.2.command=fetch-object
+	response.Content-Type: application/x-xgit-object-state-list
+	request.Content-Type: multipart/form-data
+
+2.3.command=get-object-state
+	request.Content-Type: application/x-xgit-object-state-list
+	response.Content-Type: application/x-xgit-object-state-list
+
+
+/////////////////////////////////////////////////////////////////////
+
+3.弱智协议:
+	弱智协议只采用三种方法：
+		push-object
+		fetch-object
+		get-object-state
+
+3.1.push data
+	;
+
+3.2.fetch data
+
+
+/////////////////////////////////////////////////////////////////////
+// EOF
+

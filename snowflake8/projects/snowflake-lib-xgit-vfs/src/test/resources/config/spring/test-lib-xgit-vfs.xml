@@ -53,6 +53,10 @@
 						class='com.boluozhai.snowflake.xgit.vfs.support.FileObjectBankFactory' />
 				</entry>
 
+				<entry key='refs'>
+					<bean class='com.boluozhai.snowflake.xgit.vfs.support.FileRefsManagerFactory' />
+				</entry>
+
 				<entry key='hash_path_mapper'>
 					<bean
 						class='com.boluozhai.snowflake.xgit.vfs.support.FileHashPathMapperFactory' />

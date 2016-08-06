@@ -1,0 +1,17 @@
+		概述
+
+1. 地址格式
+	snow 系统采用多种地址格式：
+
+		*1234567890		// DEA，暂时的，不宜长期保存
+		user*domain.com		// email-like-address，永久的
+		https://domain.com/user	// URL，暂时的，不宜长期保存
+
+	在snow中，‘*’的作用类似于email中的'@'.
+
+2. 参数定义
+
+	2.1	snow仓库的目录名称固定为‘.snow’;
+	2.2	在客户端，snow对象的hash路径模式为‘xx/xx/xx/xxxxxx....’；
+	2.3	snow对象的主要hash算法为sha-256；
+

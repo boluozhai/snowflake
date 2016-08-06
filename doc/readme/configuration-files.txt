@@ -1,0 +1,11 @@
+主要的配置文件分别存于两个地方：
+
+	{git-wk-dir}/snowflake6/sf6-core/src/main/resources/config/spring/
+
+这里的文件名以‘sf6c-’为前缀，是客户端和服务端都可引用的；
+
+	{git-wk-dir}/snowflake6/sf6-service-sdk/src/main/resources/config/spring/
+
+这里的文件名以‘sf6s-’为前缀，只有服务端才可引用；
+
+各个项目的入口配置 ‘applicationContext.xml’ 存放在各自的项目内。

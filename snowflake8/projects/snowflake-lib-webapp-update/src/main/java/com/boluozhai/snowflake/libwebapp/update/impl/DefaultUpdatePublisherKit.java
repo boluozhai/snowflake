@@ -10,6 +10,8 @@ import com.boluozhai.snowflake.libwebapp.pojo.WebappInfo;
 import com.boluozhai.snowflake.libwebapp.pojo.WebappPOM;
 import com.boluozhai.snowflake.libwebapp.pojo.WebappSet;
 import com.boluozhai.snowflake.libwebapp.update.UpdatePublisherKit;
+import com.boluozhai.snowflake.xgit.ObjectId;
+import com.boluozhai.snowflake.xgit.vfs.FileRepository;
 
 public class DefaultUpdatePublisherKit extends DefaultUpdateKit implements
 		UpdatePublisherKit {
@@ -36,8 +38,14 @@ public class DefaultUpdatePublisherKit extends DefaultUpdateKit implements
 
 	@Override
 	public String addWebappsToRepository(WebappSet webapps) {
-		// TODO Auto-generated method stub
-		return null;
+		FileRepository repo = this.getRepository();
+		WarBlobImporter impo = new WarBlobImporter(repo);
+		Map<String, WebappInfo> table = webapps.getApps();
+		for (WebappInfo info : table.values()) {
+			impo.doImport(info);
+		}
+		ObjectId id = impo.makeCommit("debug");
+		return id.toString();
 	}
 
 	@Override
