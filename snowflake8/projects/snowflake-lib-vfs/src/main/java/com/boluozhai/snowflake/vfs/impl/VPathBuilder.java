@@ -42,10 +42,21 @@ final class VPathBuilder {
 
 		private final InnerPath _parent;
 		private final VFile _file;
+		private String _string;
 
 		public InnerPath(InnerPath parent, VFile file) {
 			this._parent = parent;
 			this._file = file;
+		}
+
+		@Override
+		public String toString() {
+			String s = this._string;
+			if (s == null) {
+				s = "path:" + this._file.toString();
+				this._string = s;
+			}
+			return s;
 		}
 
 		@Override
