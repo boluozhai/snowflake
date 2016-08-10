@@ -3,6 +3,7 @@
  "http://www.springframework.org/dtd/spring-beans-2.0.dtd" >
 <beans>
 
-	<import resource="classpath:snowflake-webapp-system.xml" />
+	<bean id='com.boluozhai.snowflake.libwebapp.manager.WebAppManagerFactory'
+		class='com.boluozhai.snowflake.libwebapp.support.DefaultWebAppManagerFactory'></bean>
 
 </beans>

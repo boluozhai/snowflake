@@ -20,14 +20,19 @@
 	</listener>
 
 
+	<!-- servlet -->
+
 	<servlet>
-		<servlet-name>rest-example</servlet-name>
-		<servlet-class>com.boluozhai.snowflake.webapp.system.servlet.RestExampleServlet</servlet-class>
+		<servlet-name>rest-root</servlet-name>
+		<servlet-class>com.boluozhai.snowflake.webapp.system.servlet.RestRootServlet</servlet-class>
 	</servlet>
 
+
+	<!-- mapping -->
+
 	<servlet-mapping>
-		<servlet-name>rest-example</servlet-name>
-		<url-pattern>/REST/Example/*</url-pattern>
+		<servlet-name>rest-root</servlet-name>
+		<url-pattern>/REST/*</url-pattern>
 	</servlet-mapping>
 
 

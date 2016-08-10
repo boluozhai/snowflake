@@ -2,7 +2,7 @@
 
 "scheme":"com.boluozhai.snowflake",
 "namespace":"com.boluozhai.snowflake.webapp.res",
-"name":"res",
+"name":"system",
 "title":"web资源",
 "rest":"REST/",
 
