@@ -1,5 +1,7 @@
 package com.boluozhai.snowflake.libwebapp.update;
 
+import java.io.IOException;
+
 import com.boluozhai.snowflake.context.SnowContext;
 import com.boluozhai.snowflake.libwebapp.pojo.WebappSet;
 import com.boluozhai.snowflake.libwebapp.update.impl.DefaultUpdatePublisherKit;
@@ -18,9 +20,10 @@ public interface UpdatePublisherKit extends UpdateKit {
 
 	/*********
 	 * @return the commit hash id
+	 * @throws IOException
 	 * */
 
-	String addWebappsToRepository(WebappSet webapps);
+	String addWebappsToRepository(WebappSet webapps) throws IOException;
 
 	void locateWarFiles(WebappSet webapp_set);
 

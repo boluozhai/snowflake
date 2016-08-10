@@ -1,6 +1,7 @@
 package com.boluozhai.snowflake.libwebapp.update.impl;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URI;
 import java.util.Map;
 
@@ -37,7 +38,7 @@ public class DefaultUpdatePublisherKit extends DefaultUpdateKit implements
 	}
 
 	@Override
-	public String addWebappsToRepository(WebappSet webapps) {
+	public String addWebappsToRepository(WebappSet webapps) throws IOException {
 		FileRepository repo = this.getRepository();
 		WarBlobImporter impo = new WarBlobImporter(repo);
 		Map<String, WebappInfo> table = webapps.getApps();

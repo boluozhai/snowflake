@@ -1,6 +1,7 @@
 package com.boluozhai.snowflake.xgit.vfs;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -17,6 +18,7 @@ import com.boluozhai.snowflake.xgit.XGit;
 import com.boluozhai.snowflake.xgit.XGitContext;
 import com.boluozhai.snowflake.xgit.dao.CommitDAO;
 import com.boluozhai.snowflake.xgit.dao.TreeDAO;
+import com.boluozhai.snowflake.xgit.objects.ObjectBank;
 import com.boluozhai.snowflake.xgit.pojo.CommitObject;
 import com.boluozhai.snowflake.xgit.pojo.PlainId;
 import com.boluozhai.snowflake.xgit.pojo.TreeItem;
@@ -56,8 +58,9 @@ public class TestGitObjectsRW {
 
 			// end
 
-			// } catch (IOException e) {
-			// e.printStackTrace();
+		} catch (IOException e) {
+
+			e.printStackTrace();
 
 		} finally {
 			tester.close(testing);
@@ -66,7 +69,7 @@ public class TestGitObjectsRW {
 	}
 
 	private void inner_iter_tree_nodes(Repository repo, ObjectId tree_id,
-			String path, int depth_limit) {
+			String path, int depth_limit) throws IOException {
 
 		// TODO Auto-generated method stub
 
@@ -116,8 +119,13 @@ public class TestGitObjectsRW {
 
 	}
 
-	private CommitObject inner_get_commit(Repository repo, ObjectId commit_id) {
-		CommitDAO dao = CommitDAO.Factory.create(repo);
+	private CommitObject inner_get_commit(Repository repo, ObjectId commit_id)
+			throws IOException {
+
+		ObjectBank bank = repo.context().getBean(XGitContext.component.objects,
+				ObjectBank.class);
+
+		CommitDAO dao = CommitDAO.Factory.create(bank);
 		CommitObject commit = dao.getCommit(commit_id);
 		return commit;
 	}

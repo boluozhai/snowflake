@@ -19,6 +19,7 @@ import com.boluozhai.snowflake.xgit.dao.CommitDAO;
 import com.boluozhai.snowflake.xgit.dao.TreeDAO;
 import com.boluozhai.snowflake.xgit.objects.GitObject;
 import com.boluozhai.snowflake.xgit.objects.GitObjectBuilder;
+import com.boluozhai.snowflake.xgit.objects.ObjectBank;
 import com.boluozhai.snowflake.xgit.pojo.CommitObject;
 import com.boluozhai.snowflake.xgit.pojo.PlainId;
 import com.boluozhai.snowflake.xgit.pojo.TreeItem;
@@ -111,9 +112,11 @@ public class WarBlobImporter {
 
 	}
 
-	public ObjectId makeCommit(String branch_name) {
+	public ObjectId makeCommit(String branch_name) throws IOException {
 
 		FileRepository repo = this._repo;
+		ObjectBank bank = repo.context().getBean(XGitContext.component.objects,
+				ObjectBank.class);
 
 		// make tree
 		TreeObject tree = new TreeObject();
@@ -124,7 +127,7 @@ public class WarBlobImporter {
 		// make commit
 		CommitObject commit = new CommitObject();
 		this.inner_make_commit(commit, tree_id, tree);
-		CommitDAO commit_dao = CommitDAO.Factory.create(repo);
+		CommitDAO commit_dao = CommitDAO.Factory.create(bank);
 		ObjectId commit_id = commit_dao.save(commit);
 
 		return commit_id;

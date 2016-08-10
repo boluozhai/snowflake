@@ -58,6 +58,7 @@ public class CommitLikedTextObject {
 
 	}
 
+	private String type;
 	private Map<String, Header> head;
 	private String body;
 
@@ -112,6 +113,14 @@ public class CommitLikedTextObject {
 			head.put(key, header);
 		}
 		header.add(value);
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 }

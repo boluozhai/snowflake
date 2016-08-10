@@ -3,26 +3,22 @@ package com.boluozhai.snowflake.xgit.dao.impl;
 import java.io.IOException;
 
 import com.boluozhai.snowflake.xgit.ObjectId;
-import com.boluozhai.snowflake.xgit.XGitContext;
 import com.boluozhai.snowflake.xgit.dao.CommitDAO;
 import com.boluozhai.snowflake.xgit.objects.GitObject;
 import com.boluozhai.snowflake.xgit.objects.ObjectBank;
 import com.boluozhai.snowflake.xgit.pojo.CommitObject;
-import com.boluozhai.snowflake.xgit.repository.Repository;
 
 public class DefaultCommitDAOFactory {
 
-	public static CommitDAO create(Repository repo) {
-		return new MyDAO(repo);
+	public static CommitDAO create(ObjectBank bank) {
+		return new MyDAO(bank);
 	}
 
 	private static class MyDAO implements CommitDAO {
 
 		private final ObjectBank _bank;
 
-		public MyDAO(Repository repo) {
-			ObjectBank bank = repo.getComponentContext().getBean(
-					XGitContext.component.objects, ObjectBank.class);
+		public MyDAO(ObjectBank bank) {
 			this._bank = bank;
 		}
 
@@ -41,7 +37,7 @@ public class DefaultCommitDAOFactory {
 		}
 
 		@Override
-		public ObjectId save(CommitObject commit) {
+		public ObjectId save(CommitObject commit) throws IOException {
 			GitObject go = CommitLikedTextObjectDAO.save(commit, _bank);
 			return go.id();
 		}

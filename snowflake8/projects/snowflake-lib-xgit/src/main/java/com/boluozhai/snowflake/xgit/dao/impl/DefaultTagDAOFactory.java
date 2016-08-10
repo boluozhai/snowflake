@@ -39,7 +39,7 @@ public class DefaultTagDAOFactory {
 		}
 
 		@Override
-		public ObjectId save(TagObject tag) {
+		public ObjectId save(TagObject tag) throws IOException {
 			GitObject go = CommitLikedTextObjectDAO.save(tag, _bank);
 			return go.id();
 		}

@@ -15,6 +15,8 @@ public interface ReferenceManager extends XGitComponent {
 		String refs_heads = "refs/heads";
 		String refs_remotes = "refs/remotes";
 
+		String refs_xgit = "refs/xgit";
+
 	}
 
 	Reference getReference(String name);

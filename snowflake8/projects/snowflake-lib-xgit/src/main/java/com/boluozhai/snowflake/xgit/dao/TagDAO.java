@@ -1,5 +1,7 @@
 package com.boluozhai.snowflake.xgit.dao;
 
+import java.io.IOException;
+
 import com.boluozhai.snowflake.xgit.ObjectId;
 import com.boluozhai.snowflake.xgit.dao.impl.DefaultTagDAOFactory;
 import com.boluozhai.snowflake.xgit.pojo.TagObject;
@@ -15,8 +17,8 @@ public interface TagDAO {
 
 	}
 
-	TagObject getTag(ObjectId id);
+	TagObject getTag(ObjectId id) throws IOException;
 
-	ObjectId save(TagObject tree);
+	ObjectId save(TagObject tree) throws IOException;
 
 }
