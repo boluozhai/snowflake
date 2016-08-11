@@ -6,10 +6,23 @@ public class CommitObject extends CommitLikedTextObject {
 
 	public interface KEY {
 
-		String tree = "tree";
+		String author = "author";
+		String committer = "committer";
 		String parent = "parent";
-		String time = "time";
+		String tree = "tree";
 
+		String time = "time"; // not standard
+
+	}
+
+	public void setAuthor(Operator op) {
+		String s = op.toString();
+		this.setHeaderValue(KEY.author, s);
+	}
+
+	public void setCommitter(Operator op) {
+		String s = op.toString();
+		this.setHeaderValue(KEY.committer, s);
 	}
 
 	public void setTree(ObjectId id) {
@@ -49,6 +62,22 @@ public class CommitObject extends CommitLikedTextObject {
 			ret[i] = ObjectId.Factory.create(s);
 		}
 		return ret;
+	}
+
+	public Operator getAuthor() {
+		String s = this.getHeaderValue(KEY.author);
+		if (s == null) {
+			return null;
+		}
+		return Operator.parse(s);
+	}
+
+	public Operator getCommitter() {
+		String s = this.getHeaderValue(KEY.committer);
+		if (s == null) {
+			return null;
+		}
+		return Operator.parse(s);
 	}
 
 }

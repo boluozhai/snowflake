@@ -20,6 +20,7 @@ import com.boluozhai.snowflake.xgit.dao.CommitDAO;
 import com.boluozhai.snowflake.xgit.dao.TreeDAO;
 import com.boluozhai.snowflake.xgit.objects.ObjectBank;
 import com.boluozhai.snowflake.xgit.pojo.CommitObject;
+import com.boluozhai.snowflake.xgit.pojo.Operator;
 import com.boluozhai.snowflake.xgit.pojo.PlainId;
 import com.boluozhai.snowflake.xgit.pojo.TreeItem;
 import com.boluozhai.snowflake.xgit.pojo.TreeObject;
@@ -127,6 +128,21 @@ public class TestGitObjectsRW {
 
 		CommitDAO dao = CommitDAO.Factory.create(bank);
 		CommitObject commit = dao.getCommit(commit_id);
+
+		Operator author = commit.getAuthor();
+		Operator committer = commit.getCommitter();
+		ObjectId tree = commit.getTree();
+		ObjectId[] parents = commit.getParents();
+
+		System.out.format("     author: %s\n", author);
+		System.out.format("  committer: %s\n", committer);
+		System.out.format("       tree: %s\n", tree);
+		if (parents != null) {
+			for (ObjectId parent : parents) {
+				System.out.format("  parent: %s\n", parent);
+			}
+		}
+
 		return commit;
 	}
 
