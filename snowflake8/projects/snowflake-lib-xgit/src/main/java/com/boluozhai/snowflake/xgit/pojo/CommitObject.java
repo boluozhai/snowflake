@@ -16,13 +16,23 @@ public class CommitObject extends CommitLikedTextObject {
 	}
 
 	public void setAuthor(Operator op) {
-		String s = op.toString();
-		this.setHeaderValue(KEY.author, s);
+		final String key = KEY.author;
+		if (op == null) {
+			this.setHeaderValue(key, null);
+		} else {
+			String s = op.toString();
+			this.setHeaderValue(key, s);
+		}
 	}
 
 	public void setCommitter(Operator op) {
-		String s = op.toString();
-		this.setHeaderValue(KEY.committer, s);
+		final String key = KEY.committer;
+		if (op == null) {
+			this.setHeaderValue(key, null);
+		} else {
+			String s = op.toString();
+			this.setHeaderValue(key, s);
+		}
 	}
 
 	public void setTree(ObjectId id) {

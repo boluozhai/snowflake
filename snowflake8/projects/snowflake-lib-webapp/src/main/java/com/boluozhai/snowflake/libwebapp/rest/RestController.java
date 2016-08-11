@@ -11,8 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 public class RestController implements RequestDispatcher {
 
-	@Override
-	public final void forward(ServletRequest req, ServletResponse res)
+	private final void dispatch(ServletRequest req, ServletResponse res)
 			throws ServletException, IOException {
 
 		HttpServletRequest request = (HttpServletRequest) req;
@@ -39,6 +38,18 @@ public class RestController implements RequestDispatcher {
 
 	}
 
+	@Override
+	public final void forward(ServletRequest request, ServletResponse response)
+			throws ServletException, IOException {
+		this.dispatch(request, response);
+	}
+
+	@Override
+	public final void include(ServletRequest request, ServletResponse response)
+			throws ServletException, IOException {
+		this.dispatch(request, response);
+	}
+
 	protected void rest_get(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 	}
@@ -53,12 +64,6 @@ public class RestController implements RequestDispatcher {
 
 	protected void rest_delete(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-	}
-
-	@Override
-	public final void include(ServletRequest request, ServletResponse response)
-			throws ServletException, IOException {
-		this.forward(request, response);
 	}
 
 }

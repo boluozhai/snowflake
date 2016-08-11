@@ -19,6 +19,7 @@ import com.boluozhai.snowflake.xgit.XGitContext;
 import com.boluozhai.snowflake.xgit.dao.CommitDAO;
 import com.boluozhai.snowflake.xgit.objects.ObjectBank;
 import com.boluozhai.snowflake.xgit.pojo.CommitObject;
+import com.boluozhai.snowflake.xgit.pojo.Operator;
 import com.boluozhai.snowflake.xgit.refs.Reference;
 import com.boluozhai.snowflake.xgit.refs.ReferenceManager;
 import com.boluozhai.snowflake.xgit.vfs.FileRepository;
@@ -103,7 +104,7 @@ public class DefaultUpdatePublisherKit extends DefaultUpdateKit implements
 			// apps
 			Map<String, WebappInfo> apps = webapps.getApps();
 			List<String> keys = new ArrayList<String>(apps.keySet());
-			List<WebappInfo> list = new ArrayList<>();
+			List<WebappInfo> list = new ArrayList<WebappInfo>();
 			Collections.sort(keys);
 			for (String key : keys) {
 				list.add(apps.get(key));
@@ -134,20 +135,49 @@ public class DefaultUpdatePublisherKit extends DefaultUpdateKit implements
 					XGitContext.component.refs, ReferenceManager.class);
 			ObjectBank bank = repo.context().getBean(
 					XGitContext.component.objects, ObjectBank.class);
+			CommitDAO commit_dao = CommitDAO.Factory.create(bank);
 
 			// load commit
-			Reference ref_1 = refs.getReference(Refs.add);
-			Reference ref_2 = refs.getReference(Refs.commit);
-			CommitDAO commit_dao = CommitDAO.Factory.create(bank);
-			CommitObject commit = commit_dao.getCommit(ref_1.getTargetId());
+			final Reference ref_1 = refs.getReference(Refs.add);
+			final Reference ref_2 = refs.getReference(Refs.commit);
 
-			// modify commit
-			commit.setBody("the update-log");
-			commit.setHeaderValue("version", "v" + System.currentTimeMillis());
+			final ObjectId commit1_id = ref_1.getTargetId();
+			final ObjectId commit2_id = ref_2.getTargetId();
+
+			final CommitObject commit1 = commit_dao.getCommit(commit1_id);
+			final CommitObject commit2 = commit_dao.getCommit(commit2_id);
+
+			final ObjectId tree1_id = commit1.getTree();
+			final ObjectId tree2_id = commit2.getTree();
+
+			if (tree1_id.equals(tree2_id)) {
+				System.out.println("nothing changed.");
+				return;
+			}
+
+			// new commit
+
+			final Operator committer = new Operator();
+			final CommitObject commit3 = new CommitObject();
+
+			committer.setMail("N/A");
+			committer.setName(this.getClass().getName());
+			committer.setTime(System.currentTimeMillis());
+			committer.setZone(0);
+
+			String message = "update-log";
+			String version = "v" + committer.getTime();
+
+			commit3.setHeaderValue("version", version);
+			commit3.setBody(message);
+			commit3.setAuthor(commit1.getAuthor());
+			commit3.setTree(commit1.getTree());
+			commit3.setCommitter(committer);
+			commit3.addParent(commit2_id);
 
 			// save commit
-			ObjectId commit2_id = commit_dao.save(commit);
-			ref_2.setTargetId(commit2_id);
+			ObjectId commit3_id = commit_dao.save(commit3);
+			ref_2.setTargetId(commit3_id);
 
 		} catch (IOException e) {
 			throw new RuntimeException(e);
