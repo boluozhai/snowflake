@@ -33,9 +33,17 @@
 
 		<dependency>
 			<groupId>com.boluozhai.snowflake</groupId>
+			<artifactId>snowflake-test-lib</artifactId>
+			<version>0.8.0</version>
+		</dependency>
+
+
+		<dependency>
+			<groupId>com.boluozhai.snowflake</groupId>
 			<artifactId>snowflake-lib-context</artifactId>
 			<version>0.8.0</version>
 		</dependency>
+
 
 		<dependency>
 			<groupId>com.boluozhai.snowflake</groupId>
@@ -58,6 +66,12 @@
 		<dependency>
 			<groupId>com.boluozhai.snowflake</groupId>
 			<artifactId>snowflake-lib-xgit-vfs</artifactId>
+			<version>0.8.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.boluozhai.snowflake</groupId>
+			<artifactId>snowflake-lib-cli</artifactId>
 			<version>0.8.0</version>
 		</dependency>
 

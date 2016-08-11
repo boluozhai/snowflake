@@ -40,6 +40,9 @@
         <dependent-module archiveName="snowflake-lib-xgit-0.8.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/snowflake-lib-xgit/snowflake-lib-xgit">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module archiveName="snowflake-lib-cli-0.8.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/snowflake-lib-cli/snowflake-lib-cli">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <property name="java-output-path" value="/blz-app-loader/target/classes"/>
         <property name="context-root" value="snowflake-webapp-system-installer"/>
     </wb-module>

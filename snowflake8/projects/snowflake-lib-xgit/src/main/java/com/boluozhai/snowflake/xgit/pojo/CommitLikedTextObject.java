@@ -28,27 +28,35 @@ public class CommitLikedTextObject {
 			this.values = values;
 		}
 
-		public void add(String newValue) {
+		public int count() {
 
+			int cnt = 0;
 			String v1 = this.value;
 			List<String> v2 = this.values;
 
-			if (v1 == null) {
-				if (v2 == null) {
-					this.value = newValue;
-				} else {
-					v2.add(newValue);
-				}
-			} else {
-				if (v2 == null) {
-					v2 = new ArrayList<String>();
-				}
-				v2.add(v1);
-				v2.add(newValue);
-				this.values = v2;
-				this.value = null;
+			if (v1 != null) {
+				cnt++;
 			}
 
+			if (v2 != null) {
+				cnt += v2.size();
+			}
+
+			return cnt;
+		}
+
+		public void add(String newValue) {
+			String v1 = this.value;
+			List<String> v2 = this.values;
+			if (v1 == null) {
+				this.value = newValue;
+				return;
+			}
+			if (v2 == null) {
+				v2 = new ArrayList<String>();
+				this.values = v2;
+			}
+			v2.add(newValue);
 		}
 
 		public void set(String newValue) {
@@ -56,6 +64,31 @@ public class CommitLikedTextObject {
 			this.values = null;
 		}
 
+		public String get() {
+			String v1 = this.value;
+			List<String> v2 = this.values;
+			if (v1 != null) {
+				return v1;
+			} else if (v2 != null) {
+				if (v2.size() > 0) {
+					return v2.get(0);
+				}
+			}
+			return null;
+		}
+
+		public String[] values() {
+			String v1 = this.value;
+			List<String> v2 = this.values;
+			List<String> list = new ArrayList<String>();
+			if (v1 != null) {
+				list.add(v1);
+			}
+			if (v2 != null) {
+				list.addAll(v2);
+			}
+			return list.toArray(new String[list.size()]);
+		}
 	}
 
 	private String type;
@@ -87,16 +120,16 @@ public class CommitLikedTextObject {
 		if (header == null) {
 			return null;
 		} else {
-			return header.value;
+			return header.get();
 		}
 	}
 
-	public List<String> getHeaderValues(String key) {
+	public String[] getHeaderValues(String key) {
 		Header header = head.get(key);
 		if (header == null) {
 			return null;
 		} else {
-			return header.values;
+			return header.values();
 		}
 	}
 

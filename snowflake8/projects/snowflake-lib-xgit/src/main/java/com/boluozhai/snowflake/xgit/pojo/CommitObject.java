@@ -1,7 +1,5 @@
 package com.boluozhai.snowflake.xgit.pojo;
 
-import java.util.List;
-
 import com.boluozhai.snowflake.xgit.ObjectId;
 
 public class CommitObject extends CommitLikedTextObject {
@@ -28,6 +26,9 @@ public class CommitObject extends CommitLikedTextObject {
 
 	public long getTime() {
 		String s = this.getHeaderValue(KEY.time);
+		if (s == null) {
+			return 0;
+		}
 		long time = Long.parseLong(s);
 		return time * 1000;
 	}
@@ -38,11 +39,13 @@ public class CommitObject extends CommitLikedTextObject {
 	}
 
 	public ObjectId[] getParents() {
-		List<String> list = this.getHeaderValues(KEY.parent);
-		String[] array = list.toArray(new String[list.size()]);
-		ObjectId[] ret = new ObjectId[array.length];
+		String[] list = this.getHeaderValues(KEY.parent);
+		if (list == null) {
+			return null;
+		}
+		ObjectId[] ret = new ObjectId[list.length];
 		for (int i = ret.length - 1; i >= 0; i--) {
-			String s = array[i];
+			String s = list[i];
 			ret[i] = ObjectId.Factory.create(s);
 		}
 		return ret;

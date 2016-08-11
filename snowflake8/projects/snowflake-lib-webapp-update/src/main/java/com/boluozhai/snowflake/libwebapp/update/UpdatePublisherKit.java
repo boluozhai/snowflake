@@ -5,6 +5,7 @@ import java.io.IOException;
 import com.boluozhai.snowflake.context.SnowContext;
 import com.boluozhai.snowflake.libwebapp.pojo.WebappSet;
 import com.boluozhai.snowflake.libwebapp.update.impl.DefaultUpdatePublisherKit;
+import com.boluozhai.snowflake.xgit.ObjectId;
 
 public interface UpdatePublisherKit extends UpdateKit {
 
@@ -16,6 +17,12 @@ public interface UpdatePublisherKit extends UpdateKit {
 
 	}
 
+	void add();
+
+	void commit();
+
+	void push();
+
 	WebappSet loadWebappPomList();
 
 	/*********
@@ -23,7 +30,7 @@ public interface UpdatePublisherKit extends UpdateKit {
 	 * @throws IOException
 	 * */
 
-	String addWebappsToRepository(WebappSet webapps) throws IOException;
+	ObjectId addWebappsToRepository(WebappSet webapps) throws IOException;
 
 	void locateWarFiles(WebappSet webapp_set);
 
