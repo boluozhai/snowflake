@@ -1,0 +1,47 @@
+<html>
+<head>
+<meta charset='utf-8' />
+</head>
+<body>
+
+	<div>
+		<h1>[1] 一些约定</h1>
+
+		<ol>
+			<li>默认UDP端口：10217;</li>
+			<li>所有的服务最终落实为一个RESTful-URI地址（Runtime）;</li>
+			<li>每个服务应该自包含一个 manifest.json;</li>
+			<li>应该通过节点证书来识别每个节点，而不是节点的URI，因为URI可能会发生变化。特别的，如果证书绑定了URI，那么该URI为不可变;</li>
+		</ol>
+
+	</div>
+
+	<div>
+		<h1>[2] 本地服务发现过程</h1>
+		<ol>
+			<li>监听UDP端口：10217;</li>
+			<li>通过该UDP端口收发数据;</li>
+			<li>定位并获取服务引导文件;</li>
+			<li>根据收到的数据包查找服务URI;</li>
+		</ol>
+	</div>
+
+	<div>
+		<h1>[3] 公共（遠程）本地服务发现过程</h1>
+		<ol>
+			<li>通过UDP端口10217;</li>
+			<li>通过HTTP获取服务引导文件（Properties-like）;</li>
+		</ol>
+		<div>*在已知URI的情况下，可以跳过第一步，直接从第二步开始。</div>
+	</div>
+
+	<div>
+		<h1>[4] manifest.json 格式</h1>
+	</div>
+
+	<div>
+		<h1>[5] discovery.properties 格式</h1>
+	</div>
+
+</body>
+</html>

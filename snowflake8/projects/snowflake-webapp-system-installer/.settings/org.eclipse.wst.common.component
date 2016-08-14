@@ -34,6 +34,9 @@
         <dependent-module archiveName="snowflake-lib-webapp-update-0.8.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/snowflake-lib-webapp-update/snowflake-lib-webapp-update">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module archiveName="snowflake-test-lib-0.8.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/snowflake-test-lib/snowflake-test-lib">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <dependent-module archiveName="snowflake-lib-xgit-vfs-0.8.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/snowflake-lib-xgit-vfs/snowflake-lib-xgit-vfs">
             <dependency-type>uses</dependency-type>
         </dependent-module>
