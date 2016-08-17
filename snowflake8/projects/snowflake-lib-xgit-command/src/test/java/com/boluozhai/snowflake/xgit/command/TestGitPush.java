@@ -4,7 +4,6 @@ import org.junit.Test;
 
 import com.boluozhai.snowflake.cli.CLIUtils;
 import com.boluozhai.snowflake.cli.client.CLIClient;
-import com.boluozhai.snowflake.cli.client.CLIProcess;
 import com.boluozhai.snowflake.test.TestContext;
 import com.boluozhai.snowflake.test.Tester;
 import com.boluozhai.snowflake.test.Testing;
@@ -23,14 +22,10 @@ public class TestGitPush {
 			testing = tester.open(this);
 			TestContext context = testing.context();
 
-			String cmd = "git add .";
+			String cmd = "git push";
 
 			CLIClient client = CLIUtils.getClient(context);
-			CLIProcess proc = client.execute(context, cmd);
-			proc.run();
-
-			// } catch (InterruptedException e) {
-			// throw new RuntimeException(e);
+			client.execute(context, cmd);
 
 		} finally {
 			tester.close(testing);
