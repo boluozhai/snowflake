@@ -14,7 +14,8 @@
 		<module>../snowflake-lib-cli</module>
 		<module>../snowflake-lib-context</module>
 		<module>../snowflake-lib-core</module>
-		<module>../snowflake-lib-discovery</module>
+		<module>../snowflake-lib-discovery-client</module>
+		<module>../snowflake-lib-discovery-server</module>
 		<module>../snowflake-lib-disk-manager</module>
 		<module>../snowflake-lib-httpclient</module>
 		<module>../snowflake-lib-jetty</module>
