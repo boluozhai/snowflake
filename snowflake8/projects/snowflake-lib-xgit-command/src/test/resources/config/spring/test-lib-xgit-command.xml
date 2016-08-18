@@ -3,6 +3,11 @@
  "http://www.springframework.org/dtd/spring-beans-2.0.dtd" >
 <beans>
 
+
+	<import resource="classpath:config/spring/snowflake-lib-xgit-vfs.xml" />
+	<import resource="classpath:config/spring/snowflake-lib-xgit-command.xml" />
+
+
 	<bean id='com.boluozhai.snowflake.appdata.AppDataAgent'
 		class='com.boluozhai.snowflake.appdata.support.DefaultAppDataAgent' />
 
@@ -12,33 +17,10 @@
 	<bean id='com.boluozhai.snowflake.cli.service.CLIServiceFactory'
 		class='com.boluozhai.snowflake.cli.support.DefaultCliServiceFactory' />
 
-	<bean class='com.boluozhai.snowflake.cli.CommandSet'>
-		<property name="enable" value="true" />
-		<property name="commands">
-			<map>
-				<entry key='git'>
-					<bean class='com.boluozhai.snowflake.xgit.command.MainGit'></bean>
-				</entry>
-			</map>
-		</property>
-	</bean>
+	<bean id='com.boluozhai.snowflake.xgit.utils.RepositoryAgent'
+		class='com.boluozhai.snowflake.xgit.utils.DefaultRepositoryAgent' />
 
-	<bean class='com.boluozhai.snowflake.cli.CommandSet'>
-		<property name="enable" value="true" />
-		<property name="prefix" value='git-' />
-		<property name="commands">
-			<map>
-				<entry key='add'>
-					<bean class='com.boluozhai.snowflake.xgit.command.GitAdd'></bean>
-				</entry>
-				<entry key='commit'>
-					<bean class='com.boluozhai.snowflake.xgit.command.GitCommit'></bean>
-				</entry>
-				<entry key='push'>
-					<bean class='com.boluozhai.snowflake.xgit.command.GitPush'></bean>
-				</entry>
-			</map>
-		</property>
-	</bean>
+	<bean id='com.boluozhai.snowflake.xgit.utils.CurrentLocation'
+		class='com.boluozhai.snowflake.xgit.utils.DefaultCurrentLocation' />
 
 </beans>

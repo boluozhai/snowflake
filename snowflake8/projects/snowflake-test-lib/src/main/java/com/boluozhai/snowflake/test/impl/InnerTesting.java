@@ -1,13 +1,15 @@
 package com.boluozhai.snowflake.test.impl;
 
 import java.io.File;
+import java.net.URI;
 
+import com.boluozhai.snowflake.context.SnowContext;
 import com.boluozhai.snowflake.test.TestContext;
 import com.boluozhai.snowflake.test.Testing;
 
 final class InnerTesting implements Testing {
 
-	private final TestContext _context;
+	private TestContext _context;
 	private final Object _target;
 
 	public InnerTesting(TestContext sc, Object target) {
@@ -51,6 +53,34 @@ final class InnerTesting implements Testing {
 		DirTools.copy(temp_dir, wk_dir);
 
 		System.out.println("[testing...]");
+
+		// update context
+		this.inner_update_context(wk_dir);
+
+	}
+
+	private void inner_update_context(File wk_dir) {
+
+		URI uri = wk_dir.toURI();
+		TestContext context = this._context;
+		Object target = context.getTestTarget();
+		this._context = new MyContext(context, target, uri);
+
+	}
+
+	private class MyContext extends TestContextWrapper {
+
+		private final URI _uri;
+
+		public MyContext(SnowContext context, Object target, URI uri) {
+			super(context, target);
+			this._uri = uri;
+		}
+
+		@Override
+		public URI getURI() {
+			return this._uri;
+		}
 
 	}
 

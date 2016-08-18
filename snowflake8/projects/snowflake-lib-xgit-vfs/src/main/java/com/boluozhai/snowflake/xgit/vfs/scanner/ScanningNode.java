@@ -1,5 +1,6 @@
 package com.boluozhai.snowflake.xgit.vfs.scanner;
 
+import com.boluozhai.snowflake.vfs.VFile;
 import com.boluozhai.snowflake.vfs.VPath;
 
 public interface ScanningNode {
@@ -9,6 +10,8 @@ public interface ScanningNode {
 	FileScanner getScanner();
 
 	VPath getPath();
+
+	VFile getFile();
 
 	Object getUserData();
 

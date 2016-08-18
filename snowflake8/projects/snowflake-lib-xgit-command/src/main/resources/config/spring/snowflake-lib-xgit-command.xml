@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" 
+ "http://www.springframework.org/dtd/spring-beans-2.0.dtd" >
+<beans>
+
+	<bean class='com.boluozhai.snowflake.cli.CommandSet'>
+		<property name="enable" value="true" />
+		<property name="commands">
+			<map>
+				<entry key='git'>
+					<bean class='com.boluozhai.snowflake.xgit.command.MainGit'></bean>
+				</entry>
+			</map>
+		</property>
+	</bean>
+
+	<bean class='com.boluozhai.snowflake.cli.CommandSet'>
+		<property name="enable" value="true" />
+		<property name="prefix" value='git-' />
+		<property name="commands">
+			<map>
+				<entry key='add'>
+					<bean class='com.boluozhai.snowflake.xgit.command.GitAdd'></bean>
+				</entry>
+				<entry key='commit'>
+					<bean class='com.boluozhai.snowflake.xgit.command.GitCommit'></bean>
+				</entry>
+				<entry key='push'>
+					<bean class='com.boluozhai.snowflake.xgit.command.GitPush'></bean>
+				</entry>
+			</map>
+		</property>
+	</bean>
+
+</beans>

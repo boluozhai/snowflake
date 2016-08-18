@@ -1,5 +1,6 @@
 package com.boluozhai.snowflake.xgit.vfs.impl.scanner;
 
+import com.boluozhai.snowflake.vfs.VFile;
 import com.boluozhai.snowflake.vfs.VPath;
 import com.boluozhai.snowflake.xgit.vfs.scanner.FileScanner;
 import com.boluozhai.snowflake.xgit.vfs.scanner.ScanningNode;
@@ -46,6 +47,11 @@ public class InnerScanningNode implements ScanningNode {
 	public ScanningNode child(String name) {
 		VPath child_path = _path.child(name);
 		return new InnerScanningNode(_scanner, child_path);
+	}
+
+	@Override
+	public VFile getFile() {
+		return this._path.file();
 	}
 
 }
