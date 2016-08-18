@@ -28,7 +28,7 @@ final class InnerScanner implements FileScanner {
 		final InnerScanner scanner = new InnerScanner();
 		final VPath root_path = works.getFile().toPath();
 		final InnerScanningNode root_node = new InnerScanningNode(scanner,
-				root_path);
+				root_path, null);
 		scanner._workspace = works;
 		scanner._user_data_factory = ud_factory;
 		scanner._base_path = root_path;

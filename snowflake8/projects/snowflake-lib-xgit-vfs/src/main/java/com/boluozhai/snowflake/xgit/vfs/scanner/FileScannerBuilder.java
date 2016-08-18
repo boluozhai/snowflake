@@ -14,4 +14,8 @@ public interface FileScannerBuilder {
 
 	FileScanner create(FileWorkspace workspace, VFile path);
 
+	UserDataFactory getUserDataFactory();
+
+	void setUserDataFactory(UserDataFactory factory);
+
 }

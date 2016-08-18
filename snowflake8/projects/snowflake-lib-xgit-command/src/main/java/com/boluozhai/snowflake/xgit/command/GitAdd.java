@@ -7,6 +7,7 @@ import com.boluozhai.snowflake.cli.CLICommandHandler;
 import com.boluozhai.snowflake.context.SnowContext;
 import com.boluozhai.snowflake.vfs.VFS;
 import com.boluozhai.snowflake.vfs.VFile;
+import com.boluozhai.snowflake.xgit.ObjectId;
 import com.boluozhai.snowflake.xgit.XGitContext;
 import com.boluozhai.snowflake.xgit.repository.Repository;
 import com.boluozhai.snowflake.xgit.utils.CurrentLocation;
@@ -17,6 +18,7 @@ import com.boluozhai.snowflake.xgit.vfs.scanner.FileScannerBuilder;
 import com.boluozhai.snowflake.xgit.vfs.scanner.FileScannerBuilderFactory;
 import com.boluozhai.snowflake.xgit.vfs.scanner.FileScannerUtils;
 import com.boluozhai.snowflake.xgit.vfs.scanner.ScanningNode;
+import com.boluozhai.snowflake.xgit.vfs.scanner.UserDataFactory;
 
 public class GitAdd implements CLICommandHandler {
 
@@ -42,6 +44,7 @@ public class GitAdd implements CLICommandHandler {
 		// scanner
 		FileScannerBuilderFactory fsb_factory = FileScannerUtils.getFactory();
 		FileScannerBuilder fsb = fsb_factory.newBuilder(xgit_context);
+		fsb.setUserDataFactory(new MyUserDataFactory());
 		FileScanner scanner = fsb.create(works, add_path);
 
 		// scan
@@ -50,7 +53,7 @@ public class GitAdd implements CLICommandHandler {
 
 	}
 
-	private class MyScanContext {
+	private static class MyScanContext {
 
 		private final FileScanner scanner;
 
@@ -72,6 +75,11 @@ public class GitAdd implements CLICommandHandler {
 				throw new RuntimeException(msg);
 			}
 
+			if (node.isIgnored()) {
+				System.out.println("ignore " + node.getName());
+				return;
+			}
+
 			if (file.isDirectory()) {
 				this.onDirBegin(node);
 				String[] list = file.list();
@@ -88,22 +96,80 @@ public class GitAdd implements CLICommandHandler {
 		}
 
 		private void onFile(ScanningNode node) {
-			// TODO Auto-generated method stub
 
 			System.out.println("onFile: " + node.getFile());
 
+			MyUserData parent = (MyUserData) node.parent().getUserData();
+
+			ObjectId id = ObjectId.Factory.create("1234");
+
+			parent.addFile(node, id);
 		}
 
 		private void onDirEnd(ScanningNode node) {
-			// TODO Auto-generated method stub
+
+			MyUserData ud = (MyUserData) node.getUserData();
+			ud.save();
 
 		}
 
 		private void onDirBegin(ScanningNode node) {
+
+			MyUserData ud = (MyUserData) node.getUserData();
+			ud.load();
+
+			ScanningNode parent0 = node.parent();
+			if (parent0 != null) {
+				MyUserData parent = (MyUserData) parent0.getUserData();
+				parent.addDir(node);
+			}
+
+		}
+
+	}
+
+	private static class MyUserData {
+
+		private final ScanningNode _node;
+
+		public MyUserData(ScanningNode node) {
+			this._node = node;
+		}
+
+		public void addFile(ScanningNode node, ObjectId id) {
 			// TODO Auto-generated method stub
 
 		}
 
+		public void addDir(ScanningNode node) {
+			// TODO Auto-generated method stub
+
+		}
+
+		public void load() {
+			// TODO Auto-generated method stub
+
+			VFile path = _node.getFile();
+			System.out.println("load dir info : " + path.getName());
+
+		}
+
+		public void save() {
+			// TODO Auto-generated method stub
+
+			VFile path = _node.getFile();
+			System.out.println("save dir info : " + path.getName());
+
+		}
+
+	}
+
+	private static class MyUserDataFactory implements UserDataFactory {
+
+		@Override
+		public Object createUserData(ScanningNode node) {
+			return new MyUserData(node);
+		}
 	}
 
 }

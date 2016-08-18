@@ -12,10 +12,12 @@ import com.boluozhai.snowflake.xgit.repository.RepositoryManager;
 import com.boluozhai.snowflake.xgit.vfs.FileWorkspace;
 import com.boluozhai.snowflake.xgit.vfs.scanner.FileScanner;
 import com.boluozhai.snowflake.xgit.vfs.scanner.FileScannerBuilder;
+import com.boluozhai.snowflake.xgit.vfs.scanner.UserDataFactory;
 
 final class InnerFileScannerBuilder implements FileScannerBuilder {
 
 	private final SnowContext _context;
+	private UserDataFactory _user_data_factory;
 
 	public InnerFileScannerBuilder(SnowContext context) {
 		this._context = context;
@@ -71,7 +73,7 @@ final class InnerFileScannerBuilder implements FileScannerBuilder {
 		String[] array = list.toArray(new String[list.size()]);
 
 		// create
-		return InnerScanner.create(workspace, array, null);
+		return InnerScanner.create(workspace, array, this._user_data_factory);
 	}
 
 	private static class Helper {
@@ -85,6 +87,16 @@ final class InnerFileScannerBuilder implements FileScannerBuilder {
 			}
 
 		}
+	}
+
+	@Override
+	public UserDataFactory getUserDataFactory() {
+		return this._user_data_factory;
+	}
+
+	@Override
+	public void setUserDataFactory(UserDataFactory factory) {
+		this._user_data_factory = factory;
 	}
 
 }

@@ -3,6 +3,7 @@ package com.boluozhai.snowflake.xgit.vfs.impl.scanner;
 import com.boluozhai.snowflake.vfs.VFile;
 import com.boluozhai.snowflake.vfs.VPath;
 import com.boluozhai.snowflake.xgit.vfs.scanner.FileScanner;
+import com.boluozhai.snowflake.xgit.vfs.scanner.GitIgnore;
 import com.boluozhai.snowflake.xgit.vfs.scanner.ScanningNode;
 
 public class InnerScanningNode implements ScanningNode {
@@ -10,12 +11,16 @@ public class InnerScanningNode implements ScanningNode {
 	private final FileScanner _scanner;
 	private final VPath _path;
 	private final String _name;
+	private final ScanningNode _parent;
 	private Object _user_data;
+	private GitIgnore _ignore;
 
-	public InnerScanningNode(FileScanner scanner, VPath path) {
+	public InnerScanningNode(FileScanner scanner, VPath path,
+			ScanningNode parent) {
 		this._scanner = scanner;
 		this._path = path;
 		this._name = path.file().getName();
+		this._parent = parent;
 	}
 
 	@Override
@@ -46,12 +51,38 @@ public class InnerScanningNode implements ScanningNode {
 	@Override
 	public ScanningNode child(String name) {
 		VPath child_path = _path.child(name);
-		return new InnerScanningNode(_scanner, child_path);
+		return new InnerScanningNode(_scanner, child_path, this);
 	}
 
 	@Override
 	public VFile getFile() {
 		return this._path.file();
+	}
+
+	@Override
+	public ScanningNode parent() {
+		return this._parent;
+	}
+
+	@Override
+	public boolean isIgnored() {
+		return this.getIgnore().isIgnored();
+	}
+
+	@Override
+	public GitIgnore getIgnore() {
+		GitIgnore ignore = this._ignore;
+		if (ignore == null) {
+			ignore = this.inner_load_ignore();
+			this._ignore = ignore;
+		}
+		return ignore;
+	}
+
+	private GitIgnore inner_load_ignore() {
+		ScanningNode node = this;
+		VFile file = this.getFile().child(".gitignore");
+		return InnerGitIgnore.open(node, file);
 	}
 
 }
