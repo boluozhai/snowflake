@@ -16,6 +16,17 @@
 
 	<bean class='com.boluozhai.snowflake.cli.CommandSet'>
 		<property name="enable" value="true" />
+		<property name="commands">
+			<map>
+				<entry key='xgit'>
+					<bean class='com.boluozhai.snowflake.xgit.command.MainGit'></bean>
+				</entry>
+			</map>
+		</property>
+	</bean>
+
+	<bean class='com.boluozhai.snowflake.cli.CommandSet'>
+		<property name="enable" value="true" />
 		<property name="prefix" value='git-' />
 		<property name="commands">
 			<map>
@@ -27,6 +38,18 @@
 				</entry>
 				<entry key='push'>
 					<bean class='com.boluozhai.snowflake.xgit.command.GitPush'></bean>
+				</entry>
+			</map>
+		</property>
+	</bean>
+
+	<bean class='com.boluozhai.snowflake.cli.CommandSet'>
+		<property name="enable" value="true" />
+		<property name="prefix" value='xgit-' />
+		<property name="commands">
+			<map>
+				<entry key='scan'>
+					<bean class='com.boluozhai.snowflake.xgit.command.XGitScan'></bean>
 				</entry>
 			</map>
 		</property>

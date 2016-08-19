@@ -35,4 +35,10 @@ public interface GitIgnore extends VFileNode {
 
 	GitIgnoreItem[] inheritedItems();
 
+	/******
+	 * check the name , ignore or not
+	 * */
+
+	boolean ignore(String name);
+
 }

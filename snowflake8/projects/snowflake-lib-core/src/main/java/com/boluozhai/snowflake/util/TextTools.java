@@ -10,6 +10,8 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.io.Writer;
+import java.util.ArrayList;
+import java.util.List;
 
 public final class TextTools {
 
@@ -89,6 +91,30 @@ public final class TextTools {
 		} finally {
 			IOTools.close(reader);
 		}
+	}
+
+	public static String[] splitToLines(String text) {
+		if (text == null) {
+			String[] empty = {};
+			return empty;
+		}
+		StringBuilder sb = new StringBuilder();
+		List<String> list = new ArrayList<String>();
+		char[] chs = text.toCharArray();
+		for (char ch : chs) {
+			if (ch == 0x0a || ch == 0x0d) {
+				if (sb.length() > 0) {
+					list.add(sb.toString());
+					sb.setLength(0);
+				}
+			} else {
+				sb.append(ch);
+			}
+		}
+		if (sb.length() > 0) {
+			list.add(sb.toString());
+		}
+		return list.toArray(new String[list.size()]);
 	}
 
 }

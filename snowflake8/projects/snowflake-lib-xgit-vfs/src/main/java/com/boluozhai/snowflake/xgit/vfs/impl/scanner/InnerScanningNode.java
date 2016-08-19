@@ -2,6 +2,7 @@ package com.boluozhai.snowflake.xgit.vfs.impl.scanner;
 
 import com.boluozhai.snowflake.vfs.VFile;
 import com.boluozhai.snowflake.vfs.VPath;
+import com.boluozhai.snowflake.xgit.vfs.FileWorkspace;
 import com.boluozhai.snowflake.xgit.vfs.scanner.FileScanner;
 import com.boluozhai.snowflake.xgit.vfs.scanner.GitIgnore;
 import com.boluozhai.snowflake.xgit.vfs.scanner.ScanningNode;
@@ -77,17 +78,78 @@ public class InnerScanningNode implements ScanningNode {
 	}
 
 	private GitIgnore inner_load_ignore() {
-		return InnerGitIgnore.open(this);
+		if (this._path.file().isDirectory()) {
+			return InnerGitIgnore4dir.open(this);
+		} else {
+			return InnerGitIgnore4file.open(this);
+		}
 	}
 
 	private static class MyFlags {
 
-		public int value;
+		public final int value;
+
+		public MyFlags(int i) {
+			this.value = i;
+		}
 
 	}
 
 	private MyFlags inner_load_flags() {
-		return null;
+
+		int v1 = 0;
+		int v2 = 0;
+
+		// the value inherent from parent
+		ScanningNode parent = this.parent();
+		if (parent != null) {
+			v1 = parent.flags();
+		}
+
+		// ignore
+		if ((v1 & ScanningNode.FLAG_IGNORED) == 0)
+			if (this.inner_check_ignored()) {
+				v2 |= ScanningNode.FLAG_IGNORED;
+			}
+
+		// in works
+		if ((v1 & ScanningNode.FLAG_IN_WORKSPACE) == 0)
+			if (this.inner_check_in_works()) {
+				v2 |= ScanningNode.FLAG_IN_WORKSPACE;
+			}
+
+		// in repo
+		if ((v1 & ScanningNode.FLAG_IN_REPOSITORY) == 0)
+			if (this.inner_check_in_repo()) {
+				v2 |= ScanningNode.FLAG_IN_REPOSITORY;
+			}
+
+		return new MyFlags(v1 | v2);
+	}
+
+	private final static String[] array_check_in_repo = { ".git", ".xgit",
+			".snow", ".snowflake" };
+
+	private boolean inner_check_in_repo() {
+		String name = this.getFile().getName();
+		for (String s : array_check_in_repo) {
+			if (name.equals(s)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private boolean inner_check_in_works() {
+		FileScanner scanner = this._scanner;
+		FileWorkspace works = scanner.getWorkspace();
+		String base = works.getFile().toURI().toString();
+		String full = this.getFile().toURI().toString();
+		return full.startsWith(base);
+	}
+
+	private boolean inner_check_ignored() {
+		return this.getIgnore().isIgnored();
 	}
 
 	private MyFlags inner_get_flags() {
