@@ -1,5 +1,6 @@
 package com.boluozhai.snowflake.xgit.vfs.scanner;
 
+import com.boluozhai.snowflake.vfs.VFile;
 import com.boluozhai.snowflake.vfs.VFileNode;
 
 /****
@@ -11,6 +12,8 @@ public interface GitIgnore extends VFileNode {
 	GitIgnore getParent();
 
 	ScanningNode getNode();
+
+	VFile getGitignoreFile();
 
 	boolean isIgnored();
 

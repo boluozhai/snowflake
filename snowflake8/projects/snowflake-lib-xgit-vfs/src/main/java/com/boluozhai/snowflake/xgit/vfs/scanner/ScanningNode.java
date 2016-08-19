@@ -20,8 +20,22 @@ public interface ScanningNode extends VFileNode {
 
 	ScanningNode child(String name);
 
+	GitIgnore getIgnore();
+
+	int FLAG_IGNORED = 0x80;
+	int FLAG_IN_REPOSITORY = 0x40;
+	int FLAG_IN_WORKSPACE = 0x20;
+
+	/****
+	 * @return [FLAG_IGNORE|FLAG_IN_REPOSITORY|FLAG_IN_WORKSPACE]
+	 * */
+
+	int flags();
+
 	boolean isIgnored();
 
-	GitIgnore getIgnore();
+	boolean isInRepository();
+
+	boolean isInWorkspace();
 
 }

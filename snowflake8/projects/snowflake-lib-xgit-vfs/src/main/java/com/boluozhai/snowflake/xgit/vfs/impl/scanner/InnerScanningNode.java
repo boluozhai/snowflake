@@ -12,8 +12,10 @@ public class InnerScanningNode implements ScanningNode {
 	private final VPath _path;
 	private final String _name;
 	private final ScanningNode _parent;
+
 	private Object _user_data;
 	private GitIgnore _ignore;
+	private MyFlags _flags;
 
 	public InnerScanningNode(FileScanner scanner, VPath path,
 			ScanningNode parent) {
@@ -65,11 +67,6 @@ public class InnerScanningNode implements ScanningNode {
 	}
 
 	@Override
-	public boolean isIgnored() {
-		return this.getIgnore().isIgnored();
-	}
-
-	@Override
 	public GitIgnore getIgnore() {
 		GitIgnore ignore = this._ignore;
 		if (ignore == null) {
@@ -80,9 +77,49 @@ public class InnerScanningNode implements ScanningNode {
 	}
 
 	private GitIgnore inner_load_ignore() {
-		ScanningNode node = this;
-		VFile file = this.getFile().child(".gitignore");
-		return InnerGitIgnore.open(node, file);
+		return InnerGitIgnore.open(this);
+	}
+
+	private static class MyFlags {
+
+		public int value;
+
+	}
+
+	private MyFlags inner_load_flags() {
+		return null;
+	}
+
+	private MyFlags inner_get_flags() {
+		MyFlags flags = this._flags;
+		if (flags == null) {
+			flags = this.inner_load_flags();
+			this._flags = flags;
+		}
+		return flags;
+	}
+
+	@Override
+	public boolean isInRepository() {
+		int value = this.inner_get_flags().value;
+		return ((value & ScanningNode.FLAG_IN_REPOSITORY) > 0);
+	}
+
+	@Override
+	public boolean isInWorkspace() {
+		int value = this.inner_get_flags().value;
+		return ((value & ScanningNode.FLAG_IN_WORKSPACE) > 0);
+	}
+
+	@Override
+	public boolean isIgnored() {
+		int value = this.inner_get_flags().value;
+		return ((value & ScanningNode.FLAG_IGNORED) > 0);
+	}
+
+	@Override
+	public int flags() {
+		return this.inner_get_flags().value;
 	}
 
 }

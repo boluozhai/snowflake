@@ -8,7 +8,8 @@ import com.boluozhai.snowflake.xgit.vfs.scanner.ScanningNode;
 public class InnerGitIgnore implements GitIgnore {
 
 	private final ScanningNode _node;
-	private final VFile _file;
+	private final VFile _node_path;
+	private final VFile _gitignore_file;
 	private final GitIgnore _parent;
 	private final boolean _ignored;
 	private final GitIgnoreItem[] _items;
@@ -18,7 +19,8 @@ public class InnerGitIgnore implements GitIgnore {
 	private static class Loader {
 
 		public final ScanningNode node; // the node of .gitignore's parent
-		public final VFile file; // the path of .gitignore
+		public final VFile gitignore_file; // the path of .gitignore
+		public final VFile node_file; // the path of node
 
 		public boolean ignored;
 		public GitIgnore parent;
@@ -27,15 +29,29 @@ public class InnerGitIgnore implements GitIgnore {
 		public GitIgnoreItem[] def_items;
 		public GitIgnoreItem[] inh_items;
 
-		public Loader(ScanningNode node0, VFile file0) {
+		public Loader(ScanningNode node0) {
+
+			VFile nf = node0.getFile();
 
 			this.node = node0;
-			this.file = file0;
+			this.node_file = nf;
+			this.gitignore_file = nf.child(".gitignore");
 
 		}
 
 		public GitIgnore load() {
+
 			// TODO Auto-generated method stub
+
+			ScanningNode parent_node = node.parent();
+
+			if (parent_node == null) {
+			} else {
+				this.parent = parent_node.getIgnore();
+				if (parent.isIgnored()) {
+					this.ignored = true;
+				}
+			}
 
 			return new InnerGitIgnore(this);
 
@@ -46,7 +62,8 @@ public class InnerGitIgnore implements GitIgnore {
 	private InnerGitIgnore(Loader ldr) {
 
 		this._node = ldr.node;
-		this._file = ldr.file;
+		this._node_path = ldr.node_file;
+		this._gitignore_file = ldr.gitignore_file;
 		this._ignored = ldr.ignored;
 		this._parent = ldr.parent;
 
@@ -56,14 +73,19 @@ public class InnerGitIgnore implements GitIgnore {
 
 	}
 
-	public static GitIgnore open(ScanningNode node, VFile file) {
-		Loader ldr = new Loader(node, file);
+	public static GitIgnore open(ScanningNode node) {
+		Loader ldr = new Loader(node);
 		return ldr.load();
 	}
 
 	@Override
 	public VFile getFile() {
-		return this._file;
+		return this._node_path;
+	}
+
+	@Override
+	public VFile getGitignoreFile() {
+		return this._gitignore_file;
 	}
 
 	@Override
