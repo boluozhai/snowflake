@@ -26,6 +26,7 @@ public class TestGitAdd {
 
 			CLIClient client = CLIUtils.getClient(context);
 			client.execute(context, cmd);
+			client.execute(context, cmd);
 
 		} finally {
 			tester.close(testing);

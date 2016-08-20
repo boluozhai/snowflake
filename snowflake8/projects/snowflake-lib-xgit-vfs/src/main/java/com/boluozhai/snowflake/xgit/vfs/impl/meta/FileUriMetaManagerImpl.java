@@ -97,7 +97,7 @@ public class FileUriMetaManagerImpl implements Component, UriMetaManager {
 		if (s2.startsWith(s1)) {
 			key = type_name + ":{workspace}:" + s2.substring(s1.length());
 		} else {
-			key = type_name + ":" + s2;
+			key = type_name + ":{fs_root}:" + s2;
 		}
 
 		HashId hash = this.inner_make_hash(key);

@@ -10,9 +10,33 @@ public class TreeItem {
 
 	}
 
-	private String name;
 	private int mode; // in hex
 	private PlainId id;
+	private String name;
+
+	// extension fields
+
+	private long size;
+	private long lastModified;
+
+	public TreeItem() {
+	}
+
+	public long getSize() {
+		return size;
+	}
+
+	public void setSize(long size) {
+		this.size = size;
+	}
+
+	public long getLastModified() {
+		return lastModified;
+	}
+
+	public void setLastModified(long lastModified) {
+		this.lastModified = lastModified;
+	}
 
 	public PlainId getId() {
 		return id;

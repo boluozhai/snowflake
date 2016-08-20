@@ -71,6 +71,16 @@
 						class='com.boluozhai.snowflake.xgit.vfs.support.TemporaryFileManagerFactory' />
 				</entry>
 
+				<entry key='meta_by_uri'>
+					<bean
+						class='com.boluozhai.snowflake.xgit.vfs.support.FileUriMetaManagerFactory' />
+				</entry>
+
+				<entry key='meta_by_id'>
+					<bean
+						class='com.boluozhai.snowflake.xgit.vfs.support.FileIdMetaManagerFactory' />
+				</entry>
+
 			</map>
 		</property>
 
