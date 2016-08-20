@@ -95,9 +95,11 @@ public class FileUriMetaManagerImpl implements Component, UriMetaManager {
 		final String type_name = type.getName();
 		final String key;
 		if (s2.startsWith(s1)) {
-			key = type_name + ":{workspace}:" + s2.substring(s1.length());
+			String p = this.inner_normal_path(s2.substring(s1.length()));
+			key = type_name + ":{workspace}:" + p;
 		} else {
-			key = type_name + ":{fs_root}:" + s2;
+			String p = this.inner_normal_path(s2);
+			key = type_name + ":{fs_root}:" + p;
 		}
 
 		HashId hash = this.inner_make_hash(key);
@@ -105,6 +107,24 @@ public class FileUriMetaManagerImpl implements Component, UriMetaManager {
 		HashPathMapper hpm = this._hash_path_mapper;
 		return hpm.getHashPath(base, hash, ".uri-meta");
 
+	}
+
+	private String inner_normal_path(String s) {
+		final int len0 = s.length();
+		int len = len0;
+		int off = 0;
+		if (s.startsWith("/")) {
+			len--;
+			off++;
+		}
+		if (s.endsWith("/")) {
+			len--;
+		}
+		if (len != len0) {
+			return s.substring(off, off + len);
+		} else {
+			return s;
+		}
 	}
 
 	private HashId inner_make_hash(String key) {
