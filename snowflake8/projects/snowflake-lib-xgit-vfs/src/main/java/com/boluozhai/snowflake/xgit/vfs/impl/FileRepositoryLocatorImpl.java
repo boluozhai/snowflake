@@ -3,7 +3,7 @@ package com.boluozhai.snowflake.xgit.vfs.impl;
 import java.net.URI;
 import java.util.List;
 
-import com.boluozhai.snowflake.context.SnowContext;
+import com.boluozhai.snowflake.context.SnowflakeContext;
 import com.boluozhai.snowflake.vfs.VFS;
 import com.boluozhai.snowflake.vfs.VFile;
 import com.boluozhai.snowflake.xgit.XGitRuntimeException;
@@ -21,7 +21,7 @@ final class FileRepositoryLocatorImpl implements RepositoryLocator {
 	}
 
 	@Override
-	public URI locate(SnowContext context, URI uri, RepositoryOption option) {
+	public URI locate(SnowflakeContext context, URI uri, RepositoryOption option) {
 
 		VFS vfs = VFS.Factory.getVFS(context);
 		final VFile base = vfs.newFile(uri);

@@ -5,7 +5,7 @@ import java.util.Map;
 public interface ContextBuilder extends MutableContextMeta, MutableAttributes,
 		MutableProperties, MutableParameters, MutableEnvironments {
 
-	SnowContext create();
+	SnowflakeContext create();
 
 	Map<String, String> getEnvironments();
 

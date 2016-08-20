@@ -2,7 +2,7 @@ package com.boluozhai.snowflake.xgit.vfs.impl;
 
 import java.net.URI;
 
-import com.boluozhai.snowflake.context.SnowContext;
+import com.boluozhai.snowflake.context.SnowflakeContext;
 import com.boluozhai.snowflake.xgit.repository.Repository;
 import com.boluozhai.snowflake.xgit.repository.RepositoryDriver;
 import com.boluozhai.snowflake.xgit.repository.RepositoryLocator;
@@ -18,7 +18,7 @@ public class FileRepositoryDriverImpl extends AbstractRepositoryDriver
 	}
 
 	@Override
-	public Repository open(SnowContext context, URI uri, RepositoryOption option) {
+	public Repository open(SnowflakeContext context, URI uri, RepositoryOption option) {
 		RepositoryProfile pf = this.getProfile();
 		FileRepositoryBuilder builder = new FileRepositoryBuilder(context, pf);
 		return builder.create(uri, option);

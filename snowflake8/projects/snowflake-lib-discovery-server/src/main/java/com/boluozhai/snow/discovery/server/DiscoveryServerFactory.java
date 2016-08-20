@@ -1,9 +1,9 @@
 package com.boluozhai.snow.discovery.server;
 
-import com.boluozhai.snowflake.context.SnowContext;
+import com.boluozhai.snowflake.context.SnowflakeContext;
 
 public interface DiscoveryServerFactory {
 
-	DiscoveryServer getServer(SnowContext context);
+	DiscoveryServer getServer(SnowflakeContext context);
 
 }

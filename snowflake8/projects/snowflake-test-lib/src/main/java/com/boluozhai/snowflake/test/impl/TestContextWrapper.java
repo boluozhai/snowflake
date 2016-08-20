@@ -3,7 +3,7 @@ package com.boluozhai.snowflake.test.impl;
 import java.io.File;
 
 import com.boluozhai.snowflake.appdata.AppData;
-import com.boluozhai.snowflake.context.SnowContext;
+import com.boluozhai.snowflake.context.SnowflakeContext;
 import com.boluozhai.snowflake.context.support.ContextWrapper;
 import com.boluozhai.snowflake.test.TestContext;
 
@@ -57,7 +57,7 @@ public class TestContextWrapper extends ContextWrapper implements TestContext {
 
 	}
 
-	public TestContextWrapper(SnowContext context, Object test_target) {
+	public TestContextWrapper(SnowflakeContext context, Object test_target) {
 		super(context);
 		this._test_target = test_target;
 	}

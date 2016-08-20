@@ -1,12 +1,12 @@
 package com.boluozhai.snowflake.context.utils;
 
-import com.boluozhai.snowflake.context.SnowParameters;
+import com.boluozhai.snowflake.context.SnowflakeParameters;
 
 public class ParameterReader {
 
-	private final SnowParameters p;
+	private final SnowflakeParameters p;
 
-	public ParameterReader(SnowParameters p) {
+	public ParameterReader(SnowflakeParameters p) {
 		this.p = p;
 	}
 

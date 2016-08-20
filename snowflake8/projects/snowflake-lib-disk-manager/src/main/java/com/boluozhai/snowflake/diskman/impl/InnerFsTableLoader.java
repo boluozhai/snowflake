@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
-import com.boluozhai.snowflake.context.SnowContext;
+import com.boluozhai.snowflake.context.SnowflakeContext;
 import com.boluozhai.snowflake.diskman.model.FsItem;
 import com.boluozhai.snowflake.diskman.model.FsTable;
 import com.boluozhai.snowflake.runtime.ErrorHandler;
@@ -17,9 +17,9 @@ import com.boluozhai.snowflake.runtime.SubProcessBuilder;
 
 final class InnerFsTableLoader {
 
-	private final SnowContext _context;
+	private final SnowflakeContext _context;
 
-	public InnerFsTableLoader(SnowContext context) {
+	public InnerFsTableLoader(SnowflakeContext context) {
 		this._context = context;
 	}
 

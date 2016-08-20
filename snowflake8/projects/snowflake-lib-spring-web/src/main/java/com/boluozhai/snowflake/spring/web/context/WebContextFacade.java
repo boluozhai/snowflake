@@ -3,7 +3,7 @@ package com.boluozhai.snowflake.spring.web.context;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.WebApplicationContext;
 
-import com.boluozhai.snowflake.context.SnowContext;
+import com.boluozhai.snowflake.context.SnowflakeContext;
 import com.boluozhai.snowflake.context.support.ContextWrapper;
 
 public class WebContextFacade extends ContextWrapper implements
@@ -11,7 +11,7 @@ public class WebContextFacade extends ContextWrapper implements
 
 	private final WebApplicationContext _spring_web_context;
 
-	public WebContextFacade(SnowContext inner, WebApplicationContext spring) {
+	public WebContextFacade(SnowflakeContext inner, WebApplicationContext spring) {
 		super(inner);
 		this._spring_web_context = spring;
 	}

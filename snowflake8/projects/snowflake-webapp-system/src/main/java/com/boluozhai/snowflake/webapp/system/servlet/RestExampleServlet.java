@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.boluozhai.snowflake.context.SnowContext;
+import com.boluozhai.snowflake.context.SnowflakeContext;
 import com.boluozhai.snowflake.libwebapp.manager.WebAppManager;
 import com.boluozhai.snowflake.libwebapp.rest.JsonRestView;
 import com.boluozhai.snowflake.libwebapp.utils.WebContextUtils;
@@ -32,7 +32,7 @@ public class RestExampleServlet extends HttpServlet {
 		try {
 
 			ServletContext sc = request.getServletContext();
-			SnowContext context = WebContextUtils.getWebContext(sc);
+			SnowflakeContext context = WebContextUtils.getWebContext(sc);
 
 			WebAppManager webapp_man = WebAppManager.Factory
 					.getManager(context);

@@ -3,12 +3,12 @@ package com.boluozhai.snowflake.libwebapp.update.publisher.command;
 import java.io.PrintStream;
 
 import com.boluozhai.snowflake.cli.CLICommandHandler;
-import com.boluozhai.snowflake.context.SnowContext;
+import com.boluozhai.snowflake.context.SnowflakeContext;
 
 public class CmdSnowUpdatePublisherHelp implements CLICommandHandler {
 
 	@Override
-	public void process(SnowContext context, String command) {
+	public void process(SnowflakeContext context, String command) {
 
 		// TODO Auto-generated method stub
 

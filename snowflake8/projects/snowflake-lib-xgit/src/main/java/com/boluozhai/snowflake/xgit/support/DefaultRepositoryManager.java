@@ -4,7 +4,7 @@ import java.net.URI;
 import java.util.Collections;
 import java.util.Map;
 
-import com.boluozhai.snowflake.context.SnowContext;
+import com.boluozhai.snowflake.context.SnowflakeContext;
 import com.boluozhai.snowflake.xgit.XGitRuntimeException;
 import com.boluozhai.snowflake.xgit.repository.Repository;
 import com.boluozhai.snowflake.xgit.repository.RepositoryDriver;
@@ -35,7 +35,7 @@ public class DefaultRepositoryManager implements RepositoryManager {
 	}
 
 	@Override
-	public Repository open(SnowContext context, URI uri, RepositoryOption option) {
+	public Repository open(SnowflakeContext context, URI uri, RepositoryOption option) {
 		RepositoryDriver driver = this.getDriver(context, uri, option);
 
 		if (driver == null) {
@@ -55,7 +55,7 @@ public class DefaultRepositoryManager implements RepositoryManager {
 	}
 
 	@Override
-	public RepositoryDriver getDriver(SnowContext context, URI uri,
+	public RepositoryDriver getDriver(SnowflakeContext context, URI uri,
 			RepositoryOption option) {
 		Map<String, RepositoryDriver> map = this.inner_get_drivers();
 		String key = uri.getScheme();

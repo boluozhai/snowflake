@@ -1,6 +1,6 @@
 package com.boluozhai.snowflake.xgit.vfs.impl.objectbank;
 
-import com.boluozhai.snowflake.context.SnowContext;
+import com.boluozhai.snowflake.context.SnowflakeContext;
 import com.boluozhai.snowflake.xgit.XGitContext;
 import com.boluozhai.snowflake.xgit.objects.HashAlgorithmProvider;
 import com.boluozhai.snowflake.xgit.vfs.FileObjectBank;
@@ -19,13 +19,13 @@ final class FileObjectBankCore {
 
 	}
 
-	private final SnowContext _context;
+	private final SnowflakeContext _context;
 
 	private HashAlgorithmProvider _hash_algorithm_pro;
 	private TemporaryFileManager _temp_file_man;
 	private FileObjectBank _bank;
 
-	public FileObjectBankCore(SnowContext context) {
+	public FileObjectBankCore(SnowflakeContext context) {
 		this._context = context;
 	}
 
@@ -59,7 +59,7 @@ final class FileObjectBankCore {
 		return hap;
 	}
 
-	public SnowContext getContext() {
+	public SnowflakeContext getContext() {
 		return this._context;
 	}
 

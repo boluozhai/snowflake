@@ -4,21 +4,21 @@ import java.net.URI;
 import java.util.Map;
 
 import com.boluozhai.snowflake.context.ContextBuilder;
-import com.boluozhai.snowflake.context.SnowAttributes;
-import com.boluozhai.snowflake.context.SnowContext;
-import com.boluozhai.snowflake.context.SnowEnvironments;
-import com.boluozhai.snowflake.context.SnowParameters;
-import com.boluozhai.snowflake.context.SnowProperties;
+import com.boluozhai.snowflake.context.SnowflakeAttributes;
+import com.boluozhai.snowflake.context.SnowflakeContext;
+import com.boluozhai.snowflake.context.SnowflakeEnvironments;
+import com.boluozhai.snowflake.context.SnowflakeParameters;
+import com.boluozhai.snowflake.context.SnowflakeProperties;
 
 public class AbstractContextBuilder extends SnowContextBase implements
 		ContextBuilder {
 
-	protected AbstractContextBuilder(SnowContext parent) {
+	protected AbstractContextBuilder(SnowflakeContext parent) {
 		super(make_data(parent));
 		this.setParent(parent);
 	}
 
-	private static SnowContextData make_data(SnowContext parent) {
+	private static SnowContextData make_data(SnowflakeContext parent) {
 		final SnowContextData data;
 		if (parent == null) {
 			data = new SnowContextData();
@@ -34,16 +34,16 @@ public class AbstractContextBuilder extends SnowContextBase implements
 	}
 
 	@Override
-	public void setParent(SnowContext parent) {
+	public void setParent(SnowflakeContext parent) {
 
 		SnowContextData d = this.data();
 		d.parent = parent;
 
 		if (parent != null) {
-			d.attr_set.putAll(SnowAttributes.MapGetter.getMap(parent));
-			d.prop_set.putAll(SnowProperties.MapGetter.getMap(parent));
-			d.param_set.putAll(SnowParameters.MapGetter.getMap(parent));
-			d.env_set.putAll(SnowEnvironments.MapGetter.getMap(parent));
+			d.attr_set.putAll(SnowflakeAttributes.MapGetter.getMap(parent));
+			d.prop_set.putAll(SnowflakeProperties.MapGetter.getMap(parent));
+			d.param_set.putAll(SnowflakeParameters.MapGetter.getMap(parent));
+			d.env_set.putAll(SnowflakeEnvironments.MapGetter.getMap(parent));
 		}
 	}
 
@@ -78,7 +78,7 @@ public class AbstractContextBuilder extends SnowContextBase implements
 	}
 
 	@Override
-	public SnowContext create() {
+	public SnowflakeContext create() {
 		SnowContextData data = this.data();
 		return new AbstractContext(data.makeCopy());
 	}

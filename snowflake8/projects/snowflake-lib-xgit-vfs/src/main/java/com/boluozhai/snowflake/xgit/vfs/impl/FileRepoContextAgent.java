@@ -2,7 +2,7 @@ package com.boluozhai.snowflake.xgit.vfs.impl;
 
 import java.net.URI;
 
-import com.boluozhai.snowflake.context.SnowContext;
+import com.boluozhai.snowflake.context.SnowflakeContext;
 import com.boluozhai.snowflake.mvc.model.Component;
 import com.boluozhai.snowflake.mvc.model.ComponentContext;
 import com.boluozhai.snowflake.mvc.model.Element;
@@ -24,7 +24,7 @@ final class FileRepoContextAgent {
 		return this.facade;
 	}
 
-	public void setCore(SnowContext core) {
+	public void setCore(SnowflakeContext core) {
 		this.facade.core = core;
 	}
 
@@ -58,9 +58,9 @@ final class FileRepoContextAgent {
 
 	}
 
-	private static class Wrapper implements SnowContext {
+	private static class Wrapper implements SnowflakeContext {
 
-		SnowContext core;
+		SnowflakeContext core;
 
 		public String getName() {
 			return core.getName();
@@ -78,7 +78,7 @@ final class FileRepoContextAgent {
 			return core.getURI();
 		}
 
-		public SnowContext getParent() {
+		public SnowflakeContext getParent() {
 			return core.getParent();
 		}
 

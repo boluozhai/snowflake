@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.boluozhai.snowflake.cli.CLICommandHandler;
-import com.boluozhai.snowflake.context.SnowContext;
+import com.boluozhai.snowflake.context.SnowflakeContext;
 import com.boluozhai.snowflake.mvc.model.ComponentContext;
 import com.boluozhai.snowflake.util.IOTools;
 import com.boluozhai.snowflake.vfs.VFS;
@@ -39,7 +39,7 @@ import com.boluozhai.snowflake.xgit.vfs.scanner.UserDataFactory;
 public class GitAdd implements CLICommandHandler {
 
 	@Override
-	public void process(SnowContext context, String command) {
+	public void process(SnowflakeContext context, String command) {
 
 		// repository
 		RepositoryAgent repo_agent = RepositoryAgent.Factory.get(context);

@@ -2,7 +2,7 @@ package com.boluozhai.snowflake.discovery.udp;
 
 import java.io.IOException;
 
-import com.boluozhai.snowflake.context.SnowContext;
+import com.boluozhai.snowflake.context.SnowflakeContext;
 
 public interface Hub {
 
@@ -18,7 +18,7 @@ public interface Hub {
 
 	class Factory {
 
-		public static HubBuilderFactory getFactory(SnowContext context) {
+		public static HubBuilderFactory getFactory(SnowflakeContext context) {
 			Class<HubBuilderFactory> type = HubBuilderFactory.class;
 			String key = type.getName();
 			return context.getBean(key, type);

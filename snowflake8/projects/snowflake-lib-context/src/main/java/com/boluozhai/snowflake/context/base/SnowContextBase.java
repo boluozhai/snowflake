@@ -4,11 +4,11 @@ import java.net.URI;
 import java.util.Map;
 import java.util.Set;
 
-import com.boluozhai.snowflake.context.SnowContext;
+import com.boluozhai.snowflake.context.SnowflakeContext;
 
 public class SnowContextBase implements SnowContextBaseAPI {
 
-	final static Object no_value_exception = SnowContext.throw_exception_while_nil;
+	final static Object no_value_exception = SnowflakeContext.throw_exception_while_nil;
 
 	private final SnowContextData _data;
 	private final long _birthday;
@@ -43,7 +43,7 @@ public class SnowContextBase implements SnowContextBaseAPI {
 	}
 
 	@Override
-	public SnowContext getParent() {
+	public SnowflakeContext getParent() {
 		return this._data.parent;
 	}
 

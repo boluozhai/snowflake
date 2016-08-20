@@ -9,13 +9,13 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URI;
 
-import com.boluozhai.snowflake.context.SnowContext;
+import com.boluozhai.snowflake.context.SnowflakeContext;
 import com.boluozhai.snowflake.vfs.VFile;
 import com.boluozhai.snowflake.vfs.io.VFSIO;
 
 public class VFSIOImpl implements VFSIO {
 
-	public VFSIOImpl(SnowContext context) {
+	public VFSIOImpl(SnowflakeContext context) {
 	}
 
 	@Override

@@ -3,7 +3,7 @@ package com.boluozhai.snowflake.test.impl;
 import java.io.File;
 import java.net.URI;
 
-import com.boluozhai.snowflake.context.SnowContext;
+import com.boluozhai.snowflake.context.SnowflakeContext;
 import com.boluozhai.snowflake.test.TestContext;
 import com.boluozhai.snowflake.test.Testing;
 
@@ -72,7 +72,7 @@ final class InnerTesting implements Testing {
 
 		private final URI _uri;
 
-		public MyContext(SnowContext context, Object target, URI uri) {
+		public MyContext(SnowflakeContext context, Object target, URI uri) {
 			super(context, target);
 			this._uri = uri;
 		}

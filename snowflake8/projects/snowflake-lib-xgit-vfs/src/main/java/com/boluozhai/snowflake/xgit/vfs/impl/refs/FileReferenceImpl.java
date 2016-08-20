@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import com.boluozhai.snowflake.context.SnowContext;
+import com.boluozhai.snowflake.context.SnowflakeContext;
 import com.boluozhai.snowflake.util.IOTools;
 import com.boluozhai.snowflake.util.TextTools;
 import com.boluozhai.snowflake.vfs.VFSContext;
@@ -114,7 +114,7 @@ public class FileReferenceImpl implements Reference {
 		OutputStream out = null;
 		try {
 			VFile file = _file;
-			SnowContext context = file.vfs().context();
+			SnowflakeContext context = file.vfs().context();
 			VFSIO io = VFSIO.Agent.getInstance(context);
 			out = io.output(file, true);
 			TextTools.save(s, out);

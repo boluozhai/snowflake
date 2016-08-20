@@ -4,7 +4,7 @@ import java.io.File;
 import java.net.URI;
 
 import com.boluozhai.snowflake.appdata.AppData;
-import com.boluozhai.snowflake.context.SnowContext;
+import com.boluozhai.snowflake.context.SnowflakeContext;
 import com.boluozhai.snowflake.libwebapp.update.UpdateKit;
 import com.boluozhai.snowflake.vfs.VFile;
 import com.boluozhai.snowflake.xgit.XGit;
@@ -14,14 +14,14 @@ import com.boluozhai.snowflake.xgit.vfs.FileRepository;
 
 public class DefaultUpdateKit implements UpdateKit {
 
-	private final SnowContext _context;
+	private final SnowflakeContext _context;
 
-	public DefaultUpdateKit(SnowContext context) {
+	public DefaultUpdateKit(SnowflakeContext context) {
 		this._context = context;
 	}
 
 	@Override
-	public SnowContext getContext() {
+	public SnowflakeContext getContext() {
 		return this._context;
 	}
 
@@ -62,7 +62,7 @@ public class DefaultUpdateKit implements UpdateKit {
 	@Override
 	public AppData getAppData() {
 		Class<UpdateKit> type = UpdateKit.class;
-		SnowContext context = this.getContext();
+		SnowflakeContext context = this.getContext();
 		AppData ad = AppData.Helper.getInstance(context, type);
 		File path = ad.getDataSchemaPath();
 		if (!path.exists()) {

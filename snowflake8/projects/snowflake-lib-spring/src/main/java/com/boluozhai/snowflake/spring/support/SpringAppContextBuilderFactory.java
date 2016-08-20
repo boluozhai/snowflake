@@ -3,7 +3,7 @@ package com.boluozhai.snowflake.spring.support;
 import org.springframework.context.ApplicationContext;
 
 import com.boluozhai.snowflake.context.ContextBuilder;
-import com.boluozhai.snowflake.context.SnowContext;
+import com.boluozhai.snowflake.context.SnowflakeContext;
 import com.boluozhai.snowflake.context.base.AbstractContextBuilder;
 import com.boluozhai.snowflake.context.base.AbstractContextBuilderFactory;
 import com.boluozhai.snowflake.context.utils.ContextBuilderConfigHelper;
@@ -13,7 +13,7 @@ import com.boluozhai.snowflake.spring.utils.SpringContextBuilderConfigHelper;
 public final class SpringAppContextBuilderFactory extends
 		AbstractContextBuilderFactory {
 
-	private ContextBuilder get_builder(SnowContext parent) {
+	private ContextBuilder get_builder(SnowflakeContext parent) {
 		return new Builder(parent);
 	}
 
@@ -23,18 +23,18 @@ public final class SpringAppContextBuilderFactory extends
 	}
 
 	@Override
-	public ContextBuilder newBuilder(SnowContext parent) {
+	public ContextBuilder newBuilder(SnowflakeContext parent) {
 		return this.get_builder(parent);
 	}
 
 	private class Builder extends AbstractContextBuilder {
 
-		protected Builder(SnowContext parent) {
+		protected Builder(SnowflakeContext parent) {
 			super(parent);
 		}
 
 		@Override
-		public SnowContext create() {
+		public SnowflakeContext create() {
 
 			this.load_attributes();
 			this.load_parameters();

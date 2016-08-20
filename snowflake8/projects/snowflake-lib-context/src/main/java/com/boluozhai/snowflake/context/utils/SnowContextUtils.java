@@ -2,7 +2,7 @@ package com.boluozhai.snowflake.context.utils;
 
 import com.boluozhai.snowflake.context.ContextBuilder;
 import com.boluozhai.snowflake.context.ContextBuilderFactory;
-import com.boluozhai.snowflake.context.SnowContext;
+import com.boluozhai.snowflake.context.SnowflakeContext;
 import com.boluozhai.snowflake.context.support.DefaultContextBuilderFactory;
 
 public class SnowContextUtils {
@@ -40,12 +40,12 @@ public class SnowContextUtils {
 		return getContextBuilderFactory(factoryName).newBuilder();
 	}
 
-	public static ContextBuilder getContextBuilder(SnowContext parent,
+	public static ContextBuilder getContextBuilder(SnowflakeContext parent,
 			String factoryName) {
 		return getContextBuilderFactory(factoryName).newBuilder(parent);
 	}
 
-	public static SnowContext getContext(String factoryName) {
+	public static SnowflakeContext getContext(String factoryName) {
 		return getContextBuilder(factoryName).create();
 	}
 
@@ -53,14 +53,14 @@ public class SnowContextUtils {
 	 * context for kinds of applications
 	 * */
 
-	public static SnowContext getChildContext(SnowContext parent) {
+	public static SnowflakeContext getChildContext(SnowflakeContext parent) {
 		String fn = FactoryName.child;
 		ContextBuilder builder = getContextBuilder(fn);
 		builder.setParent(parent);
 		return builder.create();
 	}
 
-	public static SnowContext getJunitContext(Object junit_target) {
+	public static SnowflakeContext getJunitContext(Object junit_target) {
 		String fn = FactoryName.junit;
 		ContextBuilder builder = getContextBuilder(fn);
 		builder.setAttribute(InitialAttributeName.junit_target_object,
@@ -68,7 +68,7 @@ public class SnowContextUtils {
 		return builder.create();
 	}
 
-	public static SnowContext getAppContext(Class<?> app_class, String[] arg) {
+	public static SnowflakeContext getAppContext(Class<?> app_class, String[] arg) {
 		String fn = FactoryName.javase;
 		ContextBuilder builder = getContextBuilder(fn);
 		builder.setAttribute(InitialAttributeName.javase_app_class, app_class);
@@ -76,7 +76,7 @@ public class SnowContextUtils {
 		return builder.create();
 	}
 
-	public static SnowContext getWebApplicationContext(Object servlet_context) {
+	public static SnowflakeContext getWebApplicationContext(Object servlet_context) {
 		String fn = FactoryName.webapp;
 		ContextBuilder builder = getContextBuilder(fn);
 		builder.setAttribute(InitialAttributeName.webapp_servlet_context,

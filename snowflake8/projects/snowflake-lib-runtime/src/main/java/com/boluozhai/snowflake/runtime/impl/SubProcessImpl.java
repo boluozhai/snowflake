@@ -8,7 +8,7 @@ import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 
-import com.boluozhai.snowflake.context.SnowContext;
+import com.boluozhai.snowflake.context.SnowflakeContext;
 import com.boluozhai.snowflake.runtime.ErrorHandler;
 import com.boluozhai.snowflake.runtime.LineHandler;
 import com.boluozhai.snowflake.runtime.SubProcess;
@@ -28,7 +28,7 @@ public class SubProcessImpl implements SubProcess {
 	}
 
 	@Override
-	public SnowContext getContext() {
+	public SnowflakeContext getContext() {
 		return _info.context;
 	}
 

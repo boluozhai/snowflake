@@ -1,9 +1,9 @@
 package com.boluozhai.snowflake.cli.client;
 
-import com.boluozhai.snowflake.context.SnowContext;
+import com.boluozhai.snowflake.context.SnowflakeContext;
 
 public interface CLIClientFactory {
 
-	CLIClient create(SnowContext context);
+	CLIClient create(SnowflakeContext context);
 
 }

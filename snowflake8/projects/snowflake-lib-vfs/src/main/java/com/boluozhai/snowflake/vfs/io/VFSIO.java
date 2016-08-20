@@ -4,14 +4,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import com.boluozhai.snowflake.context.SnowContext;
+import com.boluozhai.snowflake.context.SnowflakeContext;
 import com.boluozhai.snowflake.vfs.VFile;
 
 public interface VFSIO {
 
 	class Agent {
 
-		public static VFSIO getInstance(SnowContext context) {
+		public static VFSIO getInstance(SnowflakeContext context) {
 			String key = VFSIOFactory.class.getName();
 			VFSIOFactory factory = context.getBean(key, VFSIOFactory.class);
 			return factory.getVFSIO(context);

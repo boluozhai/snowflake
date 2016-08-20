@@ -1,9 +1,9 @@
 package com.boluozhai.snowflake.vfs.io;
 
-import com.boluozhai.snowflake.context.SnowContext;
+import com.boluozhai.snowflake.context.SnowflakeContext;
 
 public interface VFSIOFactory {
 
-	VFSIO getVFSIO(SnowContext app);
+	VFSIO getVFSIO(SnowflakeContext app);
 
 }

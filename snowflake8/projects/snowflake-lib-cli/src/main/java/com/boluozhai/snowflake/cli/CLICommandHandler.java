@@ -1,9 +1,9 @@
 package com.boluozhai.snowflake.cli;
 
-import com.boluozhai.snowflake.context.SnowContext;
+import com.boluozhai.snowflake.context.SnowflakeContext;
 
 public interface CLICommandHandler {
 
-	void process(SnowContext context, String command);
+	void process(SnowflakeContext context, String command);
 
 }

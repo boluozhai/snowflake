@@ -9,7 +9,7 @@ import com.boluozhai.snowflake.cli.client.CLIProcess;
 import com.boluozhai.snowflake.cli.client.ExecuteOption;
 import com.boluozhai.snowflake.cli.service.CLIService;
 import com.boluozhai.snowflake.context.ContextBuilder;
-import com.boluozhai.snowflake.context.SnowContext;
+import com.boluozhai.snowflake.context.SnowflakeContext;
 import com.boluozhai.snowflake.context.utils.ContextBuilderConfigHelper;
 import com.boluozhai.snowflake.context.utils.SnowContextUtils;
 
@@ -20,9 +20,9 @@ final class CLIProcessBuilder {
 	private String command;
 	private ExecuteOption option;
 	private String[] arguments;
-	private final SnowContext context;
+	private final SnowflakeContext context;
 
-	public CLIProcessBuilder(SnowContext context) {
+	public CLIProcessBuilder(SnowflakeContext context) {
 		this.context = context;
 	}
 
@@ -38,7 +38,7 @@ final class CLIProcessBuilder {
 		cbw.loadOption(option);
 		cbw.loadArguments(arguments);
 
-		SnowContext sub_context = context_builder.create();
+		SnowflakeContext sub_context = context_builder.create();
 
 		CLIService service = CLIUtils.getService(sub_context);
 		CLICommandHandler handler = service.getHandler(cmd);
@@ -183,11 +183,11 @@ final class CLIProcessBuilder {
 	private static class MyCLIProcess implements CLIProcess {
 
 		private Thread _thread;
-		private final SnowContext _context;
+		private final SnowflakeContext _context;
 		private final CLICommandHandler _handler;
 		private final String _command;
 
-		public MyCLIProcess(SnowContext context, CLICommandHandler handler,
+		public MyCLIProcess(SnowflakeContext context, CLICommandHandler handler,
 				String cmd) {
 			this._context = context;
 			this._handler = handler;
@@ -224,7 +224,7 @@ final class CLIProcessBuilder {
 		}
 
 		@Override
-		public SnowContext context() {
+		public SnowflakeContext context() {
 			return this._context;
 		}
 	}

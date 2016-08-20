@@ -3,10 +3,10 @@ package com.boluozhai.snowflake.appdata;
 import java.io.File;
 
 import com.boluozhai.snowflake.appdata.support.StaticAppDataAgent;
-import com.boluozhai.snowflake.context.SnowContext;
-import com.boluozhai.snowflake.context.SnowProperties;
+import com.boluozhai.snowflake.context.SnowflakeContext;
+import com.boluozhai.snowflake.context.SnowflakeProperties;
 
-public interface AppData extends SnowProperties {
+public interface AppData extends SnowflakeProperties {
 
 	Class<?> getTargetClass();
 
@@ -22,7 +22,7 @@ public interface AppData extends SnowProperties {
 
 	public class Helper {
 
-		public static AppData getInstance(SnowContext context, Class<?> target) {
+		public static AppData getInstance(SnowflakeContext context, Class<?> target) {
 			AppDataAgent agent = AppDataAgent.getAgent(context);
 			return agent.getAppData(target);
 		}

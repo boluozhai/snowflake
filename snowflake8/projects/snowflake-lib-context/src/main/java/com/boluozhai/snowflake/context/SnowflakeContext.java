@@ -1,7 +1,7 @@
 package com.boluozhai.snowflake.context;
 
-public interface SnowContext extends SnowContextMeta, BeanFactory,
-		SnowProperties, SnowAttributes, SnowParameters, SnowEnvironments {
+public interface SnowflakeContext extends SnowflakeContextMeta, BeanFactory,
+		SnowflakeProperties, SnowflakeAttributes, SnowflakeParameters, SnowflakeEnvironments {
 
 	/****
 	 * use this object as the defaultValue , while get attr/prop/param, will get

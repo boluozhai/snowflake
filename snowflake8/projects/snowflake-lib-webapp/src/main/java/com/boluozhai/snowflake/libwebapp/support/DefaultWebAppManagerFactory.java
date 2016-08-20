@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.boluozhai.snowflake.context.SnowContext;
+import com.boluozhai.snowflake.context.SnowflakeContext;
 import com.boluozhai.snowflake.libwebapp.manager.WebAppManager;
 import com.boluozhai.snowflake.libwebapp.manager.WebAppManagerFactory;
 import com.boluozhai.snowflake.libwebapp.pojo.WebappInfo;
@@ -14,16 +14,16 @@ import com.boluozhai.snowflake.libwebapp.server.ApplicationServerInfo;
 public class DefaultWebAppManagerFactory implements WebAppManagerFactory {
 
 	@Override
-	public WebAppManager getManager(SnowContext context) {
+	public WebAppManager getManager(SnowflakeContext context) {
 		return new InnerWebappManager(context);
 	}
 
 	private class InnerWebappManager implements WebAppManager {
 
 		private WebappInfo[] _cache;
-		private final SnowContext _context;
+		private final SnowflakeContext _context;
 
-		public InnerWebappManager(SnowContext context) {
+		public InnerWebappManager(SnowflakeContext context) {
 			this._context = context;
 		}
 
@@ -48,7 +48,7 @@ public class DefaultWebAppManagerFactory implements WebAppManagerFactory {
 
 		private final ApplicationServer _app_server;
 
-		public InnerInfoLoader(SnowContext context) {
+		public InnerInfoLoader(SnowflakeContext context) {
 
 			this._app_server = ApplicationServer.Agent.getServer();
 

@@ -2,13 +2,13 @@ package com.boluozhai.snowflake.vfs;
 
 import java.net.URI;
 
-import com.boluozhai.snowflake.context.SnowContext;
+import com.boluozhai.snowflake.context.SnowflakeContext;
 
 public interface VFS {
 
 	public static class Factory {
 
-		public static VFS getVFS(SnowContext context) {
+		public static VFS getVFS(SnowflakeContext context) {
 			String name = VFSFactory.class.getName();
 			VFSFactory factory = context.getBean(name, VFSFactory.class);
 			return factory.getVFS(context);

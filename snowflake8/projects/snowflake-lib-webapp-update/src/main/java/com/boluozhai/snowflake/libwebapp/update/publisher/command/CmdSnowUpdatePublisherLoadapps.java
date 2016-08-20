@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.Map;
 
 import com.boluozhai.snowflake.cli.CLICommandHandler;
-import com.boluozhai.snowflake.context.SnowContext;
+import com.boluozhai.snowflake.context.SnowflakeContext;
 import com.boluozhai.snowflake.libwebapp.pojo.WebappInfo;
 import com.boluozhai.snowflake.libwebapp.pojo.WebappSet;
 import com.boluozhai.snowflake.libwebapp.update.UpdatePublisherKit;
@@ -13,7 +13,7 @@ import com.boluozhai.snowflake.xgit.ObjectId;
 public class CmdSnowUpdatePublisherLoadapps implements CLICommandHandler {
 
 	@Override
-	public void process(SnowContext context, String command) {
+	public void process(SnowflakeContext context, String command) {
 
 		// TODO Auto-generated method stub
 

@@ -4,6 +4,6 @@ public interface ContextBuilderFactory {
 
 	ContextBuilder newBuilder();
 
-	ContextBuilder newBuilder(SnowContext parent);
+	ContextBuilder newBuilder(SnowflakeContext parent);
 
 }

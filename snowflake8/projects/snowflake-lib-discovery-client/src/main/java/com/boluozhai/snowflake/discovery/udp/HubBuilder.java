@@ -1,6 +1,6 @@
 package com.boluozhai.snowflake.discovery.udp;
 
-import com.boluozhai.snowflake.context.SnowContext;
+import com.boluozhai.snowflake.context.SnowflakeContext;
 
 public interface HubBuilder {
 
@@ -12,7 +12,7 @@ public interface HubBuilder {
 
 	int getPort();
 
-	SnowContext getContext();
+	SnowflakeContext getContext();
 
 	void setPublicHandler(PublicHandler h);
 
@@ -20,6 +20,6 @@ public interface HubBuilder {
 
 	void setPort(int port);
 
-	void setContext(SnowContext context);
+	void setContext(SnowflakeContext context);
 
 }

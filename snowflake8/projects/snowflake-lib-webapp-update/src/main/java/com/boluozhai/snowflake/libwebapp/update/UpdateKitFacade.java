@@ -3,7 +3,7 @@ package com.boluozhai.snowflake.libwebapp.update;
 import java.net.URI;
 
 import com.boluozhai.snowflake.appdata.AppData;
-import com.boluozhai.snowflake.context.SnowContext;
+import com.boluozhai.snowflake.context.SnowflakeContext;
 import com.boluozhai.snowflake.vfs.VFile;
 import com.boluozhai.snowflake.xgit.vfs.FileRepository;
 
@@ -15,7 +15,7 @@ public class UpdateKitFacade implements UpdateKit {
 		this.in = inner;
 	}
 
-	public SnowContext getContext() {
+	public SnowflakeContext getContext() {
 		return in.getContext();
 	}
 

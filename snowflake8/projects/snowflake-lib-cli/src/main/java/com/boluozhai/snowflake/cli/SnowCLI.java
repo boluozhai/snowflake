@@ -1,7 +1,7 @@
 package com.boluozhai.snowflake.cli;
 
 import com.boluozhai.snowflake.cli.client.CLIClient;
-import com.boluozhai.snowflake.context.SnowContext;
+import com.boluozhai.snowflake.context.SnowflakeContext;
 import com.boluozhai.snowflake.context.utils.SnowContextUtils;
 
 public class SnowCLI {
@@ -15,7 +15,7 @@ public class SnowCLI {
 		}
 
 		String fn = SnowContextUtils.FactoryName.javase;
-		SnowContext context = SnowContextUtils.getContext(fn);
+		SnowflakeContext context = SnowContextUtils.getContext(fn);
 		CLIClient client = CLIUtils.getClient(context);
 		client.execute(context, "snow", args);
 

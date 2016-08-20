@@ -1,6 +1,6 @@
 package com.boluozhai.snowflake.cli.client;
 
-import com.boluozhai.snowflake.context.SnowContext;
+import com.boluozhai.snowflake.context.SnowflakeContext;
 
 public interface CLIProcess extends Runnable {
 
@@ -12,6 +12,6 @@ public interface CLIProcess extends Runnable {
 
 	// SnowContext childContext();
 
-	SnowContext context();
+	SnowflakeContext context();
 
 }

@@ -2,11 +2,11 @@ package com.boluozhai.snowflake.runtime;
 
 import java.io.Writer;
 
-import com.boluozhai.snowflake.context.SnowContext;
+import com.boluozhai.snowflake.context.SnowflakeContext;
 
 public interface SubProcessInfo {
 
-	SnowContext getContext();
+	SnowflakeContext getContext();
 
 	String getCommand();
 

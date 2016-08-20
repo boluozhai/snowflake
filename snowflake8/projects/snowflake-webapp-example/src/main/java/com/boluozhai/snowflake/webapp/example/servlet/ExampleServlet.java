@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.boluozhai.snowflake.context.ContextBuilder;
-import com.boluozhai.snowflake.context.SnowContext;
+import com.boluozhai.snowflake.context.SnowflakeContext;
 import com.boluozhai.snowflake.context.utils.ContextPrinter;
 import com.boluozhai.snowflake.context.utils.SnowContextUtils;
 import com.boluozhai.snowflake.libwebapp.utils.WebContextUtils;
@@ -39,7 +39,7 @@ public class ExampleServlet extends HttpServlet {
 
 		// in simple style
 		ServletContext sc = req.getServletContext();
-		SnowContext context = WebContextUtils.getWebContext(sc);
+		SnowflakeContext context = WebContextUtils.getWebContext(sc);
 
 		String enc = "utf-8";
 
@@ -65,7 +65,7 @@ public class ExampleServlet extends HttpServlet {
 		builder.create();
 
 		// in simple style
-		SnowContext context = SnowContextUtils.getAppContext(
+		SnowflakeContext context = SnowContextUtils.getAppContext(
 				ExampleServlet.class, arg);
 		context.getName();
 
@@ -84,7 +84,7 @@ public class ExampleServlet extends HttpServlet {
 		builder.create();
 
 		// in simple style
-		SnowContext context = WebContextUtils.getJunitContext(this);
+		SnowflakeContext context = WebContextUtils.getJunitContext(this);
 		context.getName();
 
 	}

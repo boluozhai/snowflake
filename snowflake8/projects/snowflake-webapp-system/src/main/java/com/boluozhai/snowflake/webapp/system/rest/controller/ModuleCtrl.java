@@ -7,7 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.boluozhai.snowflake.context.SnowContext;
+import com.boluozhai.snowflake.context.SnowflakeContext;
 import com.boluozhai.snowflake.libwebapp.manager.WebAppManager;
 import com.boluozhai.snowflake.libwebapp.pojo.WebappInfo;
 import com.boluozhai.snowflake.libwebapp.rest.RestController;
@@ -20,7 +20,7 @@ public class ModuleCtrl extends RestController {
 			HttpServletResponse response) throws ServletException, IOException {
 
 		ServletContext sc = request.getServletContext();
-		SnowContext web_con = WebContextUtils.getWebContext(sc);
+		SnowflakeContext web_con = WebContextUtils.getWebContext(sc);
 
 		WebAppManager webapp_man = WebAppManager.Factory.getManager(web_con);
 		WebappInfo[] list = webapp_man.getInstalledWebapps();

@@ -3,7 +3,7 @@ package com.boluozhai.snowflake.cli;
 import java.io.OutputStream;
 
 import com.boluozhai.snowflake.context.MutableAttributes;
-import com.boluozhai.snowflake.context.SnowContext;
+import com.boluozhai.snowflake.context.SnowflakeContext;
 
 public interface CLIResponse {
 
@@ -12,7 +12,7 @@ public interface CLIResponse {
 		private final static String key = CLIResponse.class.getName()
 				+ "@agent";
 
-		public static CLIResponse getResponse(SnowContext context) {
+		public static CLIResponse getResponse(SnowflakeContext context) {
 			return context.getBean(key, CLIResponse.class);
 		}
 

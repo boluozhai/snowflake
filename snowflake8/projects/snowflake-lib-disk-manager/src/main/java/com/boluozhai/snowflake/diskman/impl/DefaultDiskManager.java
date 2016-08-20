@@ -1,19 +1,19 @@
 package com.boluozhai.snowflake.diskman.impl;
 
-import com.boluozhai.snowflake.context.SnowContext;
+import com.boluozhai.snowflake.context.SnowflakeContext;
 import com.boluozhai.snowflake.diskman.DiskManager;
 import com.boluozhai.snowflake.diskman.model.FsTable;
 
 public final class DefaultDiskManager implements DiskManager {
 
 	private FsTable _cache_fstab;
-	private final SnowContext _context;
+	private final SnowflakeContext _context;
 
-	private DefaultDiskManager(SnowContext context) {
+	private DefaultDiskManager(SnowflakeContext context) {
 		this._context = context;
 	}
 
-	public static DiskManager newInstance(SnowContext context) {
+	public static DiskManager newInstance(SnowflakeContext context) {
 		return new DefaultDiskManager(context);
 	}
 

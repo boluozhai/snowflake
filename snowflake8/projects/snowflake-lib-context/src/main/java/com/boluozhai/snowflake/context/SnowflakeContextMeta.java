@@ -2,7 +2,7 @@ package com.boluozhai.snowflake.context;
 
 import java.net.URI;
 
-public interface SnowContextMeta {
+public interface SnowflakeContextMeta {
 
 	String getName();
 
@@ -12,7 +12,7 @@ public interface SnowContextMeta {
 
 	URI getURI();
 
-	SnowContext getParent();
+	SnowflakeContext getParent();
 
 	Object getBean(String name);
 

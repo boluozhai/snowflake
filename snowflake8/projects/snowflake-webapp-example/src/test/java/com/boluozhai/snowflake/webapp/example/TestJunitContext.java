@@ -2,7 +2,7 @@ package com.boluozhai.snowflake.webapp.example;
 
 import org.junit.Test;
 
-import com.boluozhai.snowflake.context.SnowContext;
+import com.boluozhai.snowflake.context.SnowflakeContext;
 import com.boluozhai.snowflake.context.utils.ContextPrinter;
 import com.boluozhai.snowflake.context.utils.SnowContextUtils;
 import com.boluozhai.snowflake.test.TestContext;
@@ -14,7 +14,7 @@ public class TestJunitContext {
 	@Test
 	public void test1() {
 
-		SnowContext context = SnowContextUtils.getJunitContext(this);
+		SnowflakeContext context = SnowContextUtils.getJunitContext(this);
 		ContextPrinter.print(context, System.out);
 
 	}

@@ -1,7 +1,7 @@
 package com.boluozhai.snowflake.mvc;
 
-import com.boluozhai.snowflake.context.SnowContext;
+import com.boluozhai.snowflake.context.SnowflakeContext;
 
-public interface ControllerContext extends SnowContext {
+public interface ControllerContext extends SnowflakeContext {
 
 }

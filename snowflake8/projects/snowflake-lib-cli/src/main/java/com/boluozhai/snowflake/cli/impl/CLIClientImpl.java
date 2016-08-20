@@ -3,18 +3,18 @@ package com.boluozhai.snowflake.cli.impl;
 import com.boluozhai.snowflake.cli.client.CLIClient;
 import com.boluozhai.snowflake.cli.client.CLIProcess;
 import com.boluozhai.snowflake.cli.client.ExecuteOption;
-import com.boluozhai.snowflake.context.SnowContext;
+import com.boluozhai.snowflake.context.SnowflakeContext;
 
 public class CLIClientImpl implements CLIClient {
 
-	public static CLIClient newInstance(SnowContext context) {
+	public static CLIClient newInstance(SnowflakeContext context) {
 		return new CLIClientImpl(context);
 	}
 
-	private CLIClientImpl(SnowContext context) {
+	private CLIClientImpl(SnowflakeContext context) {
 	}
 
-	private CLIProcessBuilder new_proc_builder(SnowContext context) {
+	private CLIProcessBuilder new_proc_builder(SnowflakeContext context) {
 		CLIProcessBuilder builder = new CLIProcessBuilder(context);
 		builder.setAutoJoin(true);
 		builder.setAutoStart(true);
@@ -22,14 +22,14 @@ public class CLIClientImpl implements CLIClient {
 	}
 
 	@Override
-	public CLIProcess execute(SnowContext context, String cmd) {
+	public CLIProcess execute(SnowflakeContext context, String cmd) {
 		CLIProcessBuilder builder = this.new_proc_builder(context);
 		builder.setCommand(cmd);
 		return builder.create();
 	}
 
 	@Override
-	public CLIProcess execute(SnowContext context, String cmd,
+	public CLIProcess execute(SnowflakeContext context, String cmd,
 			ExecuteOption option) {
 		CLIProcessBuilder builder = this.new_proc_builder(context);
 		builder.setCommand(cmd);
@@ -38,7 +38,7 @@ public class CLIClientImpl implements CLIClient {
 	}
 
 	@Override
-	public CLIProcess execute(SnowContext context, String cmd, String[] args) {
+	public CLIProcess execute(SnowflakeContext context, String cmd, String[] args) {
 		CLIProcessBuilder builder = this.new_proc_builder(context);
 		builder.setCommand(cmd);
 		builder.setArguments(args);
@@ -46,7 +46,7 @@ public class CLIClientImpl implements CLIClient {
 	}
 
 	@Override
-	public CLIProcess execute(SnowContext context, String cmd, String[] args,
+	public CLIProcess execute(SnowflakeContext context, String cmd, String[] args,
 			ExecuteOption option) {
 		CLIProcessBuilder builder = this.new_proc_builder(context);
 		builder.setCommand(cmd);

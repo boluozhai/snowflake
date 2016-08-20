@@ -1,6 +1,6 @@
 package com.boluozhai.snowflake.runtime;
 
-import com.boluozhai.snowflake.context.SnowContext;
+import com.boluozhai.snowflake.context.SnowflakeContext;
 
 public interface RuntimeExe {
 
@@ -8,7 +8,7 @@ public interface RuntimeExe {
 
 	class Agent {
 
-		public static RuntimeExe getInstance(SnowContext context) {
+		public static RuntimeExe getInstance(SnowflakeContext context) {
 			Class<RuntimeExe> type = RuntimeExe.class;
 			String key = type.getName();
 			return context.getBean(key, type);

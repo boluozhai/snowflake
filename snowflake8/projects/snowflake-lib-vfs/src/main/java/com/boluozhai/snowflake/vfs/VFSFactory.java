@@ -1,9 +1,9 @@
 package com.boluozhai.snowflake.vfs;
 
-import com.boluozhai.snowflake.context.SnowContext;
+import com.boluozhai.snowflake.context.SnowflakeContext;
 
 public interface VFSFactory {
 
-	VFS getVFS(SnowContext app);
+	VFS getVFS(SnowflakeContext app);
 
 }

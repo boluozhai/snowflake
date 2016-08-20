@@ -12,7 +12,7 @@ import java.util.Set;
 
 import com.boluozhai.snowflake.appdata.AppData;
 import com.boluozhai.snowflake.appdata.AppDataAgent;
-import com.boluozhai.snowflake.context.SnowProperties;
+import com.boluozhai.snowflake.context.SnowflakeProperties;
 import com.boluozhai.snowflake.util.IOTools;
 
 public class StaticAppDataAgent extends AppDataAgent {
@@ -205,7 +205,7 @@ public class StaticAppDataAgent extends AppDataAgent {
 
 		@Override
 		public String getProperty(String name) {
-			return this.getProperty(name, SnowProperties.exception);
+			return this.getProperty(name, SnowflakeProperties.exception);
 		}
 
 		@Override
@@ -214,7 +214,7 @@ public class StaticAppDataAgent extends AppDataAgent {
 			if (value == null) {
 				if (defaultValue == null) {
 					// NOP
-				} else if (defaultValue == SnowProperties.exception) {
+				} else if (defaultValue == SnowflakeProperties.exception) {
 					String msg = "need key:" + name + " in file:"
 							+ this._properties_path;
 					throw new RuntimeException(msg);

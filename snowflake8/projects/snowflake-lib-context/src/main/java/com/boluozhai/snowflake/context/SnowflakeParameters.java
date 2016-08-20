@@ -3,9 +3,9 @@ package com.boluozhai.snowflake.context;
 import java.util.HashMap;
 import java.util.Map;
 
-public interface SnowParameters {
+public interface SnowflakeParameters {
 
-	Object exception = SnowContext.throw_exception_while_nil;
+	Object exception = SnowflakeContext.throw_exception_while_nil;
 
 	String[] getParameterNames();
 
@@ -15,7 +15,7 @@ public interface SnowParameters {
 
 	class MapGetter {
 
-		public static Map<String, String> getMap(SnowParameters src) {
+		public static Map<String, String> getMap(SnowflakeParameters src) {
 			Map<String, String> map = new HashMap<String, String>();
 			String[] keys = src.getParameterNames();
 			for (String key : keys) {

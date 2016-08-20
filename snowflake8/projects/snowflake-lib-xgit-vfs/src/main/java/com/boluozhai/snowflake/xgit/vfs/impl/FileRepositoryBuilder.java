@@ -9,7 +9,7 @@ import java.util.Set;
 
 import com.boluozhai.snowflake.context.ContextBuilder;
 import com.boluozhai.snowflake.context.MutableProperties;
-import com.boluozhai.snowflake.context.SnowContext;
+import com.boluozhai.snowflake.context.SnowflakeContext;
 import com.boluozhai.snowflake.context.support.DefaultContextBuilderFactory;
 import com.boluozhai.snowflake.mvc.model.Component;
 import com.boluozhai.snowflake.mvc.model.ComponentBuilder;
@@ -39,7 +39,7 @@ public class FileRepositoryBuilder {
 		ContextBuilder context_builder;
 		FileRepoContextAgent context_facade_agent;
 		URI uri;
-		SnowContext parent;
+		SnowflakeContext parent;
 		RepositoryOption option;
 		RepositoryProfile profile;
 
@@ -47,7 +47,7 @@ public class FileRepositoryBuilder {
 
 	private final BuildContext context;
 
-	public FileRepositoryBuilder(SnowContext parent, RepositoryProfile profile) {
+	public FileRepositoryBuilder(SnowflakeContext parent, RepositoryProfile profile) {
 
 		BuildContext context = new BuildContext();
 
@@ -152,7 +152,7 @@ public class FileRepositoryBuilder {
 	}
 
 	private void make_com_context_core() {
-		SnowContext core = context.context_builder.create();
+		SnowflakeContext core = context.context_builder.create();
 		context.context_facade_agent.setCore(core);
 	}
 

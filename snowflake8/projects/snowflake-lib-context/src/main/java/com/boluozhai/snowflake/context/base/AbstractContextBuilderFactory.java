@@ -2,7 +2,7 @@ package com.boluozhai.snowflake.context.base;
 
 import com.boluozhai.snowflake.context.ContextBuilder;
 import com.boluozhai.snowflake.context.ContextBuilderFactory;
-import com.boluozhai.snowflake.context.SnowContext;
+import com.boluozhai.snowflake.context.SnowflakeContext;
 
 public class AbstractContextBuilderFactory implements ContextBuilderFactory {
 
@@ -12,7 +12,7 @@ public class AbstractContextBuilderFactory implements ContextBuilderFactory {
 	}
 
 	@Override
-	public ContextBuilder newBuilder(SnowContext parent) {
+	public ContextBuilder newBuilder(SnowflakeContext parent) {
 		return new AbstractContextBuilder(parent);
 	}
 

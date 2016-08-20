@@ -1,12 +1,12 @@
 package com.boluozhai.snow.discovery.server;
 
-import com.boluozhai.snowflake.context.SnowContext;
+import com.boluozhai.snowflake.context.SnowflakeContext;
 
 public interface DiscoveryServer {
 
 	class Factory {
 
-		public static DiscoveryServer getInstance(SnowContext context) {
+		public static DiscoveryServer getInstance(SnowflakeContext context) {
 			Class<DiscoveryServerFactory> type = DiscoveryServerFactory.class;
 			String key = type.getName();
 			DiscoveryServerFactory factory = context.getBean(key, type);

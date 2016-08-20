@@ -1,9 +1,9 @@
 package com.boluozhai.snowflake.discovery.client;
 
-import com.boluozhai.snowflake.context.SnowContext;
+import com.boluozhai.snowflake.context.SnowflakeContext;
 
 public interface DiscoveryClientFactory {
 
-	DiscoveryClient getClient(SnowContext context);
+	DiscoveryClient getClient(SnowflakeContext context);
 
 }

@@ -1,6 +1,6 @@
 package com.boluozhai.snowflake.discovery.impl;
 
-import com.boluozhai.snowflake.context.SnowContext;
+import com.boluozhai.snowflake.context.SnowflakeContext;
 import com.boluozhai.snowflake.discovery.support.DefaultHubHandler;
 import com.boluozhai.snowflake.discovery.udp.Hub;
 import com.boluozhai.snowflake.discovery.udp.HubBuilder;
@@ -21,7 +21,7 @@ public class ConnectorImpl implements HubBuilderFactory {
 		private PublicHandler publicHandler;
 		private PrivateHandler privateHandler;
 		private int port = 10217;
-		private SnowContext context;
+		private SnowflakeContext context;
 
 		private DefaultHubHandler cached_handler;
 
@@ -52,11 +52,11 @@ public class ConnectorImpl implements HubBuilderFactory {
 			return h;
 		}
 
-		public SnowContext getContext() {
+		public SnowflakeContext getContext() {
 			return context;
 		}
 
-		public void setContext(SnowContext context) {
+		public void setContext(SnowflakeContext context) {
 			this.context = context;
 		}
 

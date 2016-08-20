@@ -1,7 +1,7 @@
 package com.boluozhai.snowflake.cli;
 
 import com.boluozhai.snowflake.context.MutableAttributes;
-import com.boluozhai.snowflake.context.SnowContext;
+import com.boluozhai.snowflake.context.SnowflakeContext;
 
 public interface CLIProgress {
 
@@ -10,7 +10,7 @@ public interface CLIProgress {
 		private final static String key = CLIProgress.class.getName()
 				+ "@agent";
 
-		public static CLIProgress getResponse(SnowContext context) {
+		public static CLIProgress getResponse(SnowflakeContext context) {
 			return context.getBean(key, CLIProgress.class);
 		}
 

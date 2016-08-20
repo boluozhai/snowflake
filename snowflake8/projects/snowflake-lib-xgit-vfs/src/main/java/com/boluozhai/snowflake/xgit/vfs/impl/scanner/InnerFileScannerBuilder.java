@@ -3,7 +3,7 @@ package com.boluozhai.snowflake.xgit.vfs.impl.scanner;
 import java.net.URI;
 import java.util.ArrayList;
 
-import com.boluozhai.snowflake.context.SnowContext;
+import com.boluozhai.snowflake.context.SnowflakeContext;
 import com.boluozhai.snowflake.vfs.VFile;
 import com.boluozhai.snowflake.xgit.XGit;
 import com.boluozhai.snowflake.xgit.XGitContext;
@@ -16,15 +16,15 @@ import com.boluozhai.snowflake.xgit.vfs.scanner.UserDataFactory;
 
 final class InnerFileScannerBuilder implements FileScannerBuilder {
 
-	private final SnowContext _context;
+	private final SnowflakeContext _context;
 	private UserDataFactory _user_data_factory;
 
-	public InnerFileScannerBuilder(SnowContext context) {
+	public InnerFileScannerBuilder(SnowflakeContext context) {
 		this._context = context;
 	}
 
 	@Override
-	public SnowContext context() {
+	public SnowflakeContext context() {
 		return this._context;
 	}
 

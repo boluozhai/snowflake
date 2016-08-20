@@ -2,7 +2,7 @@ package com.boluozhai.snowflake.spring.impl;
 
 import org.springframework.context.ApplicationContext;
 
-import com.boluozhai.snowflake.context.SnowContext;
+import com.boluozhai.snowflake.context.SnowflakeContext;
 import com.boluozhai.snowflake.context.base.AbstractContextBuilder;
 import com.boluozhai.snowflake.spring.SpringSnowContextBuilder;
 
@@ -11,7 +11,7 @@ final class InnerS2ContextBuilder extends AbstractContextBuilder implements
 
 	private ApplicationContext _spring;
 
-	protected InnerS2ContextBuilder(SnowContext parent) {
+	protected InnerS2ContextBuilder(SnowflakeContext parent) {
 		super(parent);
 	}
 
@@ -26,8 +26,8 @@ final class InnerS2ContextBuilder extends AbstractContextBuilder implements
 	}
 
 	@Override
-	public SnowContext create() {
-		SnowContext inner = super.create();
+	public SnowflakeContext create() {
+		SnowflakeContext inner = super.create();
 		return new InnerS2Context(inner, _spring);
 	}
 

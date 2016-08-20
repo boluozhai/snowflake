@@ -1,7 +1,7 @@
 package com.boluozhai.snowflake.spring;
 
 import com.boluozhai.snowflake.context.ContextBuilderFactory;
-import com.boluozhai.snowflake.context.SnowContext;
+import com.boluozhai.snowflake.context.SnowflakeContext;
 import com.boluozhai.snowflake.spring.impl.S2ContextBuilderFactoryImpl;
 
 public abstract class SpringSnowContextBuilderFactory implements
@@ -17,6 +17,6 @@ public abstract class SpringSnowContextBuilderFactory implements
 
 	public abstract SpringSnowContextBuilder newBuilder();
 
-	public abstract SpringSnowContextBuilder newBuilder(SnowContext parent);
+	public abstract SpringSnowContextBuilder newBuilder(SnowflakeContext parent);
 
 }

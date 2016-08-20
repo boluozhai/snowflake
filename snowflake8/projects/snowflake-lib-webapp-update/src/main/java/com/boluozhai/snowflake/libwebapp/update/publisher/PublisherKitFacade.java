@@ -4,7 +4,7 @@ import java.io.File;
 import java.net.URI;
 
 import com.boluozhai.snowflake.appdata.AppData;
-import com.boluozhai.snowflake.context.SnowContext;
+import com.boluozhai.snowflake.context.SnowflakeContext;
 import com.boluozhai.snowflake.vfs.VFile;
 import com.boluozhai.snowflake.xgit.vfs.FileRepository;
 
@@ -16,7 +16,7 @@ public class PublisherKitFacade implements PublisherKit {
 		this.in = inner;
 	}
 
-	public SnowContext getContext() {
+	public SnowflakeContext getContext() {
 		return in.getContext();
 	}
 

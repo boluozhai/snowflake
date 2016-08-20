@@ -1,12 +1,12 @@
 package com.boluozhai.snowflake.xgit.utils;
 
 import com.boluozhai.snowflake.context.MutableContext;
-import com.boluozhai.snowflake.context.SnowContext;
+import com.boluozhai.snowflake.context.SnowflakeContext;
 import com.boluozhai.snowflake.xgit.repository.Repository;
 
 public interface RepositoryAgent {
 
-	Repository getRepository(SnowContext context);
+	Repository getRepository(SnowflakeContext context);
 
 	class Factory {
 
@@ -16,7 +16,7 @@ public interface RepositoryAgent {
 			context.setAttribute(key, factory);
 		}
 
-		public static RepositoryAgent get(SnowContext context) {
+		public static RepositoryAgent get(SnowflakeContext context) {
 			return context.getBean(key, RepositoryAgent.class);
 		}
 

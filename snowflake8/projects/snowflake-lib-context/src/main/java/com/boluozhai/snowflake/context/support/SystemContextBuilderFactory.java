@@ -6,7 +6,7 @@ import java.util.Set;
 
 import com.boluozhai.snowflake.context.ContextBuilder;
 import com.boluozhai.snowflake.context.ContextBuilderFactory;
-import com.boluozhai.snowflake.context.SnowContext;
+import com.boluozhai.snowflake.context.SnowflakeContext;
 
 public final class SystemContextBuilderFactory implements ContextBuilderFactory {
 
@@ -16,7 +16,7 @@ public final class SystemContextBuilderFactory implements ContextBuilderFactory 
 	}
 
 	@Override
-	public ContextBuilder newBuilder(SnowContext parent) {
+	public ContextBuilder newBuilder(SnowflakeContext parent) {
 		ContextBuilderFactory factory = new DefaultContextBuilderFactory();
 		ContextBuilder builder = factory.newBuilder(parent);
 

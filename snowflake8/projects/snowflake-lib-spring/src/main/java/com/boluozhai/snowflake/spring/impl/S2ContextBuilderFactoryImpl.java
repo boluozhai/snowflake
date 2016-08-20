@@ -2,7 +2,7 @@ package com.boluozhai.snowflake.spring.impl;
 
 import org.springframework.context.ApplicationContext;
 
-import com.boluozhai.snowflake.context.SnowContext;
+import com.boluozhai.snowflake.context.SnowflakeContext;
 import com.boluozhai.snowflake.context.utils.ContextBuilderConfigHelper;
 import com.boluozhai.snowflake.spring.SpringContextLoader;
 import com.boluozhai.snowflake.spring.SpringSnowContextBuilder;
@@ -24,7 +24,7 @@ public class S2ContextBuilderFactoryImpl extends
 	}
 
 	@Override
-	public SpringSnowContextBuilder newBuilder(SnowContext parent) {
+	public SpringSnowContextBuilder newBuilder(SnowflakeContext parent) {
 		ApplicationContext spring = spring_loader.get();
 		SpringSnowContextBuilder builder = new InnerS2ContextBuilder(parent);
 		builder.setSpringContext(spring);

@@ -9,7 +9,7 @@ import com.boluozhai.snowflake.cli.CommandSet;
 import com.boluozhai.snowflake.cli.impl.CLIServiceImpl;
 import com.boluozhai.snowflake.cli.service.CLIService;
 import com.boluozhai.snowflake.cli.service.CLIServiceFactory;
-import com.boluozhai.snowflake.context.SnowContext;
+import com.boluozhai.snowflake.context.SnowflakeContext;
 
 public class DefaultCliServiceFactory implements CLIServiceFactory {
 
@@ -17,13 +17,13 @@ public class DefaultCliServiceFactory implements CLIServiceFactory {
 	private Map<String, CLICommandHandler> _handlers_cache;
 
 	@Override
-	public CLIService create(SnowContext context) {
+	public CLIService create(SnowflakeContext context) {
 		Map<String, CLICommandHandler> map = this.get_handler_table(context);
 		return CLIServiceImpl.newInstance(map);
 	}
 
 	private synchronized Map<String, CLICommandHandler> get_handler_table(
-			SnowContext context) {
+			SnowflakeContext context) {
 		Map<String, CLICommandHandler> table = this._handlers_cache;
 		if (table == null) {
 
@@ -41,7 +41,7 @@ public class DefaultCliServiceFactory implements CLIServiceFactory {
 		return table;
 	}
 
-	private void find_command_set(SnowContext context,
+	private void find_command_set(SnowflakeContext context,
 			Map<String, CLICommandHandler> table) {
 
 		String[] keys = context.getAttributeNames();

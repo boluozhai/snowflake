@@ -9,7 +9,7 @@ import java.util.Set;
 import org.junit.Test;
 
 import com.boluozhai.snowflake.context.MutableProperties;
-import com.boluozhai.snowflake.context.SnowProperties;
+import com.boluozhai.snowflake.context.SnowflakeProperties;
 import com.boluozhai.snowflake.test.TestContext;
 import com.boluozhai.snowflake.test.Tester;
 import com.boluozhai.snowflake.test.Testing;
@@ -36,7 +36,7 @@ public class TestRepoConfigLS {
 
 			config1.load();
 
-			Map<String, String> map = SnowProperties.MapGetter.getMap(config1);
+			Map<String, String> map = SnowflakeProperties.MapGetter.getMap(config1);
 			this.setProperties(config2, map);
 			config2.setProperty(this.getClass().getName(), "for-test");
 
@@ -52,7 +52,7 @@ public class TestRepoConfigLS {
 
 	}
 
-	private void logProperties(String tag, SnowProperties kv) {
+	private void logProperties(String tag, SnowflakeProperties kv) {
 
 		System.out.println(tag);
 

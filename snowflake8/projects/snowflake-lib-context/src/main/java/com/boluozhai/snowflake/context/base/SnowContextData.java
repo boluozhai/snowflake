@@ -4,16 +4,16 @@ import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.boluozhai.snowflake.context.SnowAttributes;
-import com.boluozhai.snowflake.context.SnowContext;
-import com.boluozhai.snowflake.context.SnowEnvironments;
-import com.boluozhai.snowflake.context.SnowParameters;
-import com.boluozhai.snowflake.context.SnowProperties;
+import com.boluozhai.snowflake.context.SnowflakeAttributes;
+import com.boluozhai.snowflake.context.SnowflakeContext;
+import com.boluozhai.snowflake.context.SnowflakeEnvironments;
+import com.boluozhai.snowflake.context.SnowflakeParameters;
+import com.boluozhai.snowflake.context.SnowflakeProperties;
 
 public final class SnowContextData {
 
 	public URI uri;
-	public SnowContext parent;
+	public SnowflakeContext parent;
 	public String name;
 	public String description;
 
@@ -31,17 +31,17 @@ public final class SnowContextData {
 
 	}
 
-	public SnowContextData(SnowContext parent) {
+	public SnowContextData(SnowflakeContext parent) {
 
 		this.parent = parent;
 		this.uri = parent.getURI();
 		this.name = parent.getName();
 		this.description = parent.getDescription();
 
-		this.attr_set = SnowAttributes.MapGetter.getMap(parent);
-		this.prop_set = SnowProperties.MapGetter.getMap(parent);
-		this.param_set = SnowParameters.MapGetter.getMap(parent);
-		this.env_set = SnowEnvironments.MapGetter.getMap(parent);
+		this.attr_set = SnowflakeAttributes.MapGetter.getMap(parent);
+		this.prop_set = SnowflakeProperties.MapGetter.getMap(parent);
+		this.param_set = SnowflakeParameters.MapGetter.getMap(parent);
+		this.env_set = SnowflakeEnvironments.MapGetter.getMap(parent);
 
 	}
 

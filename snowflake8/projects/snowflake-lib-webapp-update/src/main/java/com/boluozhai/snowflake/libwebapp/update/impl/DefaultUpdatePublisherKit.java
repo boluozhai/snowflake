@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.boluozhai.snowflake.appdata.AppData;
-import com.boluozhai.snowflake.context.SnowContext;
+import com.boluozhai.snowflake.context.SnowflakeContext;
 import com.boluozhai.snowflake.libwebapp.pojo.WebappInfo;
 import com.boluozhai.snowflake.libwebapp.pojo.WebappPOM;
 import com.boluozhai.snowflake.libwebapp.pojo.WebappSet;
@@ -41,7 +41,7 @@ public class DefaultUpdatePublisherKit extends DefaultUpdateKit implements
 
 	}
 
-	public DefaultUpdatePublisherKit(SnowContext context) {
+	public DefaultUpdatePublisherKit(SnowflakeContext context) {
 		super(context);
 	}
 

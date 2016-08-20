@@ -1,10 +1,10 @@
 package com.boluozhai.snowflake.runtime;
 
-import com.boluozhai.snowflake.context.SnowContext;
+import com.boluozhai.snowflake.context.SnowflakeContext;
 
 public interface SubProcessBuilder extends SubProcessInfo {
 
-	void setContext(SnowContext context);
+	void setContext(SnowflakeContext context);
 
 	void setCommand(String cmd);
 

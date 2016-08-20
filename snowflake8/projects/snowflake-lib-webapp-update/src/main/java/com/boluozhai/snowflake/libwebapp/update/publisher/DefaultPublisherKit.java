@@ -3,13 +3,13 @@ package com.boluozhai.snowflake.libwebapp.update.publisher;
 import java.io.File;
 
 import com.boluozhai.snowflake.appdata.AppData;
-import com.boluozhai.snowflake.context.SnowContext;
+import com.boluozhai.snowflake.context.SnowflakeContext;
 import com.boluozhai.snowflake.libwebapp.update.impl.DefaultUpdateKit;
 
 public class DefaultPublisherKit extends DefaultUpdateKit implements
 		PublisherKit {
 
-	public DefaultPublisherKit(SnowContext context) {
+	public DefaultPublisherKit(SnowflakeContext context) {
 		super(context);
 	}
 

@@ -3,14 +3,14 @@ package com.boluozhai.snowflake.runtime.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.boluozhai.snowflake.context.SnowContext;
+import com.boluozhai.snowflake.context.SnowflakeContext;
 import com.boluozhai.snowflake.runtime.ErrorHandler;
 import com.boluozhai.snowflake.runtime.LineHandler;
 
 final class InnerSPInfo {
 
 	public String command;
-	public SnowContext context;
+	public SnowflakeContext context;
 	public LineHandler h_output;
 	public ErrorHandler h_error;
 

@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import com.boluozhai.snowflake.context.SnowProperties;
+import com.boluozhai.snowflake.context.SnowflakeProperties;
 import com.boluozhai.snowflake.mvc.model.ComponentContext;
 import com.boluozhai.snowflake.vfs.VFile;
 
@@ -39,7 +39,7 @@ public class FileRepoConfigImpl {
 	}
 
 	public String get(String name) {
-		Object def = SnowProperties.exception;
+		Object def = SnowflakeProperties.exception;
 		return this.get(name, def);
 	}
 
@@ -48,7 +48,7 @@ public class FileRepoConfigImpl {
 		if (value == null) {
 			if (def == null) {
 				// NOP
-			} else if (def == SnowProperties.exception) {
+			} else if (def == SnowflakeProperties.exception) {
 				String msg = "no value for key: " + key;
 				throw new RuntimeException(msg);
 			} else {

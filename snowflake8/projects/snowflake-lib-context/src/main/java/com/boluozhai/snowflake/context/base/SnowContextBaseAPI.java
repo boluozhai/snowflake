@@ -1,13 +1,13 @@
 package com.boluozhai.snowflake.context.base;
 
 import com.boluozhai.snowflake.context.BeanFactory;
-import com.boluozhai.snowflake.context.SnowAttributes;
-import com.boluozhai.snowflake.context.SnowContextMeta;
-import com.boluozhai.snowflake.context.SnowEnvironments;
-import com.boluozhai.snowflake.context.SnowParameters;
-import com.boluozhai.snowflake.context.SnowProperties;
+import com.boluozhai.snowflake.context.SnowflakeAttributes;
+import com.boluozhai.snowflake.context.SnowflakeContextMeta;
+import com.boluozhai.snowflake.context.SnowflakeEnvironments;
+import com.boluozhai.snowflake.context.SnowflakeParameters;
+import com.boluozhai.snowflake.context.SnowflakeProperties;
 
-public interface SnowContextBaseAPI extends SnowContextMeta, BeanFactory,
-		SnowProperties, SnowAttributes, SnowParameters, SnowEnvironments {
+public interface SnowContextBaseAPI extends SnowflakeContextMeta, BeanFactory,
+		SnowflakeProperties, SnowflakeAttributes, SnowflakeParameters, SnowflakeEnvironments {
 
 }

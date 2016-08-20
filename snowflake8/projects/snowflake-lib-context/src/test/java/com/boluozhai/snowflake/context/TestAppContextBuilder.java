@@ -20,12 +20,12 @@ public class TestAppContextBuilder {
 		ContextBuilderFactory factory = new DefaultContextBuilderFactory();
 		ContextBuilder builder = factory.newBuilder();
 		this.config(builder);
-		SnowContext context = builder.create();
+		SnowflakeContext context = builder.create();
 		this.log(context);
 
 	}
 
-	private void log(SnowContext context) {
+	private void log(SnowflakeContext context) {
 
 		System.out.println(this);
 		this.log_kv("uri", context.getURI());
@@ -35,15 +35,15 @@ public class TestAppContextBuilder {
 
 		System.out.println();
 		System.out.println("[env]");
-		this.log_map(SnowEnvironments.MapGetter.getMap(context));
+		this.log_map(SnowflakeEnvironments.MapGetter.getMap(context));
 
 		System.out.println();
 		System.out.println("[properties]");
-		this.log_map(SnowProperties.MapGetter.getMap(context));
+		this.log_map(SnowflakeProperties.MapGetter.getMap(context));
 
 		System.out.println();
 		System.out.println("[param]");
-		this.log_map(SnowParameters.MapGetter.getMap(context));
+		this.log_map(SnowflakeParameters.MapGetter.getMap(context));
 
 	}
 

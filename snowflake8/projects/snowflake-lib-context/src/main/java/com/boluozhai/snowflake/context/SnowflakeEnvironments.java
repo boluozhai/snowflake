@@ -3,9 +3,9 @@ package com.boluozhai.snowflake.context;
 import java.util.HashMap;
 import java.util.Map;
 
-public interface SnowEnvironments {
+public interface SnowflakeEnvironments {
 
-	Object exception = SnowContext.throw_exception_while_nil;
+	Object exception = SnowflakeContext.throw_exception_while_nil;
 
 	String[] getEnvironmentNames();
 
@@ -15,7 +15,7 @@ public interface SnowEnvironments {
 
 	class MapGetter {
 
-		public static Map<String, String> getMap(SnowEnvironments src) {
+		public static Map<String, String> getMap(SnowflakeEnvironments src) {
 			Map<String, String> map = new HashMap<String, String>();
 			String[] keys = src.getEnvironmentNames();
 			for (String key : keys) {

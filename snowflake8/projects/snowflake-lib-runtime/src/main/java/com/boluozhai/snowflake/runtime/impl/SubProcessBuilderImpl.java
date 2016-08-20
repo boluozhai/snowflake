@@ -4,7 +4,7 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.boluozhai.snowflake.context.SnowContext;
+import com.boluozhai.snowflake.context.SnowflakeContext;
 import com.boluozhai.snowflake.runtime.ErrorHandler;
 import com.boluozhai.snowflake.runtime.LineHandler;
 import com.boluozhai.snowflake.runtime.SubProcess;
@@ -15,7 +15,7 @@ public class SubProcessBuilderImpl implements SubProcessBuilder {
 	private final InnerSPInfo _info = new InnerSPInfo();
 
 	@Override
-	public SnowContext getContext() {
+	public SnowflakeContext getContext() {
 		return this._info.context;
 	}
 
@@ -45,7 +45,7 @@ public class SubProcessBuilderImpl implements SubProcessBuilder {
 	}
 
 	@Override
-	public void setContext(SnowContext context) {
+	public void setContext(SnowflakeContext context) {
 		_info.context = context;
 	}
 

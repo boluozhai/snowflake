@@ -7,10 +7,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.boluozhai.snowflake.context.SnowContext;
-import com.boluozhai.snowflake.context.SnowEnvironments;
-import com.boluozhai.snowflake.context.SnowParameters;
-import com.boluozhai.snowflake.context.SnowProperties;
+import com.boluozhai.snowflake.context.SnowflakeContext;
+import com.boluozhai.snowflake.context.SnowflakeEnvironments;
+import com.boluozhai.snowflake.context.SnowflakeParameters;
+import com.boluozhai.snowflake.context.SnowflakeProperties;
 
 public class ContextPrinter {
 
@@ -20,7 +20,7 @@ public class ContextPrinter {
 		this.o = out;
 	}
 
-	public void print(SnowContext context) {
+	public void print(SnowflakeContext context) {
 		o.format("[%s]\n", context);
 		o.format("    URI         : %s\n", context.getURI());
 		o.format("    parent      : %s\n", context.getParent());
@@ -35,7 +35,7 @@ public class ContextPrinter {
 
 	}
 
-	private void printAttributes(SnowContext context) {
+	private void printAttributes(SnowflakeContext context) {
 
 		Map<String, String> map = new HashMap<String, String>();
 		String[] keys = context.getAttributeNames();
@@ -48,18 +48,18 @@ public class ContextPrinter {
 		this.printKeyValueMap("  [attribute]", "    ", map);
 	}
 
-	private void printEnvironments(SnowContext context) {
-		Map<String, String> map = SnowEnvironments.MapGetter.getMap(context);
+	private void printEnvironments(SnowflakeContext context) {
+		Map<String, String> map = SnowflakeEnvironments.MapGetter.getMap(context);
 		this.printKeyValueMap("  [environment]", "    ", map);
 	}
 
-	private void printProperties(SnowContext context) {
-		Map<String, String> map = SnowProperties.MapGetter.getMap(context);
+	private void printProperties(SnowflakeContext context) {
+		Map<String, String> map = SnowflakeProperties.MapGetter.getMap(context);
 		this.printKeyValueMap("  [property]", "    ", map);
 	}
 
-	private void printParameters(SnowContext context) {
-		Map<String, String> map = SnowParameters.MapGetter.getMap(context);
+	private void printParameters(SnowflakeContext context) {
+		Map<String, String> map = SnowflakeParameters.MapGetter.getMap(context);
 		this.printKeyValueMap("  [parameter]", "    ", map);
 	}
 
@@ -78,7 +78,7 @@ public class ContextPrinter {
 
 	}
 
-	public static void print(SnowContext context, PrintStream out) {
+	public static void print(SnowflakeContext context, PrintStream out) {
 		ContextPrinter cp = new ContextPrinter(out);
 		cp.print(context);
 	}

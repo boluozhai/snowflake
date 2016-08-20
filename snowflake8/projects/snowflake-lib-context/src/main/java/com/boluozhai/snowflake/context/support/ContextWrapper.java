@@ -3,13 +3,13 @@ package com.boluozhai.snowflake.context.support;
 import java.net.URI;
 
 import com.boluozhai.snowflake.context.ContextBuilder;
-import com.boluozhai.snowflake.context.SnowContext;
+import com.boluozhai.snowflake.context.SnowflakeContext;
 
-public class ContextWrapper implements SnowContext {
+public class ContextWrapper implements SnowflakeContext {
 
-	private final SnowContext _inner;
+	private final SnowflakeContext _inner;
 
-	public ContextWrapper(SnowContext inner) {
+	public ContextWrapper(SnowflakeContext inner) {
 		this._inner = inner;
 	}
 
@@ -33,7 +33,7 @@ public class ContextWrapper implements SnowContext {
 		return _inner.getURI();
 	}
 
-	public SnowContext getParent() {
+	public SnowflakeContext getParent() {
 		return _inner.getParent();
 	}
 
