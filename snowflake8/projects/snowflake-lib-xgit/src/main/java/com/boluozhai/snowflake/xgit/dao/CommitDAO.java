@@ -19,6 +19,6 @@ public interface CommitDAO {
 
 	CommitObject getCommit(ObjectId id) throws IOException;
 
-	ObjectId save(CommitObject commit) throws IOException;
+	ObjectId saveCommit(CommitObject commit) throws IOException;
 
 }

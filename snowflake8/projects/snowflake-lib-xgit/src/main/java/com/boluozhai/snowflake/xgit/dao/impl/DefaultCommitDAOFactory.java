@@ -7,6 +7,7 @@ import com.boluozhai.snowflake.xgit.dao.CommitDAO;
 import com.boluozhai.snowflake.xgit.objects.GitObject;
 import com.boluozhai.snowflake.xgit.objects.ObjectBank;
 import com.boluozhai.snowflake.xgit.pojo.CommitObject;
+import com.boluozhai.snowflake.xgit.pojo.CommitSectionObject;
 
 public class DefaultCommitDAOFactory {
 
@@ -24,8 +25,16 @@ public class DefaultCommitDAOFactory {
 
 		@Override
 		public CommitObject getCommit(ObjectId id) {
+
 			GitObject obj = _bank.object(id);
-			CommitObject commit = new CommitObject();
+			String type = obj.type();
+			CommitObject commit = null;
+
+			if (type.equals(GitObject.TYPE.commit)) {
+				commit = new CommitObject();
+			} else {
+				commit = new CommitSectionObject();
+			}
 
 			try {
 				CommitLikedTextObjectDAO.load(obj, commit);
@@ -37,10 +46,18 @@ public class DefaultCommitDAOFactory {
 		}
 
 		@Override
-		public ObjectId save(CommitObject commit) throws IOException {
+		public ObjectId saveCommit(CommitObject commit) throws IOException {
+
+			boolean sec = (commit instanceof CommitSectionObject);
+			String type = sec ? GitObject.TYPE.commit_section
+					: GitObject.TYPE.commit;
+
+			commit.setType(type);
 			GitObject go = CommitLikedTextObjectDAO.save(commit, _bank);
 			return go.id();
+
 		}
+
 	}
 
 }

@@ -11,6 +11,8 @@ public interface GitObject {
 		String commit = "commit";
 		String tag = "tag";
 
+		String commit_section = "commit_section";
+
 	}
 
 	ObjectBank owner();

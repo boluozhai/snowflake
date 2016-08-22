@@ -1,5 +1,8 @@
 package com.boluozhai.snowflake.xgit.command;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Test;
 
 import com.boluozhai.snowflake.cli.CLIUtils;
@@ -22,10 +25,15 @@ public class TestGitCommit {
 			testing = tester.open(this);
 			TestContext context = testing.context();
 
-			String cmd = "git commit -m='hello'";
+			List<String> list_cmd = new ArrayList<String>();
+			list_cmd.add("git add .");
+			list_cmd.add("git commit -m='hello' --section");
+			list_cmd.add("git commit -m='world'");
 
 			CLIClient client = CLIUtils.getClient(context);
-			client.execute(context, cmd);
+			for (String cmd : list_cmd) {
+				client.execute(context, cmd);
+			}
 
 		} finally {
 			tester.close(testing);

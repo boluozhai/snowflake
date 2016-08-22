@@ -176,7 +176,7 @@ public class DefaultUpdatePublisherKit extends DefaultUpdateKit implements
 			commit3.addParent(commit2_id);
 
 			// save commit
-			ObjectId commit3_id = commit_dao.save(commit3);
+			ObjectId commit3_id = commit_dao.saveCommit(commit3);
 			ref_2.setTargetId(commit3_id);
 
 		} catch (IOException e) {

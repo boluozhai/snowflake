@@ -11,7 +11,10 @@ public class CommitObject extends CommitLikedTextObject {
 		String parent = "parent";
 		String tree = "tree";
 
-		String time = "time"; // not standard
+		// the non-standard fields
+
+		String time = "time";// milliseconds from 1970-01-01
+		String section = "section"; // the section base path
 
 	}
 
@@ -44,7 +47,7 @@ public class CommitObject extends CommitLikedTextObject {
 	}
 
 	public void setTime(long time) {
-		this.setHeaderValue(KEY.time, String.valueOf(time / 1000));
+		this.setHeaderValue(KEY.time, String.valueOf(time));
 	}
 
 	public long getTime() {
@@ -52,8 +55,7 @@ public class CommitObject extends CommitLikedTextObject {
 		if (s == null) {
 			return 0;
 		}
-		long time = Long.parseLong(s);
-		return time * 1000;
+		return Long.parseLong(s);
 	}
 
 	public ObjectId getTree() {

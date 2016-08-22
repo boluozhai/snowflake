@@ -10,6 +10,7 @@ public interface ReferenceManager extends XGitComponent {
 	interface name {
 
 		String HEAD = "HEAD";
+		String SECTION_HEAD = "SECTION_HEAD";
 
 		String refs = "refs";
 

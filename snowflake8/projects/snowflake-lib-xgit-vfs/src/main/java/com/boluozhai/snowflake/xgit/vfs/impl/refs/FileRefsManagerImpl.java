@@ -64,14 +64,21 @@ public class FileRefsManagerImpl implements Component, FileRefs {
 		VFile p = this._file_base;
 		StringBuilder sb = new StringBuilder();
 		char[] chs = name.toCharArray();
+		int cnt_slash = 0;
 		for (char ch : chs) {
 			if (ch == '\\' || ch == '/') {
 				p = Helper.childOf(p, sb);
+				cnt_slash++;
 			} else {
 				sb.append(ch);
 			}
 		}
-		p = Helper.childOf(p, sb);
+		if (cnt_slash == 0) {
+			name = name.toUpperCase();
+			p = p.child(name);
+		} else {
+			p = Helper.childOf(p, sb);
+		}
 		return new FileReferenceImpl(p, name);
 	}
 
@@ -111,6 +118,8 @@ public class FileRefsManagerImpl implements Component, FileRefs {
 					return ref;
 				} else if (ref.isReferenceName()) {
 					name = ref.getTargetReferenceName();
+				} else {
+					return ref;
 				}
 
 			}

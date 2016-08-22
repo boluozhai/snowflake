@@ -128,7 +128,7 @@ public class WarBlobImporter {
 		CommitObject commit = new CommitObject();
 		this.inner_make_commit(commit, tree_id, tree);
 		CommitDAO commit_dao = CommitDAO.Factory.create(bank);
-		ObjectId commit_id = commit_dao.save(commit);
+		ObjectId commit_id = commit_dao.saveCommit(commit);
 
 		return commit_id;
 	}
