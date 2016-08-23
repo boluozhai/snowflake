@@ -1,4 +1,4 @@
-package com.boluozhai.snowflake.tmp;
+package com.boluozhai.snowflake.xgit.site;
 
 import org.junit.Test;
 

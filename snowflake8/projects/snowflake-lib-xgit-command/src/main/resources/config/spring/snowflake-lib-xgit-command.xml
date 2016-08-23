@@ -31,13 +31,16 @@
 		<property name="commands">
 			<map>
 				<entry key='add'>
-					<bean class='com.boluozhai.snowflake.xgit.command.GitAdd'></bean>
+					<bean class='com.boluozhai.snowflake.xgit.command.GitAdd' />
 				</entry>
 				<entry key='commit'>
-					<bean class='com.boluozhai.snowflake.xgit.command.GitCommit'></bean>
+					<bean class='com.boluozhai.snowflake.xgit.command.GitCommit' />
+				</entry>
+				<entry key='init'>
+					<bean class='com.boluozhai.snowflake.xgit.command.GitInit' />
 				</entry>
 				<entry key='push'>
-					<bean class='com.boluozhai.snowflake.xgit.command.GitPush'></bean>
+					<bean class='com.boluozhai.snowflake.xgit.command.GitPush' />
 				</entry>
 			</map>
 		</property>
