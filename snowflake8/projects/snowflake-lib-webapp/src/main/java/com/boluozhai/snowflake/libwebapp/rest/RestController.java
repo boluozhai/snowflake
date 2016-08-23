@@ -9,6 +9,8 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.boluozhai.snowflake.libwebapp.rest.RestServlet.RestInfo;
+
 public class RestController implements RequestDispatcher {
 
 	private final void dispatch(ServletRequest req, ServletResponse res)
@@ -36,6 +38,10 @@ public class RestController implements RequestDispatcher {
 		} else {
 		}
 
+	}
+
+	public final RestInfo getRestInfo(ServletRequest request) {
+		return RestServlet.getRestInfo(request);
 	}
 
 	@Override

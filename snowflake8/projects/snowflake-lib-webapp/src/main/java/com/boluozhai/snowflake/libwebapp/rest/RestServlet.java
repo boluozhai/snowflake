@@ -2,14 +2,19 @@ package com.boluozhai.snowflake.libwebapp.rest;
 
 import java.io.IOException;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.google.gson.Gson;
 
 public abstract class RestServlet extends HttpServlet {
 
@@ -17,12 +22,24 @@ public abstract class RestServlet extends HttpServlet {
 
 	private Map<String, RestController> _handlers;
 
+	protected boolean _enable_log;
+
 	interface attr_key {
 
-		String rest_type = "REST.type";
-		String rest_id = "REST.id";
+		// String rest_type = "REST.type";
+		// String rest_id = "REST.id";
+		// String path_prefix = "REST";
 
-		String path_prefix = "REST";
+		String rest_info = RestInfo.class.getName();
+
+	}
+
+	public static class RestInfo {
+
+		public String app;
+		public String api;
+		public String type;
+		public String[] id;
 
 	}
 
@@ -46,27 +63,59 @@ public abstract class RestServlet extends HttpServlet {
 		return handler;
 	}
 
+	public static RestInfo getRestInfo(ServletRequest req) {
+		return (RestInfo) req.getAttribute(attr_key.rest_info);
+	}
+
 	private final RequestDispatcher getRequestDispatcher(HttpServletRequest req) {
+
+		// info
+
+		RestInfo info = null;
+		// info = RestServlet.getRestInfo(req);
+		info = new RestInfo();
+
+		// path
+
 		URI uri = URI.create(req.getRequestURL().toString());
-		String key = uri.getPath();
-		String[] array = key.split("/");
-		String type, id;
-		type = id = null;
-		for (int i = 0; i < array.length; i++) {
-			String s = array[i];
-			if (s.equalsIgnoreCase(attr_key.path_prefix)) {
-				int i1 = i + 1;
-				int i2 = i + 2;
-				type = array[i1];
-				if (i2 < array.length) {
-					id = array[i2];
-				}
+		String basepath = req.getContextPath();
+		String fullpath = uri.getPath();
+
+		List<String> id_list = new ArrayList<String>();
+		String res = fullpath.substring(basepath.length());
+		String[] array = res.split("/");
+		int i = 0;
+		for (String part : array) {
+			part = part.trim();
+			if (part.length() == 0) {
+				continue;
+			}
+			switch (i++) {
+			case 0:
+				info.api = part;
+				break;
+			case 1:
+				info.type = part;
+				break;
+			default:
+				id_list.add(part);
 				break;
 			}
 		}
-		req.setAttribute(attr_key.rest_type, type);
-		req.setAttribute(attr_key.rest_id, id);
-		return this.getRequestDispatcher(type);
+
+		// save to info
+		info.id = id_list.toArray(new String[id_list.size()]);
+		info.app = basepath;
+
+		req.setAttribute(attr_key.rest_info, info);
+
+		if (this._enable_log) {
+			Gson gs = new Gson();
+			String msg = gs.toJson(info);
+			System.out.println(msg);
+		}
+
+		return this.getRequestDispatcher(info.type);
 	}
 
 	@Override
