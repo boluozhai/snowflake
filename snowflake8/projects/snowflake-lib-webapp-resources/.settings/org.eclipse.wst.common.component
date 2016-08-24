@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="snow-8-web-resource">
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
+        <wb-resource deploy-path="/" source-path="/target/m2e-wtp/web-resources"/>
+        <wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
+        <dependent-module archiveName="snowflake-lib-spring-web-0.8.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/snowflake-lib-spring-web/snowflake-lib-spring-web">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="snowflake-lib-spring-0.8.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/snowflake-lib-spring/snowflake-lib-spring">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="snowflake-lib-mvc-0.8.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/snowflake-lib-mvc/snowflake-lib-mvc">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="snowflake-lib-webapp-0.8.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/snowflake-lib-webapp/snowflake-lib-webapp">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="snowflake-lib-context-0.8.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/snowflake-lib-context/snowflake-lib-context">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="snowflake-lib-core-0.8.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/snowflake-lib-core/snowflake-lib-core">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="snowflake-lib-vfs-0.8.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/snowflake-lib-vfs/snowflake-lib-vfs">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="snowflake-lib-appdata-0.8.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/snowflake-lib-appdata/snowflake-lib-appdata">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <property name="java-output-path" value="/snowflake-web-resource/target/classes"/>
+        <property name="context-root" value="snowflake-webapp-system"/>
+    </wb-module>
+</project-modules>
