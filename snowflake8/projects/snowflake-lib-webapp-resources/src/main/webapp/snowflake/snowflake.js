@@ -48,6 +48,15 @@ Snowflake.init = function(root) {
 			return tab;
 		},
 
+		getClassLoader : function() {
+			var cl = this._class_loader;
+			if (cl == null) {
+				cl = new singleton.root.js.lang.ClassLoader(this);
+				this._class_loader = cl;
+			}
+			return cl;
+		},
+
 	};
 
 	Snowflake.module = function(fn) {
@@ -117,6 +126,15 @@ Snowflake.init = function(root) {
 			}
 		},
 
+		import : function(className) {
+			var type = singleton.root.js.lang.Class.forName(className);
+			return type._class_context._this_class;
+		},
+
+		getClassLoader : function() {
+			return this._sfcore.getClassLoader();
+		},
+
 	};
 
 	/***************************************************************************
@@ -147,12 +165,24 @@ Snowflake.init = function(root) {
 		},
 
 		type : function(t) {
+			this._this_class = t;
+		},
+
+		inner_type_old_ : function() {
+
+			var t = this._this_class;
+			var ext = this._super_class;
+
+			if (ext == null) {
+				ext = singleton.root.js.lang.Object;
+				this._super_class = ext;
+			}
 
 			var def_methods = {};
 			this.inner_copy_methods(t.prototype, def_methods);
 			this._defined_methods = def_methods;
 
-			this._this_class = t;
+			// this._this_class = t;
 			this._this_package_name = this._mc._package_name;
 			this._this_class_simple_name = this.inner_get_func_name(t);
 			this._this_class_name = this._this_package_name + '.'
@@ -173,7 +203,10 @@ Snowflake.init = function(root) {
 
 		inner_load_begin : function() {
 
-			this._loader(this);
+			var fn = this._loader;
+			fn(this);
+
+			this.inner_type_old_();
 
 			this.inner_setup_methods();
 			this.inner_setup_class_object();
@@ -189,6 +222,11 @@ Snowflake.init = function(root) {
 
 			var mc = this._mc;
 			mc.registerClass(this);
+
+			// setup Func.class
+			var fn = this._this_class;
+			var clazz = this.inner_get_class();
+			fn.class = clazz;
 
 		},
 
@@ -255,7 +293,7 @@ Snowflake.init = function(root) {
 		inner_inher_methods : function() {
 			var tab = this._inherited_methods;
 			if (tab == null) {
-				var parent_fn = this._super_class;
+				var parent_fn = this.inner_get_super_class();
 				var parent_cc = ClassContext.byFn(parent_fn);
 				if (parent_cc == null) {
 					tab = {};
@@ -271,6 +309,10 @@ Snowflake.init = function(root) {
 			return this._defined_methods;
 		},
 
+		inner_get_super_class : function() {
+			return this._super_class;
+		},
+
 		inner_get_class : function() {
 			var c = this._class;
 			if (c == null) {
@@ -278,6 +320,10 @@ Snowflake.init = function(root) {
 				this._class = c;
 			}
 			return c;
+		},
+
+		getClassLoader : function() {
+			return this._mc.getClassLoader();
 		},
 
 	};
@@ -369,6 +415,11 @@ JS.module(function(_mc_) {
 			return new t(p1, p2, p3, p4, p5, p6, p7, p8);
 		},
 
+		getClassLoader : function() {
+			var cc = this._class_context;
+			return cc.getClassLoader();
+		},
+
 	};
 
 	Class.forName = function(name) {
@@ -383,6 +434,32 @@ JS.module(function(_mc_) {
 	};
 
 	Snow_Object_Class = Class;
+
+	/***************************************************************************
+	 * class ClassLoader
+	 */
+
+	function ClassLoader(sfcore) {
+		this._sfcore = sfcore;
+	}
+
+	_mc_.class(function(cc) {
+		cc.type(ClassLoader);
+	});
+
+	ClassLoader.prototype = {
+
+		listClassNames : function() {
+			var sf = this._sfcore;
+			var tab = sf.getClassTable();
+			var array = [];
+			for ( var key in tab) {
+				array.push(key);
+			}
+			return array.sort();
+		},
+
+	};
 
 });
 
@@ -401,10 +478,8 @@ JS.module(function(_mc_) {
 	}
 
 	_mc_.class(function(_cc_) {
-
 		_cc_.type(PrintStream);
-		_cc_.extends(Object);
-
+		// _cc_.extends(Object);
 	});
 
 	PrintStream.prototype = {
@@ -424,6 +499,42 @@ JS.module(function(_mc_) {
 	var PrintStream = js.io.PrintStream;
 
 	/***************************************************************************
+	 * class Exception
+	 */
+
+	function Exception(message) {
+		this.Object();
+		this._message = message;
+	}
+
+	_mc_.class(function(cc) {
+		cc.type(Exception);
+	});
+
+	Exception.prototype = {
+
+		toString : function() {
+			return this._message;
+		},
+
+	};
+
+	/***************************************************************************
+	 * class RuntimeException
+	 */
+
+	function RuntimeException(message) {
+		this.Exception(message);
+	}
+
+	_mc_.class(function(cc) {
+		cc.type(RuntimeException);
+		cc.extends(Exception);
+	});
+
+	RuntimeException.prototype = {};
+
+	/***************************************************************************
 	 * class System
 	 */
 
@@ -432,19 +543,16 @@ JS.module(function(_mc_) {
 
 	_mc_.class(function(_cc_) {
 		_cc_.type(System);
-		_cc_.extends(Object);
+		// _cc_.extends(Object);
 	});
 
 	System.prototype = {
 
-		xyz : function() {
-			// TODO
-		},
-
 	};
 
 	System.currentTimeMillis = function() {
-		// TODO
+		var d = new Date();
+		return d.getTime();
 	};
 
 	System.out = new PrintStream();

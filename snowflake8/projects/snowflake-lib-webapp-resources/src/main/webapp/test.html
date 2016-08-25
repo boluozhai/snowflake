@@ -18,34 +18,19 @@
 
 	<script src='jquery/jquery.js'></script>
 	<script src='bootstrap/js/bootstrap.js'></script>
+
 	<script src='snowflake/snowflake.js'></script>
+	<script src='snowflake/context.js'></script>
+	<script src='snowflake/rest.js'></script>
+
+	<script src='index.js'></script>
+	<script src='test.js'></script>
 
 	<script type="text/javascript">
 		$(document).ready(function() {
 
-			var Class = js.lang.Class;
-			var System = js.lang.System;
-
-			var obj = new js.lang.Object();
-			var clz = obj.getClass();
-
-			var i = 0;
-			var res = [];
-			res[i++] = clz.equals();
-			res[i++] = clz.getClass();
-			res[i++] = clz.getName();
-			res[i++] = clz.hashCode();
-			res[i++] = clz.newInstance();
-			res[i++] = clz.toString();
-
-			i += 5;
-
-			res[i++] = Class.forName('js.lang.Object');
-
-			System.out.println("ok");
-
-			// alert(obj.toString());
-			// alert(clz.toString());
+			var t = new test.Tester();
+			t.test();
 
 		});
 	</script>
