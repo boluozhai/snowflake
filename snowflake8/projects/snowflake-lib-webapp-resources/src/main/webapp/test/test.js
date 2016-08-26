@@ -105,6 +105,28 @@ JS.module(function(mc) {
 
 		testRest : function() {
 
+			var REST = snowflake.rest.REST;
+			var context = Context.getInstance();
+			var client = REST.getClient(context);
+
+			var app = client.getApplication(null);
+			var api = app.getAPI('RestAPI');
+			var type = api.getType('RestType');
+			var res = type.getResource('RestId.json');
+
+			var url = res.getURL();
+			System.out.println("RestURL = " + url);
+
+			var request = res.get();
+			request.entity().text('abc');
+
+			request.execute(function(response) {
+
+				var s = response.entity().text();
+				System.out.println(s);
+
+			});
+
 		},
 
 	};

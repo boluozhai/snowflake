@@ -567,6 +567,40 @@ JS.module(function(_mc_) {
 		System.err = ps;
 	};
 
+	/***************************************************************************
+	 * class Attributes
+	 */
+
+	function Attributes() {
+	}
+
+	_mc_.class(function(cc) {
+		cc.type(Attributes);
+	});
+
+	Attributes.prototype = {
+
+		attributes : function() {
+			var tab = this.__attributes__;
+			if (tab == null) {
+				tab = {};
+				this.__attributes__ = tab;
+			}
+			return tab;
+		},
+
+		attr : function(key, value) {
+			var tab = this.attributes();
+			if (value == null) {
+				value = tab[key];
+			} else {
+				tab[key] = value;
+			}
+			return value;
+		},
+
+	};
+
 });
 
 /*******************************************************************************

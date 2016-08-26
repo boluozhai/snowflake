@@ -163,6 +163,7 @@ JS.module(function(mc) {
 
 	function WebContext(beans) {
 		this.Context(beans);
+		this._path_in_webapp = null;
 	}
 
 	mc.class(function(cc) {
@@ -170,7 +171,13 @@ JS.module(function(mc) {
 		cc.extends(Context);
 	});
 
-	WebContext.prototype = {};
+	WebContext.prototype = {
+
+		pathInWebapp : function() {
+			return this._path_in_webapp;
+		},
+
+	};
 
 	/***************************************************************************
 	 * class WebContextFactory
@@ -203,7 +210,9 @@ JS.module(function(mc) {
 		},
 
 		inner_new_context : function(beans) {
-			return new WebContext(beans);
+			var wc = new WebContext(beans);
+			wc._path_in_webapp = this.pathInWebapp();
+			return wc;
 		},
 
 	};
