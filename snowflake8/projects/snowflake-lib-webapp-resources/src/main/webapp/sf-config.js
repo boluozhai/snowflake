@@ -1,4 +1,4 @@
-var beans = {
+var __beans__ = {
 
 	'id1' : 'js.lang.Object',
 	'id2' : 'js.lang.Object',
@@ -7,15 +7,9 @@ var beans = {
 
 };
 
-JS.module(function(mc) {
+snowflake.web.WebContextUtils.init(function(factory) {
 
-	var WebContextFactory = snowflake.web.WebContextFactory;
-	var factory = new WebContextFactory();
-	WebContextFactory.setDefault(factory)
-
-	factory.pathInWebapp('{webapp}/index.js');
-	factory.beans(beans);
-
+	factory.beans(__beans__);
 	factory.onCreate(function(context) {
 
 		var bean1 = context.getBean('id1');

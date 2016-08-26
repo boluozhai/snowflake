@@ -1,4 +1,4 @@
-package com.boluozhai.snowflake.libwebapp.resources;
+package com.boluozhai.snowflake.libwebapp.resource_express;
 
 public abstract class WebResImporter {
 

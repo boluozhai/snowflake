@@ -6,6 +6,7 @@ import java.net.URI;
 import com.boluozhai.snowflake.context.SnowflakeContext;
 import com.boluozhai.snowflake.test.TestContext;
 import com.boluozhai.snowflake.test.Testing;
+import com.boluozhai.snowflake.util.DirTools;
 
 final class InnerTesting implements Testing {
 

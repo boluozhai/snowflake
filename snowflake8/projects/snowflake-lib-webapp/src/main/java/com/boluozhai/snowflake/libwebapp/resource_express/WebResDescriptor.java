@@ -1,4 +1,4 @@
-package com.boluozhai.snowflake.libwebapp.resources;
+package com.boluozhai.snowflake.libwebapp.resource_express;
 
 import java.util.ArrayList;
 import java.util.List;

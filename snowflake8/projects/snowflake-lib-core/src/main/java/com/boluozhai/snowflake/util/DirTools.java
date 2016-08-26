@@ -1,4 +1,4 @@
-package com.boluozhai.snowflake.test.impl;
+package com.boluozhai.snowflake.util;
 
 import java.io.File;
 import java.io.FileInputStream;

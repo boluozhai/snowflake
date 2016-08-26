@@ -1,31 +1,54 @@
-package com.boluozhai.snowflake.libwebapp.resources;
+package com.boluozhai.snowflake.libwebapp.resource_express;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.Enumeration;
 import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipException;
+import java.util.zip.ZipFile;
 
 import com.boluozhai.snowflake.appdata.AppData;
 import com.boluozhai.snowflake.context.SnowflakeContext;
 import com.boluozhai.snowflake.context.utils.SnowContextUtils;
+import com.boluozhai.snowflake.util.DirTools;
+import com.boluozhai.snowflake.util.IOTools;
 
 final class InnerWebResImporter extends WebResImporter {
 
 	@Override
-	public void play(WebResDescriptor desc) {
+	public void play(WebResDescriptor descriptor) {
 
-		// TODO Auto-generated method stub
+		try {
 
-		Task task = new Task(desc);
+			Task task = new Task(descriptor);
+			task.getContext();
 
-		Dest dest = new Dest();
-		dest.load(desc);
+			Dest dest = new Dest();
+			dest.load(descriptor);
+			dest.clean();
 
-		List<WebResItem> items = desc.getItems();
-		for (WebResItem it : items) {
-			Src src = new Src(task);
-			src.load(it);
-			src.writeTo(dest);
+			List<WebResItem> items = descriptor.getItems();
+			for (WebResItem it : items) {
+				Src src = new Src(task);
+				src.load(it);
+				src.writeTo(dest);
+			}
+
+		} catch (ZipException e) {
+
+			throw new RuntimeException(e);
+
+		} catch (IOException e) {
+
+			throw new RuntimeException(e);
+
+		} finally {
 		}
 
 	}
@@ -34,13 +57,13 @@ final class InnerWebResImporter extends WebResImporter {
 
 		private File _m2_dir;
 		private SnowflakeContext _context;
+		private final WebResDescriptor _descriptor;
 
 		public Task(WebResDescriptor desc) {
-			// TODO Auto-generated constructor stub
+			this._descriptor = desc;
 		}
 
 		public File getWar(WebResItem item) {
-			// TODO Auto-generated method stub
 
 			File m2 = this.getM2Dir();
 
@@ -84,11 +107,9 @@ final class InnerWebResImporter extends WebResImporter {
 		private SnowflakeContext getContext() {
 			SnowflakeContext context = this._context;
 			if (context == null) {
-
 				Class<?> app_class = WebResImporter.class;
 				String[] arg = {};
 				context = SnowContextUtils.getAppContext(app_class, arg);
-
 				this._context = context;
 			}
 			return context;
@@ -100,10 +121,10 @@ final class InnerWebResImporter extends WebResImporter {
 		private File _pom_xml;
 		private File _target_dir;
 
-		public void load(WebResDescriptor desc) {
+		public void load(WebResDescriptor descriptor) {
 
 			try {
-				final URL loc = desc.getClass().getProtectionDomain()
+				final URL loc = descriptor.getClass().getProtectionDomain()
 						.getCodeSource().getLocation();
 				final String find4 = "pom.xml";
 				final File code = new File(loc.toURI());
@@ -128,7 +149,7 @@ final class InnerWebResImporter extends WebResImporter {
 					throw new RuntimeException(msg);
 				}
 
-				String path = desc.getPathInProject();
+				String path = descriptor.getPathInProject();
 
 				this._pom_xml = p;
 				this._target_dir = new File(p.getParentFile(), path);
@@ -139,33 +160,92 @@ final class InnerWebResImporter extends WebResImporter {
 
 			} finally {
 
-				System.out.println("to " + this._target_dir);
+				System.out.println("for " + this._pom_xml);
 
 			}
+		}
+
+		public void clean() {
+			File dir = this._target_dir;
+			System.out.println("clean " + dir);
+			DirTools.clean(dir);
+		}
+
+		public File getTargetFile(String name) {
+			File base = this._target_dir;
+			return new File(base, name);
 		}
 	}
 
 	private class Src {
 
 		private final Task _task;
+		private File _war;
+		private String _path_in_war;
 
 		public Src(Task task) {
 			this._task = task;
 		}
 
 		public void load(WebResItem item) {
-			// TODO Auto-generated method stub
 
 			// location war
 			File war = _task.getWar(item);
+			String prefix = item.getPathInWar();
 
-			System.out.println("load " + war);
+			if (!prefix.endsWith("/")) {
+				prefix = prefix + '/';
+			}
+
+			System.out.format("load %s@%s\n", war, prefix);
+
+			this._war = war;
+			this._path_in_war = prefix;
 
 		}
 
-		public void writeTo(Dest desc) {
-			// TODO Auto-generated method stub
+		public void writeTo(Dest dest) throws ZipException, IOException {
+			ZipFile zip = null;
+			try {
+				zip = new ZipFile(_war);
+				Enumeration<? extends ZipEntry> ents = zip.entries();
+				for (; ents.hasMoreElements();) {
+					ZipEntry ent = ents.nextElement();
+					if (!ent.isDirectory()) {
+						this.writeTo(dest, zip, ent);
+					}
+				}
+			} finally {
+				IOTools.close(zip);
+			}
+		}
 
+		private void writeTo(Dest dest, ZipFile zip, ZipEntry ent)
+				throws IOException {
+
+			final String prefix = this._path_in_war;
+			String name = ent.getName();
+			if (name.startsWith(prefix)) {
+				name = name.substring(prefix.length());
+			} else {
+				return;
+			}
+			final File target_file = dest.getTargetFile(name);
+			System.out.println("    write to " + target_file);
+			InputStream in = null;
+			OutputStream out = null;
+			try {
+				File dir = target_file.getParentFile();
+				if (!dir.exists()) {
+					dir.mkdirs();
+				}
+				in = zip.getInputStream(ent);
+				out = new FileOutputStream(target_file);
+				IOTools.pump(in, out);
+			} finally {
+				IOTools.close(in);
+				IOTools.close(out);
+			}
 		}
 	}
 

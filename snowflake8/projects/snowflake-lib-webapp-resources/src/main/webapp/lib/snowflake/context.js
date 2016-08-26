@@ -38,6 +38,36 @@ JS.module(function(mc) {
 			return bean;
 		},
 
+		getApplicationName : function() {
+			return null;
+		},
+
+		getDisplayName : function() {
+			return null;
+		},
+
+		getParent : function() {
+			return null;
+		},
+
+		getBeanDefinitionCount : function() {
+			var tab = this._bean_table;
+			var cnt = 0;
+			for ( var key in tab) {
+				cnt++;
+			}
+			return cnt;
+		},
+
+		getBeanDefinitionNames : function() {
+			var tab = this._bean_table;
+			var array = [];
+			for ( var key in tab) {
+				array.push(key);
+			}
+			return array;
+		},
+
 	};
 
 	Context.getInstance = function() {
@@ -184,6 +214,28 @@ JS.module(function(mc) {
 
 	WebContextFactory.getDefault = function() {
 		return ContextFactory.getDefault();
+	};
+
+	/***************************************************************************
+	 * class WebContextUtils
+	 */
+
+	function WebContextUtils() {
+	}
+
+	mc.class(function(cc) {
+		cc.type(WebContextUtils);
+	});
+
+	WebContextUtils.init = function(fn) {
+
+		var factory = WebContextFactory.getDefault();
+		if (factory == null) {
+			factory = new WebContextFactory();
+			WebContextFactory.setDefault(factory);
+		}
+
+		fn(factory);
 	};
 
 });
