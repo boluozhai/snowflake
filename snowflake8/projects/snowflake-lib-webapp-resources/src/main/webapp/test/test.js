@@ -105,6 +105,19 @@ JS.module(function(mc) {
 
 		testRest : function() {
 
+			var callback = function(response) {
+
+				var s = response.entity().toString();
+				System.out.println("HttpResponse");
+				System.out.println("      url : " + response.url());
+				System.out.println("       ok : " + response.ok());
+				System.out.println("     code : " + response.code());
+				System.out.println("  message : " + response.message());
+				System.out.println(s);
+				System.out.println();
+
+			};
+
 			var REST = snowflake.rest.REST;
 			var context = Context.getInstance();
 			var client = REST.getClient(context);
@@ -112,20 +125,19 @@ JS.module(function(mc) {
 			var app = client.getApplication(null);
 			var api = app.getAPI('RestAPI');
 			var type = api.getType('RestType');
+
+			// res1
+
 			var res = type.getResource('RestId.json');
-
-			var url = res.getURL();
-			System.out.println("RestURL = " + url);
-
 			var request = res.get();
+			request.execute(callback);
+
+			// res2
+
+			var res2 = api.getType('bad_t').getResource('bad_res');
+			request = res2.post();
 			request.entity().text('abc');
-
-			request.execute(function(response) {
-
-				var s = response.entity().text();
-				System.out.println(s);
-
-			});
+			request.execute(callback);
 
 		},
 

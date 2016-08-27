@@ -241,11 +241,27 @@ JS.module(function(_mc_) {
 		},
 
 		toString : function() {
-			// TODO
+			var txt = this.text();
+			var js = this.json();
+			if (txt != null) {
+				return txt;
+			} else if (js != null) {
+				return JSON.stringify(js);
+			} else {
+				return null;
+			}
 		},
 
 		toJSON : function() {
-			// TODO
+			var txt = this.text();
+			var js = this.json();
+			if (js != null) {
+				return js;
+			} else if (txt != null) {
+				return JSON.parse(txt);
+			} else {
+				return null;
+			}
 		},
 
 	};
@@ -293,19 +309,34 @@ JS.module(function(_mc_) {
 			RestRequest_exec(this, callback);
 		},
 
+		getURL : function() {
+			return this._res.getURL();
+		},
+
 	};
 
 	function RestRequest_make_response(xhr, request) {
-		// TODO
-
+		var ready = xhr.readyState;
+		if (ready != 4) {
+			return null;
+		}
 		var res = new RestResponse();
-
+		var status = xhr.status;
+		if (status == 200) {
+			res.ok(true);
+		} else {
+			res.ok(false);
+		}
+		res.code(status);
+		res.message(xhr.statusText);
+		res.entity().text(xhr.responseText);
+		res.url(xhr.responseURL);
 		return res;
 	}
 
 	function RestRequest_exec(request, callback) {
-		var method = null; // TODO
-		var url = null; // TODO
+		var method = request._method;
+		var url = request.getURL();
 		var xhr = new XMLHttpRequest();
 		xhr.open(method, url, true);
 		xhr.onreadystatechange = function() {
@@ -339,6 +370,22 @@ JS.module(function(_mc_) {
 	});
 
 	RestResponse.prototype = {
+
+		ok : function(value) {
+			return this.attr('ok', value);
+		},
+
+		message : function(value) {
+			return this.attr('message', value);
+		},
+
+		code : function(value) {
+			return this.attr('code', value);
+		},
+
+		url : function(value) {
+			return this.attr('url', value);
+		},
 
 	};
 
