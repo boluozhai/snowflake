@@ -31,19 +31,19 @@
 
 		<dependency>
 			<groupId>com.boluozhai.snowflake</groupId>
-			<artifactId>snowflake-lib-context</artifactId>
+			<artifactId>snowflake-context</artifactId>
 			<version>0.8.0</version>
 		</dependency>
 
 		<dependency>
 			<groupId>com.boluozhai.snowflake</groupId>
-			<artifactId>snowflake-lib-xgit</artifactId>
+			<artifactId>snowflake-xgit</artifactId>
 			<version>0.8.0</version>
 		</dependency>
 
 		<dependency>
 			<groupId>com.boluozhai.snowflake</groupId>
-			<artifactId>snowflake-lib-cli</artifactId>
+			<artifactId>snowflake-cli</artifactId>
 			<version>0.8.0</version>
 		</dependency>
 

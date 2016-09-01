@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" 
+ "http://www.springframework.org/dtd/spring-beans-2.0.dtd" >
+<beans>
+
+
+	<import resource="classpath:config/spring/snowflake-lib-xgit-vfs.xml" />
+
+
+	<bean id='com.boluozhai.snowflake.appdata.AppDataAgent'
+		class='com.boluozhai.snowflake.appdata.support.DefaultAppDataAgent'></bean>
+
+	<bean id='com.boluozhai.snowflake.cli.client.CLIClientFactory'
+		class='com.boluozhai.snowflake.cli.support.DefaultCliClientFactory'></bean>
+
+	<bean id='com.boluozhai.snowflake.cli.service.CLIServiceFactory'
+		class='com.boluozhai.snowflake.cli.support.DefaultCliServiceFactory'></bean>
+
+
+	<bean class='com.boluozhai.snowflake.cli.CommandSet'>
+
+		<property name="enable" value="true" />
+		<property name="prefix" value="snow-publish-" />
+
+		<property name="commands">
+			<map>
+				<entry key='add'>
+					<bean
+						class='com.boluozhai.snowflake.libwebapp.update.publisher.command.CmdPublisherAdd' />
+				</entry>
+				<entry key='commit'>
+					<bean
+						class='com.boluozhai.snowflake.libwebapp.update.publisher.command.CmdPublisherCommit' />
+				</entry>
+				<entry key='push'>
+					<bean
+						class='com.boluozhai.snowflake.libwebapp.update.publisher.command.CmdPublisherPush' />
+				</entry>
+			</map>
+		</property>
+
+	</bean>
+
+
+</beans>

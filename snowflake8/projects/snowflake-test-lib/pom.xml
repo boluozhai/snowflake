@@ -25,19 +25,19 @@
 
 		<dependency>
 			<groupId>com.boluozhai.snowflake</groupId>
-			<artifactId>snowflake-lib-mvc</artifactId>
+			<artifactId>snowflake-mvc</artifactId>
 			<version>0.8.0</version>
 		</dependency>
 
 		<dependency>
 			<groupId>com.boluozhai.snowflake</groupId>
-			<artifactId>snowflake-lib-appdata</artifactId>
+			<artifactId>snowflake-appdata</artifactId>
 			<version>0.8.0</version>
 		</dependency>
 
 		<dependency>
 			<groupId>com.boluozhai.snowflake</groupId>
-			<artifactId>snowflake-lib-spring</artifactId>
+			<artifactId>snowflake-spring</artifactId>
 			<version>0.8.0</version>
 		</dependency>
 

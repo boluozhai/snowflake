@@ -1,0 +1,50 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.boluozhai.snowflake</groupId>
+	<artifactId>snowflake-build-all</artifactId>
+	<version>0.8.0</version>
+	<packaging>pom</packaging>
+
+	<modules>
+
+		<module>snowflake-appdata</module>
+		<module>snowflake-app-publisher</module>
+		<module>snowflake-cli</module>
+		<module>snowflake-context</module>
+		<module>snowflake-core</module>
+		<module>snowflake-discovery</module>
+		<module>snowflake-disk-manager</module>
+		<module>snowflake-example-war</module>
+		<module>snowflake-h2o-war</module>
+		<module>snowflake-h2o-web</module>
+		<module>snowflake-httpclient</module>
+		<module>snowflake-jar-template</module>
+		<module>snowflake-jetty</module>
+		<module>snowflake-module-manager-war</module>
+		<module>snowflake-mvc</module>
+		<module>snowflake-project-manager</module>
+		<module>snowflake-rest-api</module>
+		<module>snowflake-rest-client</module>
+		<module>snowflake-rest-web</module>
+		<module>snowflake-runtime</module>
+		<module>snowflake-spring</module>
+		<module>snowflake-spring-web</module>
+		<module>snowflake-system-installer-war</module>
+		<module>snowflake-test-all</module>
+		<module>snowflake-test-lib</module>
+		<module>snowflake-vfs</module>
+		<module>snowflake-war-template</module>
+		<module>snowflake-web</module>
+		<module>snowflake-web-resources-war</module>
+		<module>snowflake-xgit</module>
+		<module>snowflake-xgit-command</module>
+		<module>snowflake-xgit-site</module>
+		<module>snowflake-xgit-vfs</module>
+
+	</modules>
+
+</project>
+

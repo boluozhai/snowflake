@@ -1,0 +1,93 @@
+<html>
+<head>
+
+<meta charset='utf-8' />
+<title class='title-text'></title>
+
+<link rel="stylesheet" type="text/css"
+	href="../lib/bootstrap/css/bootstrap.css" />
+
+<style type="text/css">
+li {
+	margin: 10px;
+}
+</style>
+
+</head>
+<body>
+
+	<div class='container'>
+
+		<h1 class='title-text'></h1>
+
+		<ol>
+			<li>
+				<button class='btn btn-default reset-output'>clean</button>
+			</li>
+			<li>
+				<button class='btn btn-default test-core'>Test Core</button>
+			</li>
+			<li>
+				<button class='btn btn-default test-context'>Test Context</button>
+			</li>
+			<li>
+				<button class='btn btn-default test-rest'>Test Rest</button>
+			</li>
+			<li>
+				<button class='btn btn-default test-listview'>Test ListView</button>
+			</li>
+		</ol>
+
+		<div>
+			<pre id='output'></pre>
+		</div>
+
+	</div>
+
+
+	<script src='../lib/jquery/jquery.js'></script>
+	<script src='../lib/bootstrap/js/bootstrap.js'></script>
+
+	<script src='../lib/snowflake/core.js'></script>
+	<script src='../lib/snowflake/context.js'></script>
+	<script src='../lib/snowflake/rest.js'></script>
+
+	<script src='../sf-config.js'></script>
+	<script src='index.js'></script>
+	<script src='test.js'></script>
+
+	<script type="text/javascript">
+		$(document).ready(function() {
+
+			$('.title-text').text('Test Snowflake JS');
+
+			var t = new test.Tester();
+			t.setOutput($('#output'));
+
+			$('.reset-output').click(function() {
+				t.resetOutput();
+			});
+
+			$('.test-core').click(function() {
+				t.testCore();
+			});
+
+			$('.test-context').click(function() {
+				t.testContext();
+			});
+
+			$('.test-rest').click(function() {
+				t.testRest();
+			});
+
+			$('.test-listview').click(function() {
+				window.location = 'test-listview.html';
+			});
+
+			t.test();
+
+		});
+	</script>
+
+</body>
+</html>

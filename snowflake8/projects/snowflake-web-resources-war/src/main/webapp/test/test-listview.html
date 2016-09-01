@@ -1,0 +1,141 @@
+<html>
+<head>
+
+<meta charset='utf-8' />
+<title class='title-text'></title>
+
+<link rel="stylesheet" type="text/css"
+	href="../lib/bootstrap/css/bootstrap.css" />
+
+<style type="text/css">
+li {
+	margin: 10px;
+}
+</style>
+
+</head>
+<body>
+
+	<div class='container'>
+
+		<h1 class='title-text'></h1>
+
+		<table class='table'>
+			<tr class='head'>
+				<th>Index</th>
+				<th>Data</th>
+				<th>Data+1</th>
+			</tr>
+			<tr class='item0'>
+				<td>1</td>
+				<td>2</td>
+				<td>3</td>
+			</tr>
+			<tr class='item1'>
+				<td class='f_index'>10</td>
+				<td class='f_data'>20</td>
+				<td class='f_data_1'>30</td>
+			</tr>
+
+			<tr class='foot'>
+				<th>X</th>
+				<th>Y</th>
+				<th>Z</th>
+			</tr>
+		</table>
+
+		<div>
+			<pre id='output'></pre>
+		</div>
+
+	</div>
+
+
+	<script src='../lib/jquery/jquery.js'></script>
+	<script src='../lib/bootstrap/js/bootstrap.js'></script>
+
+	<script src='../lib/snowflake/core.js'></script>
+	<script src='../lib/snowflake/context.js'></script>
+	<script src='../lib/snowflake/rest.js'></script>
+	<script src='../lib/snowflake/listview.js'></script>
+
+	<script src='../sf-config.js'></script>
+	<script src='index.js'></script>
+	<script src='test.js'></script>
+	<script src='test-listview.js'></script>
+
+	<script type="text/javascript">
+		$(document).ready(function() {
+
+			var System = js.lang.System;
+
+			var t = new test.Tester();
+			t.setOutput($('#output'));
+
+			//////////////////////
+
+			initList();
+
+		});
+
+		function initList() {
+
+			var ListModel = snowflake.view.list.ListModel;
+			var ListBuilder = snowflake.view.list.ListBuilder;
+
+			var builder = new ListBuilder();
+			builder.view($('.table'));
+			builder.model(new ListModel());
+			builder.onSelectItem(function(model, index) {
+				return '.item1';
+			});
+
+			//head
+
+			builder.addHead('.head').onCreate(function(item) {
+				//
+			}).onUpdate(function(item) {
+				//
+			});
+
+			// item0
+
+			builder.addItem('.item0').onCreate(function(item) {
+				//
+			}).onUpdate(function(item) {
+				//
+			});
+
+			//item1
+
+			builder.addItem('.item1').onCreate(function(item) {
+				//
+			}).onUpdate(function(item) {
+
+				var model = item.model();
+				var index = item.index();
+				var data = item.data();
+				var view = item.view();
+
+				view.find('.f_index').text(index);
+				view.find('.f_data').text(data);
+				view.find('.f_data_1').text(data + 1);
+
+			});
+
+			//foot
+
+			builder.addFoot('.foot').onCreate(function(item) {
+				//
+			}).onUpdate(function(item) {
+				//
+			});
+
+			var ctrl = builder.create();
+			ctrl.update();
+
+		}
+	</script>
+
+</body>
+</html>
