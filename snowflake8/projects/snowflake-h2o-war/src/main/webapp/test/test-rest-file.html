@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+
+<style>
+#url {
+	width: 80%;
+}
+</style>
+
+</head>
+<body>
+
+
+
+
+
+	<div>
+
+		<h1>Test</h1>
+
+		<div>
+			<input id='url' type="url" />
+			<button id='execute'>execute</button>
+		</div>
+
+
+		<div>
+			<pre id='output'></pre>
+		</div>
+
+	</div>
+
+
+	<script src="../lib/jquery/jquery.js"></script>
+
+	<script type="text/javascript">
+		$(document).ready(function() {
+
+			$('#url').val(window.location.href);
+
+			$('#execute').click(function() {
+				exec();
+			});
+
+		});
+
+		function exec() {
+
+			var url = $('#url').val();
+
+			$.get(url, function(data, status) {
+
+				var str = JSON.stringify(data, null, 4);
+				$('#output').text(str);
+
+			});
+
+		}
+	</script>
+
+
+</body>
+</html>

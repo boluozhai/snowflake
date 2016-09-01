@@ -45,7 +45,7 @@
 
 		<dependency>
 			<groupId>com.boluozhai.snowflake</groupId>
-			<artifactId>snowflake-rest-web</artifactId>
+			<artifactId>snowflake-h2o-web</artifactId>
 			<version>0.8.0</version>
 		</dependency>
 

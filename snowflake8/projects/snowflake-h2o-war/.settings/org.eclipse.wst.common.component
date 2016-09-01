@@ -19,13 +19,19 @@
         <dependent-module archiveName="snowflake-context-0.8.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/snowflake-context/snowflake-context">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="snowflake-core-0.8.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/snowflake-core/snowflake-core">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
         <dependent-module archiveName="snowflake-vfs-0.8.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/snowflake-vfs/snowflake-vfs">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="snowflake-appdata-0.8.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/snowflake-appdata/snowflake-appdata">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="snowflake-h2o-web-0.8.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/snowflake-h2o-web/snowflake-h2o-web">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="snowflake-core-0.8.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/snowflake-core/snowflake-core">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="snowflake-rest-api-0.8.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/snowflake-rest-api/snowflake-rest-api">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="snowflake-rest-web-0.8.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/snowflake-rest-web/snowflake-rest-web">

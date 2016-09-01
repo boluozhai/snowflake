@@ -24,7 +24,7 @@
 
 	<servlet>
 		<servlet-name>rest-root</servlet-name>
-		<servlet-class>com.boluozhai.snowflake.webapp.system.servlet.RestRootServlet</servlet-class>
+		<servlet-class>com.boluozhai.snowflake.h2o.servlet.H2ORestServlet</servlet-class>
 	</servlet>
 
 
@@ -32,7 +32,7 @@
 
 	<servlet-mapping>
 		<servlet-name>rest-root</servlet-name>
-		<url-pattern>/REST/*</url-pattern>
+		<url-pattern>/rest/*</url-pattern>
 	</servlet-mapping>
 
 

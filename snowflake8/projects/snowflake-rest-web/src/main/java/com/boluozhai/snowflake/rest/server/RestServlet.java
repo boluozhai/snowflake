@@ -36,6 +36,7 @@ public abstract class RestServlet extends HttpServlet {
 
 	public static class RestInfo {
 
+		public String baseURI;
 		public String app;
 		public String api;
 		public String type;
