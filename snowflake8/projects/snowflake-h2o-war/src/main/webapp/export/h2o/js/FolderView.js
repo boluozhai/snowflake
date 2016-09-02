@@ -38,6 +38,10 @@ JS.module(function(mc) {
 			return this.attr('time', value);
 		},
 
+		directory : function(value) {
+			return this.attr('dir', value);
+		},
+
 	};
 
 	FolderItem.create = function(name, size, type, time) {
@@ -126,7 +130,7 @@ JS.module(function(mc) {
 
 	function PathModel(list) {
 		this._list = list;
-		this._current_depth = 3;
+		this._current_depth = 300;
 	}
 
 	PathModel.prototype = {
@@ -200,18 +204,47 @@ JS.module(function(mc) {
 			var list = pojo.vfile.list;
 			var items = [];
 
+			this.sort(list);
+
 			for ( var index in list) {
 				var it = list[index];
 				var name = it.name;
 				var type = it.directory ? '<DIR>' : '-';
 				var size = it.length;
 				var time = it.lastModified;
-				items.push(FolderItem.create(name, size, type, time));
+
+				var item = FolderItem.create(name, size, type, time);
+				item.directory(it.directory);
+
+				items.push(item);
 			}
 
 			var model = this._model;
 			model.pathElements(path);
 			model.items(items);
+
+		},
+
+		sort : function(list) {
+
+			var table = {};
+			var keys = [];
+
+			for ( var i in list) {
+				var it = list[i];
+				var dir = it.directory ? 'dir' : 'file';
+				var name = it.name;
+				var key = dir + '-' + name;
+				keys.push(key);
+				table[key] = it;
+			}
+
+			keys.sort();
+
+			for ( var i in keys) {
+				var key = keys[i];
+				list[i] = table[key];
+			}
 
 		},
 
@@ -322,11 +355,16 @@ JS.module(function(mc) {
 				var time = data.time();
 				var type = data.type();
 				var size = data.size();
+				var isdir = data.directory();
 
 				view.find('.f_name').text(name);
 				view.find('.f_time').text(time);
 				view.find('.f_type').text(type);
 				view.find('.f_size').text(size);
+
+				var icon = view.find('.f_icon');
+				icon.addClass(isdir ? 'icon-dir' : 'icon-file');
+				icon.removeClass(isdir ? 'icon-file' : 'icon-dir');
 
 			};
 			builder.addItem('.item').onCreate(onCreate).onUpdate(onUpdate);
