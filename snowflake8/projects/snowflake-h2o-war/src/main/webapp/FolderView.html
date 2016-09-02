@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+<meta charset='utf-8' />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>no_title</title>
+
+<link href="./lib/bootstrap/css/bootstrap.min.css" rel="stylesheet"
+	type="text/css" />
+
+
+<style type="text/css">
+.item-h {
+	font-size: 25px;
+}
+
+.item-l {
+	font-size: 25px;
+}
+
+.item-s {
+	font-size: 12px;
+}
+</style>
+
+</head>
+<body>
+
+	<div class='container folder_view '>
+
+		<h2>Folder View</h2>
+
+		<div>
+			<!-- path -->
+
+			<ol class="breadcrumb path_view ">
+				<li class='head item-h '><a href="#">ROOT</a></li>
+				<li class='item-l'><a href="#">Library</a></li>
+				<li class='item-s'><a href="#">Library</a></li>
+			</ol>
+
+		</div>
+
+		<div>
+			<!-- items -->
+			<table class='table item_view '>
+				<tr class='head'>
+					<th>Name</th>
+					<th>Size</th>
+					<th>Time</th>
+					<th>Type</th>
+				</tr>
+				<tr class='item'>
+					<td><a class='f_name' href='#'>---</a></td>
+					<td class='f_size'>---</td>
+					<td class='f_time'>---</td>
+					<td class='f_type'>---</td>
+				</tr>
+			</table>
+		</div>
+
+		<pre class='output hide '> </pre>
+
+
+	</div>
+
+	<script src="./lib/jquery/jquery.min.js"></script>
+	<script src="./lib/bootstrap/js/bootstrap.min.js"></script>
+
+	<script src="./lib/snowflake/core.js"></script>
+	<script src="./lib/snowflake/context.js"></script>
+	<script src="./lib/snowflake/rest.js"></script>
+	<script src="./lib/snowflake/listview.js"></script>
+
+	<script src="./config.js"></script>
+	<script src="./this.js"></script>
+	<script src="./export/h2o/js/FolderView.js"></script>
+
+	<script type="text/javascript">
+		$(document).ready(function() {
+
+			setupFolderView();
+
+		});
+
+		function setupFolderView() {
+
+			var FolderController = com.boluozhai.h2o.folder.FolderController;
+			var Context = snowflake.context.Context;
+
+			var context = Context.getInstance();
+
+			var ctrl = new FolderController(context);
+			ctrl.selectRootView('.folder_view');
+			ctrl.selectPathView('.path_view');
+			ctrl.selectItemView('.item_view');
+			ctrl.init();
+
+			ctrl.load('/var/lib/tomcat7/');
+
+		}
+	</script>
+
+</body>
+</html>
