@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.boluozhai.snowflake.context.SnowflakeContext;
+import com.boluozhai.snowflake.h2o.utils.PathElements2VFile;
 import com.boluozhai.snowflake.libwebapp.utils.WebContextUtils;
 import com.boluozhai.snowflake.rest.api.h2o.FileModel;
 import com.boluozhai.snowflake.rest.element.file.Node;
@@ -23,8 +24,8 @@ import com.boluozhai.snowflake.vfs.VFile;
 public class RestFileController extends RestController {
 
 	@Override
-	protected void rest_get(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	protected void rest_get(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 
 		JsonRestView view = new JsonRestView();
 		try {
@@ -58,6 +59,12 @@ public class RestFileController extends RestController {
 
 		public NodeList create() {
 
+			if (rest_info.id.length == 0) {
+				if (vfs.separatorChar() == '\\') {
+					return this.create4windowsRoot();
+				}
+			}
+
 			final VFile node = this.getThisNode();
 			final List<Node> list = this.getChildList(node);
 			final NodeList nlist = new NodeList();
@@ -70,14 +77,42 @@ public class RestFileController extends RestController {
 				nlist.setDirectory(node.isDirectory());
 			}
 
-			nlist.setUri(this.uri);
+			nlist.setDebugAbsPath(node.getAbsolutePath());
+			nlist.setDebugURI(this.uri);
 			nlist.setPath(rest_info.id);
 			nlist.setList(list);
 
 			return nlist;
 		}
 
+		private NodeList create4windowsRoot() {
+
+			NodeList nlist = new NodeList();
+			List<Node> list = new ArrayList<Node>();
+
+			VFile[] roots = vfs.listRoots();
+			for (VFile drv : roots) {
+				Node node = new Node();
+				String name = drv.getAbsolutePath().replace('\\', ' ').trim();
+				node.setName(name);
+				node.setDirectory(true);
+				list.add(node);
+			}
+
+			nlist.setPath(rest_info.id);
+			nlist.setList(list);
+			nlist.setExists(true);
+			nlist.setDirectory(true);
+			nlist.setDebugAbsPath("\\");
+			nlist.setDebugURI(this.uri);
+
+			return nlist;
+		}
+
 		private List<Node> getChildList(VFile node) {
+			if (node == null) {
+				return null;
+			}
 			String[] list = node.list();
 			if (list == null) {
 				return null;
@@ -96,36 +131,10 @@ public class RestFileController extends RestController {
 		}
 
 		private VFile getThisNode() {
-
-			final char sep = vfs.separatorChar();
-			String[] array = rest_info.id;
-			StringBuilder sb = new StringBuilder();
-
-			if (sep == '/') {
-				// unix
-				if (array.length > 0) {
-					for (String name : array) {
-						sb.append(sep);
-						sb.append(name);
-					}
-				} else {
-					sb.append(sep);
-				}
-			} else {
-				// windows
-				if (array.length > 0) {
-					for (String name : array) {
-						if (sb.length() > 0) {
-							sb.append(sep);
-						}
-						sb.append(name);
-					}
-				} else {
-					return null;
-				}
-			}
-			return vfs.newFile(sb.toString());
+			PathElements2VFile tools = new PathElements2VFile(vfs);
+			return tools.getFile(rest_info.id);
 		}
+
 	}
 
 }

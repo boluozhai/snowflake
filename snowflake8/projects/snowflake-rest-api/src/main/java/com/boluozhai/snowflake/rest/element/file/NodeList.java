@@ -4,11 +4,13 @@ import java.util.List;
 
 public class NodeList extends Node {
 
-	private String baseURI;
 	private String[] path;
-	private String uri; // =(baseURI+path)
 	private List<Node> list;
 	private boolean exists;
+
+	private String debugBaseURI;
+	private String debugURI; // =(baseURI+path)
+	private String debugAbsPath;
 
 	public List<Node> getList() {
 		return list;
@@ -16,22 +18,6 @@ public class NodeList extends Node {
 
 	public void setList(List<Node> list) {
 		this.list = list;
-	}
-
-	public String getBaseURI() {
-		return baseURI;
-	}
-
-	public void setBaseURI(String baseURI) {
-		this.baseURI = baseURI;
-	}
-
-	public String getUri() {
-		return uri;
-	}
-
-	public void setUri(String uri) {
-		this.uri = uri;
 	}
 
 	public String[] getPath() {
@@ -48,6 +34,30 @@ public class NodeList extends Node {
 
 	public void setExists(boolean exists) {
 		this.exists = exists;
+	}
+
+	public String getDebugURI() {
+		return debugURI;
+	}
+
+	public void setDebugURI(String debugURI) {
+		this.debugURI = debugURI;
+	}
+
+	public String getDebugAbsPath() {
+		return debugAbsPath;
+	}
+
+	public void setDebugAbsPath(String debugAbsPath) {
+		this.debugAbsPath = debugAbsPath;
+	}
+
+	public String getDebugBaseURI() {
+		return debugBaseURI;
+	}
+
+	public void setDebugBaseURI(String debugBaseURI) {
+		this.debugBaseURI = debugBaseURI;
 	}
 
 }
