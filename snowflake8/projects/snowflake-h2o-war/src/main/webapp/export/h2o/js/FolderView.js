@@ -340,9 +340,16 @@ JS.module(function(mc) {
 				var data = item.data();
 				var name = data.name();
 				var url = self.getCurrentPath() + '/' + name;
+				var isdir = data.directory();
 
 				view.find('a').click(function() {
-					self.load(url);
+
+					if (isdir) {
+						self.load(url);
+					} else {
+						alert('cannot open file: ' + name);
+					}
+
 				});
 
 			};
