@@ -23,6 +23,21 @@
 .item-s {
 	font-size: 12px;
 }
+
+.icon {
+	width: 36px;
+	height: 36px;
+	display: block;
+	background-repeat: no-repeat;
+}
+
+.icon-dir {
+	background-image: url( export/h2o/image/dir.png );
+}
+
+.icon-file {
+	background-image: url( export/h2o/image/file.png );
+}
 </style>
 
 </head>
@@ -36,9 +51,9 @@
 			<!-- path -->
 
 			<ol class="breadcrumb path_view ">
-				<li class='head item-h '><a href="#">ROOT</a></li>
-				<li class='item-l'><a href="#">Library</a></li>
-				<li class='item-s'><a href="#">Library</a></li>
+				<li class='head item-h '><a href='#'>ROOT</a></li>
+				<li class='item-l'><a href='#'>Library</a></li>
+				<li class='item-s'><a href='#'>Library</a></li>
 			</ol>
 
 		</div>
@@ -47,12 +62,16 @@
 			<!-- items -->
 			<table class='table item_view '>
 				<tr class='head'>
+					<th>
+						<!-- icon -->
+					</th>
 					<th>Name</th>
 					<th>Size</th>
 					<th>Time</th>
 					<th>Type</th>
 				</tr>
 				<tr class='item'>
+					<td><a href='#' class='icon icon-dir f_icon '> </a></td>
 					<td><a class='f_name' href='#'>---</a></td>
 					<td class='f_size'>---</td>
 					<td class='f_time'>---</td>
@@ -98,7 +117,7 @@
 			ctrl.selectItemView('.item_view');
 			ctrl.init();
 
-			ctrl.load('/var/lib/tomcat7/');
+			ctrl.load('/');
 
 		}
 	</script>
