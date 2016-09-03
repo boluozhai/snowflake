@@ -225,6 +225,28 @@ JS.module(function(mc) {
 
 		},
 
+		testNormalizePath : function() {
+
+			var context = Context.getInstance();
+			var piw = context.pathInWebapp();
+			System.out.println('Test WebContext.normalizePath()');
+			System.out.println('    PIW: ' + piw);
+			System.out.println();
+
+			var array = [ '~/file', '~/abc/file', '~/abc/defg/file',
+					'a/b/c/d/e/file' ];
+			for ( var i in array) {
+				var path1 = array[i];
+				var path2 = context.normalizePath(path1);
+				System.out.println('    p1 = ' + path1);
+				System.out.println('    p2 = ' + path2);
+				System.out.println();
+			}
+
+			System.out.println();
+
+		},
+
 	};
 
 });

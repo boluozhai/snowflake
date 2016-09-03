@@ -40,6 +40,10 @@ li {
 				<button class='btn btn-default test-base64'>Test Base64</button>
 			</li>
 			<li>
+				<button class='btn btn-default test-normalize-path'>Test
+					NormalizePath</button>
+			</li>
+			<li>
 				<button class='btn btn-default test-listview'>Test ListView</button>
 			</li>
 		</ol>
@@ -98,6 +102,10 @@ li {
 
 			$('.test-base64').click(function() {
 				t.testBase64();
+			});
+
+			$('.test-normalize-path').click(function() {
+				t.testNormalizePath();
 			});
 
 			t.test();

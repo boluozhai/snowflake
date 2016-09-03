@@ -177,6 +177,40 @@ JS.module(function(mc) {
 			return this._path_in_webapp;
 		},
 
+		normalizePath : function(path) {
+
+			// https://host.com/app/api/type
+			// http://host.com/app/api/type
+			// /app/api/type
+			// ~/api/type
+			// api/type
+
+			if (path.indexOf('~/') != 0) {
+				return path;
+			}
+			path = path.substring(1);
+			var piw = this.pathInWebapp();
+			var sb = null;
+			for (var index = 0;;) {
+				var next = piw.indexOf('/', index);
+				if (next < 0) {
+					break;
+				}
+				index = next + 1;
+				if (sb == null) {
+					sb = '.';
+				} else {
+					sb = sb + '/..';
+				}
+			}
+			if (sb == null) {
+				return path;
+			} else {
+				return (sb + path);
+			}
+
+		},
+
 	};
 
 	/***************************************************************************

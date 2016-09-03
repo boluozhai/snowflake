@@ -1,5 +1,5 @@
 snowflake.web.WebContextUtils.init(function(factory) {
 
-	factory.pathInWebapp('{webapp}/test/index.js');
+	factory.pathInWebapp('~/test/index.js');
 
 });
