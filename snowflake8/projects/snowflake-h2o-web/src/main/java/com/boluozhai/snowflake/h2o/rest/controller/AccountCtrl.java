@@ -6,11 +6,11 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.boluozhai.snowflake.rest.api.h2o.RepoModel;
+import com.boluozhai.snowflake.rest.api.h2o.AccountModel;
 import com.boluozhai.snowflake.rest.server.JsonRestView;
 import com.boluozhai.snowflake.rest.server.RestController;
 
-public class RestRepoController extends RestController {
+public class AccountCtrl extends RestController {
 
 	@Override
 	protected void rest_get(HttpServletRequest request,
@@ -19,7 +19,7 @@ public class RestRepoController extends RestController {
 		JsonRestView view = new JsonRestView();
 		try {
 
-			RepoModel pojo = new RepoModel();
+			AccountModel pojo = new AccountModel();
 			view.setResponsePOJO(pojo);
 
 		} finally {

@@ -141,6 +141,90 @@ JS.module(function(mc) {
 
 		},
 
+		testSha1 : function() {
+
+			var tcase = {
+				case1 : {
+					text : 'Hello, World',
+					hash : '907d14fb3af2b0d4f18c2d46abe8aedce17367bd'
+				},
+				case2 : {
+					text : '世界，你好',
+					hash : '0d5ee633034da601802188ebb03c805bd3993075-'
+				},
+				case3 : {
+					text : 'http://hello.com/world#abc',
+					hash : '757b081e68d36610216c2cee71fbf0932096531e'
+				},
+			};
+
+			var SHA1 = snowflake.security.sha1.SHA1;
+
+			for ( var key in tcase) {
+				var tc = tcase[key];
+				var text = tc.text;
+				var hash = tc.hash;
+
+				var hash_2 = SHA1.digest(text);
+				var error = (hash != hash_2);
+
+				System.out.println('TestSha1');
+				System.out.println('  plain_text:[' + text + ']');
+				System.out.println('   want_hash:' + hash);
+				System.out.println('   calc_hash:' + hash_2);
+				System.out.println();
+
+				if (error) {
+					var msg = 'the hash value not match!';
+					System.out.println(msg);
+					throw new RuntimeException(msg);
+				}
+
+			}
+
+		},
+
+		testBase64 : function() {
+
+			var tcase = {
+				case1 : {
+					text : 'Hello, World',
+				},
+				case2 : {
+					text : '世界，你好',
+				},
+				case3 : {
+					text : 'http://hello.com/world#abc',
+				},
+			};
+
+			var b64 = snowflake.encoding.base64.Base64;
+
+			for ( var key in tcase) {
+				var tc = tcase[key];
+
+				var text1 = tc.text;
+				var txt64 = b64.encode(text1);
+				var text2 = b64.decode(txt64);
+
+				var error = (text1 != text2);
+
+				System.out.println('TestBase64');
+				System.out.println('  plain_text_1:[' + text1 + ']');
+				System.out.println('  plain_text_2:[' + text2 + ']');
+				System.out.println('   base64_text:[' + txt64 + ']');
+				System.out.println();
+
+				if (error) {
+					var msg = 'the hash value not match!';
+					System.out.println(msg);
+					throw new RuntimeException(msg);
+				}
+
+			}
+
+		},
+
 	};
 
 });

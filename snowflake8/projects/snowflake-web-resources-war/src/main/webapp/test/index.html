@@ -34,6 +34,12 @@ li {
 				<button class='btn btn-default test-rest'>Test Rest</button>
 			</li>
 			<li>
+				<button class='btn btn-default test-sha-1'>Test SHA-1</button>
+			</li>
+			<li>
+				<button class='btn btn-default test-base64'>Test Base64</button>
+			</li>
+			<li>
 				<button class='btn btn-default test-listview'>Test ListView</button>
 			</li>
 		</ol>
@@ -51,6 +57,8 @@ li {
 	<script src='../export/snowflake/core.js'></script>
 	<script src='../export/snowflake/context.js'></script>
 	<script src='../export/snowflake/rest.js'></script>
+	<script src='../export/snowflake/sha1.js'></script>
+	<script src='../export/snowflake/base64.js'></script>
 
 	<script src='../sf-config.js'></script>
 	<script src='index.js'></script>
@@ -82,6 +90,14 @@ li {
 
 			$('.test-listview').click(function() {
 				window.location = 'test-listview.html';
+			});
+
+			$('.test-sha-1').click(function() {
+				t.testSha1();
+			});
+
+			$('.test-base64').click(function() {
+				t.testBase64();
 			});
 
 			t.test();

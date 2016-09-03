@@ -21,7 +21,7 @@ import com.boluozhai.snowflake.rest.server.RestServlet.RestInfo;
 import com.boluozhai.snowflake.vfs.VFS;
 import com.boluozhai.snowflake.vfs.VFile;
 
-public class RestFileController extends RestController {
+public class FileCtrl extends RestController {
 
 	@Override
 	protected void rest_get(HttpServletRequest request, HttpServletResponse response)
