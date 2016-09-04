@@ -225,11 +225,11 @@ JS.module(function(mc) {
 
 		},
 
-		testNormalizePath : function() {
+		testNormalizeURL : function() {
 
 			var context = Context.getInstance();
 			var piw = context.pathInWebapp();
-			System.out.println('Test WebContext.normalizePath()');
+			System.out.println('Test WebContext.normalizeURL()');
 			System.out.println('    PIW: ' + piw);
 			System.out.println();
 
@@ -237,7 +237,7 @@ JS.module(function(mc) {
 					'a/b/c/d/e/file' ];
 			for ( var i in array) {
 				var path1 = array[i];
-				var path2 = context.normalizePath(path1);
+				var path2 = context.normalizeURL(path1);
 				System.out.println('    p1 = ' + path1);
 				System.out.println('    p2 = ' + path2);
 				System.out.println();

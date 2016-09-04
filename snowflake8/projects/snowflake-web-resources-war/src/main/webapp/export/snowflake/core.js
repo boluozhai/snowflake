@@ -1,5 +1,11 @@
 /*******************************************************************************
- * Snowflake-JS core
+ * 
+ * core.js
+ * 
+ * @Copyright (c) 2016 boluozhai.com
+ * @License MIT License
+ * @Author xukun<xukun17@sina.com>
+ * 
  */
 
 function Snowflake() {
@@ -351,12 +357,15 @@ JS.module(function(_mc_) {
 
 	BaseObject.hash_count = 0;
 
+	function next_object_hash_code() {
+		return (++BaseObject.hash_count);
+	}
+
 	/***************************************************************************
 	 * class Object
 	 */
 
 	function Object() {
-		this._hash_code = (++BaseObject.hash_count);
 	}
 
 	_mc_.class(function(_cc_) {
@@ -377,7 +386,12 @@ JS.module(function(_mc_) {
 		},
 
 		hashCode : function() {
-			return this._hash_code;
+			var code = this._hash_code;
+			if (code == null) {
+				code = next_object_hash_code();
+				this._hash_code = code;
+			}
+			return code;
 		},
 
 		toString : function() {

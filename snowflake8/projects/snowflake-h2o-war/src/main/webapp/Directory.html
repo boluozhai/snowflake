@@ -1,5 +1,18 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
+
+<!--
+/***********************************************************************
+ * 
+ * Directory.html
+ * 
+ * @Copyright (c) 2016 boluozhai.com
+ * @License MIT License
+ * @Author xukun<xukun17@sina.com>
+ * 
+ */
+-->
+
 <head>
 
 <meta charset='utf-8' />
@@ -8,11 +21,20 @@
 <link href="./lib/bootstrap/css/bootstrap.min.css" rel="stylesheet"
 	type="text/css" />
 
+<link href="./export/h2o/css/widget.css" rel="stylesheet"
+	type="text/css" />
+
 </head>
 <body>
 
-	<div>
+	<div id='client' class='container'>
+
 		<h2>snow-web-resource</h2>
+
+		<div id='pathBar'></div>
+
+		<div id='fileList'></div>
+
 	</div>
 
 	<script src="./lib/jquery/jquery.min.js"></script>
@@ -20,12 +42,31 @@
 
 	<script src="./lib/snowflake/core.js"></script>
 	<script src="./lib/snowflake/context.js"></script>
+	<script src="./lib/snowflake/event.js"></script>
+	<script src="./lib/snowflake/rest.js"></script>
+	<script src="./lib/snowflake/listview.js"></script>
 
+	<script src="./export/h2o/js/widget.js"></script>
+	<script src="./export/h2o/js/folder.js"></script>
+
+	<script src="./js/config.js"></script>
+	<script src="./js/Directory.js"></script>
 	<script src="./this.js"></script>
-	<script src="./export/h2o/js/FolderView.js"></script>
 
 	<script type="text/javascript">
+		var DirectoryCtrl = com.boluozhai.h2o.webui.DirectoryCtrl;
+
 		$(document).ready(function() {
+
+			var context = Snowflake.getContext();
+			var ctrl = new DirectoryCtrl(context);
+			ctrl.selectClient('#client');
+			ctrl.selectPathList('#pathBar');
+			ctrl.selectFileList('#fileList');
+			ctrl.init();
+
+			ctrl.load('/home/xukun/');
+
 		});
 	</script>
 

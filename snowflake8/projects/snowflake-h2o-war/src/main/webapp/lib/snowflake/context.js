@@ -1,5 +1,11 @@
 /*******************************************************************************
+ * 
  * context.js
+ * 
+ * @Copyright (c) 2016 boluozhai.com
+ * @License MIT License
+ * @Author xukun<xukun17@sina.com>
+ * 
  */
 
 JS.module(function(mc) {
@@ -177,7 +183,7 @@ JS.module(function(mc) {
 			return this._path_in_webapp;
 		},
 
-		normalizePath : function(path) {
+		normalizeURL : function(path) {
 
 			// https://host.com/app/api/type
 			// http://host.com/app/api/type

@@ -1,5 +1,11 @@
 /*******************************************************************************
+ * 
  * base64.js
+ * 
+ * @Copyright (c) 2016 boluozhai.com
+ * @License MIT License
+ * @Author xukun<xukun17@sina.com>
+ * 
  */
 
 JS

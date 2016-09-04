@@ -1,0 +1,22 @@
+.f_name {
+	--display: inline-block;
+	float: left;
+	margin-left: 20px;
+	margin-top: 8px;
+}
+
+.f_icon {
+	width: 36px;
+	height: 36px;
+	display: inline-block;
+	background-repeat: no-repeat;
+	float: left;
+}
+
+.filelist-icon-dir {
+	background-image: url(./../image/dir.png);
+}
+
+.filelist-icon-file {
+	background-image: url(./../image/file.png);
+}

@@ -41,7 +41,7 @@ li {
 			</li>
 			<li>
 				<button class='btn btn-default test-normalize-path'>Test
-					NormalizePath</button>
+					NormalizeURL</button>
 			</li>
 			<li>
 				<button class='btn btn-default test-listview'>Test ListView</button>
@@ -60,6 +60,7 @@ li {
 
 	<script src='../export/snowflake/core.js'></script>
 	<script src='../export/snowflake/context.js'></script>
+	<script src='../export/snowflake/event.js'></script>
 	<script src='../export/snowflake/rest.js'></script>
 	<script src='../export/snowflake/sha1.js'></script>
 	<script src='../export/snowflake/base64.js'></script>
@@ -105,7 +106,7 @@ li {
 			});
 
 			$('.test-normalize-path').click(function() {
-				t.testNormalizePath();
+				t.testNormalizeURL();
 			});
 
 			t.test();
