@@ -81,8 +81,8 @@ JS.module(function(mc) {
 
 	PathBarEvent.prototype = {
 
-		xxx : function() {
-			return 3;
+		item : function(value) {
+			return this.attr('item', value);
 		},
 
 	};
@@ -91,19 +91,30 @@ JS.module(function(mc) {
 	 * class PathBarEventHandler
 	 */
 
-	function PathBarEventHandler(context) {
-		this._context = context;
+	function PathBarEventHandler() {
 	}
 
 	mc.class(function(cc) {
 		cc.type(PathBarEventHandler);
-		// cc.extends(Event);
 	});
 
 	PathBarEventHandler.prototype = {
 
 		onEvent : function(event) {
-			return 3;
+			var item = event.item();
+			this._ctrl = event.source();
+			this.onClickItem(item);
+		},
+
+		onClickItem : function(item) {
+			this.open(item);
+		},
+
+		open : function(item) {
+			var name = item.data();
+			var index = item.index();
+			var ctrl = this._ctrl;
+			ctrl.open(name, index);
 		},
 
 	};
@@ -138,6 +149,13 @@ JS.module(function(mc) {
 				self.onHtmlReday(query.find('.pathbar'));
 			});
 
+			// init event handler
+			var h = this.eventHandler();
+			if (h == null) {
+				h = new PathBarEventHandler();
+				this.eventHandler(h);
+			}
+
 		},
 
 		parent : function(query) {
@@ -156,8 +174,21 @@ JS.module(function(mc) {
 			this.setupListCtrl();
 		},
 
+		open : function(name, index) {
+			var ds_ctrl = this.dataSource();
+			var ds_model = ds_ctrl.model();
+			var array = ds_model.pathElements();
+			var offset = [];
+			for (var i = 0; i <= index; i++) {
+				var s = array[i];
+				offset.push(s);
+			}
+			ds_ctrl.load(null, offset);
+		},
+
 		setupListCtrl : function() {
 
+			var self = this;
 			var model = this.model();
 			var view = this._jq_view.find('.list');
 			var builder = new ListBuilder();
@@ -171,24 +202,23 @@ JS.module(function(mc) {
 			// items
 
 			builder.addHead('.list-head').onCreate(function(item) {
-				// NOP
-
+				var view = item.view();
+				view.find('.btn').click(function() {
+					self.fireOnClickRoot(item);
+				});
 			}).onUpdate(function(item) {
 				// NOP
 			});
 
 			builder.addItem('.list-item').onCreate(function(item) {
-				// NOP
-
+				var view = item.view();
+				view.find('button.btn').click(function() {
+					self.fireOnClickItem(item);
+				});
 			}).onUpdate(function(item) {
-
-				// TODO
-
 				var view = item.view();
 				var data = item.data();
-
-				view.find('a').text(data);
-
+				view.find('button.btn').text(data);
 			});
 
 			this._list_ctrl = builder.create();
@@ -214,6 +244,24 @@ JS.module(function(mc) {
 			c2.model(model);
 			c2.update();
 			c2.update(true);
+		},
+
+		eventHandler : function(h) {
+			return this.attr('event_handler', h);
+		},
+
+		fireOnClickItem : function(item) {
+			var event = new PathBarEvent();
+			event.source(this);
+			event.item(item);
+			event.message('on_click_item');
+			var h = this.eventHandler();
+			h.onEvent(event);
+		},
+
+		fireOnClickRoot : function(item) {
+			var ds_ctrl = this.dataSource();
+			ds_ctrl.load(null, null);
 		},
 
 	};
@@ -303,8 +351,8 @@ JS.module(function(mc) {
 
 	FileListEvent.prototype = {
 
-		xxx : function() {
-			return 6;
+		item : function(value) {
+			return this.attr('item', value);
 		},
 
 	};
@@ -313,19 +361,30 @@ JS.module(function(mc) {
 	 * class FileListEventHandler
 	 */
 
-	function FileListEventHandler(context) {
-		this._context = context;
+	function FileListEventHandler() {
 	}
 
 	mc.class(function(cc) {
 		cc.type(FileListEventHandler);
-		cc.extends(Event);
 	});
 
 	FileListEventHandler.prototype = {
 
 		onEvent : function(event) {
-			return 6;
+			var item = event.item();
+			this._ctrl = event.source();
+			this.onClickItem(item);
+		},
+
+		onClickItem : function(item) {
+			this.open(item);
+		},
+
+		open : function(item) {
+			var data = item.data();
+			var ctrl = this._ctrl;
+			var name = data.name();
+			ctrl.open(name);
 		},
 
 	};
@@ -373,6 +432,13 @@ JS.module(function(mc) {
 				self.onHtmlReday(query.find('.filelist'));
 			});
 
+			// init event handler
+			var h = this.eventHandler();
+			if (h == null) {
+				h = new FileListEventHandler();
+				this.eventHandler(h);
+			}
+
 		},
 
 		parent : function(query) {
@@ -391,8 +457,16 @@ JS.module(function(mc) {
 			this.setupListCtrl();
 		},
 
+		open : function(name) {
+			var ds = this.dataSource();
+			var base = ds.currentPath();
+			var offset = [ name ];
+			ds.load(base, offset);
+		},
+
 		setupListCtrl : function() {
 
+			var self = this;
 			var model = this.model();
 			var view = this._jq_view.find('.list');
 			var builder = new ListBuilder();
@@ -413,11 +487,13 @@ JS.module(function(mc) {
 			});
 
 			builder.addItem('.list-item').onCreate(function(item) {
-				// NOP
+
+				var view = item.view();
+				view.find('button.btn').click(function() {
+					self.fireOnClickItem(item);
+				});
 
 			}).onUpdate(function(item) {
-
-				// TODO
 
 				var view = item.view();
 				var data = item.data();
@@ -466,6 +542,18 @@ JS.module(function(mc) {
 			c2.model(model);
 			c2.update();
 			c2.update(true);
+		},
+
+		eventHandler : function(h) {
+			return this.attr('event_handler', h);
+		},
+
+		fireOnClickItem : function(item) {
+			var event = new FileListEvent();
+			event.source(this);
+			event.item(item);
+			var h = this.eventHandler();
+			h.onEvent(event);
 		},
 
 	};
@@ -600,6 +688,9 @@ JS.module(function(mc) {
 				} else {
 					id += ('/' + s);
 				}
+			}
+			if (id == null) {
+				id = '';
 			}
 
 			var client = RESTClient.getInstance(this._context);
@@ -746,6 +837,21 @@ JS.module(function(mc) {
 		},
 
 		onEvent : function(event) {
+		},
+
+		currentPath : function() {
+			var model = this.model();
+			var array = model.pathElements();
+			var sb = null;
+			for ( var i in array) {
+				var s = '/' + array[i];
+				if (sb == null) {
+					sb = s;
+				} else {
+					sb += s;
+				}
+			}
+			return sb;
 		},
 
 	};
