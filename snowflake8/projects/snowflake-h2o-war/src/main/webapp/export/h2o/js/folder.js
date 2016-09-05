@@ -1,6 +1,6 @@
 /*******************************************************************************
  * 
- * widget.js
+ * folder.js
  * 
  * @Copyright (c) 2016 boluozhai.com
  * @License MIT License
@@ -10,7 +10,7 @@
 
 JS.module(function(mc) {
 
-	mc.package('com.boluozhai.h2o.widget');
+	mc.package('com.boluozhai.h2o.widget.folder');
 
 	var System = mc.import('js.lang.System');
 	var ListBuilder = mc.import('snowflake.view.list.ListBuilder');
@@ -505,7 +505,10 @@ JS.module(function(mc) {
 				var time = data.time();
 
 				if (isdir) {
-					size = '<DIR>';
+					size = '-';
+					type = '<DIR>';
+				} else {
+					type = '<FILE>';
 				}
 
 				var date = new Date();

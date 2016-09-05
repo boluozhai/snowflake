@@ -18,9 +18,12 @@ JS.module(function(mc) {
 	var Attributes = mc.import('js.lang.Attributes');
 	var RESTClient = mc.import('snowflake.rest.RESTClient');
 
-	var FileListCtrl = mc.import('com.boluozhai.h2o.widget.FileListCtrl');
-	var PathBarCtrl = mc.import('com.boluozhai.h2o.widget.PathBarCtrl');
-	var DirDataCtrl = mc.import('com.boluozhai.h2o.widget.DirDataCtrl');
+	var widget_x = 'com.boluozhai.h2o.widget';
+
+	var FileListCtrl = mc.import(widget_x + '.folder.FileListCtrl');
+	var PathBarCtrl = mc.import(widget_x + '.folder.PathBarCtrl');
+	var DirDataCtrl = mc.import(widget_x + '.folder.DirDataCtrl');
+	var ConsoleCtrl = mc.import(widget_x + '.console.ConsoleCtrl');
 
 	/***************************************************************************
 	 * class DirectoryCtrl
@@ -49,6 +52,10 @@ JS.module(function(mc) {
 			this._jq_filelist = $(sel);
 		},
 
+		selectConsole : function(sel) {
+			this._jq_console = $(sel);
+		},
+
 		init : function() {
 
 			var context = this._context;
@@ -56,6 +63,7 @@ JS.module(function(mc) {
 			var dir_data_ctrl = new DirDataCtrl(context);
 			var filelist_ctrl = new FileListCtrl(context);
 			var path_bar_ctrl = new PathBarCtrl(context);
+			var console_ctrl = new ConsoleCtrl(context);
 
 			path_bar_ctrl.dataSource(dir_data_ctrl);
 			path_bar_ctrl.parent(this._jq_pathlist);
@@ -63,15 +71,24 @@ JS.module(function(mc) {
 			filelist_ctrl.dataSource(dir_data_ctrl);
 			filelist_ctrl.parent(this._jq_filelist);
 
+			console_ctrl.parent(this._jq_console);
+
 			dir_data_ctrl.init();
 			filelist_ctrl.init();
 			path_bar_ctrl.init();
+			console_ctrl.init();
 
+			var dir_data_model = dir_data_ctrl.model();
+			dir_data_model.addEventHandler(this);
 			this._dir_data_ctrl = dir_data_ctrl;
 		},
 
 		load : function(base_path, offset_elements) {
 			this._dir_data_ctrl.load(base_path, offset_elements);
+		},
+
+		onEvent : function(event) {
+			// TODO alert(this.getClass().getName() + '.onEvent()');
 		},
 
 	};

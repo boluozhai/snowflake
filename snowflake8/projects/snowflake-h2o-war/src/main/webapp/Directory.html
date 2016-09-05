@@ -23,7 +23,9 @@
 <link href="./lib/bootstrap/css/bootstrap.min.css" rel="stylesheet"
 	type="text/css" />
 
-<link href="./export/h2o/css/widget.css" rel="stylesheet"
+<link href="./export/h2o/css/console.css" rel="stylesheet"
+	type="text/css" />
+<link href="./export/h2o/css/folder.css" rel="stylesheet"
 	type="text/css" />
 
 </head>
@@ -33,9 +35,12 @@
 
 		<h2>Directory</h2>
 
+		<div id='console'></div>
+
 		<div id='pathBar'></div>
 
 		<div id='fileList'></div>
+
 
 	</div>
 
@@ -50,6 +55,7 @@
 
 	<script src="./export/h2o/js/widget.js"></script>
 	<script src="./export/h2o/js/folder.js"></script>
+	<script src="./export/h2o/js/console.js"></script>
 
 	<script src="./js/config.js"></script>
 	<script src="./js/Directory.js"></script>
@@ -65,6 +71,7 @@
 			ctrl.selectClient('#client');
 			ctrl.selectPathList('#pathBar');
 			ctrl.selectFileList('#fileList');
+			ctrl.selectConsole('#console');
 			ctrl.init();
 
 			ctrl.load('/home');
