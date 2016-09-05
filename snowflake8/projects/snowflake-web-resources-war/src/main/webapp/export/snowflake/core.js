@@ -482,6 +482,7 @@ this.Class = this.js.lang.Class;
 
 JS.module(function(_mc_) {
 
+	// TODO js.io.*
 	_mc_.package('js.io');
 
 	/***************************************************************************
@@ -506,8 +507,49 @@ JS.module(function(_mc_) {
 
 });
 
+JS.module(function(mc) {
+
+	// TODO js.util.*
+	mc.package('js.util');
+
+	/***************************************************************************
+	 * class Date
+	 */
+
+	function Calendar(time) {
+		var date = new Date();
+		if (time != null) {
+			date.setTime(time);
+		}
+		this._date = date;
+	}
+
+	mc.class(function(cc) {
+		cc.type(Calendar);
+	});
+
+	Calendar.prototype = {
+
+		timeInMillis : function(value) {
+			if (value == null) {
+				value = this._date.getTime();
+			} else {
+				this._date.setTime(value);
+			}
+			return value;
+		},
+
+		toString : function() {
+			return this._date.toLocaleString();
+		},
+
+	};
+
+});
+
 JS.module(function(_mc_) {
 
+	// TODO js.lang.*
 	_mc_.package('js.lang');
 
 	var PrintStream = js.io.PrintStream;

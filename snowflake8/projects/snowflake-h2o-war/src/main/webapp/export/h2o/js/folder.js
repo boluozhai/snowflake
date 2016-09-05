@@ -505,13 +505,16 @@ JS.module(function(mc) {
 				var time = data.time();
 
 				if (isdir) {
-					size = '';
+					size = '<DIR>';
 				}
+
+				var date = new Date();
+				date.setTime(time);
 
 				view.find('.f_name').text(name);
 				view.find('.f_size').text(size);
 				view.find('.f_type').text(type);
-				view.find('.f_time').text(time);
+				view.find('.f_time').text(date.toLocaleString());
 
 				var icon = view.find('.f_icon');
 				select_icon_for_file(icon, isdir, type);
