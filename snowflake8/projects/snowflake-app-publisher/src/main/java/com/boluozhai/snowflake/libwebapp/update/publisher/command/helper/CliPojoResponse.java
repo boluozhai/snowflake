@@ -1,38 +1,23 @@
 package com.boluozhai.snowflake.libwebapp.update.publisher.command.helper;
 
-import java.io.OutputStream;
+import java.io.PrintStream;
 
 import com.boluozhai.snowflake.cli.CLIResponse;
 
 public class CliPojoResponse implements CLIResponse {
 
-	private Object outputObject;
+	// private Object outputObject;
 
 	@Override
-	public OutputStream getOutputStream() {
+	public PrintStream out() {
 		// TODO Auto-generated method stub
-		throw new RuntimeException("unsupports");
+		throw new RuntimeException("not impl");
 	}
 
 	@Override
-	public void setError(Throwable err) {
+	public PrintStream err() {
 		// TODO Auto-generated method stub
-		throw new RuntimeException("unsupports");
-	}
-
-	@Override
-	public void setOutputText(String text) {
-		// TODO Auto-generated method stub
-		throw new RuntimeException("unsupports");
-	}
-
-	@Override
-	public void setOutputObject(Object object) {
-		this.outputObject = object;
-	}
-
-	public Object getOutputObject() {
-		return outputObject;
+		throw new RuntimeException("not impl");
 	}
 
 }

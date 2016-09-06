@@ -3,7 +3,8 @@
  "http://www.springframework.org/dtd/spring-beans-2.0.dtd" >
 <beans>
 
-	<bean id='com.boluozhai.snowflake.vfs.VFSFactory' class='com.boluozhai.snowflake.vfs.support.DefaultVFSFactory'></bean>
-
+	<import resource="classpath:config/spring/h2o/base.xml" />
+	<import resource="classpath:config/spring/h2o/xgit.xml" />
+	<import resource="classpath:config/spring/h2o/command.xml" />
 
 </beans>

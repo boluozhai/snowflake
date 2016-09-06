@@ -1,0 +1,22 @@
+package com.boluozhai.snowflake.h2o.command.snow;
+
+import java.net.URI;
+
+import com.boluozhai.snowflake.cli.CLICommandHandler;
+import com.boluozhai.snowflake.cli.CLIResponse;
+import com.boluozhai.snowflake.context.SnowflakeContext;
+
+public class CmdVersion implements CLICommandHandler {
+
+	@Override
+	public void process(SnowflakeContext context, String command) {
+		// TODO Auto-generated method stub
+
+		URI uri = context.getURI();
+
+		CLIResponse resp = CLIResponse.Agent.getResponse(context);
+		resp.out().println(uri);
+
+	}
+
+}

@@ -1,6 +1,6 @@
 package com.boluozhai.snowflake.cli;
 
-import java.io.OutputStream;
+import java.io.PrintStream;
 
 import com.boluozhai.snowflake.context.MutableAttributes;
 import com.boluozhai.snowflake.context.SnowflakeContext;
@@ -23,12 +23,8 @@ public interface CLIResponse {
 
 	}
 
-	OutputStream getOutputStream();
+	PrintStream out();
 
-	void setError(Throwable err);
-
-	void setOutputText(String text);
-
-	void setOutputObject(Object object);
+	PrintStream err();
 
 }

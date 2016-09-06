@@ -454,8 +454,15 @@ JS.module(function(mc) {
 			request.entity(req_entity);
 			request.execute(function(response) {
 
-				var msg = response.message();
-				System.out.println(msg);
+				if (response.ok()) {
+					var res_entity = response.entity();
+					var js = res_entity.toJSON();
+					var msg = js.result.message;
+					System.out.println(msg);
+				} else {
+					var msg = response.message();
+					System.out.println(msg);
+				}
 
 			});
 

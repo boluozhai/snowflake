@@ -10,6 +10,6 @@
 
 package com.boluozhai.snowflake.h2o;
 
-public class H2O {
+public class H2O_WAR {
 
 }
