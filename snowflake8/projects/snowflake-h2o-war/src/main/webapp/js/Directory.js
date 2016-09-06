@@ -81,6 +81,8 @@ JS.module(function(mc) {
 			var dir_data_model = dir_data_ctrl.model();
 			dir_data_model.addEventHandler(this);
 			this._dir_data_ctrl = dir_data_ctrl;
+			this._dir_data_model = dir_data_model;
+			this._console_ctrl = console_ctrl;
 		},
 
 		load : function(base_path, offset_elements) {
@@ -89,6 +91,15 @@ JS.module(function(mc) {
 
 		onEvent : function(event) {
 			// TODO alert(this.getClass().getName() + '.onEvent()');
+
+			var dir_data_model = this._dir_data_model;
+			var src = event.source();
+			if (src == dir_data_model) {
+				var fileURI = src.fileURI();
+				var console_ctrl = this._console_ctrl;
+				console_ctrl.currentPathURI(fileURI);
+			}
+
 		},
 
 	};

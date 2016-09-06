@@ -4,7 +4,10 @@ import java.util.List;
 
 public class NodeList extends Node {
 
-	private String[] path;
+	private String fileURI; // a URI start with 'file:/'
+	private String baseURI; // the prefix of fileURI
+	private String[] path; // the offset base on baseURI
+
 	private List<Node> list;
 	private boolean exists;
 
@@ -58,6 +61,22 @@ public class NodeList extends Node {
 
 	public void setDebugBaseURI(String debugBaseURI) {
 		this.debugBaseURI = debugBaseURI;
+	}
+
+	public String getFileURI() {
+		return fileURI;
+	}
+
+	public void setFileURI(String fileURI) {
+		this.fileURI = fileURI;
+	}
+
+	public String getBaseURI() {
+		return baseURI;
+	}
+
+	public void setBaseURI(String baseURI) {
+		this.baseURI = baseURI;
 	}
 
 }

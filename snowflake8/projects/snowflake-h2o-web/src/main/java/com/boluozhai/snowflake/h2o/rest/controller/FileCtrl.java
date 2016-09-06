@@ -24,8 +24,8 @@ import com.boluozhai.snowflake.vfs.VFile;
 public class FileCtrl extends RestController {
 
 	@Override
-	protected void rest_get(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	protected void rest_get(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
 
 		JsonRestView view = new JsonRestView();
 		try {
@@ -59,30 +59,47 @@ public class FileCtrl extends RestController {
 
 		public NodeList create() {
 
-			if (rest_info.id.length == 0) {
-				if (vfs.separatorChar() == '\\') {
-					return this.create4windowsRoot();
-				}
+			final VFile node = this.getThisNode();
+			if (node == null) {
+				return this.create4windowsRoot();
 			}
 
-			final VFile node = this.getThisNode();
 			final List<Node> list = this.getChildList(node);
 			final NodeList nlist = new NodeList();
 
-			if (node != null) {
-				nlist.setExists(node.exists());
-				nlist.setLastModified(node.lastModified());
-				nlist.setName(node.getName());
-				nlist.setLength(node.length());
-				nlist.setDirectory(node.isDirectory());
-			}
-
-			nlist.setDebugAbsPath(node.getAbsolutePath());
-			nlist.setDebugURI(this.uri);
+			nlist.setExists(node.exists());
+			nlist.setLastModified(node.lastModified());
+			nlist.setName(node.getName());
+			nlist.setLength(node.length());
+			nlist.setDirectory(node.isDirectory());
+			nlist.setFileURI(node.toURI().toString());
+			nlist.setBaseURI(this.makeBaseURI(nlist));
 			nlist.setPath(rest_info.id);
 			nlist.setList(list);
 
+			nlist.setDebugAbsPath(node.getAbsolutePath());
+			nlist.setDebugURI(this.uri);
+
 			return nlist;
+		}
+
+		private String makeBaseURI(NodeList nlist) {
+			final String full = nlist.getFileURI();
+			final String[] array = this.rest_info.id;
+			final StringBuilder sb = new StringBuilder();
+			for (String s : array) {
+				if (sb.length() > 0) {
+					sb.append('/');
+				}
+				sb.append(s);
+			}
+			final String path = sb.toString();
+			final int index = full.lastIndexOf(path);
+			if (index < 0) {
+				return full;
+			} else {
+				return full.substring(0, index);
+			}
 		}
 
 		private NodeList create4windowsRoot() {
@@ -99,12 +116,16 @@ public class FileCtrl extends RestController {
 				list.add(node);
 			}
 
-			nlist.setPath(rest_info.id);
+			String[] path = {};
+
+			nlist.setPath(path);
 			nlist.setList(list);
 			nlist.setExists(true);
 			nlist.setDirectory(true);
 			nlist.setDebugAbsPath("\\");
 			nlist.setDebugURI(this.uri);
+			nlist.setBaseURI("file:/");
+			nlist.setFileURI("file:/");
 
 			return nlist;
 		}

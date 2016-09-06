@@ -592,6 +592,10 @@ JS.module(function(mc) {
 			return this._atts.attr('base_uri', str);
 		},
 
+		fileURI : function(str) {
+			return this._atts.attr('file_uri', str);
+		},
+
 		fire : function() {
 			var e = new Event();
 			e.message('changed');
@@ -746,7 +750,8 @@ JS.module(function(mc) {
 
 			model.items(array);
 			model.pathElements(path_list);
-			model.baseURI('file:///');
+			model.baseURI(js.vfile.baseURI);
+			model.fileURI(js.vfile.fileURI);
 
 			model.fire();
 

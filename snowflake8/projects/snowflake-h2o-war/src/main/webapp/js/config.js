@@ -1,9 +1,11 @@
 var __beans__ = {
 
-	'id1' : 'js.lang.Object',
-	'id2' : 'js.lang.Object',
-
 	'snowflake.rest.RESTClientFactory' : 'snowflake.rest.RESTClientFactory',
+
+	'com.boluozhai.h2o.cli.CLIClientFactory' : 'com.boluozhai.h2o.cli.CLIClientFactory',
+	'com.boluozhai.h2o.cli.CLIServiceFactory' : 'com.boluozhai.h2o.cli.CLIServiceFactory',
+
+	'com.boluozhai.h2o.widget.console.Console' : 'com.boluozhai.h2o.widget.console.Console',
 
 };
 
