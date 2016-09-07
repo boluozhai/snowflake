@@ -35,6 +35,12 @@
 			<version>0.8.0</version>
 		</dependency>
 
+		<dependency>
+			<groupId>com.boluozhai.snowflake</groupId>
+			<artifactId>snowflake-xgit-command</artifactId>
+			<version>0.8.0</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>

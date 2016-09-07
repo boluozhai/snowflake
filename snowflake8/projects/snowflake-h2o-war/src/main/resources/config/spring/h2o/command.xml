@@ -13,6 +13,8 @@
 
 	<bean class='com.boluozhai.snowflake.cli.CommandSet'>
 
+		<!-- .* -->
+
 		<property name="enable" value='true' />
 		<property name="prefix" value='' />
 		<property name="suffix" value='' />
@@ -41,6 +43,12 @@
 					</bean>
 				</entry>
 
+				<entry key='git'>
+					<bean class='com.boluozhai.snowflake.xgit.command.MainGit'>
+						<property name='description' value='执行 git 命令' />
+					</bean>
+				</entry>
+
 				<entry key='sf'>
 					<bean class='com.boluozhai.snowflake.h2o.command.CmdSnowflake'>
 						<property name='description' value='执行 snowflake 命令' />
@@ -55,6 +63,8 @@
 
 	<bean class='com.boluozhai.snowflake.cli.CommandSet'>
 
+		<!-- sf.* -->
+
 		<property name="enable" value='true' />
 		<property name="prefix" value='sf-' />
 		<property name="suffix" value='' />
@@ -63,14 +73,184 @@
 			<map>
 
 				<entry key='install'>
-					<bean class='com.boluozhai.snowflake.h2o.command.snow.CmdInstall'>
+					<bean class='com.boluozhai.snowflake.h2o.command.sf.CmdInstall'>
 						<property name='description' value='安装 snowflake 系统' />
 					</bean>
 				</entry>
 
+				<entry key='repo'>
+					<bean class='com.boluozhai.snowflake.h2o.command.sf.CmdRepo'>
+						<property name='description' value='执行 sf-repo 命令' />
+					</bean>
+				</entry>
+
+				<entry key='user'>
+					<bean class='com.boluozhai.snowflake.h2o.command.sf.CmdUser'>
+						<property name='description' value='执行 sf-user 命令' />
+					</bean>
+				</entry>
+
 				<entry key='version'>
-					<bean class='com.boluozhai.snowflake.h2o.command.snow.CmdVersion'>
+					<bean class='com.boluozhai.snowflake.h2o.command.sf.CmdVersion'>
 						<property name='description' value='显示 snowflake 的版本信息' />
+					</bean>
+				</entry>
+
+			</map>
+		</property>
+
+	</bean>
+
+	<bean class='com.boluozhai.snowflake.cli.CommandSet'>
+
+		<!-- git.* -->
+
+		<property name="enable" value='true' />
+		<property name="prefix" value='git-' />
+		<property name="suffix" value='' />
+
+		<property name="commands">
+			<map>
+
+				<entry key='add'>
+					<bean class='com.boluozhai.snowflake.xgit.command.GitAdd'>
+						<property name='description' value='添加文件内容至索引' />
+					</bean>
+				</entry>
+
+				<entry key='checkout'>
+					<bean class='com.boluozhai.snowflake.xgit.command.GitCheckout'>
+						<property name='description' value='检出一个分支或路径到工作区' />
+					</bean>
+				</entry>
+
+				<entry key='commit'>
+					<bean class='com.boluozhai.snowflake.xgit.command.GitCommit'>
+						<property name='description' value='记录变更到版本库' />
+					</bean>
+				</entry>
+
+				<entry key='fetch'>
+					<bean class='com.boluozhai.snowflake.xgit.command.GitFetch'>
+						<property name='description' value='从另外一个版本库下载对象和引用' />
+					</bean>
+				</entry>
+
+				<entry key='init'>
+					<bean class='com.boluozhai.snowflake.xgit.command.GitInit'>
+						<property name='description' value='创建一个空的 Git 版本库或重新初始化一个已存在的版本库' />
+					</bean>
+				</entry>
+
+				<entry key='pull'>
+					<bean class='com.boluozhai.snowflake.xgit.command.GitPull'>
+						<property name='description' value='获取并整合另外的版本库或一个本地分支' />
+					</bean>
+				</entry>
+
+				<entry key='push'>
+					<bean class='com.boluozhai.snowflake.xgit.command.GitPush'>
+						<property name='description' value='更新远程引用和相关的对象' />
+					</bean>
+				</entry>
+
+			</map>
+		</property>
+
+	</bean>
+
+	<bean class='com.boluozhai.snowflake.cli.CommandSet'>
+
+		<!-- sf.repo.* -->
+
+		<property name="enable" value='true' />
+		<property name="prefix" value='sf-repo-' />
+		<property name="suffix" value='' />
+
+		<property name="commands">
+			<map>
+
+				<entry key='add'>
+					<bean class='com.boluozhai.snowflake.h2o.command.sf.repo.CmdList'>
+						<property name='description' value='添加新仓库' />
+					</bean>
+				</entry>
+
+				<entry key='delete'>
+					<bean class='com.boluozhai.snowflake.h2o.command.sf.repo.CmdList'>
+						<property name='description' value='删除仓库' />
+					</bean>
+				</entry>
+
+				<entry key='info'>
+					<bean class='com.boluozhai.snowflake.h2o.command.sf.repo.CmdList'>
+						<property name='description' value='显示仓库信息' />
+					</bean>
+				</entry>
+
+				<entry key='import'>
+					<bean class='com.boluozhai.snowflake.h2o.command.sf.repo.CmdList'>
+						<property name='description' value='导入已存在的仓库' />
+					</bean>
+				</entry>
+
+				<entry key='list'>
+					<bean class='com.boluozhai.snowflake.h2o.command.sf.repo.CmdList'>
+						<property name='description' value='显示仓库列表' />
+					</bean>
+				</entry>
+
+				<entry key='settings'>
+					<bean class='com.boluozhai.snowflake.h2o.command.sf.repo.CmdList'>
+						<property name='description' value='设置仓库信息' />
+					</bean>
+				</entry>
+
+
+			</map>
+		</property>
+
+	</bean>
+
+
+	<bean class='com.boluozhai.snowflake.cli.CommandSet'>
+
+		<!-- sf.user.* -->
+
+		<property name="enable" value='true' />
+		<property name="prefix" value='sf-user-' />
+		<property name="suffix" value='' />
+
+		<property name="commands">
+			<map>
+
+				<entry key='add'>
+					<bean class='com.boluozhai.snowflake.h2o.command.sf.user.CmdList'>
+						<property name='description' value='添加新用户' />
+					</bean>
+				</entry>
+
+				<entry key='delete'>
+					<bean class='com.boluozhai.snowflake.h2o.command.sf.user.CmdList'>
+						<property name='description' value='删除用户' />
+					</bean>
+				</entry>
+
+				<entry key='info'>
+					<bean class='com.boluozhai.snowflake.h2o.command.sf.user.CmdList'>
+						<property name='description' value='显示用户资料' />
+					</bean>
+				</entry>
+
+				<entry key='list'>
+					<bean class='com.boluozhai.snowflake.h2o.command.sf.user.CmdList'>
+						<property name='description' value='显示用户列表' />
+					</bean>
+				</entry>
+
+				<entry key='settings'>
+					<bean class='com.boluozhai.snowflake.h2o.command.sf.user.CmdList'>
+						<property name='description' value='更改用户资料' />
 					</bean>
 				</entry>
 

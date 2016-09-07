@@ -43,6 +43,15 @@
         <dependent-module archiveName="snowflake-h2o-0.8.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/snowflake-h2o/snowflake-h2o">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module archiveName="snowflake-xgit-command-0.8.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/snowflake-xgit-command/snowflake-xgit-command">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="snowflake-xgit-vfs-0.8.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/snowflake-xgit-vfs/snowflake-xgit-vfs">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="snowflake-xgit-0.8.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/snowflake-xgit/snowflake-xgit">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <property name="java-output-path" value="/snowflake-web-resource/target/classes"/>
         <property name="context-root" value="snowflake-h2o-war"/>
     </wb-module>

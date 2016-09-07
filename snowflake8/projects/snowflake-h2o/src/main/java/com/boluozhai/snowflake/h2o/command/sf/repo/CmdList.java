@@ -1,14 +1,14 @@
-package com.boluozhai.snowflake.xgit.command;
+package com.boluozhai.snowflake.h2o.command.sf.repo;
 
 import com.boluozhai.snowflake.cli.AbstractCLICommandHandler;
 import com.boluozhai.snowflake.context.SnowflakeContext;
 
-public class GitPush extends AbstractCLICommandHandler {
+public class CmdList extends AbstractCLICommandHandler {
 
 	@Override
 	public void process(SnowflakeContext context, String command) {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 }

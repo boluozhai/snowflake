@@ -1,4 +1,4 @@
-package com.boluozhai.snowflake.h2o.command.snow;
+package com.boluozhai.snowflake.h2o.command.sf;
 
 import java.net.URI;
 

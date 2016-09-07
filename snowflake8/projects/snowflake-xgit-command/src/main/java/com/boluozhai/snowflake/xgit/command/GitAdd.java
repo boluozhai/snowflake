@@ -8,7 +8,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.boluozhai.snowflake.cli.CLICommandHandler;
+import com.boluozhai.snowflake.cli.AbstractCLICommandHandler;
 import com.boluozhai.snowflake.context.SnowflakeContext;
 import com.boluozhai.snowflake.mvc.model.ComponentContext;
 import com.boluozhai.snowflake.util.IOTools;
@@ -36,7 +36,7 @@ import com.boluozhai.snowflake.xgit.vfs.scanner.FileScannerUtils;
 import com.boluozhai.snowflake.xgit.vfs.scanner.ScanningNode;
 import com.boluozhai.snowflake.xgit.vfs.scanner.UserDataFactory;
 
-public class GitAdd implements CLICommandHandler {
+public class GitAdd extends AbstractCLICommandHandler {
 
 	@Override
 	public void process(SnowflakeContext context, String command) {

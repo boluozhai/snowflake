@@ -5,5 +5,7 @@
 
 	<bean id='com.boluozhai.snowflake.vfs.VFSFactory' class='com.boluozhai.snowflake.vfs.support.DefaultVFSFactory'></bean>
 
-		
+	<bean id='com.boluozhai.snowflake.vfs.io.VFSIOFactory' class='com.boluozhai.snowflake.vfs.support.DefaultVFSIOFactory'></bean>
+
+
 </beans>

@@ -6,7 +6,8 @@ import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.boluozhai.snowflake.cli.CLICommandHandler;
+import com.boluozhai.snowflake.cli.AbstractCLICommandHandler;
+import com.boluozhai.snowflake.cli.CLIResponse;
 import com.boluozhai.snowflake.context.SnowflakeContext;
 import com.boluozhai.snowflake.util.IOTools;
 import com.boluozhai.snowflake.util.TextTools;
@@ -21,7 +22,7 @@ import com.boluozhai.snowflake.xgit.repository.Repository;
 import com.boluozhai.snowflake.xgit.repository.RepositoryManager;
 import com.boluozhai.snowflake.xgit.utils.CurrentLocation;
 
-public class GitInit implements CLICommandHandler {
+public class GitInit extends AbstractCLICommandHandler {
 
 	private interface Path {
 
@@ -124,6 +125,7 @@ public class GitInit implements CLICommandHandler {
 		private String _name;
 
 		private Map<String, NewNode> nodes;
+		private SnowflakeContext _context;
 
 		public RepoMaker() {
 			nodes = new HashMap<String, NewNode>();
@@ -162,6 +164,7 @@ public class GitInit implements CLICommandHandler {
 			this._base = base;
 			this._bare = (bare != null);
 			this._name = name;
+			this._context = context;
 
 		}
 
@@ -181,7 +184,8 @@ public class GitInit implements CLICommandHandler {
 			this.makeConfig(config._file);
 
 			String msg = "init empty repository in path of " + repo_dir;
-			System.out.println(msg);
+			CLIResponse resp = CLIResponse.Agent.getResponse(_context);
+			resp.out().println(msg);
 
 		}
 

@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TimeZone;
 
-import com.boluozhai.snowflake.cli.CLICommandHandler;
+import com.boluozhai.snowflake.cli.AbstractCLICommandHandler;
 import com.boluozhai.snowflake.context.SnowflakeContext;
 import com.boluozhai.snowflake.mvc.model.ComponentContext;
 import com.boluozhai.snowflake.vfs.VFS;
@@ -34,7 +34,7 @@ import com.boluozhai.snowflake.xgit.repository.RepositoryManager;
 import com.boluozhai.snowflake.xgit.utils.CurrentLocation;
 import com.boluozhai.snowflake.xgit.vfs.FileWorkspace;
 
-public class GitCommit implements CLICommandHandler {
+public class GitCommit extends AbstractCLICommandHandler {
 
 	@Override
 	public void process(SnowflakeContext context, String command) {
