@@ -21,19 +21,30 @@
 			<map>
 
 				<entry key='help'>
-					<bean class='com.boluozhai.snowflake.h2o.command.CmdHelp' />
+					<bean class='com.boluozhai.snowflake.h2o.command.CmdHelp'>
+						<property name='description' value='显示这些帮助信息' />
+					</bean>
 				</entry>
 
 				<entry key='ls'>
-					<bean class='com.boluozhai.snowflake.h2o.command.CmdLS' />
+					<bean class='com.boluozhai.snowflake.h2o.command.CmdLS'>
+						<property name='description' value='显示当前目录下的文件名' />
+					</bean>
 				</entry>
 
 				<entry key='dir'>
-					<bean class='com.boluozhai.snowflake.h2o.command.CmdLS' />
+					<bean class='com.boluozhai.snowflake.h2o.command.CmdLS'>
+						<property name='description' value='显示当前目录下的文件信息' />
+						<property name='showSize' value='true' />
+						<property name='showType' value='true' />
+						<property name='showTime' value='true' />
+					</bean>
 				</entry>
 
-				<entry key='snow'>
-					<bean class='com.boluozhai.snowflake.h2o.command.CmdSnow' />
+				<entry key='sf'>
+					<bean class='com.boluozhai.snowflake.h2o.command.CmdSnowflake'>
+						<property name='description' value='执行 snowflake 命令' />
+					</bean>
 				</entry>
 
 			</map>
@@ -45,18 +56,22 @@
 	<bean class='com.boluozhai.snowflake.cli.CommandSet'>
 
 		<property name="enable" value='true' />
-		<property name="prefix" value='snow-' />
+		<property name="prefix" value='sf-' />
 		<property name="suffix" value='' />
 
 		<property name="commands">
 			<map>
 
 				<entry key='install'>
-					<bean class='com.boluozhai.snowflake.h2o.command.snow.CmdInstall' />
+					<bean class='com.boluozhai.snowflake.h2o.command.snow.CmdInstall'>
+						<property name='description' value='安装 snowflake 系统' />
+					</bean>
 				</entry>
 
 				<entry key='version'>
-					<bean class='com.boluozhai.snowflake.h2o.command.snow.CmdVersion' />
+					<bean class='com.boluozhai.snowflake.h2o.command.snow.CmdVersion'>
+						<property name='description' value='显示 snowflake 的版本信息' />
+					</bean>
 				</entry>
 
 			</map>

@@ -454,14 +454,23 @@ JS.module(function(mc) {
 			request.entity(req_entity);
 			request.execute(function(response) {
 
+				var code = response.code();
+
 				if (response.ok()) {
 					var res_entity = response.entity();
 					var js = res_entity.toJSON();
 					var msg = js.result.message;
 					System.out.println(msg);
+
+				} else if (code == 500) {
+					var res_entity = response.entity();
+					var msg = res_entity.toString();
+					System.out.println('Error: ' + msg);
+
 				} else {
-					var msg = response.message();
-					System.out.println(msg);
+					var msg = 'HTTP ' + code + ' ';
+					msg += response.message();
+					System.out.println('Error: ' + msg);
 				}
 
 			});

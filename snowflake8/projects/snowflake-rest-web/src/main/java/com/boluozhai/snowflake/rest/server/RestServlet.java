@@ -119,32 +119,44 @@ public abstract class RestServlet extends HttpServlet {
 		return this.getRequestDispatcher(info.type);
 	}
 
+	private final void doRestMethod(HttpServletRequest req,
+			HttpServletResponse resp) throws ServletException, IOException {
+
+		try {
+			RequestDispatcher disp = this.getRequestDispatcher(req);
+			disp.forward(req, resp);
+		} catch (Exception e) {
+			JsonRestExceptionView view = new JsonRestExceptionView();
+			view.setException(e);
+			view.forward(req, resp);
+		} finally {
+			// NOP
+		}
+
+	}
+
 	@Override
 	protected final void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		RequestDispatcher disp = this.getRequestDispatcher(req);
-		disp.forward(req, resp);
+		this.doRestMethod(req, resp);
 	}
 
 	@Override
 	protected final void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		RequestDispatcher disp = this.getRequestDispatcher(req);
-		disp.forward(req, resp);
+		this.doRestMethod(req, resp);
 	}
 
 	@Override
 	protected final void doPut(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		RequestDispatcher disp = this.getRequestDispatcher(req);
-		disp.forward(req, resp);
+		this.doRestMethod(req, resp);
 	}
 
 	@Override
 	protected final void doDelete(HttpServletRequest req,
 			HttpServletResponse resp) throws ServletException, IOException {
-		RequestDispatcher disp = this.getRequestDispatcher(req);
-		disp.forward(req, resp);
+		this.doRestMethod(req, resp);
 	}
 
 }
