@@ -183,4 +183,9 @@ public class FileReferenceImpl implements Reference {
 		return cd;
 	}
 
+	@Override
+	public boolean delete() {
+		return this._file.delete();
+	}
+
 }

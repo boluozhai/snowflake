@@ -3,7 +3,6 @@ package com.boluozhai.snowflake.xgit.site;
 import java.net.URI;
 
 import com.boluozhai.snowflake.context.SnowflakeContext;
-import com.boluozhai.snowflake.xgit.repository.Repository;
 
 public interface XGitSite {
 
@@ -18,16 +17,16 @@ public interface XGitSite {
 
 	}
 
-	Repository getRootRepository();
+	DataRepository getDataRepository(String name);
 
-	Repository getSystemRepository(String name);
+	SystemRepository getSystemRepository();
 
-	Repository getUserRepository(String name);
+	UserRepository getUserRepository(String name);
 
-	URI getRootURI();
+	URI getDataRepositoryURI(String name);
 
-	URI getSystemURI(String name);
+	URI getSystemRepositoryURI();
 
-	URI getUserURI(String name);
+	URI getUserReopsitoryURI(String name);
 
 }

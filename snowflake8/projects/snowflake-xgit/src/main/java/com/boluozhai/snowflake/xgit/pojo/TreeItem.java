@@ -18,6 +18,7 @@ public class TreeItem {
 
 	private long size;
 	private long lastModified;
+	private boolean conflicted;
 
 	public TreeItem() {
 	}
@@ -60,6 +61,14 @@ public class TreeItem {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public boolean isConflicted() {
+		return conflicted;
+	}
+
+	public void setConflicted(boolean conflicted) {
+		this.conflicted = conflicted;
 	}
 
 }

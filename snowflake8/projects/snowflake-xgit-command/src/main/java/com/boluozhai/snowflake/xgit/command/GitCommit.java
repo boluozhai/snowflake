@@ -1,6 +1,7 @@
 package com.boluozhai.snowflake.xgit.command;
 
 import java.io.IOException;
+import java.io.PrintStream;
 import java.net.URI;
 import java.util.Arrays;
 import java.util.Map;
@@ -8,6 +9,7 @@ import java.util.Set;
 import java.util.TimeZone;
 
 import com.boluozhai.snowflake.cli.AbstractCLICommandHandler;
+import com.boluozhai.snowflake.cli.CLIResponse;
 import com.boluozhai.snowflake.context.SnowflakeContext;
 import com.boluozhai.snowflake.mvc.model.ComponentContext;
 import com.boluozhai.snowflake.vfs.VFS;
@@ -97,6 +99,8 @@ public class GitCommit extends AbstractCLICommandHandler {
 		private ObjectId _result_commit_id;
 		private ObjectId _result_tree_id;
 
+		private PrintStream out;
+
 		public Task(SnowflakeContext context) {
 			this._context = context;
 		}
@@ -108,6 +112,9 @@ public class GitCommit extends AbstractCLICommandHandler {
 			RepositoryManager rm = XGit.getRepositoryManager(_context);
 			Repository repo = rm.open(_context, loc, null);
 			ComponentContext cc = repo.getComponentContext();
+
+			CLIResponse response = CLIResponse.Agent.getResponse(_context);
+			this.out = response.out();
 
 			FileWorkspace works = cc.getBean(XGitContext.component.workspace,
 					FileWorkspace.class);
@@ -140,9 +147,30 @@ public class GitCommit extends AbstractCLICommandHandler {
 			ComponentContext cc = this._works.getComponentContext();
 			ReferenceManager rm = cc.getBean(XGitContext.component.refs,
 					ReferenceManager.class);
-			Reference ref = rm.findTargetReference(name);
-			this._ref = ref;
-			System.out.println(ref.getName());
+			Reference ref = null;
+			try {
+				ref = rm.findTargetReference(name);
+				this.out.println(ref.getName());
+			} catch (Exception e) {
+				if (ref == null) {
+					ref = this.initMasterRef(rm, name);
+				}
+			} finally {
+				this._ref = ref;
+			}
+		}
+
+		private Reference initMasterRef(ReferenceManager rm, String name) {
+			String name2 = null;
+			if (name.equals(ReferenceManager.name.HEAD)) {
+				name2 = "refs/heads/master";
+			} else {
+				name2 = "refs/heads/section_master";
+			}
+			Reference r1 = rm.getReference(name);
+			Reference r2 = rm.getReference(name2);
+			r1.setTargetReferenceName(name2);
+			return r2;
 		}
 
 		public void loadParentCommit() throws IOException {
@@ -239,12 +267,8 @@ public class GitCommit extends AbstractCLICommandHandler {
 			String msg = "commit:%s  tree:%s";
 			msg = String.format(msg, this._result_commit_id,
 					this._result_tree_id);
-			System.out.println(msg);
+			this.out.println(msg);
 		}
-
-	}
-
-	private static class CommitMaker {
 
 	}
 
@@ -276,6 +300,11 @@ public class GitCommit extends AbstractCLICommandHandler {
 
 			for (String key : keys) {
 				TreeItem item = items.get(key);
+				if (item.isConflicted()) {
+					String msg = "There is conflict at %s#%s";
+					msg = String.format(msg, _file, item.getName());
+					throw new RuntimeException(msg);
+				}
 				if (item.getMode() == TreeItem.MODE.directory) {
 					// a dir
 					String name = item.getName();

@@ -4,8 +4,10 @@
 <beans>
 
 	<bean id='com.boluozhai.snowflake.xgit.utils.CurrentLocation'
-		class='com.boluozhai.snowflake.xgit.utils.DefaultCurrentLocation'></bean>
+		class='com.boluozhai.snowflake.xgit.utils.DefaultCurrentLocation' />
 
+	<bean id='com.boluozhai.snowflake.xgit.utils.RepositoryAgent'
+		class='com.boluozhai.snowflake.xgit.utils.DefaultRepositoryAgent' />
 
 	<bean id='com.boluozhai.snowflake.xgit.repository.RepositoryManager'
 		class='com.boluozhai.snowflake.xgit.support.DefaultRepositoryManager'>

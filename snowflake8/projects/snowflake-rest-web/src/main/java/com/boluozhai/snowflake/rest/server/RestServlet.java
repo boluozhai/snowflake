@@ -129,6 +129,7 @@ public abstract class RestServlet extends HttpServlet {
 			JsonRestExceptionView view = new JsonRestExceptionView();
 			view.setException(e);
 			view.forward(req, resp);
+			e.printStackTrace();
 		} finally {
 			// NOP
 		}

@@ -12,6 +12,8 @@ public interface Reference {
 
 	boolean exists();
 
+	boolean delete();
+
 	void setTargetId(ObjectId id);
 
 	void setTargetReferenceName(String ref_name);
