@@ -390,6 +390,7 @@ JS.module(function(mc) {
 
 			service.setDefaultHandler(new RestCommandHandler());
 			service.setHandler('clear', new CmdClearHandler());
+			service.setHandler('cd', new CmdCdHandler());
 			service.setHandler('', new CmdNilHandler());
 
 		},
@@ -495,6 +496,27 @@ JS.module(function(mc) {
 
 		process : function(cmd_context) {
 			// NOP
+		},
+
+	};
+
+	/***************************************************************************
+	 * class CmdCdHandler
+	 */
+
+	function CmdCdHandler() {
+	}
+
+	mc.class(function(cc) {
+		cc.type(CmdCdHandler);
+		cc.extends(CLIHandler);
+	});
+
+	CmdCdHandler.prototype = {
+
+		process : function(cmd_context) {
+			// NOP
+			System.out.println('not implements');
 		},
 
 	};
