@@ -31,7 +31,7 @@ public class XGitScan implements CLICommandHandler {
 
 		// workspace
 		FileWorkspace works = xgit_context.getBean(
-				XGitContext.component.workspace, FileWorkspace.class);
+				XGitContext.component.working, FileWorkspace.class);
 		VFile wk_dir = works.getFile();
 		VFS vfs = wk_dir.vfs();
 

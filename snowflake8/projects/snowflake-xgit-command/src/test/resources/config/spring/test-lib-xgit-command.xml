@@ -23,4 +23,6 @@
 	<bean id='com.boluozhai.snowflake.xgit.utils.CurrentLocation'
 		class='com.boluozhai.snowflake.xgit.utils.DefaultCurrentLocation' />
 
+	<bean id='com.boluozhai.snowflake.cli.CLIResponse-agent' class='com.boluozhai.snowflake.cli.support.DefaultCliResponse' />
+
 </beans>

@@ -18,6 +18,7 @@
 		<module>snowflake-discovery</module>
 		<module>snowflake-disk-manager</module>
 		<module>snowflake-example-war</module>
+		<module>snowflake-h2o</module>
 		<module>snowflake-h2o-war</module>
 		<module>snowflake-h2o-web</module>
 		<module>snowflake-httpclient</module>
@@ -41,6 +42,7 @@
 		<module>snowflake-web-resources-war</module>
 		<module>snowflake-xgit</module>
 		<module>snowflake-xgit-command</module>
+		<module>snowflake-xgit-http</module>
 		<module>snowflake-xgit-site</module>
 		<module>snowflake-xgit-vfs</module>
 

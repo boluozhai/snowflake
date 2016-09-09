@@ -3,6 +3,7 @@ package com.boluozhai.snowflake.xgit.support;
 import java.util.List;
 import java.util.Map;
 
+import com.boluozhai.snowflake.context.support.ContextWrapperFactory;
 import com.boluozhai.snowflake.mvc.model.ComponentBuilderFactory;
 
 /********************************
@@ -11,6 +12,7 @@ import com.boluozhai.snowflake.mvc.model.ComponentBuilderFactory;
 
 public class RepositoryProfile {
 
+	private ContextWrapperFactory componentContext;
 	private Map<String, ComponentBuilderFactory> components;
 	private Map<String, String> defaultProperties;
 	private Map<String, String> finalProperties;
@@ -47,6 +49,14 @@ public class RepositoryProfile {
 	public void setAvaliableRepositoryDirectoryNames(
 			List<String> avaliableRepositoryDirectoryNames) {
 		this.avaliableRepositoryDirectoryNames = avaliableRepositoryDirectoryNames;
+	}
+
+	public ContextWrapperFactory getComponentContext() {
+		return componentContext;
+	}
+
+	public void setComponentContext(ContextWrapperFactory componentContext) {
+		this.componentContext = componentContext;
 	}
 
 }

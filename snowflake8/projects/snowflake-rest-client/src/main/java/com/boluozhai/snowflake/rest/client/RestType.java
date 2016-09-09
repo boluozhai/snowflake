@@ -2,20 +2,18 @@ package com.boluozhai.snowflake.rest.client;
 
 import java.net.URI;
 
+import com.boluozhai.snowflake.context.SnowflakeContext;
+
 public interface RestType {
+
+	SnowflakeContext getContext();
 
 	URI getURI();
 
-	RestAPI getOwnerAPI();
+	RestAPI getOwner();
 
 	String getName();
 
-	RestRequest get(String id);
-
-	RestRequest post(String id);
-
-	RestRequest put(String id);
-
-	RestRequest delete(String id);
+	RestResource getResource(String id);
 
 }

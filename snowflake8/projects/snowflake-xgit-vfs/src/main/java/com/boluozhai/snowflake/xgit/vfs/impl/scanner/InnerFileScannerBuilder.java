@@ -34,7 +34,7 @@ final class InnerFileScannerBuilder implements FileScannerBuilder {
 		RepositoryManager rm = XGit.getRepositoryManager(_context);
 		Repository repo = rm.open(_context, uri, null);
 		FileWorkspace works = repo.getComponentContext().getBean(
-				XGitContext.component.workspace, FileWorkspace.class);
+				XGitContext.component.working, FileWorkspace.class);
 		return this.create(works);
 	}
 

@@ -29,6 +29,12 @@
 
 	<bean id='xgit:driver:file:profile' class='com.boluozhai.snowflake.xgit.support.RepositoryProfile'>
 
+
+		<property name="componentContext">
+			<bean class='com.boluozhai.snowflake.xgit.vfs.support.FileRepoContextFactory' />
+		</property>
+
+
 		<property name="components">
 			<!-- in Map<String,ComponentBuilderFactory> -->
 			<map>
@@ -41,7 +47,7 @@
 					<bean class='com.boluozhai.snowflake.xgit.vfs.support.FileConfigFactory' />
 				</entry>
 
-				<entry key='workspace'>
+				<entry key='working'>
 					<bean
 						class='com.boluozhai.snowflake.xgit.vfs.support.FileWorkspaceFactory' />
 				</entry>

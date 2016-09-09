@@ -8,8 +8,11 @@ import com.boluozhai.snowflake.mvc.model.ComponentBuilder;
 import com.boluozhai.snowflake.mvc.model.ComponentBuilderFactory;
 import com.boluozhai.snowflake.mvc.model.ComponentContext;
 import com.boluozhai.snowflake.mvc.model.ComponentLifecycle;
+import com.boluozhai.snowflake.vfs.MutablePathNode;
+import com.boluozhai.snowflake.vfs.VFS;
 import com.boluozhai.snowflake.vfs.VFile;
 import com.boluozhai.snowflake.vfs.VPath;
+import com.boluozhai.snowflake.xgit.XGitContext;
 import com.boluozhai.snowflake.xgit.vfs.FileRepository;
 import com.boluozhai.snowflake.xgit.vfs.base.FileXGitComponentBuilder;
 import com.boluozhai.snowflake.xgit.vfs.context.FileRepositoryContext;
@@ -24,10 +27,46 @@ public class FileRepositoryFactory implements ComponentBuilderFactory {
 	private class Builder extends FileXGitComponentBuilder {
 
 		@Override
-		public Component create(ComponentContext cc, ContextBuilder cb) {
+		public Component create(ComponentContext cc) {
 			FileRepositoryContext frc = (FileRepositoryContext) cc;
 			VPath path = this.getPath();
 			return new MyComponent(frc, path);
+		}
+
+		@Override
+		public void configure(ContextBuilder cb) {
+
+			// NOP
+
+			URI uri = cb.getURI();
+			VFS vfs = VFS.Factory.getVFS(cb.getParent());
+			VFile repo_dir = vfs.newFile(uri);
+			VPath repo_path = repo_dir.toPath();
+			String[] keys = cb.getAttributeNames();
+
+			// System.out.println(this + ".config(base):" + uri);
+
+			for (String key : keys) {
+				Object attr = cb.getAttribute(key);
+				if (attr instanceof MutablePathNode) {
+					final MutablePathNode node = (MutablePathNode) attr;
+					final VPath path;
+
+					if (key == null) {
+						continue;
+					} else if (key.equals(XGitContext.component.repository)) {
+						path = repo_path;
+					} else if (key.equals(XGitContext.component.working)) {
+						path = repo_path.parent();
+					} else {
+						path = repo_path.child(key);
+					}
+
+					node.setPath(path);
+					// System.out.println(this + ".config(key):" + key);
+				}
+			}
+
 		}
 
 	}

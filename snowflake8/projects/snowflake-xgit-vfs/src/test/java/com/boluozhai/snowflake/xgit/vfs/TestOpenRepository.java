@@ -34,7 +34,7 @@ public class TestOpenRepository {
 				XGitContext.component.objects, FileObjectBank.class);
 
 		FileWorkspace working = repo_context.getBean(
-				XGitContext.component.workspace, FileWorkspace.class);
+				XGitContext.component.working, FileWorkspace.class);
 
 		VFile repo_path = repo.getFile();
 		System.out.format("find repo in path of %s\n", uri);

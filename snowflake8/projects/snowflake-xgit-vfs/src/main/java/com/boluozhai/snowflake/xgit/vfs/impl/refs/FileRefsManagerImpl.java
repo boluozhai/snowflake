@@ -20,8 +20,13 @@ public class FileRefsManagerImpl implements Component, FileRefs {
 			ComponentBuilder {
 
 		@Override
-		public Component create(ComponentContext cc, ContextBuilder cb) {
-			return new FileRefsManagerImpl(this, cc, cb);
+		public Component create(ComponentContext cc) {
+			return new FileRefsManagerImpl(this, cc);
+		}
+
+		@Override
+		public void configure(ContextBuilder cb) {
+			// NOP
 		}
 
 	}
@@ -38,8 +43,7 @@ public class FileRefsManagerImpl implements Component, FileRefs {
 	private final VFile _file_refs;
 	private final VFile _file_base;
 
-	public FileRefsManagerImpl(Builder builder, ComponentContext cc,
-			ContextBuilder cb) {
+	public FileRefsManagerImpl(Builder builder, ComponentContext cc) {
 
 		VFile file = builder.getPath().file();
 

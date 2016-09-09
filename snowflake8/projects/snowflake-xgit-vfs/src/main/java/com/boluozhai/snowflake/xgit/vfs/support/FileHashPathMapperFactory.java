@@ -23,8 +23,13 @@ public class FileHashPathMapperFactory implements ComponentBuilderFactory {
 	private static class Builder implements ComponentBuilder {
 
 		@Override
-		public Component create(ComponentContext cc, ContextBuilder cb) {
-			return new Com(cc, cb);
+		public Component create(ComponentContext cc) {
+			return new Com(cc);
+		}
+
+		@Override
+		public void configure(ContextBuilder cb) {
+			// NOP
 		}
 	}
 
@@ -34,7 +39,7 @@ public class FileHashPathMapperFactory implements ComponentBuilderFactory {
 		public String hash_path_pattern;
 		public int[] pattern_cache;
 
-		public Com(ComponentContext cc, ContextBuilder cb) {
+		public Com(ComponentContext cc) {
 			this.context = cc;
 		}
 

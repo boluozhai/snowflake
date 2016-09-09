@@ -10,7 +10,7 @@ public interface CLIResponse {
 	public static class Agent {
 
 		private final static String key = CLIResponse.class.getName()
-				+ "@agent";
+				+ "-agent";
 
 		public static CLIResponse getResponse(SnowflakeContext context) {
 			return context.getBean(key, CLIResponse.class);

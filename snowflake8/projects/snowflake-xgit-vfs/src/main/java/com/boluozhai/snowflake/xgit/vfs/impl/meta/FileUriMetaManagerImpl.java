@@ -40,7 +40,7 @@ public class FileUriMetaManagerImpl implements Component, UriMetaManager {
 					HashPathMapper.class);
 
 			FileWorkspace workspace = cc.getBean(
-					XGitContext.component.workspace, FileWorkspace.class);
+					XGitContext.component.working, FileWorkspace.class);
 			self._wk_base_uri = workspace.getFile().toURI().toString();
 
 		}

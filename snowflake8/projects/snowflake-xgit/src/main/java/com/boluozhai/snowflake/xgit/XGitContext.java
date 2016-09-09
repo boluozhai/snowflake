@@ -28,7 +28,7 @@ public interface XGitContext extends ModelContext, ComponentContext {
 	public interface component {
 
 		// base
-		String workspace = "workspace"; // the working directory
+		String working = "working"; // the working directory
 		String repository = "repository";
 
 		// helpers
@@ -37,6 +37,8 @@ public interface XGitContext extends ModelContext, ComponentContext {
 		String temporary_files = "temporary_files";
 		String uri_meta = "meta_by_uri";
 		String id_meta = "meta_by_id";
+		String users = "users";
+		String repositories = "repositories";
 
 		// files
 		String config = "config";
@@ -66,7 +68,7 @@ public interface XGitContext extends ModelContext, ComponentContext {
 		}
 
 		public static Workspace workspace(XGitContext context) {
-			final String key = XGitContext.component.workspace;
+			final String key = XGitContext.component.working;
 			return context.getBean(key, Workspace.class);
 		}
 

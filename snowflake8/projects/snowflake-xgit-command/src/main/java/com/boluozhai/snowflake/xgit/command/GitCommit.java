@@ -116,7 +116,7 @@ public class GitCommit extends AbstractCLICommandHandler {
 			CLIResponse response = CLIResponse.Agent.getResponse(_context);
 			this.out = response.out();
 
-			FileWorkspace works = cc.getBean(XGitContext.component.workspace,
+			FileWorkspace works = cc.getBean(XGitContext.component.working,
 					FileWorkspace.class);
 			UriMetaManager uri_meta_man = cc.getBean(
 					XGitContext.component.uri_meta, UriMetaManager.class);

@@ -7,8 +7,6 @@ import com.boluozhai.snowflake.xgit.XGitContext;
 
 public interface Repository extends XGitComponent {
 
-	// RepositoryDriver driver();
-
 	XGitContext context();
 
 	URI location();

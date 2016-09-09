@@ -6,5 +6,7 @@
 	<import resource="classpath:config/spring/h2o/base.xml" />
 	<import resource="classpath:config/spring/h2o/xgit.xml" />
 	<import resource="classpath:config/spring/h2o/command.xml" />
-
+	<import resource="classpath:config/spring/h2o/command-debug.xml" />
+	<import resource="classpath:config/spring/h2o/rest.xml" />
+	
 </beans>

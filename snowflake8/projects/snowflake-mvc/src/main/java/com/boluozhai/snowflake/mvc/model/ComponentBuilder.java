@@ -4,6 +4,8 @@ import com.boluozhai.snowflake.context.ContextBuilder;
 
 public interface ComponentBuilder {
 
-	Component create(ComponentContext cc, ContextBuilder cb);
+	void configure(ContextBuilder cb);
+
+	Component create(ComponentContext cc);
 
 }

@@ -18,8 +18,13 @@ public class FileUriMetaManagerFactory implements ComponentBuilderFactory {
 	private static class Builder extends FileXGitComponentBuilder {
 
 		@Override
-		public Component create(ComponentContext cc, ContextBuilder cb) {
+		public Component create(ComponentContext cc) {
 			return new FileUriMetaManagerImpl(this, cc);
+		}
+
+		@Override
+		public void configure(ContextBuilder cb) {
+			// NOP
 		}
 
 	}

@@ -63,7 +63,7 @@ public class TestObjectBank {
 			FileObjectBank bank = context_repo.getBean(
 					XGitContext.component.objects, FileObjectBank.class);
 			FileWorkspace works = context_repo.getBean(
-					XGitContext.component.workspace, FileWorkspace.class);
+					XGitContext.component.working, FileWorkspace.class);
 
 			InnerContext ic = new InnerContext();
 			ic.bank = (FileObjectBank) bank;

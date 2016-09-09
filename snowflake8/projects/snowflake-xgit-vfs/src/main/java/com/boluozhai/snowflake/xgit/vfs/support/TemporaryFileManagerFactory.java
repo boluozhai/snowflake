@@ -26,8 +26,13 @@ public class TemporaryFileManagerFactory implements ComponentBuilderFactory {
 	private static class Builder extends FileXGitComponentBuilder {
 
 		@Override
-		public Component create(ComponentContext cc, ContextBuilder cb) {
-			return new TempFileManImpl(this, cc, cb);
+		public Component create(ComponentContext cc) {
+			return new TempFileManImpl(this, cc);
+		}
+
+		@Override
+		public void configure(ContextBuilder cb) {
+			// NOP
 		}
 
 	}
@@ -37,8 +42,7 @@ public class TemporaryFileManagerFactory implements ComponentBuilderFactory {
 		private final ComponentContext _com_context;
 		private final VFile _file;
 
-		public TempFileManImpl(Builder builder, ComponentContext cc,
-				ContextBuilder cb) {
+		public TempFileManImpl(Builder builder, ComponentContext cc) {
 
 			this._com_context = cc;
 			this._file = builder.getPath().file();

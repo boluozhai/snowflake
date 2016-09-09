@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" 
+ "http://www.springframework.org/dtd/spring-beans-2.0.dtd" >
+<beans>
+
+	<bean class='com.boluozhai.snowflake.cli.CommandSet'>
+
+		<property name="enable" value='true' />
+		<property name="prefix" value='' />
+		<property name="suffix" value='' />
+
+		<property name="commands">
+			<map>
+
+				<entry key='test-xgit-http'>
+					<bean class='com.boluozhai.snowflake.h2o.command.test.CmdTestXgitHttp'>
+						<property name='description' value='测试 xgit-http 协议' />
+					</bean>
+				</entry>
+
+			</map>
+		</property>
+
+	</bean>
+
+</beans>

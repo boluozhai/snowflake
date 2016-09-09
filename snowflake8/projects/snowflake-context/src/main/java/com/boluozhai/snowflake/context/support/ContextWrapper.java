@@ -2,7 +2,6 @@ package com.boluozhai.snowflake.context.support;
 
 import java.net.URI;
 
-import com.boluozhai.snowflake.context.ContextBuilder;
 import com.boluozhai.snowflake.context.SnowflakeContext;
 
 public class ContextWrapper implements SnowflakeContext {
@@ -11,10 +10,6 @@ public class ContextWrapper implements SnowflakeContext {
 
 	public ContextWrapper(SnowflakeContext inner) {
 		this._inner = inner;
-	}
-
-	public ContextWrapper(ContextBuilder builder) {
-		this._inner = builder.create();
 	}
 
 	public String getName() {

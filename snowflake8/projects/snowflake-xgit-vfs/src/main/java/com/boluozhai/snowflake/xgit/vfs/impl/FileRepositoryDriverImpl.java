@@ -18,10 +18,14 @@ public class FileRepositoryDriverImpl extends AbstractRepositoryDriver
 	}
 
 	@Override
-	public Repository open(SnowflakeContext context, URI uri, RepositoryOption option) {
+	public Repository open(SnowflakeContext context, URI uri,
+			RepositoryOption option) {
 		RepositoryProfile pf = this.getProfile();
-		FileRepositoryBuilder builder = new FileRepositoryBuilder(context, pf);
-		return builder.create(uri, option);
+		FileRepositoryBuilder builder = new FileRepositoryBuilder(context);
+		builder.profile(pf);
+		builder.uri(uri);
+		builder.option(option);
+		return builder.create();
 	}
 
 	@Override

@@ -24,9 +24,14 @@ public class FileConfigFactory implements ComponentBuilderFactory {
 	private static class MyBuilder extends FileXGitComponentBuilder {
 
 		@Override
-		public Component create(ComponentContext cc, ContextBuilder cb) {
+		public Component create(ComponentContext cc) {
 			VFile file = this.getPath().file();
 			return new MyComponent(cc, file);
+		}
+
+		@Override
+		public void configure(ContextBuilder cb) {
+			// NOP
 		}
 
 	}
