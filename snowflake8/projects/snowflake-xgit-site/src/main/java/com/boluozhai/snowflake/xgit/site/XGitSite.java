@@ -1,10 +1,16 @@
 package com.boluozhai.snowflake.xgit.site;
 
-import java.net.URI;
-
 import com.boluozhai.snowflake.context.SnowflakeContext;
 
 public interface XGitSite {
+
+	interface SITE_URI {
+
+		String system = "site:/system";
+		String data = "site:/data/";
+		String user = "site:/user/";
+
+	}
 
 	public class Agent {
 
@@ -17,16 +23,6 @@ public interface XGitSite {
 
 	}
 
-	DataRepository getDataRepository(String name);
-
 	SystemRepository getSystemRepository();
-
-	UserRepository getUserRepository(String name);
-
-	URI getDataRepositoryURI(String name);
-
-	URI getSystemRepositoryURI();
-
-	URI getUserReopsitoryURI(String name);
 
 }

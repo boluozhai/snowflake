@@ -17,9 +17,10 @@ import com.boluozhai.snowflake.mvc.model.Component;
 import com.boluozhai.snowflake.mvc.model.ComponentBuilder;
 import com.boluozhai.snowflake.mvc.model.ComponentBuilderFactory;
 import com.boluozhai.snowflake.mvc.model.ComponentContext;
+import com.boluozhai.snowflake.xgit.repository.Repository;
 import com.boluozhai.snowflake.xgit.repository.RepositoryOption;
 
-public class DefaultXGitComponentBuilder {
+public class DefaultXGitComponentBuilder implements RepositoryLoader {
 
 	private final SnowflakeContext _context;
 	private RepositoryProfile _profile;
@@ -28,6 +29,10 @@ public class DefaultXGitComponentBuilder {
 
 	public DefaultXGitComponentBuilder(SnowflakeContext context) {
 		this._context = context;
+	}
+
+	public DefaultXGitComponentBuilder() {
+		this._context = null;
 	}
 
 	public ComponentContext create() {
@@ -202,6 +207,13 @@ public class DefaultXGitComponentBuilder {
 			Collections.sort(list);
 			this.keys = list;
 		}
+	}
+
+	@Override
+	public Repository load(OpenRepositoryParam param) {
+		// TODO Auto-generated method stub
+		// return null;
+		throw new RuntimeException("no impl");
 	}
 
 }

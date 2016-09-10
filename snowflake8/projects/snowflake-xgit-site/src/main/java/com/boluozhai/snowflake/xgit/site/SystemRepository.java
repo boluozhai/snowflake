@@ -1,13 +1,9 @@
 package com.boluozhai.snowflake.xgit.site;
 
-import java.net.URI;
+public interface SystemRepository extends SiteRepository {
 
-import com.boluozhai.snowflake.xgit.repository.Repository;
+	SiteUserManager getUserManager();
 
-public interface SystemRepository extends Repository {
-
-	RepositoryInfo getRepositoryInfo(URI uri);
-
-	String[] listNames();
+	SiteRepositoryManager getRepositoryManager();
 
 }
