@@ -3,4 +3,6 @@
  "http://www.springframework.org/dtd/spring-beans-2.0.dtd" >
 <beans>
 
+	<import resource="classpath:test-sf-xgit-http.xml" />
+
 </beans>

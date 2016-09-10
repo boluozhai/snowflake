@@ -15,11 +15,10 @@ import com.boluozhai.snowflake.xgit.repository.RepositoryOption;
 
 public class TestXGitHttpDriver {
 
-	// @Test
-	
+	@Test
 	public void test() {
 
-		String href = "http://localhost:111/";
+		String href = "https://github.com/git/git.git";
 
 		Tester tester = null;
 		Testing testing = null;
@@ -37,6 +36,8 @@ public class TestXGitHttpDriver {
 			XGitContext xgc = repo.context();
 			xgc.getBean(XGitContext.component.refs);
 			xgc.getBean(XGitContext.component.objects);
+			xgc.getBean(XGitContext.component.client);
+			xgc.getBean(XGitContext.component.config);
 
 		} finally {
 			tester.close(testing);

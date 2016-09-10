@@ -3,14 +3,11 @@ package com.boluozhai.snowflake.xgit.http.impl;
 import java.net.URI;
 
 import com.boluozhai.snowflake.context.SnowflakeContext;
-import com.boluozhai.snowflake.mvc.model.ComponentContext;
-import com.boluozhai.snowflake.xgit.XGitContext;
 import com.boluozhai.snowflake.xgit.repository.Repository;
 import com.boluozhai.snowflake.xgit.repository.RepositoryDriver;
 import com.boluozhai.snowflake.xgit.repository.RepositoryLocator;
 import com.boluozhai.snowflake.xgit.repository.RepositoryOption;
 import com.boluozhai.snowflake.xgit.support.AbstractRepositoryDriver;
-import com.boluozhai.snowflake.xgit.support.DefaultXGitComponentBuilder;
 import com.boluozhai.snowflake.xgit.support.RepositoryProfile;
 
 public class HttpRepositoryDriverImpl extends AbstractRepositoryDriver
@@ -25,13 +22,12 @@ public class HttpRepositoryDriverImpl extends AbstractRepositoryDriver
 			RepositoryOption option) {
 
 		final RepositoryProfile pf = this.getProfile();
-		final DefaultXGitComponentBuilder builder;
-		builder = new DefaultXGitComponentBuilder(context);
-		builder.setProfile(pf);
-		builder.setURI(uri);
-		builder.setOption(option);
-		final ComponentContext cc = builder.create();
-		return cc.getBean(XGitContext.component.repository, Repository.class);
+		final HttpRepositoryBuilder builder;
+		builder = new HttpRepositoryBuilder(context);
+		builder.profile(pf);
+		builder.uri(uri);
+		builder.option(option);
+		return builder.create();
 	}
 
 	@Override

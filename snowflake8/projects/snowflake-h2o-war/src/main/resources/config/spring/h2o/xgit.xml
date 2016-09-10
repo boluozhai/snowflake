@@ -21,13 +21,9 @@
 				<entry key="file">
 					<ref bean="xgit:driver:file" />
 				</entry>
-			</map>
-			<map>
 				<entry key="http">
 					<ref bean="xgit:driver:http" />
 				</entry>
-			</map>
-			<map>
 				<entry key="https">
 					<ref bean="xgit:driver:http" />
 				</entry>
@@ -156,21 +152,21 @@
 			<map>
 				<entry key='repository'>
 					<bean
-						class='com.boluozhai.snowflake.xgit.vfs.support.FileRepositoryFactory' />
+						class='com.boluozhai.snowflake.xgit.http.support.HttpRepositoryFactory' />
 				</entry>
 
 				<entry key='config'>
-					<bean class='com.boluozhai.snowflake.xgit.vfs.support.FileConfigFactory' />
+					<bean class='com.boluozhai.snowflake.xgit.http.support.HttpConfigFactory' />
 				</entry>
 
 				<entry key='objects'>
 					<bean
-						class='com.boluozhai.snowflake.xgit.vfs.support.FileObjectBankFactory' />
+						class='com.boluozhai.snowflake.xgit.http.support.HttpObjectBankFactory' />
 				</entry>
 
 				<entry key='refs'>
 					<bean
-						class='com.boluozhai.snowflake.xgit.vfs.support.FileRefsManagerFactory' />
+						class='com.boluozhai.snowflake.xgit.http.support.HttpRefsManagerFactory' />
 				</entry>
 			</map>
 		</property>

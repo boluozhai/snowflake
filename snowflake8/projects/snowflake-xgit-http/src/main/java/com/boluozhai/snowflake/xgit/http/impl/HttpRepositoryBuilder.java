@@ -1,5 +1,6 @@
 package com.boluozhai.snowflake.xgit.http.impl;
 
+import java.io.IOException;
 import java.net.URI;
 
 import com.boluozhai.snowflake.context.SnowflakeContext;
@@ -22,6 +23,8 @@ final class HttpRepositoryBuilder {
 
 	public Repository create() {
 
+		this.loadDefaultValues();
+
 		ComponentContext cc = _inner.create();
 
 		Repository repo = cc.getBean(XGitContext.component.repository,
@@ -35,7 +38,23 @@ final class HttpRepositoryBuilder {
 		return repo;
 	}
 
+	private void loadDefaultValues() {
+
+		if (this._option == null) {
+			RepositoryOption op = new RepositoryOption();
+			this._option = op;
+			this._inner.setOption(op);
+		}
+
+	}
+
 	private void check(Config conf) {
+
+		try {
+			conf.load();
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
 
 		String key = Config.core.repositoryformatversion;
 		String value = conf.getProperty(key);

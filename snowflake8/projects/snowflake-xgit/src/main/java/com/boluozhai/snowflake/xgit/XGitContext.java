@@ -39,6 +39,7 @@ public interface XGitContext extends ModelContext, ComponentContext {
 		String id_meta = "meta_by_id";
 		String users = "users";
 		String repositories = "repositories";
+		String client = "client";
 
 		// files
 		String config = "config";

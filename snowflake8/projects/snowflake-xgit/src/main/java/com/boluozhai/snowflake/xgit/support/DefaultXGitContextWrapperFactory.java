@@ -7,6 +7,7 @@ import com.boluozhai.snowflake.mvc.model.Component;
 import com.boluozhai.snowflake.mvc.model.ComponentContext;
 import com.boluozhai.snowflake.mvc.model.Element;
 import com.boluozhai.snowflake.xgit.XGitContext;
+import com.boluozhai.snowflake.xgit.repository.Repository;
 
 public class DefaultXGitContextWrapperFactory implements ContextWrapperFactory {
 
@@ -16,7 +17,7 @@ public class DefaultXGitContextWrapperFactory implements ContextWrapperFactory {
 	}
 
 	private static class InnerWrapper extends ContextWrapper implements
-			ComponentContext {
+			ComponentContext, XGitContext {
 
 		public InnerWrapper(SnowflakeContext inner) {
 			super(inner);
@@ -24,13 +25,18 @@ public class DefaultXGitContextWrapperFactory implements ContextWrapperFactory {
 
 		@Override
 		public Component getRootComponent() {
-			String key = XGitContext.component.repository;
-			return this.getBean(key, Component.class);
+			return this.repository();
 		}
 
 		@Override
 		public Element getElement(String key) {
 			return (Element) this.getBean(key);
+		}
+
+		@Override
+		public Repository repository() {
+			String key = XGitContext.component.repository;
+			return this.getBean(key, Repository.class);
 		}
 
 	}

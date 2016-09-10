@@ -54,13 +54,12 @@
 usage: {GIT_URL}/info/refs?service=git-upload-pack
 
 service=[git-upload-pack|git-receive-pack]
-
 context-type=
 	[ application/x-git-upload-pack-advertisement
-	| application/x-git-upload-pack-request
-	| application/x-git-upload-pack-result
 	| application/x-git-receive-pack-request
-	| application/x-git-receive-pack-result ]
+	| application/x-git-receive-pack-result
+	| application/x-git-upload-pack-request
+	| application/x-git-upload-pack-result ]
 
 
 /////////////////////////////////////////////////////////////////////
