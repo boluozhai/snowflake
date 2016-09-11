@@ -1,5 +1,6 @@
 package com.boluozhai.snowflake.xgit.support;
 
+import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -17,58 +18,14 @@ import com.boluozhai.snowflake.mvc.model.Component;
 import com.boluozhai.snowflake.mvc.model.ComponentBuilder;
 import com.boluozhai.snowflake.mvc.model.ComponentBuilderFactory;
 import com.boluozhai.snowflake.mvc.model.ComponentContext;
+import com.boluozhai.snowflake.xgit.XGitContext;
+import com.boluozhai.snowflake.xgit.config.Config;
 import com.boluozhai.snowflake.xgit.repository.Repository;
 import com.boluozhai.snowflake.xgit.repository.RepositoryOption;
 
 public class DefaultXGitComponentBuilder implements RepositoryLoader {
 
-	private final SnowflakeContext _context;
-	private RepositoryProfile _profile;
-	private RepositoryOption _option;
-	private URI _uri;
-
-	public DefaultXGitComponentBuilder(SnowflakeContext context) {
-		this._context = context;
-	}
-
 	public DefaultXGitComponentBuilder() {
-		this._context = null;
-	}
-
-	public ComponentContext create() {
-		InnerBuilder ib = new InnerBuilder();
-		ib.contextParent = _context;
-		ib.uri = this._uri;
-		ib.option = this._option;
-		ib.profile = this._profile;
-
-		ib.loadDefaultValues();
-		ib.loadComponentKeys();
-		ib.createComponentBuilders();
-		ib.prepareCreateContext();
-		ib.initComponentBuilders();
-		ib.createContext();
-		ib.createComponents();
-		ib.completeCreateContext();
-		ib.initComponents();
-
-		if (ib.option.check_config) {
-			// TODO ...
-		}
-
-		return ib.create();
-	}
-
-	public void setProfile(RepositoryProfile pf) {
-		this._profile = pf;
-	}
-
-	public void setOption(RepositoryOption option) {
-		this._option = option;
-	}
-
-	public void setURI(URI uri) {
-		this._uri = uri;
 	}
 
 	private class InnerBuilder {
@@ -89,7 +46,11 @@ public class DefaultXGitComponentBuilder implements RepositoryLoader {
 		private MutableContext contextCore;
 		private ContextBuilder contextBuilder;
 
-		public InnerBuilder() {
+		public InnerBuilder(OpenRepositoryParam param) {
+			this.contextParent = param.context;
+			this.uri = param.uri;
+			this.option = param.option;
+			this.profile = param.profile;
 		}
 
 		public void loadDefaultValues() {
@@ -108,8 +69,10 @@ public class DefaultXGitComponentBuilder implements RepositoryLoader {
 
 		}
 
-		public ComponentContext create() {
-			return this.contextFacade;
+		public Repository result() {
+			String name = XGitContext.component.repository;
+			ComponentContext context = this.contextFacade;
+			return context.getBean(name, Repository.class);
 		}
 
 		public void prepareCreateContext() {
@@ -207,13 +170,61 @@ public class DefaultXGitComponentBuilder implements RepositoryLoader {
 			Collections.sort(list);
 			this.keys = list;
 		}
+
+		public void check() {
+
+			String name = XGitContext.component.config;
+			Config conf = this.contextFacade.getBean(name, Config.class);
+
+			try {
+				conf.load();
+			} catch (IOException e) {
+				if (option.throw_exception) {
+					throw new RuntimeException(e);
+				} else {
+					e.printStackTrace();
+				}
+			}
+
+			if (!option.check_config) {
+				return;
+			}
+
+			String key = Config.core.repositoryformatversion;
+			String val = conf.getProperty(key, null);
+			boolean ok = "0".equals(val);
+
+			if (!ok) {
+				String msg = "Error: the config.property[%s] is '%s'.";
+				msg = String.format(msg, key, val);
+				if (option.throw_exception) {
+					throw new RuntimeException(msg);
+				} else {
+					System.err.println(msg);
+				}
+			}
+
+		}
 	}
 
 	@Override
 	public Repository load(OpenRepositoryParam param) {
-		// TODO Auto-generated method stub
-		// return null;
-		throw new RuntimeException("no impl");
+
+		InnerBuilder ib = new InnerBuilder(param);
+
+		ib.loadDefaultValues();
+		ib.loadComponentKeys();
+		ib.createComponentBuilders();
+		ib.prepareCreateContext();
+		ib.initComponentBuilders();
+		ib.createContext();
+		ib.createComponents();
+		ib.completeCreateContext();
+		ib.initComponents();
+		ib.check();
+
+		return ib.result();
+
 	}
 
 }

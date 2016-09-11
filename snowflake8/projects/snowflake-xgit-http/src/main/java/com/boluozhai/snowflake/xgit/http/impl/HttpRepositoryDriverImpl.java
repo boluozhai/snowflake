@@ -8,6 +8,8 @@ import com.boluozhai.snowflake.xgit.repository.RepositoryDriver;
 import com.boluozhai.snowflake.xgit.repository.RepositoryLocator;
 import com.boluozhai.snowflake.xgit.repository.RepositoryOption;
 import com.boluozhai.snowflake.xgit.support.AbstractRepositoryDriver;
+import com.boluozhai.snowflake.xgit.support.OpenRepositoryParam;
+import com.boluozhai.snowflake.xgit.support.RepositoryLoader;
 import com.boluozhai.snowflake.xgit.support.RepositoryProfile;
 
 public class HttpRepositoryDriverImpl extends AbstractRepositoryDriver
@@ -21,13 +23,14 @@ public class HttpRepositoryDriverImpl extends AbstractRepositoryDriver
 	public Repository open(SnowflakeContext context, URI uri,
 			RepositoryOption option) {
 
-		final RepositoryProfile pf = this.getProfile();
-		final HttpRepositoryBuilder builder;
-		builder = new HttpRepositoryBuilder(context);
-		builder.profile(pf);
-		builder.uri(uri);
-		builder.option(option);
-		return builder.create();
+		OpenRepositoryParam param = new OpenRepositoryParam();
+		param.context = context;
+		param.uri = uri;
+		param.option = option;
+		param.profile = this.getProfile();
+
+		RepositoryLoader loader = new HttpRepositoryBuilder();
+		return loader.load(param);
 	}
 
 	@Override

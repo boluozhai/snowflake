@@ -22,6 +22,7 @@ public interface Config extends XGitComponent, MutableProperties {
 										// extensions
 		String hashalgorithm = "xgit.hashalgorithm"; // like 'SHA-1'
 		String hashpathpattern = "xgit.hashpathpattern"; // like 'xx/xxxx'
+		String siterepositorytype = "xgit.siterepositorytype"; // {system|data|user}
 
 	}
 

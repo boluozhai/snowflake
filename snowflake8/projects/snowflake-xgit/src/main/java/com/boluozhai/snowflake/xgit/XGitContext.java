@@ -37,8 +37,6 @@ public interface XGitContext extends ModelContext, ComponentContext {
 		String temporary_files = "temporary_files";
 		String uri_meta = "meta_by_uri";
 		String id_meta = "meta_by_id";
-		String users = "users";
-		String repositories = "repositories";
 		String client = "client";
 
 		// files

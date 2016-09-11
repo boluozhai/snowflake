@@ -12,6 +12,7 @@ import com.boluozhai.snowflake.mvc.model.ComponentBuilderFactory;
 
 public class RepositoryProfile {
 
+	private RepositoryProfile parent;
 	private ContextWrapperFactory componentContext;
 	private Map<String, ComponentBuilderFactory> components;
 	private Map<String, String> defaultProperties;
@@ -57,6 +58,14 @@ public class RepositoryProfile {
 
 	public void setComponentContext(ContextWrapperFactory componentContext) {
 		this.componentContext = componentContext;
+	}
+
+	public RepositoryProfile getParent() {
+		return parent;
+	}
+
+	public void setParent(RepositoryProfile parent) {
+		this.parent = parent;
 	}
 
 }

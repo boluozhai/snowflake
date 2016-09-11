@@ -9,6 +9,7 @@ import com.boluozhai.snowflake.xgit.repository.Repository;
 import com.boluozhai.snowflake.xgit.repository.RepositoryManager;
 import com.boluozhai.snowflake.xgit.site.SystemRepository;
 import com.boluozhai.snowflake.xgit.site.XGitSite;
+import com.boluozhai.snowflake.xgit.site.XGitSiteContext;
 
 final class XGitSiteImpl implements XGitSite {
 
@@ -30,12 +31,16 @@ final class XGitSiteImpl implements XGitSite {
 	}
 
 	private SystemRepository inner_load_system_repo() {
-		String url = "site:/system";
+
+		String url = "site-system:///";
 		SnowflakeContext context = this._context;
 		RepositoryManager rm = XGit.getRepositoryManager(context);
 		Repository repo = rm.open(context, URI.create(url), null);
+
 		XGitContext cc = repo.context();
-		return cc.getBean("system_repository", SystemRepository.class);
+		String key = XGitSiteContext.component.system_repo;
+		return cc.getBean(key, SystemRepository.class);
+
 	}
 
 }

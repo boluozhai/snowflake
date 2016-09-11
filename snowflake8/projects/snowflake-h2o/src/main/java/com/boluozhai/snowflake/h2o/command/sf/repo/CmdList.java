@@ -12,7 +12,7 @@ public class CmdList extends AbstractCLICommandHandler {
 
 		XGitSite site = XGitSite.Agent.getSite(context);
 		SystemRepository sys_repo = site.getSystemRepository();
-		sys_repo.listNames();
+		sys_repo.getRepositoryManager();
 
 	}
 

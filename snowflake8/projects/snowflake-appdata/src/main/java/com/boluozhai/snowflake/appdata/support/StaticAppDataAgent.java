@@ -119,7 +119,7 @@ public class StaticAppDataAgent extends AppDataAgent {
 
 				// snow.properties
 
-				final String prop_file_name = "snow.properties";
+				final String prop_file_name = "snowflake.properties";
 				File p = code_path;
 				for (; p != null; p = p.getParentFile()) {
 					final File file = new File(p, prop_file_name);

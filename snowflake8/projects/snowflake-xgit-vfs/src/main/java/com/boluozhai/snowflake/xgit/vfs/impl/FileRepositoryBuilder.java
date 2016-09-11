@@ -1,81 +1,51 @@
 package com.boluozhai.snowflake.xgit.vfs.impl;
 
-import java.io.IOException;
-import java.net.URI;
-
-import com.boluozhai.snowflake.context.SnowflakeContext;
-import com.boluozhai.snowflake.mvc.model.ComponentContext;
-import com.boluozhai.snowflake.xgit.XGitContext;
-import com.boluozhai.snowflake.xgit.config.Config;
 import com.boluozhai.snowflake.xgit.repository.Repository;
 import com.boluozhai.snowflake.xgit.repository.RepositoryOption;
 import com.boluozhai.snowflake.xgit.support.DefaultXGitComponentBuilder;
-import com.boluozhai.snowflake.xgit.support.RepositoryProfile;
+import com.boluozhai.snowflake.xgit.support.OpenRepositoryParam;
+import com.boluozhai.snowflake.xgit.support.RepositoryLoader;
 
-public class FileRepositoryBuilder {
+public class FileRepositoryBuilder implements RepositoryLoader {
 
-	private DefaultXGitComponentBuilder _inner;
-	private RepositoryOption _option;
-
-	public FileRepositoryBuilder(SnowflakeContext context) {
-		this._inner = new DefaultXGitComponentBuilder(context);
+	public FileRepositoryBuilder() {
 	}
 
-	public Repository create() {
+	private final class InnerLoader extends DefaultXGitComponentBuilder {
 
-		this.inner_load_default_values();
-
-		ComponentContext cc = _inner.create();
-
-		Repository repo = cc.getBean(XGitContext.component.repository,
-				Repository.class);
-		Config conf = cc.getBean(XGitContext.component.config, Config.class);
-
-		if (this._option.check_config) {
-			this.check(conf);
+		public InnerLoader() {
 		}
 
-		return repo;
-	}
+		private void check(Repository repo, OpenRepositoryParam param) {
 
-	private void inner_load_default_values() {
+			// NOP
 
-		if (this._option == null) {
-			this._option = new RepositoryOption();
-			this._inner.setOption(_option);
 		}
 
-	}
-
-	private void check(Config conf) {
-
-		try {
-			conf.load();
-		} catch (IOException e) {
-			throw new RuntimeException(e);
+		private OpenRepositoryParam load_default_values(
+				OpenRepositoryParam param) {
+			if (param.option == null) {
+				param.option = new RepositoryOption();
+			}
+			return param;
 		}
 
-		String key = Config.core.repositoryformatversion;
-		String value = conf.getProperty(key);
-		if (!"0".equals(value)) {
-			String msg = "bad property value, key=%s, value=%s";
-			msg = String.format(msg, key, value);
-			throw new RuntimeException(msg);
+		@Override
+		public Repository load(OpenRepositoryParam param) {
+			param = this.load_default_values(param);
+			Repository repo = super.load(param);
+			if (param.option.check_config) {
+				this.check(repo, param);
+			}
+			return repo;
 		}
 
 	}
 
-	public void uri(URI uri) {
-		_inner.setURI(uri);
-	}
-
-	public void option(RepositoryOption option) {
-		_inner.setOption(option);
-		this._option = option;
-	}
-
-	public void profile(RepositoryProfile pf) {
-		_inner.setProfile(pf);
+	@Override
+	public Repository load(OpenRepositoryParam param) {
+		InnerLoader loader = new InnerLoader();
+		return loader.load(param);
 	}
 
 }

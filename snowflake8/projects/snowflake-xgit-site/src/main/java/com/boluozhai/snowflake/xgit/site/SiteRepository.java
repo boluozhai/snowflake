@@ -4,4 +4,12 @@ import com.boluozhai.snowflake.xgit.repository.Repository;
 
 public interface SiteRepository extends Repository {
 
+	interface TYPE {
+
+		String system = "system";
+		String data = "data";
+		String user = "user";
+
+	}
+
 }
