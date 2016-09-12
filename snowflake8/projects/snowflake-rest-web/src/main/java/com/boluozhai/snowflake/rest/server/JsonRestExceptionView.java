@@ -8,6 +8,8 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
+
 public class JsonRestExceptionView extends RestView {
 
 	private Throwable exception;
@@ -24,11 +26,38 @@ public class JsonRestExceptionView extends RestView {
 	public void forward(ServletRequest request, ServletResponse response)
 			throws ServletException, IOException {
 
+		String enc = "utf-8";
+		String mime = "application/json";
+
+		Model pojo = new Model();
+		pojo.setError(this.exception.getMessage());
+		Gson gs = new Gson();
+		String str = gs.toJson(pojo);
+		byte[] ba = str.getBytes(enc);
+
 		HttpServletResponse resp = (HttpServletResponse) response;
+		resp.setCharacterEncoding(enc);
+		resp.setContentType(mime);
+		resp.setContentLength(ba.length);
 		resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 
 		ServletOutputStream out = resp.getOutputStream();
-		out.println(this.exception.getMessage());
+		out.write(ba);
 
 	}
+
+	public static class Model {
+
+		private String error;
+
+		public String getError() {
+			return error;
+		}
+
+		public void setError(String error) {
+			this.error = error;
+		}
+
+	}
+
 }

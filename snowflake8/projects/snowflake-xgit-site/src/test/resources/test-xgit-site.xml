@@ -214,6 +214,14 @@
 				<entry key='system_repo'>
 					<bean class='com.boluozhai.snowflake.xgit.site.support.SystemRepoFactory' />
 				</entry>
+				<entry key='repositories'>
+					<bean
+						class='com.boluozhai.snowflake.xgit.site.support.RepoManagerFactory' />
+				</entry>
+				<entry key='users'>
+					<bean
+						class='com.boluozhai.snowflake.xgit.site.support.UserManagerFactory' />
+				</entry>
 			</map>
 		</property>
 

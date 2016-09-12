@@ -38,7 +38,8 @@ public class CLIClientImpl implements CLIClient {
 	}
 
 	@Override
-	public CLIProcess execute(SnowflakeContext context, String cmd, String[] args) {
+	public CLIProcess execute(SnowflakeContext context, String cmd,
+			String[] args) {
 		CLIProcessBuilder builder = this.new_proc_builder(context);
 		builder.setCommand(cmd);
 		builder.setArguments(args);
@@ -46,8 +47,8 @@ public class CLIClientImpl implements CLIClient {
 	}
 
 	@Override
-	public CLIProcess execute(SnowflakeContext context, String cmd, String[] args,
-			ExecuteOption option) {
+	public CLIProcess execute(SnowflakeContext context, String cmd,
+			String[] args, ExecuteOption option) {
 		CLIProcessBuilder builder = this.new_proc_builder(context);
 		builder.setCommand(cmd);
 		builder.setArguments(args);

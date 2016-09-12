@@ -171,26 +171,32 @@
 			<map>
 
 				<entry key='add'>
-					<bean class='com.boluozhai.snowflake.h2o.command.sf.repo.CmdList'>
+					<bean class='com.boluozhai.snowflake.h2o.command.sf.repo.CmdAdd'>
 						<property name='description' value='添加新仓库' />
 					</bean>
 				</entry>
 
 				<entry key='delete'>
-					<bean class='com.boluozhai.snowflake.h2o.command.sf.repo.CmdList'>
+					<bean class='com.boluozhai.snowflake.h2o.command.sf.repo.CmdDelete'>
 						<property name='description' value='删除仓库' />
 					</bean>
 				</entry>
 
+				<entry key='import'>
+					<bean class='com.boluozhai.snowflake.h2o.command.sf.repo.CmdImport'>
+						<property name='description' value='导入已存在的仓库' />
+					</bean>
+				</entry>
+
 				<entry key='info'>
-					<bean class='com.boluozhai.snowflake.h2o.command.sf.repo.CmdList'>
+					<bean class='com.boluozhai.snowflake.h2o.command.sf.repo.CmdInfo'>
 						<property name='description' value='显示仓库信息' />
 					</bean>
 				</entry>
 
-				<entry key='import'>
-					<bean class='com.boluozhai.snowflake.h2o.command.sf.repo.CmdList'>
-						<property name='description' value='导入已存在的仓库' />
+				<entry key='init'>
+					<bean class='com.boluozhai.snowflake.h2o.command.sf.repo.CmdInit'>
+						<property name='description' value='初始化(新建)空的仓库' />
 					</bean>
 				</entry>
 
@@ -201,7 +207,7 @@
 				</entry>
 
 				<entry key='settings'>
-					<bean class='com.boluozhai.snowflake.h2o.command.sf.repo.CmdList'>
+					<bean class='com.boluozhai.snowflake.h2o.command.sf.repo.CmdSettings'>
 						<property name='description' value='设置仓库信息' />
 					</bean>
 				</entry>

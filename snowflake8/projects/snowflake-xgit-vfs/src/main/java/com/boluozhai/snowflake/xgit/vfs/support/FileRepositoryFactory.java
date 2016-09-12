@@ -48,7 +48,10 @@ public class FileRepositoryFactory implements ComponentBuilderFactory {
 
 			for (String key : keys) {
 				Object attr = cb.getAttribute(key);
-				if (attr instanceof MutablePathNode) {
+				boolean is_path_node = (attr instanceof MutablePathNode);
+				boolean is_builder = (attr instanceof ComponentBuilder);
+				if (is_path_node && is_builder) {
+
 					final MutablePathNode node = (MutablePathNode) attr;
 					final VPath path;
 
@@ -62,8 +65,9 @@ public class FileRepositoryFactory implements ComponentBuilderFactory {
 						path = repo_path.child(key);
 					}
 
-					node.setPath(path);
 					// System.out.println(this + ".config(key):" + key);
+
+					node.setPath(path);
 				}
 			}
 

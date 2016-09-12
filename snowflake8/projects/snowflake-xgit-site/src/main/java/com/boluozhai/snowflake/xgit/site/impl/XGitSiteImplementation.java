@@ -36,4 +36,12 @@ public class XGitSiteImplementation {
 		return PartitionRepoImpl.newBuilder();
 	}
 
+	public static ComponentBuilder newRepoManagerBuilder() {
+		return RepoManagerImpl.newBuilder();
+	}
+
+	public static ComponentBuilder newUserManagerBuilder() {
+		return UserManagerImpl.newBuilder();
+	}
+
 }

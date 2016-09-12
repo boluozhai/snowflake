@@ -8,6 +8,8 @@ import java.util.Map;
 
 import com.boluozhai.snowflake.cli.AbstractCLICommandHandler;
 import com.boluozhai.snowflake.cli.CLIResponse;
+import com.boluozhai.snowflake.cli.util.ParamReader;
+import com.boluozhai.snowflake.cli.util.ParamReader.Parameter;
 import com.boluozhai.snowflake.context.SnowflakeContext;
 import com.boluozhai.snowflake.util.IOTools;
 import com.boluozhai.snowflake.util.TextTools;
@@ -158,6 +160,19 @@ public class GitInit extends AbstractCLICommandHandler {
 				} else {
 					name = val;
 					break;
+				}
+			}
+
+			// new code
+			ParamReader.Builder prb = ParamReader.newBuilder();
+			ParamReader reader = prb.create(context);
+			System.out.println("Parameters:");
+			for (;;) {
+				Parameter p = reader.read();
+				if (p == null) {
+					break;
+				} else {
+					System.out.println("  " + p);
 				}
 			}
 

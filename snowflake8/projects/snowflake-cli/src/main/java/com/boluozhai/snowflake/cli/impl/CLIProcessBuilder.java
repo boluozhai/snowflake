@@ -33,6 +33,7 @@ final class CLIProcessBuilder {
 				context, fn);
 		MyContextBuilderWrapper cbw = new MyContextBuilderWrapper(
 				context_builder);
+		cbw.clearParameters();
 
 		String cmd = cbw.loadCommand(command);
 		cbw.loadOption(option);
@@ -107,6 +108,10 @@ final class CLIProcessBuilder {
 
 		public MyContextBuilderWrapper(ContextBuilder builder) {
 			this._builder = builder;
+		}
+
+		public void clearParameters() {
+			this._builder.getParameters().clear();
 		}
 
 		public void loadArguments(String[] arguments) {
@@ -187,8 +192,8 @@ final class CLIProcessBuilder {
 		private final CLICommandHandler _handler;
 		private final String _command;
 
-		public MyCLIProcess(SnowflakeContext context, CLICommandHandler handler,
-				String cmd) {
+		public MyCLIProcess(SnowflakeContext context,
+				CLICommandHandler handler, String cmd) {
 			this._context = context;
 			this._handler = handler;
 			this._command = cmd;
