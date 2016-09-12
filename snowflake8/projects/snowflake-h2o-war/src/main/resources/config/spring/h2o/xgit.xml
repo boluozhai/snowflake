@@ -61,7 +61,7 @@
 
 
 	<bean id='xgit:driver:http'
-		class='com.boluozhai.snowflake.xgit.http.support.HttpRepositoryDriver'>
+		class='com.boluozhai.snowflake.xgit.http.client.support.HttpRepositoryDriver'>
 		<property name="profile">
 			<ref bean='xgit:driver:http:profile' />
 		</property>
@@ -202,21 +202,22 @@
 			<map>
 				<entry key='repository'>
 					<bean
-						class='com.boluozhai.snowflake.xgit.http.support.HttpRepositoryFactory' />
+						class='com.boluozhai.snowflake.xgit.http.client.support.HttpRepositoryFactory' />
 				</entry>
 
 				<entry key='config'>
-					<bean class='com.boluozhai.snowflake.xgit.http.support.HttpConfigFactory' />
+					<bean
+						class='com.boluozhai.snowflake.xgit.http.client.support.HttpConfigFactory' />
 				</entry>
 
 				<entry key='objects'>
 					<bean
-						class='com.boluozhai.snowflake.xgit.http.support.HttpObjectBankFactory' />
+						class='com.boluozhai.snowflake.xgit.http.client.support.HttpObjectBankFactory' />
 				</entry>
 
 				<entry key='refs'>
 					<bean
-						class='com.boluozhai.snowflake.xgit.http.support.HttpRefsManagerFactory' />
+						class='com.boluozhai.snowflake.xgit.http.client.support.HttpRefsManagerFactory' />
 				</entry>
 			</map>
 		</property>

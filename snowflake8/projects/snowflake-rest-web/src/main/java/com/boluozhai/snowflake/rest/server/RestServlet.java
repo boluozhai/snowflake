@@ -21,6 +21,7 @@ public abstract class RestServlet extends HttpServlet {
 	private static final long serialVersionUID = -6829149650943898084L;
 
 	private Map<String, RestController> _handlers;
+	private RestController _default_handler;
 
 	protected boolean _enable_log;
 
@@ -44,8 +45,54 @@ public abstract class RestServlet extends HttpServlet {
 
 	}
 
+	private class myDefaultCtrl extends RestController {
+
+		private void throw_error(HttpServletRequest request) {
+			RestInfo info = this.getRestInfo(request);
+			String name = info.type;
+			throw new RuntimeException("no handler for REST typeName: " + name);
+		}
+
+		@Override
+		protected void rest_get(HttpServletRequest request,
+				HttpServletResponse response) throws ServletException,
+				IOException {
+			this.throw_error(request);
+		}
+
+		@Override
+		protected void rest_post(HttpServletRequest request,
+				HttpServletResponse response) throws ServletException,
+				IOException {
+			this.throw_error(request);
+		}
+
+		@Override
+		protected void rest_put(HttpServletRequest request,
+				HttpServletResponse response) throws ServletException,
+				IOException {
+			this.throw_error(request);
+		}
+
+		@Override
+		protected void rest_delete(HttpServletRequest request,
+				HttpServletResponse response) throws ServletException,
+				IOException {
+			this.throw_error(request);
+		}
+
+	}
+
 	public RestServlet() {
 		super();
+	}
+
+	public void setDefaultHandler(RestController h) {
+		this._default_handler = h;
+	}
+
+	public RestController getDefaultHandler() {
+		return this._default_handler;
 	}
 
 	protected abstract Map<String, RestController> create_handler_table();
@@ -59,7 +106,12 @@ public abstract class RestServlet extends HttpServlet {
 		}
 		RequestDispatcher handler = map.get(name);
 		if (handler == null) {
-			throw new RuntimeException("no handler for REST typeName: " + name);
+			handler = this._default_handler;
+			if (handler == null) {
+				RestController ctrl = new myDefaultCtrl();
+				handler = ctrl;
+				this._default_handler = ctrl;
+			}
 		}
 		return handler;
 	}
