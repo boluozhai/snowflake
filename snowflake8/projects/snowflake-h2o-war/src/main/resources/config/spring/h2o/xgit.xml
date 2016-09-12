@@ -18,15 +18,31 @@
 
 		<property name="drivers">
 			<map>
+
 				<entry key="file">
 					<ref bean="xgit:driver:file" />
 				</entry>
+
 				<entry key="http">
 					<ref bean="xgit:driver:http" />
 				</entry>
 				<entry key="https">
 					<ref bean="xgit:driver:http" />
 				</entry>
+
+				<entry key="site-system">
+					<ref bean="xgit:driver:site:system" />
+				</entry>
+				<entry key="site-partition">
+					<ref bean="xgit:driver:site:partition" />
+				</entry>
+				<entry key="site-data">
+					<ref bean="xgit:driver:site:data" />
+				</entry>
+				<entry key="site-user">
+					<ref bean="xgit:driver:site:user" />
+				</entry>
+
 			</map>
 		</property>
 
@@ -48,6 +64,35 @@
 		class='com.boluozhai.snowflake.xgit.http.support.HttpRepositoryDriver'>
 		<property name="profile">
 			<ref bean='xgit:driver:http:profile' />
+		</property>
+	</bean>
+
+
+	<bean id='xgit:driver:site:system'
+		class='com.boluozhai.snowflake.xgit.site.support.SiteRepositoryDriver'>
+		<property name="profile">
+			<ref bean='xgit:driver:site:system:profile' />
+		</property>
+	</bean>
+
+	<bean id='xgit:driver:site:partition'
+		class='com.boluozhai.snowflake.xgit.site.support.SiteRepositoryDriver'>
+		<property name="profile">
+			<ref bean='xgit:driver:site:partition:profile' />
+		</property>
+	</bean>
+
+	<bean id='xgit:driver:site:data'
+		class='com.boluozhai.snowflake.xgit.site.support.SiteRepositoryDriver'>
+		<property name="profile">
+			<ref bean='xgit:driver:site:data:profile' />
+		</property>
+	</bean>
+
+	<bean id='xgit:driver:site:user'
+		class='com.boluozhai.snowflake.xgit.site.support.SiteRepositoryDriver'>
+		<property name="profile">
+			<ref bean='xgit:driver:site:user:profile' />
 		</property>
 	</bean>
 
@@ -201,6 +246,75 @@
 				<value>.snow</value>
 				<value>.snowflake</value>
 			</list>
+		</property>
+
+	</bean>
+
+
+
+	<bean id='xgit:driver:site:system:profile' class='com.boluozhai.snowflake.xgit.support.RepositoryProfile'>
+
+		<property name="parent">
+			<ref bean="xgit:driver:file:profile" />
+		</property>
+
+		<property name="components">
+			<!-- in Map<String,ComponentBuilderFactory> -->
+			<map>
+				<entry key="system_repo">
+					<bean class='com.boluozhai.snowflake.xgit.site.support.SystemRepoFactory' />
+				</entry>
+				<entry key="repositories">
+					<bean
+						class='com.boluozhai.snowflake.xgit.site.support.RepoManagerFactory' />
+				</entry>
+				<entry key="users">
+					<bean
+						class='com.boluozhai.snowflake.xgit.site.support.UserManagerFactory' />
+				</entry>
+			</map>
+		</property>
+
+	</bean>
+
+	<bean id='xgit:driver:site:partition:profile' class='com.boluozhai.snowflake.xgit.support.RepositoryProfile'>
+
+		<property name="parent">
+			<ref bean="xgit:driver:file:profile" />
+		</property>
+
+		<property name="components">
+			<!-- in Map<String,ComponentBuilderFactory> -->
+			<map>
+			</map>
+		</property>
+
+	</bean>
+
+	<bean id='xgit:driver:site:data:profile' class='com.boluozhai.snowflake.xgit.support.RepositoryProfile'>
+
+		<property name="parent">
+			<ref bean="xgit:driver:file:profile" />
+		</property>
+
+		<property name="components">
+			<!-- in Map<String,ComponentBuilderFactory> -->
+			<map>
+			</map>
+		</property>
+
+	</bean>
+
+	<bean id='xgit:driver:site:user:profile' class='com.boluozhai.snowflake.xgit.support.RepositoryProfile'>
+
+		<property name="parent">
+			<ref bean="xgit:driver:file:profile" />
+		</property>
+
+		<property name="components">
+			<!-- in Map<String,ComponentBuilderFactory> -->
+			<map>
+			</map>
 		</property>
 
 	</bean>
