@@ -50,9 +50,15 @@
 
 		<dependency>
 			<groupId>com.boluozhai.snowflake</groupId>
-			<artifactId>snowflake-xgit-http</artifactId>
+			<artifactId>snowflake-xgit-http-client</artifactId>
 			<version>0.8.0</version>
 		</dependency>
+
+                <dependency>
+                        <groupId>com.boluozhai.snowflake</groupId>
+                        <artifactId>snowflake-xgit-http-server</artifactId>
+                        <version>0.8.0</version>
+                </dependency>
 
 		<dependency>
 			<groupId>com.boluozhai.snowflake</groupId>
