@@ -3,10 +3,10 @@ package com.boluozhai.snowflake.xgit.http.client.impl;
 import java.net.URI;
 
 import com.boluozhai.snowflake.xgit.http.client.GitHttpClient;
+import com.boluozhai.snowflake.xgit.http.client.GitHttpRepo;
 import com.boluozhai.snowflake.xgit.http.client.GitHttpResource;
-import com.boluozhai.snowflake.xgit.http.client.RepositoryConnection;
 
-final class RepositoryConnectionImpl implements RepositoryConnection {
+final class RepositoryConnectionImpl implements GitHttpRepo {
 
 	private final Inner inner;
 
@@ -14,7 +14,7 @@ final class RepositoryConnectionImpl implements RepositoryConnection {
 		this.inner = in;
 	}
 
-	public static RepositoryConnection open(URI uri, GitHttpClient client) {
+	public static GitHttpRepo open(URI uri, GitHttpClient client) {
 		Inner inner = new Inner(uri, client);
 		inner.init();
 		return new RepositoryConnectionImpl(inner);
@@ -42,7 +42,7 @@ final class RepositoryConnectionImpl implements RepositoryConnection {
 	}
 
 	@Override
-	public URI getLocation() {
+	public URI getURI() {
 		return inner._uri;
 	}
 

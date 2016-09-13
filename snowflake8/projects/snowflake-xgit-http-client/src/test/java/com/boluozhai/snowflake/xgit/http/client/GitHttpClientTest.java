@@ -32,7 +32,7 @@ public class GitHttpClientTest {
 			TestContext context = testing.context();
 
 			GitHttpClient client = GitHttpClient.Factory.getInstance(context);
-			RepositoryConnection rc = client.connect(URI.create(href));
+			GitHttpRepo rc = client.connect(URI.create(href));
 			GitHttpResource res = rc
 					.getResource(GitHttpResource.PATH.info_refs);
 			GitHttpService service = res

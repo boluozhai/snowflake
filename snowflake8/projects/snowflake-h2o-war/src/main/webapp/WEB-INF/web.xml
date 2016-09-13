@@ -29,7 +29,11 @@
 
 	<servlet>
 		<servlet-name>xgit-http-root</servlet-name>
-		<servlet-class>com.boluozhai.snowflake.xgit.http.server.servlet.XGitHttpServlet</servlet-class>
+		<servlet-class>com.boluozhai.snowflake.xgit.http.server.servlet.DefaultGitHttpServlet</servlet-class>
+		<init-param>
+			<param-name>repo-path-offset</param-name>
+			<param-value>/repo/*</param-value>
+		</init-param>
 	</servlet>
 
 

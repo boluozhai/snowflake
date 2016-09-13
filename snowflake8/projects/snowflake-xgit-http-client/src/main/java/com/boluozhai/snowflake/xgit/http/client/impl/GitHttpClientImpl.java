@@ -6,7 +6,7 @@ import com.boluozhai.snowflake.context.SnowflakeContext;
 import com.boluozhai.snowflake.httpclient.HttpClient;
 import com.boluozhai.snowflake.xgit.http.client.AbstractGitHttpClient;
 import com.boluozhai.snowflake.xgit.http.client.GitHttpClient;
-import com.boluozhai.snowflake.xgit.http.client.RepositoryConnection;
+import com.boluozhai.snowflake.xgit.http.client.GitHttpRepo;
 
 public class GitHttpClientImpl extends AbstractGitHttpClient {
 
@@ -22,7 +22,7 @@ public class GitHttpClientImpl extends AbstractGitHttpClient {
 	}
 
 	@Override
-	public RepositoryConnection connect(URI uri) {
+	public GitHttpRepo connect(URI uri) {
 		return RepositoryConnectionImpl.open(uri, this);
 	}
 

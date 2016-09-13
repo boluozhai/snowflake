@@ -7,10 +7,6 @@ import com.boluozhai.snowflake.httpclient.HttpClient;
 
 public interface GitHttpClient {
 
-	RepositoryConnection connect(URI uri);
-
-	HttpClient getHttpClient();
-
 	interface Service {
 
 		String git_upload_pack = "git-upload-pack";
@@ -38,5 +34,9 @@ public interface GitHttpClient {
 		}
 
 	}
+
+	GitHttpRepo connect(URI uri);
+
+	HttpClient getHttpClient();
 
 }
