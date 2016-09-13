@@ -13,9 +13,9 @@ import com.boluozhai.snowflake.xgit.repository.Repository;
 import com.boluozhai.snowflake.xgit.repository.RepositoryManager;
 import com.boluozhai.snowflake.xgit.repository.RepositoryOption;
 
-public class TestXGitHttpDriver {
+public class GitHttpDriverTest {
 
-	@Test
+//	@Test
 	public void test() {
 
 		String href = "https://github.com/git/git.git";
