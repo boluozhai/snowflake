@@ -1,11 +1,11 @@
-package com.boluozhai.snowflake.xgit.http.client.impl;
+package com.boluozhai.snowflake.xgit.http.client.repo.impl;
 
 import com.boluozhai.snowflake.mvc.model.Component;
 import com.boluozhai.snowflake.mvc.model.ComponentContext;
 import com.boluozhai.snowflake.mvc.model.ComponentLifecycle;
 import com.boluozhai.snowflake.xgit.ObjectId;
-import com.boluozhai.snowflake.xgit.http.client.HttpObjects;
 import com.boluozhai.snowflake.xgit.http.client.base.HttpXGitComponentBuilder;
+import com.boluozhai.snowflake.xgit.http.client.repo.HttpObjects;
 import com.boluozhai.snowflake.xgit.objects.GitObject;
 import com.boluozhai.snowflake.xgit.objects.GitObjectBuilder;
 

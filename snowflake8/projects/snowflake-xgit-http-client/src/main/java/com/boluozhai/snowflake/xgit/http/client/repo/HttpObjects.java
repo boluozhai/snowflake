@@ -1,4 +1,4 @@
-package com.boluozhai.snowflake.xgit.http.client;
+package com.boluozhai.snowflake.xgit.http.client.repo;
 
 import com.boluozhai.snowflake.xgit.objects.ObjectBank;
 

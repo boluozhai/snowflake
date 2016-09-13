@@ -1,12 +1,15 @@
-package com.boluozhai.snowflake.xgit.http.client.impl;
+package com.boluozhai.snowflake.xgit.http.client.repo.impl;
+
+import java.net.URI;
 
 import com.boluozhai.snowflake.mvc.model.Component;
 import com.boluozhai.snowflake.mvc.model.ComponentContext;
 import com.boluozhai.snowflake.mvc.model.ComponentLifecycle;
-import com.boluozhai.snowflake.xgit.http.client.AbstractHttpGitClient;
+import com.boluozhai.snowflake.xgit.XGitContext;
 import com.boluozhai.snowflake.xgit.http.client.base.HttpXGitComponentBuilder;
+import com.boluozhai.snowflake.xgit.http.client.repo.HttpRepository;
 
-public class XHttpGitClientImpl extends AbstractHttpGitClient {
+public class XHttpRepoImpl extends HttpRepository {
 
 	public static HttpXGitComponentBuilder newBuilder() {
 		return new Builder();
@@ -16,7 +19,8 @@ public class XHttpGitClientImpl extends AbstractHttpGitClient {
 
 		@Override
 		public Component create(ComponentContext cc) {
-			return new XHttpGitClientImpl(cc);
+			XGitContext gc = (XGitContext) cc;
+			return new XHttpRepoImpl(gc);
 		}
 
 	}
@@ -25,14 +29,25 @@ public class XHttpGitClientImpl extends AbstractHttpGitClient {
 
 		@Override
 		public void onCreate() {
+
 		}
 
 	}
 
-	private final ComponentContext _context;
+	private final XGitContext _context;
 
-	private XHttpGitClientImpl(ComponentContext cc) {
+	private XHttpRepoImpl(XGitContext cc) {
 		this._context = cc;
+	}
+
+	@Override
+	public XGitContext context() {
+		return this._context;
+	}
+
+	@Override
+	public URI location() {
+		return this._context.getURI();
 	}
 
 	@Override

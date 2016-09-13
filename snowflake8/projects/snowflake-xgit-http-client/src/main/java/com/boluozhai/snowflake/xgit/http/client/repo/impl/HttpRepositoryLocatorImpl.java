@@ -1,4 +1,4 @@
-package com.boluozhai.snowflake.xgit.http.client.impl;
+package com.boluozhai.snowflake.xgit.http.client.repo.impl;
 
 import java.net.URI;
 

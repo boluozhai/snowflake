@@ -2,7 +2,7 @@ package com.boluozhai.snowflake.xgit.http.client.support;
 
 import com.boluozhai.snowflake.mvc.model.ComponentBuilder;
 import com.boluozhai.snowflake.mvc.model.ComponentBuilderFactory;
-import com.boluozhai.snowflake.xgit.http.client.impl.XHttpRepoImpl;
+import com.boluozhai.snowflake.xgit.http.client.repo.impl.XHttpRepoImpl;
 
 public class HttpRepositoryFactory implements ComponentBuilderFactory {
 

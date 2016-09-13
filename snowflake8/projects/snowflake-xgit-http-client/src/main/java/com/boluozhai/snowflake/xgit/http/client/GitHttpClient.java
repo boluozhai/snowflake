@@ -1,8 +1,15 @@
 package com.boluozhai.snowflake.xgit.http.client;
 
-import com.boluozhai.snowflake.xgit.XGitComponent;
+import java.net.URI;
 
-public interface HttpGitClient extends XGitComponent {
+import com.boluozhai.snowflake.context.SnowflakeContext;
+import com.boluozhai.snowflake.httpclient.HttpClient;
+
+public interface GitHttpClient {
+
+	RepositoryConnection connect(URI uri);
+
+	HttpClient getHttpClient();
 
 	interface Service {
 
@@ -18,6 +25,17 @@ public interface HttpGitClient extends XGitComponent {
 		String upload_pack_request = "application/x-git-upload-pack-request";
 		String upload_pack_result = "application/x-git-upload-pack-result";
 		String upload_pack_advertisement = "application/x-git-upload-pack-advertisement";
+
+	}
+
+	class Factory {
+
+		public static GitHttpClient getInstance(SnowflakeContext context) {
+			Class<GitHttpClientFactory> type = GitHttpClientFactory.class;
+			String name = type.getName();
+			GitHttpClientFactory factory = context.getBean(name, type);
+			return factory.newClient(context);
+		}
 
 	}
 

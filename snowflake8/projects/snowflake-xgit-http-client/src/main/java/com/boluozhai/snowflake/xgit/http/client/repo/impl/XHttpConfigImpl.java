@@ -1,4 +1,4 @@
-package com.boluozhai.snowflake.xgit.http.client.impl;
+package com.boluozhai.snowflake.xgit.http.client.repo.impl;
 
 import java.io.IOException;
 import java.net.URI;
@@ -6,8 +6,8 @@ import java.net.URI;
 import com.boluozhai.snowflake.mvc.model.Component;
 import com.boluozhai.snowflake.mvc.model.ComponentContext;
 import com.boluozhai.snowflake.mvc.model.ComponentLifecycle;
-import com.boluozhai.snowflake.xgit.http.client.HttpConfig;
 import com.boluozhai.snowflake.xgit.http.client.base.HttpXGitComponentBuilder;
+import com.boluozhai.snowflake.xgit.http.client.repo.HttpConfig;
 
 public class XHttpConfigImpl extends HttpConfig {
 

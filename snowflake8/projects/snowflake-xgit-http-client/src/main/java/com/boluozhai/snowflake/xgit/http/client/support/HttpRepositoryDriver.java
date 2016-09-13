@@ -3,7 +3,7 @@ package com.boluozhai.snowflake.xgit.http.client.support;
 import java.net.URI;
 
 import com.boluozhai.snowflake.context.SnowflakeContext;
-import com.boluozhai.snowflake.xgit.http.client.impl.HttpRepositoryDriverImpl;
+import com.boluozhai.snowflake.xgit.http.client.repo.impl.HttpRepositoryDriverImpl;
 import com.boluozhai.snowflake.xgit.repository.Repository;
 import com.boluozhai.snowflake.xgit.repository.RepositoryLocator;
 import com.boluozhai.snowflake.xgit.repository.RepositoryOption;

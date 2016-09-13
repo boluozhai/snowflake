@@ -43,6 +43,8 @@
 		<module>snowflake-xgit</module>
 		<module>snowflake-xgit-command</module>
 		<module>snowflake-xgit-http</module>
+		<module>snowflake-xgit-http-client</module>
+		<module>snowflake-xgit-http-server</module>
 		<module>snowflake-xgit-site</module>
 		<module>snowflake-xgit-vfs</module>
 

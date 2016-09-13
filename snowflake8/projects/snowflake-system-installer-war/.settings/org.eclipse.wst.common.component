@@ -7,6 +7,12 @@
         <dependent-module archiveName="snowflake-httpclient-0.8.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/snowflake-httpclient/snowflake-httpclient">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module archiveName="snowflake-context-0.8.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/snowflake-context/snowflake-context">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="snowflake-core-0.8.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/snowflake-core/snowflake-core">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <dependent-module archiveName="snowflake-spring-web-0.8.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/snowflake-spring-web/snowflake-spring-web">
             <dependency-type>uses</dependency-type>
         </dependent-module>
@@ -17,12 +23,6 @@
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="snowflake-appdata-0.8.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/snowflake-appdata/snowflake-appdata">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="snowflake-context-0.8.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/snowflake-context/snowflake-context">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="snowflake-core-0.8.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/snowflake-core/snowflake-core">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="snowflake-web-0.8.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/snowflake-web/snowflake-web">
