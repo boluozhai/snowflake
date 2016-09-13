@@ -185,6 +185,7 @@
 
 		<property name="avaliableRepositoryDirectoryNames">
 			<list>
+				<value>.sf</value>
 				<value>.git</value>
 				<value>.xgit</value>
 				<value>.snow</value>

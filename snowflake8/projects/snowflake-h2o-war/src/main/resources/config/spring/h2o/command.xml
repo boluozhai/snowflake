@@ -154,6 +154,12 @@
 					</bean>
 				</entry>
 
+				<entry key='status'>
+					<bean class='com.boluozhai.snowflake.xgit.command.GitStatus'>
+						<property name='description' value='显示仓库的状态' />
+					</bean>
+				</entry>
+
 			</map>
 		</property>
 
