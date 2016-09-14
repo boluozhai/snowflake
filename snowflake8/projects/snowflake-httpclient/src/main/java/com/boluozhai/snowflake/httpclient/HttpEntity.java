@@ -11,7 +11,7 @@ public interface HttpEntity {
 
 	String encoding();
 
-	InputStream input();
+	InputStream input() throws IOException;
 
 	byte[] toByteArray() throws IOException;
 

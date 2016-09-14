@@ -2,8 +2,6 @@ package com.boluozhai.snowflake.xgit.http.client;
 
 import java.net.URI;
 
-import org.junit.Test;
-
 import com.boluozhai.snowflake.test.TestContext;
 import com.boluozhai.snowflake.test.Tester;
 import com.boluozhai.snowflake.test.Testing;
@@ -15,7 +13,8 @@ import com.boluozhai.snowflake.xgit.repository.RepositoryOption;
 
 public class GitHttpDriverTest {
 
-//	@Test
+	// @Test
+
 	public void test() {
 
 		String href = "https://github.com/git/git.git";
