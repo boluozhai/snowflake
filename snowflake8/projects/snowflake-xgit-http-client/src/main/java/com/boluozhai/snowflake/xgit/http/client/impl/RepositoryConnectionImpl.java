@@ -5,6 +5,7 @@ import java.net.URI;
 import com.boluozhai.snowflake.xgit.http.client.GitHttpClient;
 import com.boluozhai.snowflake.xgit.http.client.GitHttpRepo;
 import com.boluozhai.snowflake.xgit.http.client.GitHttpResource;
+import com.boluozhai.snowflake.xgit.http.client.GitHttpService;
 
 final class RepositoryConnectionImpl implements GitHttpRepo {
 
@@ -49,6 +50,11 @@ final class RepositoryConnectionImpl implements GitHttpRepo {
 	@Override
 	public GitHttpResource getResource(String path) {
 		return new GitHttpResourceImpl(this, path);
+	}
+
+	@Override
+	public GitHttpService getService(String path, String service_name) {
+		return this.getResource(path).getService(service_name);
 	}
 
 }

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" 
+ "http://www.springframework.org/dtd/spring-beans-2.0.dtd" >
+<beans>
+
+	<bean id='com.boluozhai.snowflake.appdata.AppDataAgent'
+		class='com.boluozhai.snowflake.appdata.support.DefaultAppDataAgent' />
+
+	<bean id='com.boluozhai.snowflake.xgit.http.client.GitHttpClientFactory'
+		class='com.boluozhai.snowflake.xgit.http.client.support.DefaultGitHttpClientFactory' />
+
+	<bean id='com.boluozhai.snowflake.httpclient.HttpClientFactory'
+		class='com.boluozhai.snowflake.httpclient.support.DefaultHttpClientFactory' />
+
+	<bean id='com.boluozhai.snowflake.rootrepo.RootRepoAgent'
+		class='com.boluozhai.snowflake.rootrepo.support.DefaultRootRepoAgent'>
+
+		<property name="repositoryURL">
+			<value>http://baidu.com/</value>
+		</property>
+
+	</bean>
+
+
+</beans>

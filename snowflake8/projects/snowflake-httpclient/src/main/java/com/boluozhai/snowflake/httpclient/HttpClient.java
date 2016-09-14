@@ -20,4 +20,6 @@ public interface HttpClient {
 
 	HttpConnection open(URI uri) throws IOException;
 
+	HttpResponse execute(HttpRequest request) throws IOException;
+
 }

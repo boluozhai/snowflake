@@ -5,6 +5,8 @@ import java.net.URI;
 
 import com.boluozhai.snowflake.httpclient.HttpClient;
 import com.boluozhai.snowflake.httpclient.HttpConnection;
+import com.boluozhai.snowflake.httpclient.HttpRequest;
+import com.boluozhai.snowflake.httpclient.HttpResponse;
 import com.boluozhai.snowflake.xgit.http.client.GitHttpClient;
 import com.boluozhai.snowflake.xgit.http.client.GitHttpResource;
 import com.boluozhai.snowflake.xgit.http.client.GitHttpService;
@@ -65,6 +67,19 @@ final class GitHttpServiceImpl implements GitHttpService {
 	public HttpConnection open() throws IOException {
 		URI uri = inner.location;
 		return inner.http_client.open(uri);
+	}
+
+	@Override
+	public HttpResponse execute(HttpRequest request) throws IOException {
+
+		if (request == null) {
+			request = new HttpRequest();
+		}
+
+		URI url = this.getURI();
+		request.setUrl(url);
+
+		return inner.http_client.execute(request);
 	}
 
 }

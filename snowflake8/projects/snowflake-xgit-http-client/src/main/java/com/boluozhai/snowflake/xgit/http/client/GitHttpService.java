@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.net.URI;
 
 import com.boluozhai.snowflake.httpclient.HttpConnection;
+import com.boluozhai.snowflake.httpclient.HttpRequest;
+import com.boluozhai.snowflake.httpclient.HttpResponse;
 
 public interface GitHttpService {
 
@@ -21,5 +23,7 @@ public interface GitHttpService {
 	String getServiceName();
 
 	HttpConnection open() throws IOException;
+
+	HttpResponse execute(HttpRequest request) throws IOException;
 
 }
