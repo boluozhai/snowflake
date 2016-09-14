@@ -66,35 +66,31 @@ public class GitHttpRequestDispatcher {
 			Map<String, GitHttpController> tab) {
 
 		String key = null;
-		if (info.name == null) {
+		String res = info.resource;
+		String serv = info.service;
+		String name = info.name;
+
+		if (name == null) {
 			key = GitHttpServlet.SERVICE.FORBIDDEN;
+		} else if (name.length() == 0) {
+			key = GitHttpServlet.SERVICE.FORBIDDEN;
+		} else if (res == null) {
+			key = GitHttpServlet.SERVICE.HOME;
+		} else if (res.length() == 0) {
+			key = GitHttpServlet.SERVICE.HOME;
 		} else {
-			String res = info.resource;
-
-			if (res == null) {
-				key = GitHttpServlet.SERVICE.HOME;
-
-			} else if (res.equals("")) {
-				key = GitHttpServlet.SERVICE.HOME;
-
-			} else if (res.equals("info/refs")) {
-
-				// by service
-				if (info.service == null) {
-					key = GitHttpServlet.SERVICE.FORBIDDEN;
-				} else {
-					key = info.service;
-				}
-
-			} else {
-				key = GitHttpServlet.SERVICE.FORBIDDEN;
-			}
+			key = res + "#" + serv;
 		}
 
 		GitHttpController next = tab.get(key);
-		if (next == null) {
-			next = new NullCtrl();
+		if (next != null) {
+			return next;
 		}
+		next = tab.get(GitHttpServlet.SERVICE.FORBIDDEN);
+		if (next != null) {
+			return next;
+		}
+		next = new NullCtrl();
 		return next;
 	}
 

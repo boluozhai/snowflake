@@ -4,9 +4,28 @@ import javax.servlet.ServletRequest;
 
 public class GitHttpInfo {
 
-	public String url; // the repo URL
-	public String name; // the repo name
+	/***
+	 * the repository URL
+	 * */
+
+	public String url;
+
+	/***
+	 * the repository name
+	 * */
+
+	public String name;
+
+	/***
+	 * the service name
+	 * */
+
 	public String service;
+
+	/***
+	 * the resource path
+	 * */
+
 	public String resource;
 
 	public static class Agent {
