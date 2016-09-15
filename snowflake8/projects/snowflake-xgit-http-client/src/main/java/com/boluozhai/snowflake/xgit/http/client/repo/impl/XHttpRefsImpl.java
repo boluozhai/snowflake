@@ -6,7 +6,7 @@ import com.boluozhai.snowflake.mvc.model.ComponentLifecycle;
 import com.boluozhai.snowflake.xgit.ObjectId;
 import com.boluozhai.snowflake.xgit.http.client.base.HttpXGitComponentBuilder;
 import com.boluozhai.snowflake.xgit.http.client.repo.HttpRefs;
-import com.boluozhai.snowflake.xgit.refs.Reference;
+import com.boluozhai.snowflake.xgit.refs.Ref;
 
 public class XHttpRefsImpl extends HttpRefs {
 
@@ -37,22 +37,12 @@ public class XHttpRefsImpl extends HttpRefs {
 	}
 
 	@Override
-	public Reference getReference(String name) {
+	public Ref getReference(String name) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
-	public Reference findTargetReference(String name) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ObjectId findTargetId(String name) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 
 	@Override
 	public ComponentLifecycle lifecycle() {
@@ -62,6 +52,12 @@ public class XHttpRefsImpl extends HttpRefs {
 	@Override
 	public ComponentContext getComponentContext() {
 		return this._context;
+	}
+
+	@Override
+	public String[] list() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

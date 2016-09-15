@@ -2,13 +2,13 @@ package com.boluozhai.snowflake.xgit.vfs.support;
 
 import com.boluozhai.snowflake.mvc.model.ComponentBuilder;
 import com.boluozhai.snowflake.mvc.model.ComponentBuilderFactory;
-import com.boluozhai.snowflake.xgit.vfs.impl.config.FileRepoConfigImpl;
+import com.boluozhai.snowflake.xgit.vfs.impl.refs.FileRefsImplementation;
 
-public class FileConfigFactory implements ComponentBuilderFactory {
+public class FileHrefsManagerFactory implements ComponentBuilderFactory {
 
 	@Override
 	public ComponentBuilder newBuilder() {
-		return FileRepoConfigImpl.newBuilder();
+		return FileRefsImplementation.newHrefsBuilder();
 	}
 
 }

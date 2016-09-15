@@ -29,8 +29,11 @@ import com.boluozhai.snowflake.xgit.pojo.Operator;
 import com.boluozhai.snowflake.xgit.pojo.PlainId;
 import com.boluozhai.snowflake.xgit.pojo.TreeItem;
 import com.boluozhai.snowflake.xgit.pojo.TreeObject;
-import com.boluozhai.snowflake.xgit.refs.Reference;
-import com.boluozhai.snowflake.xgit.refs.ReferenceManager;
+import com.boluozhai.snowflake.xgit.refs.HrefManager;
+import com.boluozhai.snowflake.xgit.refs.Ref;
+import com.boluozhai.snowflake.xgit.refs.RefManager;
+import com.boluozhai.snowflake.xgit.refs.RefPointer;
+import com.boluozhai.snowflake.xgit.refs.RefPointerManager;
 import com.boluozhai.snowflake.xgit.repository.Repository;
 import com.boluozhai.snowflake.xgit.repository.RepositoryManager;
 import com.boluozhai.snowflake.xgit.utils.CurrentLocation;
@@ -93,7 +96,7 @@ public class GitCommit extends AbstractCLICommandHandler {
 
 		private Param _param;
 
-		private Reference _ref;
+		private Ref _ref;
 		private ObjectId _parent_commit_id;
 		private ObjectId _parent_tree_id;
 		private ObjectId _result_commit_id;
@@ -142,39 +145,46 @@ public class GitCommit extends AbstractCLICommandHandler {
 		}
 
 		public void loadRef() {
-			String name = _param.section ? ReferenceManager.name.SECTION_HEAD
-					: ReferenceManager.name.HEAD;
+			String name = _param.section ? HrefManager.name.SECTION_HEAD
+					: HrefManager.name.HEAD;
 			ComponentContext cc = this._works.getComponentContext();
-			ReferenceManager rm = cc.getBean(XGitContext.component.refs,
-					ReferenceManager.class);
-			Reference ref = null;
+			HrefManager rm = cc.getBean(XGitContext.component.hrefs,
+					HrefManager.class);
+			Ref ref = null;
 			try {
-				ref = rm.findTargetReference(name);
+				ref = rm.findRef(name);
 				this.out.println(ref.getName());
 			} catch (Exception e) {
 				if (ref == null) {
-					ref = this.initMasterRef(rm, name);
+					ref = this.initMasterRef(cc, name);
 				}
 			} finally {
 				this._ref = ref;
 			}
 		}
 
-		private Reference initMasterRef(ReferenceManager rm, String name) {
-			String name2 = null;
-			if (name.equals(ReferenceManager.name.HEAD)) {
-				name2 = "refs/heads/master";
+		private Ref initMasterRef(ComponentContext cc, String ptr_name) {
+
+			String ref_name = null;
+			if (ptr_name.equals(HrefManager.name.HEAD)) {
+				ref_name = "refs/heads/master";
 			} else {
-				name2 = "refs/heads/section_master";
+				ref_name = "refs/heads/section_master";
 			}
-			Reference r1 = rm.getReference(name);
-			Reference r2 = rm.getReference(name2);
-			r1.setTargetReferenceName(name2);
-			return r2;
+
+			RefManager refs = (RefManager) cc
+					.getBean(XGitContext.component.refs);
+			RefPointerManager refptrs = (RefPointerManager) cc
+					.getBean(XGitContext.component.refptrs);
+
+			Ref ref = refs.getReference(ref_name);
+			RefPointer ptr = refptrs.getPointer(ptr_name);
+			ptr.setRefname(ref_name);
+			return ref;
 		}
 
 		public void loadParentCommit() throws IOException {
-			ObjectId parent_id = this._ref.getTargetId();
+			ObjectId parent_id = this._ref.getId();
 			if (parent_id == null) {
 				return;
 			}
@@ -259,7 +269,7 @@ public class GitCommit extends AbstractCLICommandHandler {
 		public void saveRef() {
 
 			ObjectId commit_id = this._result_commit_id;
-			this._ref.setTargetId(commit_id);
+			this._ref.setId(commit_id);
 
 		}
 

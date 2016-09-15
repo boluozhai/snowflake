@@ -43,10 +43,12 @@ final class VPathBuilder {
 		private final InnerPath _parent;
 		private final VFile _file;
 		private String _string;
+		private final String _name;
 
 		public InnerPath(InnerPath parent, VFile file) {
 			this._parent = parent;
 			this._file = file;
+			this._name = file.getName();
 		}
 
 		@Override
@@ -99,6 +101,11 @@ final class VPathBuilder {
 		private InnerPath inner_simple_child(String s) {
 			VFile f2 = _file.child(s);
 			return new InnerPath(this, f2);
+		}
+
+		@Override
+		public String name() {
+			return this._name;
 		}
 
 	}

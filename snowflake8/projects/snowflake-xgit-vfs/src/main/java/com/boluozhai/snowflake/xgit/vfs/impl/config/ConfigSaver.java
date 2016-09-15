@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import com.boluozhai.snowflake.mvc.model.ComponentContext;
+import com.boluozhai.snowflake.context.SnowflakeContext;
 import com.boluozhai.snowflake.util.IOTools;
 import com.boluozhai.snowflake.util.TextTools;
 import com.boluozhai.snowflake.vfs.VFile;
@@ -18,9 +18,9 @@ import com.boluozhai.snowflake.vfs.io.VFSIO;
 
 final class ConfigSaver {
 
-	private final ComponentContext context;
+	private final SnowflakeContext context;
 
-	public ConfigSaver(ComponentContext context) {
+	public ConfigSaver(SnowflakeContext context) {
 		this.context = context;
 	}
 

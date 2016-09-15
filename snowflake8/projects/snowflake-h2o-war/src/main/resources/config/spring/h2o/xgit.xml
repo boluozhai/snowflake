@@ -134,27 +134,42 @@
 						class='com.boluozhai.snowflake.xgit.vfs.support.FileRefsManagerFactory' />
 				</entry>
 
+				<entry key='xgit.privaterefs'>
+					<bean
+						class='com.boluozhai.snowflake.xgit.vfs.support.FileRefsManagerFactory' />
+				</entry>
+
+				<entry key='xgit.hrefs'>
+					<bean
+						class='com.boluozhai.snowflake.xgit.vfs.support.FileHrefsManagerFactory' />
+				</entry>
+
+				<entry key='xgit.refnames'>
+					<bean
+						class='com.boluozhai.snowflake.xgit.vfs.support.FileRefnamesManagerFactory' />
+				</entry>
+
 				<entry key='hash_path_mapper'>
 					<bean
 						class='com.boluozhai.snowflake.xgit.vfs.support.FileHashPathMapperFactory' />
 				</entry>
 
-				<entry key='hash_algorithm'>
+				<entry key='xgit.hash_algorithm'>
 					<bean
 						class='com.boluozhai.snowflake.xgit.vfs.support.FileHashAlgorithmFactory' />
 				</entry>
 
-				<entry key='temporary_files'>
+				<entry key='xgit.temporary_files'>
 					<bean
 						class='com.boluozhai.snowflake.xgit.vfs.support.TemporaryFileManagerFactory' />
 				</entry>
 
-				<entry key='meta_by_uri'>
+				<entry key='xgitx.meta_by_uri'>
 					<bean
 						class='com.boluozhai.snowflake.xgit.vfs.support.FileUriMetaManagerFactory' />
 				</entry>
 
-				<entry key='meta_by_id'>
+				<entry key='xgit.meta_by_id'>
 					<bean
 						class='com.boluozhai.snowflake.xgit.vfs.support.FileIdMetaManagerFactory' />
 				</entry>

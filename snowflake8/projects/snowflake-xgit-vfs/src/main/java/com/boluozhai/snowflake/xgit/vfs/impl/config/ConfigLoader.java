@@ -5,7 +5,7 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.boluozhai.snowflake.mvc.model.ComponentContext;
+import com.boluozhai.snowflake.context.SnowflakeContext;
 import com.boluozhai.snowflake.util.IOTools;
 import com.boluozhai.snowflake.util.TextTools;
 import com.boluozhai.snowflake.vfs.VFile;
@@ -13,9 +13,9 @@ import com.boluozhai.snowflake.vfs.io.VFSIO;
 
 public class ConfigLoader {
 
-	private final ComponentContext context;
+	private final SnowflakeContext context;
 
-	public ConfigLoader(ComponentContext context) {
+	public ConfigLoader(SnowflakeContext context) {
 		this.context = context;
 	}
 

@@ -10,6 +10,7 @@ import java.util.Map;
 
 import org.junit.Test;
 
+import com.boluozhai.snowflake.mvc.model.ComponentContext;
 import com.boluozhai.snowflake.test.TestContext;
 import com.boluozhai.snowflake.test.Tester;
 import com.boluozhai.snowflake.test.Testing;
@@ -24,7 +25,7 @@ import com.boluozhai.snowflake.xgit.pojo.Operator;
 import com.boluozhai.snowflake.xgit.pojo.PlainId;
 import com.boluozhai.snowflake.xgit.pojo.TreeItem;
 import com.boluozhai.snowflake.xgit.pojo.TreeObject;
-import com.boluozhai.snowflake.xgit.refs.ReferenceManager;
+import com.boluozhai.snowflake.xgit.refs.HrefManager;
 import com.boluozhai.snowflake.xgit.repository.Repository;
 import com.boluozhai.snowflake.xgit.repository.RepositoryManager;
 
@@ -147,9 +148,13 @@ public class TestGitObjectsRW {
 	}
 
 	private ObjectId inner_get_commit_id(Repository repo) {
-		ReferenceManager rm = repo.getComponentContext().getBean(
-				XGitContext.component.refs, ReferenceManager.class);
-		return rm.findTargetId(ReferenceManager.name.HEAD);
+
+		ComponentContext cc = repo.getComponentContext();
+		String ptr = HrefManager.name.HEAD;
+		HrefManager hrefs = (HrefManager) cc
+				.getBean(XGitContext.component.hrefs);
+		return hrefs.findId(ptr);
+
 	}
 
 }

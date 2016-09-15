@@ -27,31 +27,37 @@ public interface XGitContext extends ModelContext, ComponentContext {
 
 	public interface component {
 
-		// base
+		// regular.virtual
 		String working = "working"; // the working directory
 		String repository = "repository";
 
-		// helpers
-		String hash_path_mapper = "hash_path_mapper";
-		String hash_algorithm = "hash_algorithm";
-		String temporary_files = "temporary_files";
-		String uri_meta = "meta_by_uri";
-		String id_meta = "meta_by_id";
-		String client = "client";
-
-		// files
+		// regular.files
 		String config = "config";
 		String discription = "discription";
 		String HEAD = "HEAD";
 		String index = "index";
 
-		// directories
+		// regular.directories
 		String branches = "branches";
 		String hooks = "hooks";
 		String info = "info";
 		String logs = "logs";
 		String objects = "objects";
 		String refs = "refs";
+
+		// xgit.directories
+		String temporary_files = "xgit.temporary_files";
+		String uri_meta = "xgit.meta_by_uri";
+		String id_meta = "xgit.meta_by_id";
+		String remotes = "xgit.remotes";
+		String private_refs = "xgit.private_refs";
+
+		// xgit.virtual
+		String client = "xgit.client";
+		String hash_path_mapper = "xgit.hash_path_mapper";
+		String hash_algorithm = "xgit.hash_algorithm";
+		String refptrs = "xgit.refptrs";
+		String hrefs = "xgit.hrefs";
 
 	}
 

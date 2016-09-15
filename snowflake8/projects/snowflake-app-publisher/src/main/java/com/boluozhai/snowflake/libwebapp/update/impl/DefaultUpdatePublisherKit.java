@@ -20,8 +20,8 @@ import com.boluozhai.snowflake.xgit.dao.CommitDAO;
 import com.boluozhai.snowflake.xgit.objects.ObjectBank;
 import com.boluozhai.snowflake.xgit.pojo.CommitObject;
 import com.boluozhai.snowflake.xgit.pojo.Operator;
-import com.boluozhai.snowflake.xgit.refs.Reference;
-import com.boluozhai.snowflake.xgit.refs.ReferenceManager;
+import com.boluozhai.snowflake.xgit.refs.Ref;
+import com.boluozhai.snowflake.xgit.refs.RefManager;
 import com.boluozhai.snowflake.xgit.vfs.FileRepository;
 
 public class DefaultUpdatePublisherKit extends DefaultUpdateKit implements
@@ -89,8 +89,8 @@ public class DefaultUpdatePublisherKit extends DefaultUpdateKit implements
 		try {
 
 			FileRepository repo = this.getRepository();
-			ReferenceManager refs = repo.context().getBean(
-					XGitContext.component.refs, ReferenceManager.class);
+			RefManager refs = repo.context().getBean(
+					XGitContext.component.refs, RefManager.class);
 			ObjectBank bank = repo.context().getBean(
 					XGitContext.component.objects, ObjectBank.class);
 
@@ -110,7 +110,7 @@ public class DefaultUpdatePublisherKit extends DefaultUpdateKit implements
 				list.add(apps.get(key));
 			}
 
-			Reference ref = refs.getReference(Refs.add);
+			Ref ref = refs.getReference(Refs.add);
 			ref.setTargetId(commit_id);
 
 			System.out.println("add as tree:" + tree_id);
@@ -131,15 +131,15 @@ public class DefaultUpdatePublisherKit extends DefaultUpdateKit implements
 		try {
 
 			FileRepository repo = this.getRepository();
-			ReferenceManager refs = repo.context().getBean(
-					XGitContext.component.refs, ReferenceManager.class);
+			RefManager refs = repo.context().getBean(
+					XGitContext.component.refs, RefManager.class);
 			ObjectBank bank = repo.context().getBean(
 					XGitContext.component.objects, ObjectBank.class);
 			CommitDAO commit_dao = CommitDAO.Factory.create(bank);
 
 			// load commit
-			final Reference ref_1 = refs.getReference(Refs.add);
-			final Reference ref_2 = refs.getReference(Refs.commit);
+			final Ref ref_1 = refs.getReference(Refs.add);
+			final Ref ref_2 = refs.getReference(Refs.commit);
 
 			final ObjectId commit1_id = ref_1.getTargetId();
 			final ObjectId commit2_id = ref_2.getTargetId();

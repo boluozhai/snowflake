@@ -14,7 +14,7 @@ import com.boluozhai.snowflake.rest.client.RestType;
 import com.boluozhai.snowflake.xgit.XGit;
 import com.boluozhai.snowflake.xgit.XGitContext;
 import com.boluozhai.snowflake.xgit.objects.ObjectBank;
-import com.boluozhai.snowflake.xgit.refs.ReferenceManager;
+import com.boluozhai.snowflake.xgit.refs.RefManager;
 import com.boluozhai.snowflake.xgit.repository.Repository;
 import com.boluozhai.snowflake.xgit.repository.RepositoryManager;
 import com.boluozhai.snowflake.xgit.repository.RepositoryOption;
@@ -30,7 +30,7 @@ public class CmdTestXgitHttp extends AbstractCLICommandHandler {
 		Repository repo = rm.open(context, uri, option);
 		ComponentContext cc = repo.getComponentContext();
 
-		ReferenceManager refs = (ReferenceManager) cc
+		RefManager refs = (RefManager) cc
 				.getBean(XGitContext.component.refs);
 		ObjectBank bank = (ObjectBank) cc
 				.getBean(XGitContext.component.objects);

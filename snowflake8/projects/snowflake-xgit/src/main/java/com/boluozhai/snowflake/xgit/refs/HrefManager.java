@@ -5,12 +5,16 @@ import com.boluozhai.snowflake.xgit.XGitComponent;
 import com.boluozhai.snowflake.xgit.XGitContext;
 import com.boluozhai.snowflake.xgit.repository.Repository;
 
-public interface ReferenceManager extends XGitComponent {
+public interface HrefManager extends XGitComponent {
 
 	interface name {
 
+		// refnames
+
 		String HEAD = "HEAD";
 		String SECTION_HEAD = "SECTION_HEAD";
+
+		// refs
 
 		String refs = "refs";
 
@@ -24,26 +28,24 @@ public interface ReferenceManager extends XGitComponent {
 
 	class Factory {
 
-		public static ReferenceManager getInstance(Repository repo) {
+		public static HrefManager getInstance(Repository repo) {
 			XGitContext context = repo.context();
-			String key = XGitContext.component.refs;
-			return context.getBean(key, ReferenceManager.class);
+			String key = XGitContext.component.hrefs;
+			return context.getBean(key, HrefManager.class);
 		}
 
 	}
 
-	Reference getReference(String name);
+	/***
+	 * this method will cause a finding-process
+	 * */
+
+	Ref findRef(String name);
 
 	/***
 	 * this method will cause a finding-process
 	 * */
 
-	Reference findTargetReference(String name);
-
-	/***
-	 * this method will cause a finding-process
-	 * */
-
-	ObjectId findTargetId(String name);
+	ObjectId findId(String name);
 
 }

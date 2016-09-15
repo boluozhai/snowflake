@@ -65,17 +65,33 @@
 						class='com.boluozhai.snowflake.xgit.vfs.support.FileRefsManagerFactory' />
 				</entry>
 
-				<entry key='hash_path_mapper'>
+				<entry key='xgit.hrefs'>
+					<bean
+						class='com.boluozhai.snowflake.xgit.vfs.support.FileHrefsManagerFactory' />
+				</entry>
+
+				<entry key='xgit.private_refs'>
+					<bean
+						class='com.boluozhai.snowflake.xgit.vfs.support.FileRefsManagerFactory' />
+				</entry>
+
+				<entry key='xgit.refptrs'>
+					<bean
+						class='com.boluozhai.snowflake.xgit.vfs.support.FileRefnamesManagerFactory' />
+				</entry>
+
+
+				<entry key='xgit.hash_path_mapper'>
 					<bean
 						class='com.boluozhai.snowflake.xgit.vfs.support.FileHashPathMapperFactory' />
 				</entry>
 
-				<entry key='hash_algorithm'>
+				<entry key='xgit.hash_algorithm'>
 					<bean
 						class='com.boluozhai.snowflake.xgit.vfs.support.FileHashAlgorithmFactory' />
 				</entry>
 
-				<entry key='temporary_files'>
+				<entry key='xgit.temporary_files'>
 					<bean
 						class='com.boluozhai.snowflake.xgit.vfs.support.TemporaryFileManagerFactory' />
 				</entry>
