@@ -54,6 +54,7 @@
 	<build>
 		<finalName>snowflake-h2o-war</finalName>
 		<plugins>
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -62,6 +63,18 @@
 					<target>1.7</target>
 				</configuration>
 			</plugin>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>tomcat-maven-plugin</artifactId>
+				<version>1.1</version>
+				<configuration>
+					<url>https://code.boluozhai.com/manager/text</url>
+					<server>blz-tomcat-debug</server>
+					<path>/h2o</path>
+				</configuration>
+			</plugin>
+
 		</plugins>
 	</build>
 

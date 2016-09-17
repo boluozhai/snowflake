@@ -148,7 +148,7 @@
 
 				<entry key='xgit.refptrs'>
 					<bean
-						class='com.boluozhai.snowflake.xgit.vfs.support.FileRefnamesManagerFactory' />
+						class='com.boluozhai.snowflake.xgit.vfs.support.FileRefptrManagerFactory' />
 				</entry>
 
 

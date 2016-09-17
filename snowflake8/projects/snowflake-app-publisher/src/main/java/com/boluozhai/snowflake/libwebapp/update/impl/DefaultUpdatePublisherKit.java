@@ -111,7 +111,7 @@ public class DefaultUpdatePublisherKit extends DefaultUpdateKit implements
 			}
 
 			Ref ref = refs.getReference(Refs.add);
-			ref.setTargetId(commit_id);
+			ref.setId(commit_id);
 
 			System.out.println("add as tree:" + tree_id);
 
@@ -141,8 +141,8 @@ public class DefaultUpdatePublisherKit extends DefaultUpdateKit implements
 			final Ref ref_1 = refs.getReference(Refs.add);
 			final Ref ref_2 = refs.getReference(Refs.commit);
 
-			final ObjectId commit1_id = ref_1.getTargetId();
-			final ObjectId commit2_id = ref_2.getTargetId();
+			final ObjectId commit1_id = ref_1.getId();
+			final ObjectId commit2_id = ref_2.getId();
 
 			final CommitObject commit1 = commit_dao.getCommit(commit1_id);
 			final CommitObject commit2 = commit_dao.getCommit(commit2_id);
@@ -177,7 +177,7 @@ public class DefaultUpdatePublisherKit extends DefaultUpdateKit implements
 
 			// save commit
 			ObjectId commit3_id = commit_dao.saveCommit(commit3);
-			ref_2.setTargetId(commit3_id);
+			ref_2.setId(commit3_id);
 
 		} catch (IOException e) {
 			throw new RuntimeException(e);

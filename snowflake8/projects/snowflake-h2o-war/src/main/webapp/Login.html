@@ -16,52 +16,112 @@
 <head>
 
 <meta charset='utf-8' />
-<title>no_title</title>
+<title>登录</title>
 
 <link href="./lib/bootstrap/css/bootstrap.min.css" rel="stylesheet"
 	type="text/css" />
 
+<link href="./css/signin.css" rel="stylesheet" type="text/css" />
+
+
+<style type="text/css">
+.to-reg {
+	margin-top: 100px;
+	text-align: center;
+}
+</style>
+
 </head>
 <body>
 
-	<div class='container'>
 
-		<h1>请登录</h1>
 
-		<div>
-			<span>Email</span> <input id='f_user' type="email" />
+	<div class="container">
+
+		<form class="form-signin" role="form">
+			<div>
+				<h2 class="form-signin-heading">请登录</h2>
+			</div>
+			<div>
+				<input id='edit-email' type="email" class="form-control"
+					placeholder="邮箱地址" required autofocus />
+			</div>
+			<div>
+				<input id='edit-passwd' type="password" class="form-control"
+					placeholder="密码" required />
+			</div>
+			<div class="checkbox">
+				<label> <input id='check-remember-me' type="checkbox"
+					value="remember-me"> 记住登录状态
+				</label>
+			</div>
+			<div>
+				<button id='btn-ok' class="btn btn-lg btn-primary btn-block"
+					type="button">登录</button>
+			</div>
+		</form>
+
+
+		<div class='to-reg'>
+			<span>还没有帐号?</span> <a href='Register.html'>注个册先！</a>
 		</div>
-		<div>
-			<span>Password</span> <input id='f_password' type="password" />
-		</div>
-		<div>
-			<button class='btn btn-success btn-login ' type="button">登录</button>
-		</div>
+
 	</div>
+
 
 	<script src="./lib/jquery/jquery.min.js"></script>
 	<script src="./lib/bootstrap/js/bootstrap.min.js"></script>
 
 	<script src="./lib/snowflake/core.js"></script>
 	<script src="./lib/snowflake/context.js"></script>
+	<script src="./lib/snowflake/event.js"></script>
+	<script src="./lib/snowflake/rest.js"></script>
+	<script src="./lib/snowflake/listview.js"></script>
+	<script src="./lib/snowflake/sha1.js"></script>
 
+	<script src="./export/h2o/js/widget.js"></script>
+	<script src="./export/h2o/js/folder.js"></script>
+	<script src="./export/h2o/js/console.js"></script>
+
+	<script src="./js/config.js"></script>
+	<script src="./js/Auth.js"></script>
 	<script src="./this.js"></script>
 
 	<script type="text/javascript">
+		var AuthCtrl = com.boluozhai.h2o.webui.AuthCtrl;
+
 		$(document).ready(function() {
 
-			$('.btn-login').click(onClickLogin);
+			var context = Snowflake.getContext();
+			var ctrl = new AuthCtrl(context);
+
+			$('#btn-ok').click(function() {
+				onClickOK(ctrl);
+			});
 
 		});
 
-		function onClickLogin() {
+		function set_ui_mode(in_working) {
+		}
 
-			var user = $('#f_user').val();
-			var pass = $('#f_password').val();
+		function onClickOK(ctrl) {
 
-			var msg = 'login(' + user + ',' + pass + ')';
-			//	System.out.println(msg);
-			alert(msg);
+			set_ui_mode(true);
+
+			var email = $('#edit-email').val();
+			var passwd = $('#edit-passwd').val();
+
+			var param = {};
+			param.email = email;
+			param.password = passwd;
+
+			ctrl.login(param, function() {
+
+				set_ui_mode(false);
+
+				;
+
+			});
 
 		}
 	</script>

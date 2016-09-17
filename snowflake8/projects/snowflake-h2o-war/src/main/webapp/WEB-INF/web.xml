@@ -5,7 +5,7 @@
 <web-app>
 
 
-	<display-name>snowflake-h2o</display-name>
+	<display-name>snowflake-h2o-war</display-name>
 
 	<context-param>
 		<param-name>contextConfigLocation</param-name>

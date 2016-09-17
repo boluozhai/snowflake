@@ -4,7 +4,7 @@ import com.boluozhai.snowflake.mvc.model.ComponentBuilder;
 import com.boluozhai.snowflake.mvc.model.ComponentBuilderFactory;
 import com.boluozhai.snowflake.xgit.vfs.impl.refs.FileRefsImplementation;
 
-public class FileRefnamesManagerFactory implements ComponentBuilderFactory {
+public class FileRefptrManagerFactory implements ComponentBuilderFactory {
 
 	@Override
 	public ComponentBuilder newBuilder() {

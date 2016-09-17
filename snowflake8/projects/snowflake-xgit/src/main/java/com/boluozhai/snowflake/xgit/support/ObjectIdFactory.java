@@ -57,10 +57,16 @@ public class ObjectIdFactory {
 		public ObjIdImpl(String s, byte[] b) {
 			this.string = s;
 			this.ba = b;
+
+			if (s.length() < 20 || b.length < 10) {
+				throw new RuntimeException("bad hash-id:" + s);
+			}
+
 		}
 
 		public String toString() {
-			return this.string;
+			String str = this.string;
+			return str;
 		}
 
 		@Override

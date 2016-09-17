@@ -58,15 +58,27 @@
 						class='com.boluozhai.snowflake.xgit.vfs.support.FileObjectBankFactory' />
 				</entry>
 
+
 				<entry key='refs'>
 					<bean
 						class='com.boluozhai.snowflake.xgit.vfs.support.FileRefsManagerFactory' />
 				</entry>
 
-				<entry key='xgit.privaterefs'>
+				<entry key='xgit.private_refs'>
 					<bean
 						class='com.boluozhai.snowflake.xgit.vfs.support.FileRefsManagerFactory' />
 				</entry>
+
+				<entry key='xgit.refptrs'>
+					<bean
+						class='com.boluozhai.snowflake.xgit.vfs.support.FileRefptrManagerFactory' />
+				</entry>
+
+				<entry key='xgit.hrefs'>
+					<bean
+						class='com.boluozhai.snowflake.xgit.vfs.support.FileHrefsManagerFactory' />
+				</entry>
+
 
 				<entry key='xgit.hash_path_mapper'>
 					<bean

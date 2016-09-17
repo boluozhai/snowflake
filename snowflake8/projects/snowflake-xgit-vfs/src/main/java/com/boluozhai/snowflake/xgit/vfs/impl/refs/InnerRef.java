@@ -55,6 +55,11 @@ public class InnerRef implements Ref {
 				in = ref.io.input(ref.file);
 				String txt = TextTools.load(in);
 				txt = txt.trim();
+				if (txt.length() < 10) {
+					String msg = "bad ref-value: [%s], in file [%s]";
+					msg = String.format(msg, txt, ref.file);
+					throw new RuntimeException(msg);
+				}
 				ObjectId id = ObjectId.Factory.create(txt);
 				return new IdHolder(id, ref.file);
 			} finally {
