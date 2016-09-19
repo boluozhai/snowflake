@@ -10,6 +10,10 @@
 
 	<modules>
 
+		<module>snowflake-access-security</module>
+		<module>snowflake-access-security-web</module>
+		<!-- module>snowflake-data-table</module -->
+
 		<module>snowflake-appdata</module>
 		<module>snowflake-app-publisher</module>
 		<module>snowflake-cli</module>
