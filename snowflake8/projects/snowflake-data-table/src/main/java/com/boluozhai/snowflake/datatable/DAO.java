@@ -1,12 +1,10 @@
 package com.boluozhai.snowflake.datatable;
 
-import com.boluozhai.snowflake.xgit.ObjectId;
-
 public interface DAO {
 
-	String getName(Object object);
+	String getKey(Object object);
 
-	ObjectId getId(Object object);
+	void setKey(String key, Object object);
 
 	Object makePrototype(Object object);
 

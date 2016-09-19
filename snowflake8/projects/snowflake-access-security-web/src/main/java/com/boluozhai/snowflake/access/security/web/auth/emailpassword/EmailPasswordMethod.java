@@ -30,9 +30,9 @@ public class EmailPasswordMethod extends RestController {
 		model = this.inner_auth(model);
 		model.getRequest().setKey("***");
 		String method = model.getResponse().getMethod();
-		String status = model.getResponse().getStatus();
+
 		if (method.equals("login")) {
-			if (status.equals("ok")) {
+			if (model.getResponse().isSuccess()) {
 				this.inner_make_session(request, response, model);
 			}
 		}
@@ -60,6 +60,8 @@ public class EmailPasswordMethod extends RestController {
 		info.setLoginTimestamp(System.currentTimeMillis());
 		info.setHashId("n/a");
 		info.setAvatar("n/a");
+
+		holder.set(session);
 
 	}
 

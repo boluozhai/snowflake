@@ -3,27 +3,18 @@ package com.boluozhai.snowflake.datatable;
 import java.io.Closeable;
 
 import com.boluozhai.snowflake.core.SnowflakeException;
-import com.boluozhai.snowflake.xgit.ObjectId;
 
 public interface DataClient extends Closeable {
 
 	Transaction beginTransaction() throws SnowflakeException;
 
-	<T> T insert(T obj);
+	DataLine line(String name, String type);
 
-	<T> T update(T obj);
+	DataLine line(String name, Class<?> type);
 
-	<T> boolean delete(ObjectId id, Class<T> type);
+	DataLine line(String key);
 
-	<T> boolean delete(Object obj);
-
-	<T> T get(ObjectId id, Class<T> type);
-
-	<T> T get(ObjectId id, Class<T> type, boolean canBeNil);
-
-	<T> T get(String name, Class<T> type);
-
-	<T> T get(String name, Class<T> type, boolean canBeNil);
+	String[] list(Class<?> type);
 
 	DataClientFactory getFactory();
 

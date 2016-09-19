@@ -5,6 +5,10 @@ public class TestingPOJO {
 	private String id;
 	private String someData;
 
+	public TestingPOJO() {
+		this.someData = this.toString();
+	}
+
 	public String getId() {
 		return id;
 	}

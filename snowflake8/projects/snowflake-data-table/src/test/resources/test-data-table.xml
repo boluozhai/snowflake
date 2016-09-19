@@ -3,6 +3,10 @@
  "http://www.springframework.org/dtd/spring-beans-2.0.dtd" >
 <beans>
 
+
+	<import resource="classpath:config/spring/snowflake-lib-xgit-vfs.xml" />
+
+
 	<bean id='com.boluozhai.snowflake.appdata.AppDataAgent'
 		class='com.boluozhai.snowflake.appdata.support.DefaultAppDataAgent' />
 
