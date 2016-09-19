@@ -33,14 +33,34 @@
 
 	<script src="./lib/snowflake/core.js"></script>
 	<script src="./lib/snowflake/context.js"></script>
+	<script src="./lib/snowflake/event.js"></script>
+	<script src="./lib/snowflake/rest.js"></script>
+	<script src="./lib/snowflake/listview.js"></script>
 
+	<script src="./export/h2o/js/widget.js"></script>
+	<script src="./export/h2o/js/folder.js"></script>
+	<script src="./export/h2o/js/console.js"></script>
+
+	<script src="./js/config.js"></script>
 	<script src="./this.js"></script>
-	<script src="./export/h2o/js/FolderView.js"></script>
+	<script src="./rest/session/session-info.js"></script>
+
 
 	<script type="text/javascript">
 		$(document).ready(function() {
 
 			var context = Snowflake.getContext();
+			var session_info = SessionInfo.session_info;
+
+			var str = JSON.stringify(session_info, null, 4);
+			alert(str);
+
+			if (session_info.session.login) {
+				// ok
+			} else {
+				//jump
+				window.location = 'Login.html';
+			}
 
 		});
 	</script>

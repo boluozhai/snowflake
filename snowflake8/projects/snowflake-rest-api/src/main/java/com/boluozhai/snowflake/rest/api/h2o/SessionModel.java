@@ -7,6 +7,10 @@ public class SessionModel extends RestDoc {
 
 	private SessionInfo session;
 
+	public SessionModel() {
+		this.session = new SessionInfo();
+	}
+
 	public SessionInfo getSession() {
 		return session;
 	}

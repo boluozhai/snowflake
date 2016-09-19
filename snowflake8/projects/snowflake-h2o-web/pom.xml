@@ -79,6 +79,12 @@
 			<version>0.8.0</version>
 		</dependency>
 
+		<dependency>
+			<groupId>com.boluozhai.snowflake</groupId>
+			<artifactId>snowflake-access-security-web</artifactId>
+			<version>0.8.0</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>

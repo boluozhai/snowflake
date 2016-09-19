@@ -5,14 +5,23 @@ import com.boluozhai.snowflake.rest.element.auth.AuthInfo;
 
 public class AuthModel extends RestDoc {
 
-	private AuthInfo auth;
+	private AuthInfo request;
+	private AuthInfo response;
 
-	public AuthInfo getAuth() {
-		return auth;
+	public AuthInfo getRequest() {
+		return request;
 	}
 
-	public void setAuth(AuthInfo auth) {
-		this.auth = auth;
+	public void setRequest(AuthInfo request) {
+		this.request = request;
+	}
+
+	public AuthInfo getResponse() {
+		return response;
+	}
+
+	public void setResponse(AuthInfo response) {
+		this.response = response;
 	}
 
 }

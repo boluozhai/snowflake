@@ -36,6 +36,11 @@
 		</init-param>
 	</servlet>
 
+	<servlet>
+		<servlet-name>auth-js</servlet-name>
+		<servlet-class>com.boluozhai.snowflake.h2o.servlet.AuthServlet</servlet-class>
+	</servlet>
+
 
 	<!-- mapping -->
 
@@ -47,6 +52,11 @@
 	<servlet-mapping>
 		<servlet-name>xgit-http-root</servlet-name>
 		<url-pattern>/repo/*</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>auth-js</servlet-name>
+		<url-pattern>/servlet/auth.js</url-pattern>
 	</servlet-mapping>
 
 

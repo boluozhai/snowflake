@@ -9,5 +9,6 @@
 	<import resource="classpath:config/spring/h2o/command-debug.xml" />
 	<import resource="classpath:config/spring/h2o/rest.xml" />
 	<import resource="classpath:config/spring/h2o/site.xml" />
-
+	<import resource="classpath:config/spring/h2o/access.xml" />
+	
 </beans>

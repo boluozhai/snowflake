@@ -31,6 +31,12 @@
         <dependent-module archiveName="snowflake-rest-web-0.8.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/snowflake-rest-web/snowflake-rest-web">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module archiveName="snowflake-rest-client-0.8.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/snowflake-rest-client/snowflake-rest-client">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="snowflake-rest-api-0.8.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/snowflake-rest-api/snowflake-rest-api">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <property name="java-output-path" value="/snow-webapp-template/target/classes"/>
         <property name="context-root" value="snowflake-example-war"/>
     </wb-module>

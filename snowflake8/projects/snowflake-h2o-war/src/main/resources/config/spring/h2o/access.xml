@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" 
+ "http://www.springframework.org/dtd/spring-beans-2.0.dtd" >
+<beans>
+
+	<bean id='com.boluozhai.snowflake.access.security.web.auth.WebAuthManager'
+		class='com.boluozhai.snowflake.access.security.web.support.DefaultWebAuthManager'>
+
+		<property name="methods">
+			<map>
+				<entry key="email+password">
+					<bean
+						class='com.boluozhai.snowflake.access.security.web.auth.emailpassword.EmailPasswordMethod'></bean>
+				</entry>
+			</map>
+		</property>
+
+	</bean>
+
+</beans>
