@@ -30,7 +30,9 @@ public class JsonRestExceptionView extends RestView {
 		String mime = "application/json";
 
 		Model pojo = new Model();
-		pojo.setError(this.exception.getMessage());
+		pojo.setMessage(this.exception.getMessage());
+		pojo.setError(this.exception.toString());
+
 		Gson gs = new Gson();
 		String str = gs.toJson(pojo);
 		byte[] ba = str.getBytes(enc);
@@ -49,6 +51,7 @@ public class JsonRestExceptionView extends RestView {
 	public static class Model {
 
 		private String error;
+		private String message;
 
 		public String getError() {
 			return error;
@@ -56,6 +59,14 @@ public class JsonRestExceptionView extends RestView {
 
 		public void setError(String error) {
 			this.error = error;
+		}
+
+		public String getMessage() {
+			return message;
+		}
+
+		public void setMessage(String message) {
+			this.message = message;
 		}
 
 	}

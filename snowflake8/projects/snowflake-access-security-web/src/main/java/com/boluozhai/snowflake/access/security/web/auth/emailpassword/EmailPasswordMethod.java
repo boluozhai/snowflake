@@ -6,38 +6,133 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.boluozhai.snowflake.core.SnowflakeException;
 import com.boluozhai.snowflake.rest.api.h2o.AuthModel;
+import com.boluozhai.snowflake.rest.api.h2o.SessionModel;
 import com.boluozhai.snowflake.rest.element.auth.AuthInfo;
+import com.boluozhai.snowflake.rest.element.session.SessionInfo;
 import com.boluozhai.snowflake.rest.server.JsonRestPojoLoader;
 import com.boluozhai.snowflake.rest.server.JsonRestView;
 import com.boluozhai.snowflake.rest.server.RestController;
-import com.boluozhai.snowflake.rest.server.RestServlet.RestInfo;
+import com.boluozhai.snowflake.rest.server.helper.SessionInfoHolder;
+import com.boluozhai.snowflake.util.HashTools;
 
 public class EmailPasswordMethod extends RestController {
 
 	@Override
-	protected void rest_get(HttpServletRequest request,
+	protected void rest_post(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 
-		RestInfo info = this.getRestInfo(request);
+		// RestInfo info = this.getRestInfo(request);
 		JsonRestPojoLoader ploader = new JsonRestPojoLoader(request);
 		AuthModel model = ploader.getPOJO(AuthModel.class);
 
-		model = new AuthModel();
-		AuthInfo auth = new AuthInfo();
-		model.setResponse(auth);
-
-		auth.setKey("password");
-		auth.setMethod("login");
-		auth.setName("email@address");
-		auth.setStatus("continue");
-		auth.setStep("wait_for_password");
-		auth.setThread("" + System.currentTimeMillis());
+		model = this.inner_auth(model);
+		model.getRequest().setKey("***");
+		String method = model.getResponse().getMethod();
+		String status = model.getResponse().getStatus();
+		if (method.equals("login")) {
+			if (status.equals("ok")) {
+				this.inner_make_session(request, response, model);
+			}
+		}
 
 		JsonRestView view = new JsonRestView();
 		view.setResponsePOJO(model);
 		view.forward(request, response);
 
+	}
+
+	private void inner_make_session(HttpServletRequest request,
+			HttpServletResponse response, AuthModel auth) {
+
+		AuthInfo ar = auth.getResponse();
+		String name = ar.getName();
+
+		SessionInfoHolder holder = SessionInfoHolder.create(request);
+		SessionModel session = holder.get();
+		SessionInfo info = new SessionInfo();
+		session.setSession(info);
+
+		info.setNickname("haha");
+		info.setEmail(name);
+		info.setLogin(true);
+		info.setLoginTimestamp(System.currentTimeMillis());
+		info.setHashId("n/a");
+		info.setAvatar("n/a");
+
+	}
+
+	private AuthModel inner_auth(AuthModel model) {
+
+		this.inner_hash_psw_again(model);
+		final String method = model.getRequest().getMethod();
+
+		AuthInfo response = new AuthInfo();
+		model.setResponse(response);
+		response.setMethod(method);
+		response.setStatus("undef");
+		response.setKey("***");
+
+		if (method == null) {
+			throw new SnowflakeException("bad auth method: " + method);
+
+		} else if (method.equals("login")) {
+			return this.inner_login(model);
+
+		} else if (method.equals("register")) {
+			return this.inner_register(model);
+
+		} else if (method.equals("logout")) {
+			return this.inner_logout(model);
+
+		} else {
+			throw new SnowflakeException("bad auth method: " + method);
+		}
+
+	}
+
+	private void inner_hash_psw_again(AuthModel model) {
+		AuthInfo req = model.getRequest();
+		String key = req.getKey();
+		String key2 = HashTools.sha1string(key);
+		req.setKey(key2);
+	}
+
+	private AuthModel inner_login(AuthModel model) {
+		// TODO Auto-generated method stub
+
+		AuthInfo req = model.getRequest();
+		AuthInfo res = model.getResponse();
+
+		String pass = req.getKey();
+		String user = req.getName();
+
+		String txt = user + ':' + pass;
+		String reg = "test@blz:209d5fae8b2ba427d30650dd0250942af944a0c9";
+		if (txt.equals(reg)) {
+			res.setSuccess(true);
+			res.setCode("200");
+			res.setMessage("success");
+			res.setStatus("ok");
+		} else {
+			res.setSuccess(false);
+			res.setCode("409");
+			res.setMessage("bad user|password");
+			res.setStatus("error");
+		}
+
+		return model;
+	}
+
+	private AuthModel inner_register(AuthModel model) {
+		// TODO Auto-generated method stub
+		return model;
+	}
+
+	private AuthModel inner_logout(AuthModel model) {
+		// TODO Auto-generated method stub
+		return model;
 	}
 
 }

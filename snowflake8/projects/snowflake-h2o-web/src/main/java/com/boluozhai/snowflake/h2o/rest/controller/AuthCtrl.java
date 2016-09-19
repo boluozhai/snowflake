@@ -16,7 +16,7 @@ import com.boluozhai.snowflake.rest.server.RestServlet.RestInfo;
 public class AuthCtrl extends RestController {
 
 	@Override
-	protected void rest_get(HttpServletRequest request,
+	protected void rest_post(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 
 		ServletContext sc = request.getServletContext();

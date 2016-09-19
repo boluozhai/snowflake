@@ -31,6 +31,10 @@
 	margin-top: 100px;
 	text-align: center;
 }
+
+.working {
+	text-align: center;
+}
 </style>
 
 </head>
@@ -44,11 +48,11 @@
 			<div>
 				<h2 class="form-signin-heading">请登录</h2>
 			</div>
-			<div>
+			<div class='--no-work'>
 				<input id='edit-email' type="email" class="form-control"
 					placeholder="邮箱地址" required autofocus />
 			</div>
-			<div>
+			<div class='--no-work'>
 				<input id='edit-passwd' type="password" class="form-control"
 					placeholder="密码" required />
 			</div>
@@ -57,7 +61,17 @@
 					value="remember-me"> 记住登录状态
 				</label>
 			</div>
-			<div>
+			<div class='working'>
+				<div>正在登录...</div>
+				<div class='progress'>
+					<div class="progress-bar progress-bar-striped active"
+						role="progressbar" aria-valuenow="100" aria-valuemin="0"
+						aria-valuemax="100" style="width: 100%">
+						<span class="sr-only">45% Complete</span>
+					</div>
+				</div>
+			</div>
+			<div class='no-work'>
 				<button id='btn-ok' class="btn btn-lg btn-primary btn-block"
 					type="button">登录</button>
 			</div>
@@ -90,7 +104,7 @@
 	<script src="./this.js"></script>
 
 	<script type="text/javascript">
-		var AuthCtrl = com.boluozhai.h2o.webui.AuthCtrl;
+		var AuthCtrl = com.boluozhai.h2o.webui.auth.AuthCtrl;
 
 		$(document).ready(function() {
 
@@ -101,30 +115,64 @@
 				onClickOK(ctrl);
 			});
 
+			set_ui_mode(false);
+			init_4_debug();
+
 		});
 
+		function init_4_debug() {
+
+			$('#edit-email').val('test@blz');
+			$('#edit-passwd').val('1234');
+
+		}
+
 		function set_ui_mode(in_working) {
+
+			var w = $('.working');
+			var nw = $('.no-work');
+
+			if (in_working) {
+				w.show();
+				nw.hide();
+			} else {
+				nw.show();
+				w.hide();
+			}
+
 		}
 
 		function onClickOK(ctrl) {
 
-			set_ui_mode(true);
-
 			var email = $('#edit-email').val();
 			var passwd = $('#edit-passwd').val();
+			set_ui_mode(true);
 
-			var param = {};
-			param.email = email;
-			param.password = passwd;
+			var task = ctrl.login();
+			task.email(email);
+			task.password(passwd);
 
-			ctrl.login(param, function() {
+			task.execute(function() {
+
+				if (task.success()) {
+					onLoginOK(task);
+				} else {
+					onLoginError(task);
+				}
 
 				set_ui_mode(false);
 
-				;
-
 			});
 
+		}
+
+		function onLoginOK(task) {
+			window.location = 'Working.html';
+		}
+
+		function onLoginError(task) {
+			var msg = task.message();
+			alert("登录失败！" + msg);
 		}
 	</script>
 

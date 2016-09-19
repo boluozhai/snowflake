@@ -5,9 +5,13 @@ public class AuthInfo {
 	private String method; // login|register|forget-pass|...
 	private String name; // user|email
 	private String key; // password|...
+	private String key2; // for changed passwd
 	private String thread;
 	private String step;
 	private String status; // [ok|error|continue|...]
+	private String code; // status-code
+	private String message; // status-message
+	private boolean success;
 
 	public String getMethod() {
 		return method;
@@ -55,6 +59,38 @@ public class AuthInfo {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public boolean isSuccess() {
+		return success;
+	}
+
+	public void setSuccess(boolean success) {
+		this.success = success;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
+	public String getKey2() {
+		return key2;
+	}
+
+	public void setKey2(String key2) {
+		this.key2 = key2;
 	}
 
 }
