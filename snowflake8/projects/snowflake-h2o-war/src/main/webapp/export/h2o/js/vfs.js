@@ -283,27 +283,27 @@ JS.module(function(mc) {
 		},
 
 		isAbsolute : function() {
-			this._inner.is_absolute();
+			return this._inner.is_absolute();
 		},
 
 		isDirectory : function() {
-			this._inner.is_directory();
+			return this._inner.is_directory();
 		},
 
 		isFile : function() {
-			this._inner.is_file();
+			return this._inner.is_file();
 		},
 
 		isHidden : function() {
-			this._inner.is_hidden();
+			return this._inner.is_hidden();
 		},
 
 		lastModified : function() {
-			this._inner.last_modified();
+			return this._inner.last_modified();
 		},
 
 		length : function() {
-			this._inner.length();
+			return this._inner.length();
 		},
 
 		list : function() {
@@ -311,7 +311,7 @@ JS.module(function(mc) {
 		},
 
 		list : function(filter) {
-			throw new RuntimeException('no impl');
+			return this._inner.list(filter);
 		},
 
 		listFiles : function() {
@@ -518,6 +518,10 @@ JS.module(function(mc) {
 			return file;
 		},
 
+		is_directory : function() {
+			return this.vfile.directory;
+		},
+
 		parent_path : function() {
 			var parent = this._parent;
 			if (parent == null) {
@@ -529,6 +533,30 @@ JS.module(function(mc) {
 
 		parent_file : function() {
 			return this._parent;
+		},
+
+		last_modified : function() {
+			return this.vfile.lastModified;
+		},
+
+		length : function() {
+			return this.vfile.length;
+		},
+
+		list : function(filter) {
+			if (filter == null) {
+				filter = function() {
+					return true;
+				};
+			}
+			var list = [];
+			var src = this.vfile.child;
+			for ( var name in src) {
+				if (filter(name)) {
+					list.push(name);
+				}
+			}
+			return list;
 		},
 
 		name : function() {

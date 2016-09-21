@@ -79,59 +79,6 @@ JS.module(function(mc) {
 	};
 
 	/***************************************************************************
-	 * class PathBarEvent
-	 */
-
-	function PathBarEvent(context) {
-		this._context = context;
-	}
-
-	mc.class(function(cc) {
-		cc.type(PathBarEvent);
-		cc.extends(Event);
-	});
-
-	PathBarEvent.prototype = {
-
-		item : function(value) {
-			return this.attr('item', value);
-		},
-
-	};
-
-	/***************************************************************************
-	 * class PathBarEventHandler
-	 */
-
-	function PathBarEventHandler() {
-	}
-
-	mc.class(function(cc) {
-		cc.type(PathBarEventHandler);
-	});
-
-	PathBarEventHandler.prototype = {
-
-		onEvent : function(event) {
-			var item = event.item();
-			this._ctrl = event.source();
-			this.onClickItem(item);
-		},
-
-		onClickItem : function(item) {
-			this.open(item);
-		},
-
-		open : function(item) {
-			var name = item.data();
-			var index = item.index();
-			var ctrl = this._ctrl;
-			ctrl.open(name, index);
-		},
-
-	};
-
-	/***************************************************************************
 	 * class PathBarCtrl
 	 */
 
@@ -270,13 +217,81 @@ JS.module(function(mc) {
 	};
 
 	/***************************************************************************
+	 * class FileListItem
+	 */
+
+	function FileListItem(file) {
+		this._file = file;
+	}
+
+	mc.class(function(cc) {
+		cc.type(FileListItem);
+	});
+
+	FileListItem.prototype = {
+
+		file : function() {
+			return this._file;
+		},
+
+		name : function() {
+			return this._file.getName();
+		},
+
+		isdir : function() {
+			return this._file.isDirectory();
+		},
+
+		type : function() {
+			var t = this._type;
+			if (t == null) {
+				if (this.isdir()) {
+					t = 'DIR';
+				} else {
+					var name = this.name();
+					var i = name.lastIndexOf('.');
+					if (i < 0) {
+						t = 'FILE';
+					} else {
+						t = name.substring(i).toLowerCase();
+					}
+				}
+				this._type = t;
+			}
+			return t;
+		},
+
+		time : function() {
+			return this._file.lastModified();
+		},
+
+		size : function() {
+			return this._file.length();
+		},
+
+	};
+
+	/***************************************************************************
 	 * class FileListModel
 	 */
 
-	function FileListModel(dir_data_model) {
-		this._array = [];
-		this._dir_data_model = dir_data_model;
-		dir_data_model.addEventHandler(this);
+	function FileListModel(current_location) {
+
+		var array = [];
+		var dir = current_location.location();
+		if (dir != null) {
+			var list = dir.list();
+			for ( var i in list) {
+				var name = list[i];
+				var ch = dir.child(name);
+				array.push(new FileListItem(ch));
+			}
+		}
+
+		array.sort(this.sortFunction());
+
+		this._array = array;
+
 	}
 
 	mc.class(function(cc) {
@@ -294,32 +309,6 @@ JS.module(function(mc) {
 			return this._array[index];
 		},
 
-		onEvent : function(event) {
-			this.update();
-		},
-
-		update : function() {
-
-			var data = this._dir_data_model;
-			var array0 = data.items();
-
-			var array = [];
-			for ( var i in array0) {
-				array.push(array0[i]);
-			}
-
-			var fn = this.sortFunction();
-			this._array = array.sort(fn);
-
-			this.fire();
-		},
-
-		fire : function() {
-			var e = new Event();
-			e.message('changed');
-			this.dispatchEvent(e, this);
-		},
-
 		sortFunction : function() {
 			var fn = function(i1, i2) {
 
@@ -335,59 +324,6 @@ JS.module(function(mc) {
 
 			};
 			return fn;
-		},
-
-	};
-
-	/***************************************************************************
-	 * class FileListEvent
-	 */
-
-	function FileListEvent(context) {
-		this._context = context;
-	}
-
-	mc.class(function(cc) {
-		cc.type(FileListEvent);
-		cc.extends(Event);
-	});
-
-	FileListEvent.prototype = {
-
-		item : function(value) {
-			return this.attr('item', value);
-		},
-
-	};
-
-	/***************************************************************************
-	 * class FileListEventHandler
-	 */
-
-	function FileListEventHandler() {
-	}
-
-	mc.class(function(cc) {
-		cc.type(FileListEventHandler);
-	});
-
-	FileListEventHandler.prototype = {
-
-		onEvent : function(event) {
-			var item = event.item();
-			this._ctrl = event.source();
-			this.onClickItem(item);
-		},
-
-		onClickItem : function(item) {
-			this.open(item);
-		},
-
-		open : function(item) {
-			var data = item.data();
-			var ctrl = this._ctrl;
-			var name = data.name();
-			ctrl.open(name);
 		},
 
 	};
@@ -445,7 +381,6 @@ JS.module(function(mc) {
 
 			// init model
 			var model = this.createListModel();
-			model.addEventHandler(this);
 			this.model(model);
 
 			// init view
@@ -457,12 +392,17 @@ JS.module(function(mc) {
 			});
 
 			// init event handler
-			var h = this.eventHandler();
-			if (h == null) {
-				h = new FileListEventHandler();
-				this.eventHandler(h);
-			}
+			this.setupDataListener();
 
+		},
+
+		setupDataListener : function() {
+			var self = this;
+			var li = new FunctionAdapter(function() {
+				self.updateView();
+			});
+			var cl = this.currentLocation();
+			cl.addEventHandler(li);
 		},
 
 		binder : function() {
@@ -474,18 +414,11 @@ JS.module(function(mc) {
 		},
 
 		onHtmlReday : function(query) {
-			var parent = this.parent();
+			var parent = this.binder().parent();
 			var child = query;
 			parent.append(child);
 			this._jq_view = child;
 			this.setupListCtrl();
-		},
-
-		open : function(name) {
-			var ds = this.dataSource();
-			var base = ds.currentPath();
-			var offset = [ name ];
-			ds.load(base, offset);
 		},
 
 		setupListCtrl : function() {
@@ -530,9 +463,9 @@ JS.module(function(mc) {
 
 				if (isdir) {
 					size = '-';
-					type = '<DIR>';
+					type = 'DIR';
 				} else {
-					type = '<FILE>';
+					// type = '<FILE>';
 				}
 
 				var date = new Date();
@@ -553,340 +486,42 @@ JS.module(function(mc) {
 		},
 
 		createListModel : function() {
-			var src = this.dataSource();
-			var data_model = src.model();
-			return new FileListModel(data_model);
+			var cl = this.currentLocation();
+			return new FileListModel(cl);
 		},
 
 		model : function(value) {
 			return this.attr('model', value);
 		},
 
-		onEvent : function(event) {
-			this.updateView();
-		},
-
 		updateView : function() {
-			var model = this.model();
+			var model = this.createListModel();
+			this.model(model);
 			var c2 = this._list_ctrl;
 			c2.model(model);
 			c2.update();
 			c2.update(true);
-		},
 
-		eventHandler : function(h) {
-			return this.attr('event_handler', h);
+			var cl = this.currentLocation();
+			var isdir = false;
+			var path = cl.location();
+			if (path != null) {
+				isdir = path.isDirectory();
+			}
+			var view = this.binder().parent();
+			if (isdir) {
+				view.show();
+			} else {
+				view.hide();
+			}
+
 		},
 
 		fireOnClickItem : function(item) {
-			var event = new FileListEvent();
-			event.source(this);
-			event.item(item);
-			var h = this.eventHandler();
-			h.onEvent(event);
-		},
-
-	};
-
-	/***************************************************************************
-	 * class DirDataModel
-	 */
-
-	function DirDataModel(context) {
-		this._context = context;
-		this._atts = new Attributes();
-	}
-
-	mc.class(function(cc) {
-		cc.type(DirDataModel);
-		cc.extends(EventDispatcher);
-	});
-
-	DirDataModel.prototype = {
-
-		items : function(array) {
-			return this._atts.attr('items', array);
-		},
-
-		pathElements : function(array) {
-			return this._atts.attr('path_elements', array);
-		},
-
-		baseURI : function(str) {
-			return this._atts.attr('base_uri', str);
-		},
-
-		fileURI : function(str) {
-			return this._atts.attr('file_uri', str);
-		},
-
-		fire : function() {
-			var e = new Event();
-			e.message('changed');
-			this.dispatchEvent(e, this);
-		},
-
-	};
-
-	/***************************************************************************
-	 * class DirItem
-	 */
-
-	function DirItem() {
-	}
-
-	mc.class(function(cc) {
-		cc.type(DirItem);
-		cc.extends(Attributes);
-	});
-
-	DirItem.prototype = {
-
-		name : function(value) {
-			return this.attr('name', value);
-		},
-
-		uri : function(value) {
-			return this.attr('uri', value);
-		},
-
-		size : function(value) {
-			return this.attr('size', value);
-		},
-
-		time : function(value) {
-			return this.attr('time', value);
-		},
-
-		type : function(value) {
-			return this.attr('type', value);
-		},
-
-		isdir : function(value) {
-			return this.attr('isdir', value);
-		},
-
-	};
-
-	/***************************************************************************
-	 * class AbstractDirDataLoader
-	 */
-
-	function AbstractDirDataLoader(context) {
-		this._context = context;
-	}
-
-	mc.class(function(cc) {
-		cc.type(AbstractDirDataLoader);
-		cc.extends(Attributes);
-	});
-
-	AbstractDirDataLoader.prototype = {
-
-		model : function(value) {
-			return this.attr('model', value);
-		},
-
-		init : function() {
-			// implements in subclass
-		},
-
-		load : function(path_elements) {
-			// implements in subclass
-		},
-
-	};
-
-	/***************************************************************************
-	 * class DefaultDirDataLoader
-	 */
-
-	function DefaultDirDataLoader(context) {
-		this._context = context;
-	}
-
-	mc.class(function(cc) {
-		cc.type(DefaultDirDataLoader);
-		cc.extends(AbstractDirDataLoader);
-	});
-
-	DefaultDirDataLoader.prototype = {
-
-		load : function(path_elements) {
-
-			var id = null;
-			for (var i = 0; i < path_elements.length; i++) {
-				var s = path_elements[i];
-				if (id == null) {
-					id = s;
-				} else {
-					id += ('/' + s);
-				}
-			}
-			if (id == null) {
-				id = '';
-			}
-
-			var client = RESTClient.getInstance(this._context);
-			var app = client.getApplication();
-			var api = app.getAPI('rest');
-			var type = api.getType('file');
-			var res = type.getResource(id);
-			var request = res.get();
-
-			var self = this;
-
-			request.execute(function(response) {
-
-				if (response.ok()) {
-					var entity = response.entity();
-					var js = entity.toJSON();
-					self.onDataReady(js);
-				} else {
-					var msg = response.message();
-					alert(msg);
-				}
-
-			});
-
-		},
-
-		onDataReady : function(js) {
-			// var str = JSON.stringify(js);
-			// alert(str);
-
-			var model = this.model();
-
-			var path_list = js.vfile.path;
-			var file_list = js.vfile.list;
-			var array = [];
-
-			for ( var i in file_list) {
-				var it1 = file_list[i];
-				var it2 = new DirItem();
-				it2.name(it1.name);
-				it2.type(it1.type);
-				it2.time(it1.lastModified);
-				it2.size(it1.length);
-				it2.isdir(it1.directory);
-				array.push(it2);
-			}
-
-			model.items(array);
-			model.pathElements(path_list);
-			model.baseURI(js.vfile.baseURI);
-			model.fileURI(js.vfile.fileURI);
-
-			model.fire();
-
-		},
-
-	};
-
-	/***************************************************************************
-	 * class DirDataCtrl
-	 */
-
-	function DirDataCtrl(context) {
-		this._context = context;
-	}
-
-	mc.class(function(cc) {
-		cc.type(DirDataCtrl);
-		cc.extends(Attributes);
-	});
-
-	DirDataCtrl.prototype = {
-
-		model : function(value) {
-			return this.attr('model', value);
-		},
-
-		loader : function(value) {
-			return this.attr('loader', value);
-		},
-
-		init : function() {
-
-			var context = this._context;
-			var model = this.model();
-			var loader = this.loader();
-
-			if (model == null) {
-				model = new DirDataModel();
-				this.model(model);
-			}
-
-			if (loader == null) {
-				loader = new DefaultDirDataLoader(context);
-				this.loader(loader);
-			}
-
-			model.addEventHandler(this);
-
-			loader.model(model);
-			loader.init();
-
-		},
-
-		load : function(base_path /* String */, offset_elements /* Array */) {
-
-			var array = [];
-			array.addElement = function(s) {
-				if (s == null) {
-					return;
-				} else if (s.length == 0) {
-					return;
-				} else if (s == '.') {
-					return;
-				} else if (s == '..') {
-					this.pop();
-				} else {
-					this.push(s);
-				}
-			};
-			if (base_path != null) {
-				base_path = base_path.replace('\\', '/');
-				var i = 0;
-				for (;;) {
-					var next = base_path.indexOf('/', i);
-					if (next < 0) {
-						var s = base_path.substring(i);
-						array.addElement(s);
-						break;
-					} else {
-						var s = base_path.substring(i, next);
-						array.addElement(s);
-						i = next + 1;
-					}
-				}
-			}
-			if (offset_elements != null) {
-				for ( var i in offset_elements) {
-					var s = offset_elements[i];
-					array.addElement(s);
-				}
-			}
-			var loader = this.loader();
-			loader.load(array);
-		},
-
-		onEvent : function(event) {
-		},
-
-		currentPath : function() {
-			var model = this.model();
-			var array = model.pathElements();
-			var sb = null;
-			for ( var i in array) {
-				var s = '/' + array[i];
-				if (sb == null) {
-					sb = s;
-				} else {
-					sb += s;
-				}
-			}
-			return sb;
+			var data = item.data();
+			var file = data.file();
+			var cl = this.currentLocation();
+			cl.location(file);
 		},
 
 	};

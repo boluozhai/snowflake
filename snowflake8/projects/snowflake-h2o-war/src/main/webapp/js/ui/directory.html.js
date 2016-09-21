@@ -22,7 +22,6 @@ JS.module(function(mc) {
 
 	var FileListCtrl = mc.import(widget_x + '.folder.FileListCtrl');
 	var PathBarCtrl = mc.import(widget_x + '.folder.PathBarCtrl');
-	var DirDataCtrl = mc.import(widget_x + '.folder.DirDataCtrl');
 	var ConsoleCtrl = mc.import(widget_x + '.console.ConsoleCtrl');
 
 	var CurrentLocation = mc
@@ -54,24 +53,24 @@ JS.module(function(mc) {
 			var cl = new CurrentLocation(context);
 			var console_ctrl = new ConsoleCtrl(context);
 			var path_bar_ctrl = new PathBarCtrl(context);
-			// var filelist_ctrl = new FileListCtrl(context);
+			var filelist_ctrl = new FileListCtrl(context);
 
 			this._cur_location = cl;
 			this._console_ctrl = console_ctrl;
 			this._path_bar_ctrl = path_bar_ctrl;
-			// this._filelist_ctrl = filelist_ctrl;
+			this._filelist_ctrl = filelist_ctrl;
 
 			console_ctrl.currentLocation(cl);
 			path_bar_ctrl.currentLocation(cl);
-			// filelist_ctrl.currentLocation(cl);
+			filelist_ctrl.currentLocation(cl);
 
 			console_ctrl.binder().parent('#console');
 			path_bar_ctrl.binder().parent('#path-bar');
-			// filelist_ctrl.binder().parent('#file-list');
+			filelist_ctrl.binder().parent('#file-list');
 
 			console_ctrl.init();
 			path_bar_ctrl.init();
-			// filelist_ctrl.init();
+			filelist_ctrl.init();
 
 			// vfs
 			var vfs_factory = new VFSFactory();
