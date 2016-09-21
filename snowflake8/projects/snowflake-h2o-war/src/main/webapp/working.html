@@ -4,7 +4,7 @@
 <!--
 /***********************************************************************
  * 
- * Working.html
+ * working.html
  * 
  * @Copyright (c) 2016 boluozhai.com
  * @License MIT License
@@ -16,66 +16,79 @@
 <head>
 
 <meta charset='utf-8' />
-<title>no_title</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>Working</title>
 
 <link href="./lib/bootstrap/css/bootstrap.min.css" rel="stylesheet"
 	type="text/css" />
 
+<link href="./export/h2o/css/console.css" rel="stylesheet"
+	type="text/css" />
+<link href="./export/h2o/css/folder.css" rel="stylesheet"
+	type="text/css" />
+
 <style type="text/css">
-.head {
+.side-bar {
 	text-align: center;
-	margin-top: 30px;
-	margin-bottom: 30px;
+	margin-top: 20px;
+	margin-bottom: 20px;
 }
 
-.foot {
-	text-align: center;
-	margin-top: 30px;
-	margin-bottom: 30px;
-}
-
-.btn-snowflake {
-	width: 48px;
-	width: 48px;
+.start-btn {
+	width: 32px;
+	height: 32px;
 }
 </style>
+
 
 </head>
 <body>
 
-
 	<div id='client' class='container'>
 
-
-		<div class='head'>
+		<div class='head side-bar '>
 
 			<div>
-				<button class='btn btn-default'>UP</button>
-				<button class='btn btn-default'>DOWN</button>
+				<span class='path-bar-head'>
+					<button class='btn btn-default h2o-start-button '>
+						<img src='image/bucket.png' style='width: 36px' />
+					</button>
+					<button class='btn btn-link  h2o-root-button '>ak's home</button>
+				</span>
 			</div>
 
 
-			<div>
-				<a href='#'> <img class='btn-snowflake' alt='*'
-					src='image/h2o.png' />
-				</a>
+			<div class='toolbar-visiable'>
+				<button class='btn btn-default'>Push</button>
+				<button class='btn btn-default'>Pull</button>
+				<button class='btn btn-default'>DownLoad</button>
+
+				<button class='btn btn-default close-toolbar'>-</button>
 			</div>
+
+
+			<div class='toolbar-no-visiable  hide '>
+				<button class='open-toolbar'>
+					<img class='start-btn' alt='*' src='image/h2o.png' />
+				</button>
+			</div>
+
 		</div>
 
-		<!-- div id='console'></div -->
+		<div id='console'></div>
 
-		<div id='pathBar'></div>
+		<div id='path-bar'></div>
 
-		<div id='fileList'></div>
+		<div id='file-list'></div>
 
 		<div>
-			<div class='foot'>
+			<div class='foot side-bar '>
 				<span> &gt;_&lt; ，没有了！ </span>
 			</div>
 		</div>
 
 	</div>
-
 
 	<script src="./lib/jquery/jquery.min.js"></script>
 	<script src="./lib/bootstrap/js/bootstrap.min.js"></script>
@@ -88,10 +101,12 @@
 
 	<script src="./export/h2o/js/widget.js"></script>
 	<script src="./export/h2o/js/folder.js"></script>
+	<script src="./export/h2o/js/cli.js"></script>
 	<script src="./export/h2o/js/console.js"></script>
+	<script src="./export/h2o/js/vfs.js"></script>
 
 	<script src="./js/config/base.js"></script>
-	<script src="./js/ui/working.js"></script>
+	<script src="./js/ui/working.html.js"></script>
 	<script src="./this.js"></script>
 
 
@@ -99,22 +114,18 @@
 
 
 	<script type="text/javascript">
-		var DirectoryCtrl = com.boluozhai.h2o.webui.DirectoryCtrl;
-
 		$(document).ready(function() {
 
+			var WorkingHtml = com.boluozhai.h2o.html.WorkingHtml;
 			var context = Snowflake.getContext();
-			var ctrl = new DirectoryCtrl(context);
-			ctrl.selectClient('#client');
-			ctrl.selectPathList('#pathBar');
-			ctrl.selectFileList('#fileList');
-			ctrl.selectConsole('#console');
+			var ctrl = new WorkingHtml(context);
 			ctrl.init();
-
-			ctrl.load('/');
 
 		});
 	</script>
 
 </body>
 </html>
+
+
+

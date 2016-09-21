@@ -76,6 +76,10 @@ JS.module(function(mc) {
 			return this.bind('parent', value);
 		},
 
+		head : function(value) {
+			return this.attr('head', value);
+		},
+
 	};
 
 	/***************************************************************************
@@ -131,6 +135,14 @@ JS.module(function(mc) {
 		},
 
 		onHtmlReday : function(query) {
+
+			var head = this.binder().head();
+			if (head != null) {
+				var listhead = query.find('.list-head');
+				listhead.empty();
+				listhead.append(head);
+			}
+
 			var parent = this.binder().parent();
 			var child = query;
 			parent.append(child);
