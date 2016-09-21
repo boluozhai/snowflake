@@ -42,7 +42,7 @@ public class SessionCtrl extends RestController {
 	}
 
 	private void rest_response_js(HttpServletRequest request,
-			HttpServletResponse response) throws IOException {
+			HttpServletResponse response) throws IOException, ServletException {
 
 		SessionInfoHolder holder = SessionInfoHolder.create(request);
 		SessionModel model = holder.get();
@@ -51,16 +51,17 @@ public class SessionCtrl extends RestController {
 		String json = gs.toJson(model);
 
 		StringBuilder sb = new StringBuilder();
-		sb.append("function SessionInfo() {}");
-		sb.append("SessionInfo.session_info=");
+		sb.append("this.com.boluozhai.snowflake.web.SessionInfo = ");
 		sb.append(json);
 		sb.append(';');
 
 		String enc = "utf-8";
 		byte[] ba = sb.toString().getBytes(enc);
 
-		response.setContentLength(ba.length);
+		// response.setContentLength(ba.length);
 		response.setContentType("text/javascript");
+		request.getRequestDispatcher("/js/controller/session.js").include(
+				request, response);
 		response.getOutputStream().write(ba);
 
 	}

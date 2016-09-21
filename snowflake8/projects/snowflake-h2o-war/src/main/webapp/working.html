@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<!--
+/***********************************************************************
+ * 
+ * Working.html
+ * 
+ * @Copyright (c) 2016 boluozhai.com
+ * @License MIT License
+ * @Author xukun<xukun17@sina.com>
+ * 
+ */
+-->
+
+<head>
+
+<meta charset='utf-8' />
+<title>no_title</title>
+
+<link href="./lib/bootstrap/css/bootstrap.min.css" rel="stylesheet"
+	type="text/css" />
+
+<style type="text/css">
+.head {
+	text-align: center;
+	margin-top: 30px;
+	margin-bottom: 30px;
+}
+
+.foot {
+	text-align: center;
+	margin-top: 30px;
+	margin-bottom: 30px;
+}
+
+.btn-snowflake {
+	width: 48px;
+	width: 48px;
+}
+</style>
+
+</head>
+<body>
+
+
+	<div id='client' class='container'>
+
+
+		<div class='head'>
+
+			<div>
+				<button class='btn btn-default'>UP</button>
+				<button class='btn btn-default'>DOWN</button>
+			</div>
+
+
+			<div>
+				<a href='#'> <img class='btn-snowflake' alt='*'
+					src='image/h2o.png' />
+				</a>
+			</div>
+		</div>
+
+		<!-- div id='console'></div -->
+
+		<div id='pathBar'></div>
+
+		<div id='fileList'></div>
+
+		<div>
+			<div class='foot'>
+				<span> &gt;_&lt; ，没有了！ </span>
+			</div>
+		</div>
+
+	</div>
+
+
+	<script src="./lib/jquery/jquery.min.js"></script>
+	<script src="./lib/bootstrap/js/bootstrap.min.js"></script>
+
+	<script src="./lib/snowflake/core.js"></script>
+	<script src="./lib/snowflake/context.js"></script>
+	<script src="./lib/snowflake/event.js"></script>
+	<script src="./lib/snowflake/rest.js"></script>
+	<script src="./lib/snowflake/listview.js"></script>
+
+	<script src="./export/h2o/js/widget.js"></script>
+	<script src="./export/h2o/js/folder.js"></script>
+	<script src="./export/h2o/js/console.js"></script>
+
+	<script src="./js/config/base.js"></script>
+	<script src="./js/ui/working.js"></script>
+	<script src="./this.js"></script>
+
+
+	<script src="./rest/session/current-session-info.js"></script>
+
+
+	<script type="text/javascript">
+		var DirectoryCtrl = com.boluozhai.h2o.webui.DirectoryCtrl;
+
+		$(document).ready(function() {
+
+			var context = Snowflake.getContext();
+			var ctrl = new DirectoryCtrl(context);
+			ctrl.selectClient('#client');
+			ctrl.selectPathList('#pathBar');
+			ctrl.selectFileList('#fileList');
+			ctrl.selectConsole('#console');
+			ctrl.init();
+
+			ctrl.load('/');
+
+		});
+	</script>
+
+</body>
+</html>

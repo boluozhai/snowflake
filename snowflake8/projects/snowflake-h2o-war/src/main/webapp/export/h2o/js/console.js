@@ -18,8 +18,10 @@ JS.module(function(mc) {
 	var Attributes = mc.import('js.lang.Attributes');
 	// var RESTClient = mc.import('snowflake.rest.RESTClient');
 	// var Event = mc.import('js.event.Event');
+	var FunctionAdapter = mc.import('js.event.FunctionAdapter');
 	// var EventDispatcher = mc.import('js.event.EventDispatcher');
 	var ResourceLoader = mc.import('com.boluozhai.h2o.widget.ResourceLoader');
+	var DocumentBinder = mc.import('com.boluozhai.h2o.widget.DocumentBinder');
 
 	/***************************************************************************
 	 * class Console
@@ -35,8 +37,8 @@ JS.module(function(mc) {
 
 	Console.prototype = {
 
-		currentPathURI : function(value) {
-			return this.attr('current_path_uri', value);
+		xxxxxxxx : function(value) {
+			// return this.attr('current_path_uri', value);
 		},
 
 	};
@@ -61,19 +63,40 @@ JS.module(function(mc) {
 
 	ConsoleCtrl.prototype = {
 
-		parent : function(query) {
-			return this.attr('parent_view', query);
+		binder : function() {
+			var binder = this._ui_binder;
+			if (binder == null) {
+				binder = new ConsoleUIBinder();
+				this._ui_binder = binder;
+			}
+			return binder;
 		},
 
 		init : function() {
 
 			// init view
 			var context = this._context;
+			this._parent = this.binder().console();
 			var loader = new ResourceLoader(context);
 			var self = this;
 			loader.loadHTML('~/export/h2o/html/Console.html', function(query) {
 				self.onHtmlReday(query.find('.console'));
 			});
+
+			this.setupLocationListener();
+
+		},
+
+		setupLocationListener : function() {
+
+			var self = this;
+			var li = new FunctionAdapter(function(e) {
+
+				self.updateCurrentPathView();
+
+			});
+			var cl = this.currentLocation();
+			cl.addEventHandler(li);
 
 		},
 
@@ -84,7 +107,7 @@ JS.module(function(mc) {
 		setupViewListener : function() {
 
 			var self = this;
-			var view = this.parent();
+			var view = this._parent;
 			var input = view.find('.console-input');
 			var enter = view.find('.console-enter');
 
@@ -114,6 +137,7 @@ JS.module(function(mc) {
 			var context = this._context;
 			var CLI = com.boluozhai.h2o.cli.CLI;
 			var client = CLI.getClient(context);
+			client.currentLocation(this.currentLocation());
 
 			client.execute(line, function( /* DONE */) {
 			});
@@ -122,7 +146,7 @@ JS.module(function(mc) {
 
 		onHtmlReday : function(query) {
 
-			var parent = this.parent();
+			var parent = this.binder().console();
 			var child = query;
 			parent.append(child);
 			this._jq_view = child;
@@ -134,23 +158,39 @@ JS.module(function(mc) {
 
 		},
 
-		currentPathURI : function(value) {
+		updateCurrentPathView : function() {
 
-			var context = this._context;
-			var console = Console.getInstance(context);
-			if (value == null) {
-				return console.currentPathURI();
-			} else {
-				console.currentPathURI(value);
-				this.updateCurrentPathView(value);
-				return value;
-			}
+			var cl = this.currentLocation();
+			var file = cl.location();
+			var uri = file.toFileURI();
+
+			var view = this._jq_view;
+			view.find('.current-path').text(uri);
 
 		},
 
-		updateCurrentPathView : function(newPath) {
-			var view = this._jq_view;
-			view.find('.current-path').text(newPath);
+		currentLocation : function(value) {
+			return this.attr('currentLocation', value);
+		},
+
+	};
+
+	/***************************************************************************
+	 * class ConsoleUIBinder
+	 */
+
+	function ConsoleUIBinder() {
+	}
+
+	mc.class(function(cc) {
+		cc.type(ConsoleUIBinder);
+		cc.extends(DocumentBinder);
+	});
+
+	ConsoleUIBinder.prototype = {
+
+		console : function(value) {
+			return this.bind('console', value);
 		},
 
 	};
@@ -160,7 +200,7 @@ JS.module(function(mc) {
 	 */
 
 	function ConsoleOutputStream(ctrl) {
-		var parent = ctrl.parent();
+		var parent = ctrl.binder().console();
 		this._output = parent.find('.console-output');
 		this._input = parent.find('.console-input');
 	}
@@ -185,394 +225,6 @@ JS.module(function(mc) {
 
 		reset : function() {
 			this._output.text('');
-		},
-
-	};
-
-});
-
-JS.module(function(mc) {
-
-	mc.package('com.boluozhai.h2o.cli');
-
-	var System = mc.import('js.lang.System');
-	// var ListBuilder = mc.import('snowflake.view.list.ListBuilder');
-	// var ListModel = mc.import('snowflake.view.list.ListModel');
-	var Attributes = mc.import('js.lang.Attributes');
-	var RESTClient = mc.import('snowflake.rest.RESTClient');
-	var RestEntity = mc.import('snowflake.rest.RestEntity');
-	var Console = mc.import('com.boluozhai.h2o.widget.console.Console');
-	// var Event = mc.import('js.event.Event');
-	// var EventDispatcher = mc.import('js.event.EventDispatcher');
-	// var ResourceLoader =
-	// mc.import('com.boluozhai.h2o.widget.ResourceLoader');
-
-	/***************************************************************************
-	 * class CLI
-	 */
-
-	function CLI() {
-	}
-
-	mc.class(function(cc) {
-		cc.type(CLI);
-	});
-
-	CLI.prototype = {};
-
-	CLI.getClient = function(context) {
-		var key = CLIClientFactory.class.getName();
-		var factory = context.getBean(key);
-		return factory.create(context);
-	};
-
-	CLI.getService = function(context) {
-		var key = CLIServiceFactory.class.getName();
-		var factory = context.getBean(key);
-		return factory.create(context);
-	};
-
-	/***************************************************************************
-	 * class CLIClient
-	 */
-
-	function CLIClient(context) {
-		this._context = context;
-	}
-
-	mc.class(function(cc) {
-		cc.type(CLIClient);
-		cc.extends(Attributes);
-	});
-
-	CLIClient.prototype = {
-
-		execute : function(cmd, fn) {
-
-			var pkg_cli = com.boluozhai.h2o.cli;
-			var CLI = pkg_cli.CLI;
-			var CLICommandContext = pkg_cli.CLICommandContext;
-
-			var context = this._context;
-			var service = CLI.getService(context);
-
-			// make command context
-			cmd = cmd.trim();
-			var args = this.inner_parse_arguments(cmd);
-			var name = args[0];
-			var cur_path = this.inner_get_current_path_uri(context);
-
-			var cmd_context = new CLICommandContext();
-			cmd_context.command(cmd);
-			cmd_context.context(context);
-			cmd_context.arguments(args);
-			cmd_context.currentPathURI(cur_path);
-			cmd_context.callback(function() {
-				if (fn != null) {
-					fn();
-				}
-			});
-
-			// execute
-			var handler = service.getHandler(name);
-			handler.process(cmd_context);
-
-		},
-
-		currentPathURI : function(value) {
-			return this.attr('current_path_uri', value);
-		},
-
-		inner_get_current_path_uri : function(context) {
-			var console = Console.getInstance(context);
-			return console.currentPathURI();
-		},
-
-		inner_parse_arguments : function(cmd) {
-			var array = cmd.split(' ');
-			var args = [];
-			for ( var i in array) {
-				var s = array[i];
-				if (s.length > 0) {
-					args.push(s);
-				}
-			}
-			if (args.length == 0) {
-				args.push('');
-			}
-			return args;
-		},
-
-	};
-
-	/***************************************************************************
-	 * class CLIClientFactory
-	 */
-
-	function CLIClientFactory() {
-	}
-
-	mc.class(function(cc) {
-		cc.type(CLIClientFactory);
-	});
-
-	CLIClientFactory.prototype = {
-
-		create : function(context) {
-			return new CLIClient(context);
-		},
-
-	};
-
-	/***************************************************************************
-	 * class CLIService
-	 */
-
-	function CLIService() {
-		this._handlers = {};
-		this._default_handler = null;
-	}
-
-	mc.class(function(cc) {
-		cc.type(CLIService);
-	});
-
-	CLIService.prototype = {
-
-		getHandler : function(name) {
-			var h = this._handlers[name];
-			if (h == null) {
-				h = this._default_handler;
-			}
-			if (h == null) {
-				var msg = 'Cannot find handler for command:' + name;
-				throw new RuntimeException(msg);
-			}
-			return h;
-		},
-
-		setHandler : function(name, handler) {
-			this._handlers[name] = handler;
-		},
-
-		setDefaultHandler : function(handler) {
-			this._default_handler = handler;
-		},
-
-	};
-
-	/***************************************************************************
-	 * class CLIServiceFactory
-	 */
-
-	function CLIServiceFactory() {
-	}
-
-	mc.class(function(cc) {
-		cc.type(CLIServiceFactory);
-	});
-
-	var CLIServiceFactory_inst = null;
-
-	CLIServiceFactory.prototype = {
-
-		create : function(context) {
-			var inst = CLIServiceFactory_inst;
-			if (inst == null) {
-				inst = new CLIService(context);
-				this.inner_init_service(inst);
-				CLIServiceFactory_inst = inst;
-			}
-			return inst;
-		},
-
-		inner_init_service : function(service) {
-
-			service.setDefaultHandler(new RestCommandHandler());
-			service.setHandler('clear', new CmdClearHandler());
-			service.setHandler('cd', new CmdCdHandler());
-			service.setHandler('', new CmdNilHandler());
-
-		},
-
-	};
-
-	/***************************************************************************
-	 * class CLIHandler
-	 */
-
-	function CLIHandler() {
-	}
-
-	mc.class(function(cc) {
-		cc.type(CLIHandler);
-	});
-
-	CLIHandler.prototype = {
-
-		process : function(cmd_context) {
-
-		},
-
-	};
-
-	/***************************************************************************
-	 * class RestCommandHandler
-	 */
-
-	function RestCommandHandler() {
-	}
-
-	mc.class(function(cc) {
-		cc.type(RestCommandHandler);
-		cc.extends(CLIHandler);
-	});
-
-	RestCommandHandler.prototype = {
-
-		process : function(cmd_context) {
-
-			var context = cmd_context.context();
-			var args = cmd_context.arguments();
-			var cmd_line = cmd_context.command();
-			var cur_path = cmd_context.currentPathURI();
-
-			var client = RESTClient.getInstance(context);
-			var app = client.getApplication();
-			var api = app.getAPI('rest');
-			var type = api.getType('command');
-			var res = type.getResource(args[0]);
-			var request = res.post();
-
-			var req_entity = new RestEntity();
-			req_entity.json({
-				argument : {
-					command : cmd_line,
-					pathURI : cur_path,
-				}
-			});
-
-			request.entity(req_entity);
-			request.execute(function(response) {
-
-				var code = response.code();
-
-				if (response.ok()) {
-					var res_entity = response.entity();
-					var js = res_entity.toJSON();
-					var msg = js.result.message;
-					System.out.println(msg);
-
-				} else if (code == 500) {
-					var res_entity = response.entity();
-					var msg = res_entity.toString();
-					System.out.println('Error: ' + msg);
-
-				} else {
-					var msg = 'HTTP ' + code + ' ';
-					msg += response.message();
-					System.out.println('Error: ' + msg);
-				}
-
-			});
-
-		},
-
-	};
-
-	/***************************************************************************
-	 * class CmdNilHandler
-	 */
-
-	function CmdNilHandler() {
-	}
-
-	mc.class(function(cc) {
-		cc.type(CmdNilHandler);
-		cc.extends(CLIHandler);
-	});
-
-	CmdNilHandler.prototype = {
-
-		process : function(cmd_context) {
-			// NOP
-		},
-
-	};
-
-	/***************************************************************************
-	 * class CmdCdHandler
-	 */
-
-	function CmdCdHandler() {
-	}
-
-	mc.class(function(cc) {
-		cc.type(CmdCdHandler);
-		cc.extends(CLIHandler);
-	});
-
-	CmdCdHandler.prototype = {
-
-		process : function(cmd_context) {
-			// NOP
-			System.out.println('not implements');
-		},
-
-	};
-
-	/***************************************************************************
-	 * class CmdClearHandler
-	 */
-
-	function CmdClearHandler() {
-	}
-
-	mc.class(function(cc) {
-		cc.type(CmdClearHandler);
-		cc.extends(CLIHandler);
-	});
-
-	CmdClearHandler.prototype = {
-
-		process : function(cmd_context) {
-			System.out.reset();
-		},
-
-	};
-
-	/***************************************************************************
-	 * class CLICommandContext
-	 */
-
-	function CLICommandContext() {
-	}
-
-	mc.class(function(cc) {
-		cc.type(CLICommandContext);
-		cc.extends(Attributes);
-	});
-
-	CLICommandContext.prototype = {
-
-		command : function(value) {
-			return this.attr('command', value);
-		},
-
-		arguments : function(value) {
-			return this.attr('arguments', value);
-		},
-
-		context : function(value) {
-			return this.attr('context', value);
-		},
-
-		callback : function(value) {
-			return this.attr('callback', value);
-		},
-
-		currentPathURI : function(value) {
-			return this.attr('current_path_uri', value);
 		},
 
 	};

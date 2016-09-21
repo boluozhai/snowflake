@@ -13,10 +13,7 @@ JS.module(function(mc) {
 	mc.package('com.boluozhai.h2o.widget');
 
 	var System = mc.import('js.lang.System');
-	var ListBuilder = mc.import('snowflake.view.list.ListBuilder');
-	var ListModel = mc.import('snowflake.view.list.ListModel');
 	var Attributes = mc.import('js.lang.Attributes');
-	var RESTClient = mc.import('snowflake.rest.RESTClient');
 	var Event = mc.import('js.event.Event');
 	var EventDispatcher = mc.import('js.event.EventDispatcher');
 
@@ -61,6 +58,104 @@ JS.module(function(mc) {
 			};
 			xhr.send();
 
+		},
+
+	};
+
+	/***************************************************************************
+	 * class DomBinding
+	 */
+
+	function DomBinding(binder, name) {
+		this._binder = binder;
+		this._name = name;
+		this._value = null;
+	}
+
+	mc.class(function(cc) {
+		cc.type(DomBinding);
+	});
+
+	DomBinding.prototype = {
+
+		bind : function(value) {
+			if (value == null) {
+				value = this._value;
+			} else {
+				var dom = this._binder.document();
+				value = DocumentBinder_get_required_query(dom, value);
+				this._value = value;
+			}
+			return value;
+		},
+
+		name : function() {
+			return this._name;
+		},
+
+	};
+
+	/***************************************************************************
+	 * class DocumentBinder
+	 */
+
+	function DocumentBinder() {
+	}
+
+	mc.class(function(cc) {
+		cc.type(DocumentBinder);
+		cc.extends(Attributes);
+	});
+
+	function DocumentBinder_get_required_query(dom, query_or_sel) {
+
+		if (dom == null) {
+			dom = $(document);
+		}
+
+		var query = null;
+		var con = query_or_sel.context;
+		if (con == null) {
+			query = dom.find(query_or_sel);
+		} else {
+			query = query_or_sel;
+		}
+
+		if (query.length < 1) {
+			var msg = 'cannot find query: ' + query_or_sel;
+			throw new SnowflakeException(msg);
+		}
+
+		return query;
+	}
+
+	DocumentBinder.prototype = {
+
+		bind : function(key, value) {
+			var table = this.bindingTable();
+			var binding = table[key];
+			if (binding == null) {
+				binding = new DomBinding(this, key);
+				table[key] = binding;
+			}
+			return binding.bind(value);
+		},
+
+		bindingTable : function() {
+			var table = this._table;
+			if (table == null) {
+				table = {};
+				this._table = table;
+			}
+			return table;
+		},
+
+		document : function(value) {
+			return this.attr('document', value);
+		},
+
+		example : function(value) {
+			return this.bind('example', value);
 		},
 
 	};

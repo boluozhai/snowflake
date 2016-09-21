@@ -4,7 +4,7 @@
 <!--
 /***********************************************************************
  * 
- * Working.html
+ * console.html
  * 
  * @Copyright (c) 2016 boluozhai.com
  * @License MIT License
@@ -16,16 +16,29 @@
 <head>
 
 <meta charset='utf-8' />
-<title>no_title</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>Console</title>
 
 <link href="./lib/bootstrap/css/bootstrap.min.css" rel="stylesheet"
 	type="text/css" />
 
+<link href="./export/h2o/css/console.css" rel="stylesheet"
+	type="text/css" />
+
+
 </head>
 <body>
 
-	<div>
-		<h2>snow-web-resource</h2>
+	<div id='client' class='container'>
+
+		<!-- h2>Console</h2 -->
+
+
+		<div style='margin-top: 30px'></div>
+
+		<div id='console'></div>
+
 	</div>
 
 	<script src="./lib/jquery/jquery.min.js"></script>
@@ -35,32 +48,27 @@
 	<script src="./lib/snowflake/context.js"></script>
 	<script src="./lib/snowflake/event.js"></script>
 	<script src="./lib/snowflake/rest.js"></script>
-	<script src="./lib/snowflake/listview.js"></script>
 
+	<script src="./export/h2o/js/vfs.js"></script>
 	<script src="./export/h2o/js/widget.js"></script>
-	<script src="./export/h2o/js/folder.js"></script>
 	<script src="./export/h2o/js/console.js"></script>
+	<script src="./export/h2o/js/cli.js"></script>
 
-	<script src="./js/config.js"></script>
+	<script src="./js/config/base.js"></script>
+	<script src="./js/ui/console.html.js"></script>
 	<script src="./this.js"></script>
-	<script src="./rest/session/session-info.js"></script>
+
+
+	<script src="./rest/session/current-session-info.js"></script>
 
 
 	<script type="text/javascript">
 		$(document).ready(function() {
 
+			var ConsoleHtml = com.boluozhai.h2o.html.ConsoleHtml;
 			var context = Snowflake.getContext();
-			var session_info = SessionInfo.session_info;
-
-			var str = JSON.stringify(session_info, null, 4);
-			alert(str);
-
-			if (session_info.session.login) {
-				// ok
-			} else {
-				//jump
-				window.location = 'Login.html';
-			}
+			var ctrl = new ConsoleHtml(context);
+			ctrl.init();
 
 		});
 	</script>
