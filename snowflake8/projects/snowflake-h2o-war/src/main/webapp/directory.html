@@ -4,7 +4,7 @@
 <!--
 /***********************************************************************
  * 
- * Directory.html
+ * directory.html
  * 
  * @Copyright (c) 2016 boluozhai.com
  * @License MIT License
@@ -37,9 +37,9 @@
 
 		<div id='console'></div>
 
-		<div id='pathBar'></div>
+		<div id='path-bar'></div>
 
-		<div id='fileList'></div>
+		<div id='file-list'></div>
 
 
 	</div>
@@ -55,10 +55,12 @@
 
 	<script src="./export/h2o/js/widget.js"></script>
 	<script src="./export/h2o/js/folder.js"></script>
+	<script src="./export/h2o/js/cli.js"></script>
 	<script src="./export/h2o/js/console.js"></script>
+	<script src="./export/h2o/js/vfs.js"></script>
 
-	<script src="./js/config.js"></script>
-	<script src="./js/Directory.js"></script>
+	<script src="./js/config/base.js"></script>
+	<script src="./js/ui/directory.html.js"></script>
 	<script src="./this.js"></script>
 
 
@@ -66,19 +68,12 @@
 
 
 	<script type="text/javascript">
-		var DirectoryCtrl = com.boluozhai.h2o.webui.DirectoryCtrl;
-
 		$(document).ready(function() {
 
+			var DriectoryHtml = com.boluozhai.h2o.html.DirectoryHtml;
 			var context = Snowflake.getContext();
-			var ctrl = new DirectoryCtrl(context);
-			ctrl.selectClient('#client');
-			ctrl.selectPathList('#pathBar');
-			ctrl.selectFileList('#fileList');
-			ctrl.selectConsole('#console');
+			var ctrl = new DriectoryHtml(context);
 			ctrl.init();
-
-			ctrl.load('/');
 
 		});
 	</script>

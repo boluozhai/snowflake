@@ -587,6 +587,14 @@ JS.module(function(mc) {
 
 		},
 
+		vfs : function() {
+			return this._vfs;
+		},
+
+		inner_vfs : function() {
+			return this._in_vfs;
+		},
+
 	};
 
 	/***************************************************************************

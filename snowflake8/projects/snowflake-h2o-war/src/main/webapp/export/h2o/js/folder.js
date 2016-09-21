@@ -18,22 +18,32 @@ JS.module(function(mc) {
 	var Attributes = mc.import('js.lang.Attributes');
 	var RESTClient = mc.import('snowflake.rest.RESTClient');
 	var Event = mc.import('js.event.Event');
+	var FunctionAdapter = mc.import('js.event.FunctionAdapter');
 	var EventDispatcher = mc.import('js.event.EventDispatcher');
 	var ResourceLoader = mc.import('com.boluozhai.h2o.widget.ResourceLoader');
+	var DocumentBinder = mc.import('com.boluozhai.h2o.widget.DocumentBinder');
 
 	/***************************************************************************
 	 * class PathBarModel
 	 */
 
-	function PathBarModel(dir_data_model) {
-		this._array = [];
-		this._dir_data_model = dir_data_model;
-		dir_data_model.addEventHandler(this);
+	function PathBarModel(current_loc) {
+
+		var array = [];
+		var file = current_loc.location();
+		var p = file;
+		for (; p != null; p = p.getParentFile()) {
+			array.push(p);
+		}
+		array.pop();
+		array = array.reverse();
+
+		this._array = array;
 	}
 
 	mc.class(function(cc) {
 		cc.type(PathBarModel);
-		cc.extends(EventDispatcher);
+		// cc.extends( );
 	});
 
 	PathBarModel.prototype = {
@@ -46,22 +56,24 @@ JS.module(function(mc) {
 			return this._array[index];
 		},
 
-		onEvent : function(event) {
-			this.update();
-		},
+	};
 
-		update : function() {
+	/***************************************************************************
+	 * class PathBarBinder
+	 */
 
-			var data = this._dir_data_model;
-			this._array = data.pathElements();
+	function PathBarBinder() {
+	}
 
-			this.fire();
-		},
+	mc.class(function(cc) {
+		cc.type(PathBarBinder);
+		cc.extends(DocumentBinder);
+	});
 
-		fire : function() {
-			var e = new Event();
-			e.message('changed');
-			this.dispatchEvent(e, this);
+	PathBarBinder.prototype = {
+
+		parent : function(value) {
+			return this.bind('parent', value);
 		},
 
 	};
@@ -125,6 +137,7 @@ JS.module(function(mc) {
 
 	function PathBarCtrl(context) {
 		this._context = context;
+		this._binder = new PathBarBinder();
 	}
 
 	mc.class(function(cc) {
@@ -138,7 +151,6 @@ JS.module(function(mc) {
 
 			// init model
 			var model = this.createListModel();
-			model.addEventHandler(this);
 			this.model(model);
 
 			// init view
@@ -150,40 +162,33 @@ JS.module(function(mc) {
 			});
 
 			// init event handler
-			var h = this.eventHandler();
-			if (h == null) {
-				h = new PathBarEventHandler();
-				this.eventHandler(h);
-			}
+			this.setupDataListener();
 
 		},
 
-		parent : function(query) {
-			return this.attr('parent_view', query);
+		setupDataListener : function() {
+			var self = this;
+			var li = new FunctionAdapter(function() {
+				self.updateView();
+			});
+			var cl = this.currentLocation();
+			cl.addEventHandler(li);
 		},
 
-		dataSource : function(value) {
-			return this.attr('data_src', value);
+		binder : function() {
+			return this._binder;
+		},
+
+		currentLocation : function(value) {
+			return this.attr('current_location', value);
 		},
 
 		onHtmlReday : function(query) {
-			var parent = this.parent();
+			var parent = this.binder().parent();
 			var child = query;
 			parent.append(child);
 			this._jq_view = child;
 			this.setupListCtrl();
-		},
-
-		open : function(name, index) {
-			var ds_ctrl = this.dataSource();
-			var ds_model = ds_ctrl.model();
-			var array = ds_model.pathElements();
-			var offset = [];
-			for (var i = 0; i <= index; i++) {
-				var s = array[i];
-				offset.push(s);
-			}
-			ds_ctrl.load(null, offset);
 		},
 
 		setupListCtrl : function() {
@@ -217,7 +222,8 @@ JS.module(function(mc) {
 				});
 			}).onUpdate(function(item) {
 				var view = item.view();
-				var data = item.data();
+				var file = item.data();
+				var data = file.getName();
 				view.find('button.btn').text(data);
 			});
 
@@ -225,21 +231,19 @@ JS.module(function(mc) {
 		},
 
 		createListModel : function() {
-			var src = this.dataSource();
-			var data_model = src.model();
-			return new PathBarModel(data_model);
+			var cl = this.currentLocation();
+			return new PathBarModel(cl);
 		},
 
 		model : function(value) {
 			return this.attr('model', value);
 		},
 
-		onEvent : function(event) {
-			this.updateView();
-		},
-
 		updateView : function() {
-			var model = this.model();
+
+			var model = this.createListModel();
+			this.model(model);
+
 			var c2 = this._list_ctrl;
 			c2.model(model);
 			c2.update();
@@ -251,17 +255,16 @@ JS.module(function(mc) {
 		},
 
 		fireOnClickItem : function(item) {
-			var event = new PathBarEvent();
-			event.source(this);
-			event.item(item);
-			event.message('on_click_item');
-			var h = this.eventHandler();
-			h.onEvent(event);
+			var file = item.data();
+			var cl = this.currentLocation();
+			cl.location(file);
 		},
 
 		fireOnClickRoot : function(item) {
-			var ds_ctrl = this.dataSource();
-			ds_ctrl.load(null, null);
+			var cl = this.currentLocation();
+			var file = cl.location();
+			var vfs = file.vfs();
+			cl.location(vfs.root());
 		},
 
 	};
@@ -390,11 +393,32 @@ JS.module(function(mc) {
 	};
 
 	/***************************************************************************
+	 * class FileListBinder
+	 */
+
+	function FileListBinder() {
+	}
+
+	mc.class(function(cc) {
+		cc.type(FileListBinder);
+		cc.extends(DocumentBinder);
+	});
+
+	FileListBinder.prototype = {
+
+		parent : function(value) {
+			return this.bind('parent', value);
+		},
+
+	};
+
+	/***************************************************************************
 	 * class FileListCtrl
 	 */
 
 	function FileListCtrl(context) {
 		this._context = context;
+		this._binder = new FileListBinder();
 	}
 
 	mc.class(function(cc) {
@@ -441,12 +465,12 @@ JS.module(function(mc) {
 
 		},
 
-		parent : function(query) {
-			return this.attr('parent_view', query);
+		binder : function() {
+			return this._binder;
 		},
 
-		dataSource : function(value) {
-			return this.attr('data_src', value);
+		currentLocation : function(value) {
+			return this.attr('current_location', value);
 		},
 
 		onHtmlReday : function(query) {

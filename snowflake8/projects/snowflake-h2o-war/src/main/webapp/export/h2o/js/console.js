@@ -76,7 +76,7 @@ JS.module(function(mc) {
 
 			// init view
 			var context = this._context;
-			this._parent = this.binder().console();
+			this._parent = this.binder().parent();
 			var loader = new ResourceLoader(context);
 			var self = this;
 			loader.loadHTML('~/export/h2o/html/Console.html', function(query) {
@@ -146,7 +146,7 @@ JS.module(function(mc) {
 
 		onHtmlReday : function(query) {
 
-			var parent = this.binder().console();
+			var parent = this.binder().parent();
 			var child = query;
 			parent.append(child);
 			this._jq_view = child;
@@ -189,8 +189,8 @@ JS.module(function(mc) {
 
 	ConsoleUIBinder.prototype = {
 
-		console : function(value) {
-			return this.bind('console', value);
+		parent : function(value) {
+			return this.bind('parent', value);
 		},
 
 	};
@@ -200,7 +200,7 @@ JS.module(function(mc) {
 	 */
 
 	function ConsoleOutputStream(ctrl) {
-		var parent = ctrl.binder().console();
+		var parent = ctrl.binder().parent();
 		this._output = parent.find('.console-output');
 		this._input = parent.find('.console-input');
 	}

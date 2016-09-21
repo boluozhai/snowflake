@@ -18,7 +18,6 @@ JS.module(function(mc) {
 
 	var vfs_x = 'com.boluozhai.snowflake.vfs';
 	var CurrentLocation = mc.import(vfs_x + '.CurrentLocation');
-	// var CurrentLocationLoader = mc.import(vfs_x + '.CurrentLocationLoader');
 	var VFSFactory = mc.import(vfs_x + '.VFSFactory');
 
 	var widget_x = 'com.boluozhai.h2o.widget';
