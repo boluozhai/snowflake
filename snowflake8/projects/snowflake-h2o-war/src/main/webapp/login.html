@@ -79,7 +79,7 @@
 
 
 		<div class='to-reg'>
-			<span>还没有帐号?</span> <a href='Register.html'>注个册先！</a>
+			<span>还没有帐号?</span> <a href='register.html'>注个册先！</a>
 		</div>
 
 	</div>
@@ -92,15 +92,13 @@
 	<script src="./lib/snowflake/context.js"></script>
 	<script src="./lib/snowflake/event.js"></script>
 	<script src="./lib/snowflake/rest.js"></script>
-	<script src="./lib/snowflake/listview.js"></script>
 	<script src="./lib/snowflake/sha1.js"></script>
 
 	<script src="./export/h2o/js/widget.js"></script>
-	<script src="./export/h2o/js/folder.js"></script>
-	<script src="./export/h2o/js/console.js"></script>
+	<script src="./js/controller/auth.js"></script>
 
-	<script src="./js/config.js"></script>
-	<script src="./js/Auth.js"></script>
+	<script src="./js/config/base.js"></script>
+	<script src="./js/config/final.js"></script>
 	<script src="./this.js"></script>
 
 	<script type="text/javascript">
@@ -167,7 +165,7 @@
 		}
 
 		function onLoginOK(task) {
-			window.location = 'Working.html';
+			window.location = 'working.html';
 		}
 
 		function onLoginError(task) {

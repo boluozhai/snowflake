@@ -32,6 +32,8 @@ JS.module(function(mc) {
 	var CurrentLocation = mc.import(vfs_x + '.CurrentLocation');
 	var VFSFactory = mc.import(vfs_x + '.VFSFactory');
 
+	var ViewportInfo = mc.import('com.boluozhai.snowflake.web.ViewportInfo');
+
 	/***************************************************************************
 	 * class WorkingHtml
 	 */
@@ -87,7 +89,7 @@ JS.module(function(mc) {
 
 			// vfs
 			var vfs_factory = new VFSFactory();
-			vfs_factory.httpURI('~/rest/file/home/');
+			vfs_factory.httpURI(this.genWorkingBaseHttpURI());
 			var vfs = vfs_factory.create(context);
 			vfs.ready(function() {
 				var root = vfs.root();
@@ -96,6 +98,19 @@ JS.module(function(mc) {
 
 			this.setupMagicButton(null);
 
+		},
+
+		genWorkingBaseHttpURI : function() {
+
+			var temp = '~/rest/working/{user}/{repo}/';
+			var info = new ViewportInfo();
+			var user = info.owner();
+			var repo = info.repository();
+
+			temp = temp.replace('{user}', user);
+			temp = temp.replace('{repo}', repo);
+
+			return temp;
 		},
 
 		setupMagicButton : function(item) {
@@ -109,7 +124,7 @@ JS.module(function(mc) {
 
 			} else {
 
-				var speed = 50;
+				var speed = 200;
 
 				var base = item.view();
 				var btn = base.find('.btn-h2o-magic');

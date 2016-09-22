@@ -51,7 +51,7 @@ public class SessionCtrl extends RestController {
 		String json = gs.toJson(model);
 
 		StringBuilder sb = new StringBuilder();
-		sb.append("this.com.boluozhai.snowflake.web.SessionInfo = ");
+		sb.append("this.com.boluozhai.snowflake.web.SessionInfo.data = ");
 		sb.append(json);
 		sb.append(';');
 

@@ -30,6 +30,7 @@ JS.module(function(mc) {
 
 	function SessionInfo(context) {
 		this._context = context;
+		this.session = SessionInfo.data.session;
 	}
 
 	mc.class(function(cc) {
@@ -38,6 +39,22 @@ JS.module(function(mc) {
 	});
 
 	SessionInfo.prototype = {
+
+		signed : function() {
+			return this.session.login;
+		},
+
+		nickname : function() {
+			return this.session.nickname;
+		},
+
+		avatarURL : function() {
+			return this.session.avatar;
+		},
+
+		startupTime : function() {
+			return this.session.loginTimestamp;
+		},
 
 	};
 

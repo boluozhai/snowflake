@@ -1,6 +1,6 @@
 /*******************************************************************************
  * 
- * header.js
+ * head.js
  * 
  * @Copyright (c) 2016 boluozhai.com
  * @License MIT License
@@ -25,6 +25,8 @@ JS.module(function(mc) {
 	// var ConsoleCtrl = mc.import(widget_x + '.console.ConsoleCtrl');
 	var DocumentBinder = mc.import('com.boluozhai.h2o.widget.DocumentBinder');
 	var ResourceLoader = mc.import('com.boluozhai.h2o.widget.ResourceLoader');
+
+	var SessionInfo = mc.import('com.boluozhai.snowflake.web.SessionInfo');
 
 	/***************************************************************************
 	 * class HeadCtrl
@@ -67,27 +69,53 @@ JS.module(function(mc) {
 			parent.append(child);
 			// this._jq_view = child;
 
-			// this.setupViewListener();
+			this.setupAuthButton(child);
 			this.setupAccountInfo();
+
+		},
+
+		setupAuthButton : function(base) {
+
+			var context = this._context;
+
+			function nav2(url) {
+				url = context.normalizeURL(url);
+				window.location = url;
+			}
+
+			// var base = this.binder().parent();
+			var login = base.find('.btn-auth-login');
+			var reg = base.find('.btn-auth-reg');
+
+			login.click(function() {
+				nav2("~/login.html");
+			});
+
+			reg.click(function() {
+				nav2("~/register.html");
+			});
 
 		},
 
 		setupAccountInfo : function() {
 
-			var signed = true;
-			var nickname = 'ak';
+			var info = new SessionInfo();
+			var signed = info.signed();
+			var nickname = info.nickname();
 
 			var base = this.binder().parent();
+			var view_login = base.find('.view-if-login');
+			var view_login_not = base.find('.view-if-login-not');
 
-			if (signed) {
-				// base.find('.account-info-not').hide();
-				// base.find('.account-info').show();
+			if (info.signed()) {
+				view_login_not.hide();
+				view_login.show();
 			} else {
-				// base.find('.account-info').hide();
-				// base.find('.account-info-not').show();
+				view_login.hide();
+				view_login_not.show();
 			}
 
-			base.find('.string-account-nickname').text(nickname);
+			base.find('.account-nickname').text(nickname);
 
 		},
 

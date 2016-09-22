@@ -1,17 +1,22 @@
-var __beans__ = {
+/*******************************************************************************
+ * 
+ * js/config/base.js
+ * 
+ */
+
+function __config__() {
+}
+
+__config__.base = {
 
 	'snowflake.rest.RESTClientFactory' : 'snowflake.rest.RESTClientFactory',
-
-	'com.boluozhai.h2o.cli.CLIClientFactory' : 'com.boluozhai.h2o.cli.CLIClientFactory',
-	'com.boluozhai.h2o.cli.CLIServiceFactory' : 'com.boluozhai.h2o.cli.CLIServiceFactory',
-
-	'com.boluozhai.h2o.widget.console.Console' : 'com.boluozhai.h2o.widget.console.Console',
 
 };
 
 snowflake.web.WebContextUtils.init(function(factory) {
 
-	factory.beans(__beans__);
+	factory.beans(__config__.base);
+
 	factory.onCreate(function(context) {
 
 		// var bean1 = context.getBean('id1');
@@ -19,11 +24,5 @@ snowflake.web.WebContextUtils.init(function(factory) {
 		// bean1.equals(bean2);
 
 	});
-
-	Snowflake.getContext = function() {
-
-		return snowflake.context.Context.getInstance();
-
-	};
 
 });
