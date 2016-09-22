@@ -123,6 +123,27 @@ JS.module(function(mc) {
 
 	};
 
+	/***************************************************************************
+	 * class FunctionAdapter
+	 */
+
+	function FunctionAdapter(fn) {
+		this._fn = fn;
+	}
+
+	mc.class(function(cc) {
+		cc.type(FunctionAdapter);
+		cc.extends(EventHandler);
+	});
+
+	FunctionAdapter.prototype = {
+
+		onEvent : function(event) {
+			this._fn(event);
+		},
+
+	};
+
 });
 
 /*******************************************************************************

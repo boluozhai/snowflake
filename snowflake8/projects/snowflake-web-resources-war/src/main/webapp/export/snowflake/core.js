@@ -477,8 +477,8 @@ JS.module(function(_mc_) {
 
 });
 
-this.Object = this.js.lang.Object;
-this.Class = this.js.lang.Class;
+// this.Object = this.js.lang.Object;
+// this.Class = this.js.lang.Class;
 
 JS.module(function(_mc_) {
 

@@ -128,11 +128,7 @@ JS.module(function(mc) {
 	 */
 
 	function FunctionAdapter(fn) {
-		if (fn == null) {
-			fn = function() {
-			};
-		}
-		this.fn = fn;
+		this._fn = fn;
 	}
 
 	mc.class(function(cc) {
@@ -143,7 +139,7 @@ JS.module(function(mc) {
 	FunctionAdapter.prototype = {
 
 		onEvent : function(event) {
-			this.fn(event);
+			this._fn(event);
 		},
 
 	};

@@ -12,6 +12,8 @@ JS.module(function(mc) {
 
 	mc.package('snowflake.context');
 
+	var Object = mc.import('js.lang.Object');
+	var Class = mc.import('js.lang.Class');
 	var RuntimeException = mc.import('js.lang.RuntimeException');
 
 	var singleton = {

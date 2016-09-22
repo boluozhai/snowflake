@@ -80,6 +80,10 @@ JS.module(function(mc) {
 			return this.attr('head', value);
 		},
 
+		onCreateHead : function(fn /* (list_item) */) {
+			return this.attr('onCreateHead', fn);
+		},
+
 	};
 
 	/***************************************************************************
@@ -156,6 +160,7 @@ JS.module(function(mc) {
 			var model = this.model();
 			var view = this._jq_view.find('.list');
 			var builder = new ListBuilder();
+			var binder = this.binder();
 
 			builder.view(view);
 			builder.model(model);
@@ -167,9 +172,15 @@ JS.module(function(mc) {
 
 			builder.addHead('.list-head').onCreate(function(item) {
 				var view = item.view();
-				view.find('.btn').click(function() {
+				view.find('.btn-root-path').click(function() {
 					self.fireOnClickRoot(item);
 				});
+
+				var fn = binder.onCreateHead();
+				if (fn != null) {
+					fn(item);
+				}
+
 			}).onUpdate(function(item) {
 				// NOP
 			});

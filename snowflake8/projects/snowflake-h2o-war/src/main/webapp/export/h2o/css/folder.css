@@ -1,8 +1,12 @@
-.f_name {
-	--display: inline-block;
+.f_name { -
+	-display: inline-block;
 	float: left;
 	margin-left: 20px;
 	margin-top: 8px;
+}
+
+.field_xxx {
+	margin-top: 18px;
 }
 
 .f_icon {

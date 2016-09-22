@@ -27,6 +27,7 @@
 	type="text/css" />
 <link href="./export/h2o/css/folder.css" rel="stylesheet"
 	type="text/css" />
+<link href="./css/working.css" rel="stylesheet" type="text/css" />
 
 <style type="text/css">
 .side-bar {
@@ -39,7 +40,12 @@
 	width: 32px;
 	height: 32px;
 }
+
+body {
+	margin-top: 20px;
+}
 </style>
+
 
 
 </head>
@@ -47,50 +53,38 @@
 
 	<div id='client' class='container'>
 
-		<div class='head side-bar '>
-
-			<div>
-				<span class='path-bar-head'>
-					<button class='btn btn-default h2o-start-button '>
-						<img src='image/bucket.png' style='width: 36px' />
-					</button>
-					<button class='btn btn-link  h2o-root-button '>ak's home</button>
-				</span>
-			</div>
-
-
-			<div class='toolbar-visiable'>
-				<button class='btn btn-default'>Push</button>
-				<button class='btn btn-default'>Pull</button>
-				<button class='btn btn-default'>DownLoad</button>
-
-				<button class='btn btn-default close-toolbar'>-</button>
-			</div>
-
-
-			<div class='toolbar-no-visiable  hide '>
-				<button class='open-toolbar'>
-					<img class='start-btn' alt='*' src='image/h2o.png' />
-				</button>
-			</div>
-
-		</div>
-
-		<div id='console'></div>
+		<div id='page-head'></div>
 
 		<div id='path-bar'></div>
 
 		<div id='file-list'></div>
 
-		<div>
-			<div class='foot side-bar '>
+		<div class='page-foot side-bar '>
+			<div>
 				<span> &gt;_&lt; ，没有了！ </span>
 			</div>
 		</div>
 
 	</div>
 
-	<script src="./lib/jquery/jquery.min.js"></script>
+
+	<div class=' addition-widget  hide '>
+
+		<div class='hide'>
+			<span class='path-bar-head'>
+				<button class='btn btn-primary  btn-h2o-magic '>
+					<img class='hide' src='image/bucket.png' style='width: 36px' /> <span
+						class='mark-h2o-plus'>+</span> <span>Magic</span>
+				</button>
+				<button class='btn btn-link  h2o-root-button  btn-root-path '>ak's
+					home</button>
+			</span>
+		</div>
+
+	</div>
+
+
+	<script src="./lib/jquery/jquery-1.11.2.js"></script>
 	<script src="./lib/bootstrap/js/bootstrap.min.js"></script>
 
 	<script src="./lib/snowflake/core.js"></script>
@@ -104,6 +98,7 @@
 	<script src="./export/h2o/js/cli.js"></script>
 	<script src="./export/h2o/js/console.js"></script>
 	<script src="./export/h2o/js/vfs.js"></script>
+	<script src="./export/h2o/js/head.js"></script>
 
 	<script src="./js/config/base.js"></script>
 	<script src="./js/ui/working.html.js"></script>
