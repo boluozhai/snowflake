@@ -13,6 +13,7 @@ import com.boluozhai.snowflake.datatable.DataClientFactory;
 import com.boluozhai.snowflake.datatable.DataLine;
 import com.boluozhai.snowflake.datatable.DataSource;
 import com.boluozhai.snowflake.datatable.DataTableDriver;
+import com.boluozhai.snowflake.datatable.Transaction;
 import com.boluozhai.snowflake.datatable.mapping.TypeMapping;
 import com.boluozhai.snowflake.datatable.mapping.TypeMappingFactory;
 import com.boluozhai.snowflake.datatable.support.DefaultTypeMappingFactory;
@@ -165,6 +166,11 @@ final class DefaultDriverImpl implements DataTableDriver {
 			String prefix = String.format("%s/datatable/",
 					XGitContext.component.private_refs);
 			return this.private_refs.list(prefix);
+		}
+
+		@Override
+		public Transaction beginTransaction() {
+			return new TransactionImpl();
 		}
 
 	}

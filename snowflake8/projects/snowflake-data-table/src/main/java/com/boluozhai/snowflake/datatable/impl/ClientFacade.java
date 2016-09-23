@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import com.boluozhai.snowflake.datatable.DataClient;
 import com.boluozhai.snowflake.datatable.DataLine;
+import com.boluozhai.snowflake.datatable.Transaction;
 
 public class ClientFacade implements DataClient {
 
@@ -27,6 +28,11 @@ public class ClientFacade implements DataClient {
 
 	public void close() throws IOException {
 		inner.close();
+	}
+
+	@Override
+	public Transaction beginTransaction() {
+		return inner.beginTransaction();
 	}
 
 }

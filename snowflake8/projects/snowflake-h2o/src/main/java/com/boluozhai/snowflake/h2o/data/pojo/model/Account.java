@@ -1,20 +1,11 @@
-package com.boluozhai.snowflake.h2o.data.pojo;
+package com.boluozhai.snowflake.h2o.data.pojo.model;
 
 public class Account {
 
-	private String id;
 	private String nickname;
 	private String email;
 
 	public Account() {
-	}
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
 	}
 
 	public String getNickname() {

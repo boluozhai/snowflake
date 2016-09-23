@@ -67,13 +67,23 @@ public class DefaultTypeMappingFactory implements TypeMappingFactory {
 
 		@Override
 		public Class<?> getClass(String name) {
-			return this.table.get(name).type;
+			InnerInfo info = this.table.get(name);
+			if (info == null) {
+				String msg = "undefine type: " + name;
+				throw new RuntimeException(msg);
+			}
+			return info.type;
 		}
 
 		@Override
 		public String getName(Class<?> type) {
 			String key = type.getName();
-			return this.table.get(key).name;
+			InnerInfo info = this.table.get(key);
+			if (info == null) {
+				String msg = "undefine type: " + type;
+				throw new RuntimeException(msg);
+			}
+			return info.name;
 		}
 	}
 

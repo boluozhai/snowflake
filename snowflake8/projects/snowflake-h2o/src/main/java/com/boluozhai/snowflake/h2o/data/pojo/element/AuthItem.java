@@ -1,6 +1,6 @@
-package com.boluozhai.snowflake.h2o.data.pojo;
+package com.boluozhai.snowflake.h2o.data.pojo.element;
 
-public class Auth {
+public class AuthItem {
 
 	private String type;
 	private String name;
@@ -8,7 +8,7 @@ public class Auth {
 	private long fromTime;
 	private long toTime;
 
-	public Auth() {
+	public AuthItem() {
 	}
 
 	public String getType() {

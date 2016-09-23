@@ -37,16 +37,20 @@
 				<property name="types">
 					<map>
 
-						<entry key='ACCOUNT'>
-							<bean class='com.boluozhai.snowflake.h2o.data.pojo.Account' />
+						<entry key='account'>
+							<bean class='com.boluozhai.snowflake.h2o.data.pojo.model.Account' />
 						</entry>
 
-						<entry key='ACCOUNT-ALIAS'>
-							<bean class='com.boluozhai.snowflake.h2o.data.pojo.AccountAlias' />
+						<entry key='account-alias'>
+							<bean class='com.boluozhai.snowflake.h2o.data.pojo.model.Alias' />
 						</entry>
 
-						<entry key='AUTH'>
-							<bean class='com.boluozhai.snowflake.h2o.data.pojo.Auth' />
+						<entry key='auth'>
+							<bean class='com.boluozhai.snowflake.h2o.data.pojo.model.Auth' />
+						</entry>
+
+						<entry key='repo'>
+							<bean class='com.boluozhai.snowflake.h2o.data.pojo.model.RepoInfo' />
 						</entry>
 
 					</map>

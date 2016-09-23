@@ -13,6 +13,8 @@ public interface DataClient extends Closeable {
 
 	DataLine line(String host, String user);
 
+	Transaction beginTransaction();
+
 	String[] list(Class<?> type);
 
 }
