@@ -1,26 +1,28 @@
 package com.boluozhai.snowflake.datatable;
 
+import com.boluozhai.snowflake.xgit.ObjectId;
+
 public interface DataLine {
 
-	Class<?> getTypeClass();
+	String getUser();
 
-	String getType();
+	String getHost();
 
-	String getName();
+	ObjectId getId();
 
 	/**
 	 * key='type:name'
 	 * */
 
-	String getKey();
-
 	<T> T insert(T obj);
+
+	<T> T insertOrUpdate(T obj);
+
+	boolean exists(Class<?> type);
 
 	<T> T update(T obj);
 
-	boolean delete();
-
-	boolean exists();
+	boolean delete(Object obj);
 
 	<T> T get(Class<T> type);
 

@@ -1,6 +1,7 @@
 package com.boluozhai.snowflake.datatable.impl;
 
 import com.boluozhai.snowflake.datatable.DataLine;
+import com.boluozhai.snowflake.xgit.ObjectId;
 
 public class LineFacade implements DataLine {
 
@@ -10,40 +11,40 @@ public class LineFacade implements DataLine {
 		this.inner = in;
 	}
 
-	public String getKey() {
-		return inner.getKey();
+	public String getUser() {
+		return inner.getUser();
+	}
+
+	public String getHost() {
+		return inner.getHost();
+	}
+
+	public ObjectId getId() {
+		return inner.getId();
 	}
 
 	public <T> T insert(T obj) {
 		return inner.insert(obj);
 	}
 
+	public <T> T insertOrUpdate(T obj) {
+		return inner.insertOrUpdate(obj);
+	}
+
+	public boolean exists(Class<?> type) {
+		return inner.exists(type);
+	}
+
 	public <T> T update(T obj) {
 		return inner.update(obj);
 	}
 
-	public boolean delete() {
-		return inner.delete();
-	}
-
-	public boolean exists() {
-		return inner.exists();
+	public boolean delete(Object obj) {
+		return inner.delete(obj);
 	}
 
 	public <T> T get(Class<T> type) {
 		return inner.get(type);
-	}
-
-	public Class<?> getTypeClass() {
-		return inner.getTypeClass();
-	}
-
-	public String getType() {
-		return inner.getType();
-	}
-
-	public String getName() {
-		return inner.getName();
 	}
 
 }

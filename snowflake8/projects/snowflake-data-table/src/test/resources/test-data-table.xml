@@ -29,43 +29,31 @@
 		</property>
 
 
-		<property name="tables">
-			<map>
-
-				<entry key='TestingObject'>
-					<bean parent="table-meta-parent">
-						<property name="name">
-							<value>TESTING_OBJECT</value>
-						</property>
-						<property name="prototype">
-							<bean class='com.boluozhai.snowflake.datatable.pojo.TestingPOJO' />
-						</property>
-					</bean>
-				</entry>
-
-				<entry key='TestingA'>
-					<bean parent="table-meta-parent">
-						<property name="prototype">
-							<bean class='com.boluozhai.snowflake.datatable.pojo.TestingA' />
-						</property>
-					</bean>
-				</entry>
-
-				<entry key='TestingB'>
-					<bean parent="table-meta-parent">
-						<property name="prototype">
-							<bean class='com.boluozhai.snowflake.datatable.pojo.TestingB' />
-						</property>
-					</bean>
-				</entry>
-
-			</map>
+		<property name="types">
+			<ref bean='datatable:type:mapping' />
 		</property>
 
 
 	</bean>
 
-	<bean id='table-meta-parent' class='com.boluozhai.snowflake.datatable.TableMeta'></bean>
+
+	<!-- types -->
+
+	<bean id='datatable:type:mapping' class='com.boluozhai.snowflake.datatable.mapping.TypeTable'>
+		<property name="types">
+			<map>
+				<entry key='TESTING_OBJECT'>
+					<bean class='com.boluozhai.snowflake.datatable.pojo.TestingPOJO' />
+				</entry>
+				<entry key='TestingA'>
+					<bean class='com.boluozhai.snowflake.datatable.pojo.TestingA' />
+				</entry>
+				<entry key='TestingB'>
+					<bean class='com.boluozhai.snowflake.datatable.pojo.TestingB' />
+				</entry>
+			</map>
+		</property>
+	</bean>
 
 
 </beans>

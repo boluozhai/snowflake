@@ -2,20 +2,17 @@ package com.boluozhai.snowflake.datatable;
 
 import java.io.Closeable;
 
-import com.boluozhai.snowflake.core.SnowflakeException;
-
 public interface DataClient extends Closeable {
 
-	Transaction beginTransaction() throws SnowflakeException;
+	/**********
+	 * @param name
+	 *            is a email-address, or, a user-name@this
+	 * */
 
-	DataLine line(String name, String type);
+	DataLine line(String email);
 
-	DataLine line(String name, Class<?> type);
-
-	DataLine line(String key);
+	DataLine line(String host, String user);
 
 	String[] list(Class<?> type);
-
-	DataClientFactory getFactory();
 
 }

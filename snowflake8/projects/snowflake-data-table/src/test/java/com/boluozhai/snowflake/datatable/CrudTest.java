@@ -58,7 +58,7 @@ public class CrudTest {
 
 	private void test_crud(DataClient client, Object obj, String op) {
 
-		DataLine line = client.line("test-" + op, obj.getClass());
+		DataLine line = client.line(op + "@test");
 
 		char[] chs = op.toCharArray();
 		for (char ch : chs) {
@@ -78,7 +78,7 @@ public class CrudTest {
 				break;
 			}
 			case 'd': {
-				line.delete();
+				line.delete(obj);
 				break;
 			}
 			default:

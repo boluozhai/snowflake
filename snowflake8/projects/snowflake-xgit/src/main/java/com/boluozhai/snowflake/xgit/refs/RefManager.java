@@ -24,4 +24,6 @@ public interface RefManager extends XGitComponent {
 
 	String[] list();
 
+	String[] list(String prefix);
+
 }

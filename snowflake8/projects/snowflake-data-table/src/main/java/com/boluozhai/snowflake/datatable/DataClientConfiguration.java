@@ -1,14 +1,13 @@
 package com.boluozhai.snowflake.datatable;
 
-import java.util.Map;
-
 import com.boluozhai.snowflake.context.SnowflakeContext;
+import com.boluozhai.snowflake.datatable.mapping.TypeTable;
 
 public class DataClientConfiguration implements DataClientConfigurationAPI {
 
 	private DataTableDriver driver;
-	private Map<String, TableMeta> tables;
 	private DataSource dataSource;
+	private TypeTable types;
 
 	public DataClientConfiguration() {
 	}
@@ -21,12 +20,12 @@ public class DataClientConfiguration implements DataClientConfigurationAPI {
 		this.driver = driver;
 	}
 
-	public Map<String, TableMeta> getTables() {
-		return tables;
+	public TypeTable getTypes() {
+		return types;
 	}
 
-	public void setTables(Map<String, TableMeta> tables) {
-		this.tables = tables;
+	public void setTypes(TypeTable types) {
+		this.types = types;
 	}
 
 	public DataSource getDataSource() {

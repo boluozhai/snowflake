@@ -46,7 +46,7 @@ JS.module(function(mc) {
 			// load UI
 			var ctrl = new ConsoleCtrl(context);
 			var binder = ctrl.binder();
-			binder.console('#console');
+			binder.parent('#console');
 			ctrl.currentLocation(cl);
 			ctrl.init();
 

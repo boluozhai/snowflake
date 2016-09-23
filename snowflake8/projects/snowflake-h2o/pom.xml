@@ -54,15 +54,21 @@
 			<version>0.8.0</version>
 		</dependency>
 
-                <dependency>
-                        <groupId>com.boluozhai.snowflake</groupId>
-                        <artifactId>snowflake-xgit-http-server</artifactId>
-                        <version>0.8.0</version>
-                </dependency>
+		<dependency>
+			<groupId>com.boluozhai.snowflake</groupId>
+			<artifactId>snowflake-xgit-http-server</artifactId>
+			<version>0.8.0</version>
+		</dependency>
 
 		<dependency>
 			<groupId>com.boluozhai.snowflake</groupId>
 			<artifactId>snowflake-rest-client</artifactId>
+			<version>0.8.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.boluozhai.snowflake</groupId>
+			<artifactId>snowflake-data-table</artifactId>
 			<version>0.8.0</version>
 		</dependency>
 

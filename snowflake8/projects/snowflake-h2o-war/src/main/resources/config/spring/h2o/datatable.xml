@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" 
+ "http://www.springframework.org/dtd/spring-beans-2.0.dtd" >
+<beans>
+
+
+	<bean id='h2o-data-table-source' class='com.boluozhai.snowflake.datatable.DataSource'>
+
+		<property name="location">
+			<value>[need-setup-by-code]</value>
+		</property>
+
+		<property name="user">
+			<value>xxx</value>
+		</property>
+
+		<property name="password">
+			<value>xxx</value>
+		</property>
+
+	</bean>
+
+
+	<bean id='h2o-data-table'
+		class='com.boluozhai.snowflake.datatable.support.DefaultDataClientConfiguration'>
+
+		<property name="driver">
+			<bean class='com.boluozhai.snowflake.datatable.support.DefaultDriver'></bean>
+		</property>
+
+		<property name="dataSource">
+			<ref bean="h2o-data-table-source" />
+		</property>
+
+		<property name="tables">
+			<map>
+
+				<entry key='account' value-ref="h2o-data-table:account" />
+				<entry key='account-alias' value-ref="h2o-data-table:account-alias" />
+				<entry key='auth' value-ref="h2o-data-table:auth" />
+
+			</map>
+		</property>
+
+	</bean>
+
+
+	<bean id='h2o-data-table:account' class='com.boluozhai.snowflake.datatable.TableMeta'>
+		<property name="prototype">
+			<bean class='com.boluozhai.snowflake.h2o.data.pojo.Account' />
+		</property>
+		<property name="dao">
+			<bean class='com.boluozhai.snowflake.h2o.data.dao.AccountDAO' />
+		</property>
+	</bean>
+
+	<bean id='h2o-data-table:account-alias' class='com.boluozhai.snowflake.datatable.TableMeta'>
+		<property name="prototype">
+			<bean class='com.boluozhai.snowflake.h2o.data.pojo.AccountAlias' />
+		</property>
+		<property name="dao">
+			<bean class='com.boluozhai.snowflake.h2o.data.dao.AccountAliasDAO' />
+		</property>
+	</bean>
+
+	<bean id='h2o-data-table:auth' class='com.boluozhai.snowflake.datatable.TableMeta'>
+		<property name="prototype">
+			<bean class='com.boluozhai.snowflake.h2o.data.pojo.Auth' />
+		</property>
+		<property name="dao">
+			<bean class='com.boluozhai.snowflake.h2o.data.dao.AuthDAO' />
+		</property>
+	</bean>
+
+
+
+</beans>

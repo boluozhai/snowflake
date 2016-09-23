@@ -38,10 +38,18 @@ final class FileReferManagerImpl implements RefManager {
 	private static class RefsFinder {
 
 		private final VPath base;
+		private final VPath begin;
 		private final List<String> results;
 
 		public RefsFinder(VPath base) {
 			this.base = base;
+			this.begin = base;
+			this.results = new ArrayList<String>();
+		}
+
+		public RefsFinder(VPath base, VPath begin) {
+			this.base = base;
+			this.begin = begin;
 			this.results = new ArrayList<String>();
 		}
 
@@ -186,6 +194,21 @@ final class FileReferManagerImpl implements RefManager {
 			RefsFinder finder = new RefsFinder(base);
 			return finder.find();
 		}
+
+		public String[] find_in_path(List<String> list) {
+
+			String s1 = list.get(0);
+			String s2 = base.name();
+			if (!s1.equals(s2)) {
+				throw new RuntimeException("bad ref-name: " + list);
+			}
+			VPath p = base;
+			for (int i = 1; i < list.size(); i++) {
+				p = p.child(list.get(i));
+			}
+			RefsFinder finder = new RefsFinder(base, p);
+			return finder.find();
+		}
 	}
 
 	private final Inner inner;
@@ -216,6 +239,29 @@ final class FileReferManagerImpl implements RefManager {
 	@Override
 	public String[] list() {
 		return this.inner.find_all();
+	}
+
+	@Override
+	public String[] list(String prefix) {
+
+		prefix = prefix.replace('\\', '/');
+		String[] array = prefix.split("/");
+		List<String> list = new ArrayList<String>();
+
+		for (String s : array) {
+			if (s == null) {
+				continue;
+			} else {
+				s = s.trim();
+			}
+			if (s.length() < 1) {
+				continue;
+			} else {
+				list.add(s);
+			}
+		}
+
+		return this.inner.find_in_path(list);
 	}
 
 }

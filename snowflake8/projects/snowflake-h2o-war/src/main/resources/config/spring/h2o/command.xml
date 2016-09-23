@@ -265,19 +265,19 @@
 			<map>
 
 				<entry key='add'>
-					<bean class='com.boluozhai.snowflake.h2o.command.sf.user.CmdList'>
+					<bean class='com.boluozhai.snowflake.h2o.command.sf.user.CmdAdd'>
 						<property name='description' value='添加新用户' />
 					</bean>
 				</entry>
 
 				<entry key='delete'>
-					<bean class='com.boluozhai.snowflake.h2o.command.sf.user.CmdList'>
+					<bean class='com.boluozhai.snowflake.h2o.command.sf.user.CmdDelete'>
 						<property name='description' value='删除用户' />
 					</bean>
 				</entry>
 
 				<entry key='info'>
-					<bean class='com.boluozhai.snowflake.h2o.command.sf.user.CmdList'>
+					<bean class='com.boluozhai.snowflake.h2o.command.sf.user.CmdInfo'>
 						<property name='description' value='显示用户资料' />
 					</bean>
 				</entry>
@@ -289,7 +289,7 @@
 				</entry>
 
 				<entry key='settings'>
-					<bean class='com.boluozhai.snowflake.h2o.command.sf.user.CmdList'>
+					<bean class='com.boluozhai.snowflake.h2o.command.sf.user.CmdUpdate'>
 						<property name='description' value='更改用户资料' />
 					</bean>
 				</entry>

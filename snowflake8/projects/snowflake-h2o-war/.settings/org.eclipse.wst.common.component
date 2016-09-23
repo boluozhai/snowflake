@@ -55,6 +55,9 @@
         <dependent-module archiveName="snowflake-xgit-site-0.8.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/snowflake-xgit-site/snowflake-xgit-site">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module archiveName="snowflake-data-table-0.8.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/snowflake-data-table/snowflake-data-table">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <dependent-module archiveName="snowflake-xgit-http-server-0.8.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/snowflake-xgit-http-server/snowflake-xgit-http-server">
             <dependency-type>uses</dependency-type>
         </dependent-module>
