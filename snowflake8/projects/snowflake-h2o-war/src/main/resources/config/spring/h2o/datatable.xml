@@ -32,45 +32,32 @@
 			<ref bean="h2o-data-table-source" />
 		</property>
 
-		<property name="tables">
-			<map>
+		<property name="types">
+			<bean class='com.boluozhai.snowflake.datatable.mapping.TypeTable'>
+				<property name="types">
+					<map>
 
-				<entry key='account' value-ref="h2o-data-table:account" />
-				<entry key='account-alias' value-ref="h2o-data-table:account-alias" />
-				<entry key='auth' value-ref="h2o-data-table:auth" />
+						<entry key='ACCOUNT'>
+							<bean class='com.boluozhai.snowflake.h2o.data.pojo.Account' />
+						</entry>
 
-			</map>
+						<entry key='ACCOUNT-ALIAS'>
+							<bean class='com.boluozhai.snowflake.h2o.data.pojo.AccountAlias' />
+						</entry>
+
+						<entry key='AUTH'>
+							<bean class='com.boluozhai.snowflake.h2o.data.pojo.Auth' />
+						</entry>
+
+					</map>
+				</property>
+			</bean>
 		</property>
 
 	</bean>
 
 
-	<bean id='h2o-data-table:account' class='com.boluozhai.snowflake.datatable.TableMeta'>
-		<property name="prototype">
-			<bean class='com.boluozhai.snowflake.h2o.data.pojo.Account' />
-		</property>
-		<property name="dao">
-			<bean class='com.boluozhai.snowflake.h2o.data.dao.AccountDAO' />
-		</property>
-	</bean>
 
-	<bean id='h2o-data-table:account-alias' class='com.boluozhai.snowflake.datatable.TableMeta'>
-		<property name="prototype">
-			<bean class='com.boluozhai.snowflake.h2o.data.pojo.AccountAlias' />
-		</property>
-		<property name="dao">
-			<bean class='com.boluozhai.snowflake.h2o.data.dao.AccountAliasDAO' />
-		</property>
-	</bean>
-
-	<bean id='h2o-data-table:auth' class='com.boluozhai.snowflake.datatable.TableMeta'>
-		<property name="prototype">
-			<bean class='com.boluozhai.snowflake.h2o.data.pojo.Auth' />
-		</property>
-		<property name="dao">
-			<bean class='com.boluozhai.snowflake.h2o.data.dao.AuthDAO' />
-		</property>
-	</bean>
 
 
 

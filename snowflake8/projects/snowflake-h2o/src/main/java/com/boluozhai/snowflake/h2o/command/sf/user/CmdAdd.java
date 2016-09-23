@@ -10,7 +10,6 @@ import com.boluozhai.snowflake.cli.util.ParamSet;
 import com.boluozhai.snowflake.context.SnowflakeContext;
 import com.boluozhai.snowflake.datatable.DataClient;
 import com.boluozhai.snowflake.datatable.DataLine;
-import com.boluozhai.snowflake.datatable.Transaction;
 import com.boluozhai.snowflake.h2o.data.H2oDataTable;
 import com.boluozhai.snowflake.h2o.data.pojo.Account;
 import com.boluozhai.snowflake.util.IOTools;
@@ -69,20 +68,16 @@ public class CmdAdd extends AbstractCLICommandHandler {
 		public void exec() {
 
 			DataClient dc = null;
-			Transaction tx = null;
 
 			try {
 				dc = H2oDataTable.openClient(context);
-				tx = dc.beginTransaction();
 
 				Account account = new Account();
 				account.setEmail(this.email);
 				account.setNickname(this.nickname);
 
-				DataLine account_line = dc.line(this.email, Account.class);
+				DataLine account_line = dc.line(email);
 				account = account_line.insert(account);
-
-				tx.commit();
 
 			} finally {
 				IOTools.close(dc);
