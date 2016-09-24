@@ -6,36 +6,48 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.boluozhai.snowflake.datatable.mapping.TypeMapping;
+import com.boluozhai.snowflake.datatable.mapping.TypeMappingConfig;
 import com.boluozhai.snowflake.datatable.mapping.TypeMappingFactory;
-import com.boluozhai.snowflake.datatable.mapping.TypeTable;
+import com.boluozhai.snowflake.datatable.mapping.TypeMappingInfo;
+import com.boluozhai.snowflake.datatable.mapping.TypeMappingTable;
+import com.boluozhai.snowflake.datatable.pojo.Model;
 
 public class DefaultTypeMappingFactory implements TypeMappingFactory {
 
 	@Override
-	public TypeMapping create(TypeTable tt) {
+	public TypeMappingTable create(TypeMappingConfig tt) {
 		List<InnerInfo> list = new ArrayList<InnerInfo>();
-		Map<String, Object> map = tt.getTypes();
+		Map<String, Model> map = tt.getModels();
 		for (String name : map.keySet()) {
-			Class<?> type = map.get(name).getClass();
+			Class<? extends Model> type = map.get(name).getClass();
 			InnerInfo info = new InnerInfo(name, type);
 			list.add(info);
 		}
 		return new InnerMapping(list);
 	}
 
-	private static class InnerInfo {
+	private static class InnerInfo implements TypeMappingInfo {
 
-		private final Class<?> type;
+		private final Class<? extends Model> type;
 		private final String name;
 
-		public InnerInfo(String n, Class<?> t) {
+		public InnerInfo(String n, Class<? extends Model> t) {
 			this.name = n.toUpperCase();
 			this.type = t;
 		}
+
+		@Override
+		public Class<? extends Model> type() {
+			return type;
+		}
+
+		@Override
+		public String name() {
+			return name;
+		}
 	}
 
-	private static class InnerMapping implements TypeMapping {
+	private static class InnerMapping implements TypeMappingTable {
 
 		private final Map<String, InnerInfo> table;
 		private final String[] names;
@@ -66,24 +78,19 @@ public class DefaultTypeMappingFactory implements TypeMappingFactory {
 		}
 
 		@Override
-		public Class<?> getClass(String name) {
+		public TypeMappingInfo get(String name) {
 			InnerInfo info = this.table.get(name);
 			if (info == null) {
 				String msg = "undefine type: " + name;
 				throw new RuntimeException(msg);
 			}
-			return info.type;
+			return info;
 		}
 
 		@Override
-		public String getName(Class<?> type) {
+		public TypeMappingInfo get(Class<? extends Model> type) {
 			String key = type.getName();
-			InnerInfo info = this.table.get(key);
-			if (info == null) {
-				String msg = "undefine type: " + type;
-				throw new RuntimeException(msg);
-			}
-			return info.name;
+			return this.get(key);
 		}
 	}
 

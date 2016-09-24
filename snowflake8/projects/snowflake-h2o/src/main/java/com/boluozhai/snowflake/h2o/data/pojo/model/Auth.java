@@ -1,19 +1,20 @@
 package com.boluozhai.snowflake.h2o.data.pojo.model;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.HashMap;
+import java.util.Map;
 
+import com.boluozhai.snowflake.datatable.pojo.Model;
 import com.boluozhai.snowflake.h2o.data.pojo.element.AuthItem;
 
-public class Auth {
+public class Auth implements Model {
 
-	private Set<AuthItem> items = new HashSet<AuthItem>();
+	private Map<String, AuthItem> items = new HashMap<String, AuthItem>();
 
-	public Set<AuthItem> getItems() {
+	public Map<String, AuthItem> getItems() {
 		return items;
 	}
 
-	public void setItems(Set<AuthItem> items) {
+	public void setItems(Map<String, AuthItem> items) {
 		this.items = items;
 	}
 

@@ -1,6 +1,8 @@
 package com.boluozhai.snowflake.h2o.data.pojo.model;
 
-public class Account {
+import com.boluozhai.snowflake.datatable.pojo.Model;
+
+public class Account implements Model {
 
 	private String nickname;
 	private String email;

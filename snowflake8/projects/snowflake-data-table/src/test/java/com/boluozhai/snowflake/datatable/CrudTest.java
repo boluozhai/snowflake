@@ -4,6 +4,7 @@ import java.io.File;
 
 import org.junit.Test;
 
+import com.boluozhai.snowflake.datatable.pojo.Model;
 import com.boluozhai.snowflake.datatable.pojo.TestingA;
 import com.boluozhai.snowflake.datatable.pojo.TestingB;
 import com.boluozhai.snowflake.datatable.pojo.TestingPOJO;
@@ -31,22 +32,13 @@ public class CrudTest {
 			TestingA pa = new TestingA();
 			TestingB pb = new TestingB();
 
-			Object[] objs = { pa, pb, pp };
+			Model[] objs = { pa, pb, pp };
 
-			for (Object obj : objs) {
+			for (Model obj : objs) {
 				this.test_crud(client, obj, "c");
 				this.test_crud(client, obj, "cr");
 				this.test_crud(client, obj, "cru");
 				this.test_crud(client, obj, "crud");
-
-				String[] keys = client.list(obj.getClass());
-				System.out.println();
-				System.out.print("keys : [");
-				for (String k : keys) {
-					System.out.print(k + ',');
-				}
-				System.out.println(']');
-
 			}
 
 		} finally {
@@ -56,9 +48,10 @@ public class CrudTest {
 
 	}
 
-	private void test_crud(DataClient client, Object obj, String op) {
+	private void test_crud(DataClient client, Model obj, String op) {
 
-		DataLine line = client.line(op + "@test");
+		String name = op;
+		Transaction tx = client.beginTransaction();
 
 		char[] chs = op.toCharArray();
 		for (char ch : chs) {
@@ -66,19 +59,19 @@ public class CrudTest {
 			switch (ch) {
 
 			case 'c': {
-				obj = line.insert(obj);
+				obj = client.insert(name, obj);
 				break;
 			}
 			case 'r': {
-				obj = line.get(obj.getClass());
+				obj = client.get(name, obj.getClass());
 				break;
 			}
 			case 'u': {
-				obj = line.update(obj);
+				obj = client.update(obj);
 				break;
 			}
 			case 'd': {
-				line.delete(obj);
+				client.delete(obj);
 				break;
 			}
 			default:
@@ -86,6 +79,8 @@ public class CrudTest {
 			}
 
 		}
+
+		tx.commit();
 
 	}
 

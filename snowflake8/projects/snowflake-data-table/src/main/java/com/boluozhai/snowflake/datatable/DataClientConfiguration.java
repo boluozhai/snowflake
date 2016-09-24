@@ -1,13 +1,13 @@
 package com.boluozhai.snowflake.datatable;
 
 import com.boluozhai.snowflake.context.SnowflakeContext;
-import com.boluozhai.snowflake.datatable.mapping.TypeTable;
+import com.boluozhai.snowflake.datatable.mapping.TypeMappingConfig;
 
 public class DataClientConfiguration implements DataClientConfigurationAPI {
 
 	private DataTableDriver driver;
 	private DataSource dataSource;
-	private TypeTable types;
+	private TypeMappingConfig types;
 
 	public DataClientConfiguration() {
 	}
@@ -20,11 +20,11 @@ public class DataClientConfiguration implements DataClientConfigurationAPI {
 		this.driver = driver;
 	}
 
-	public TypeTable getTypes() {
+	public TypeMappingConfig getTypes() {
 		return types;
 	}
 
-	public void setTypes(TypeTable types) {
+	public void setTypes(TypeMappingConfig types) {
 		this.types = types;
 	}
 

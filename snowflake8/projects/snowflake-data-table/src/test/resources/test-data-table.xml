@@ -39,8 +39,9 @@
 
 	<!-- types -->
 
-	<bean id='datatable:type:mapping' class='com.boluozhai.snowflake.datatable.mapping.TypeTable'>
-		<property name="types">
+	<bean id='datatable:type:mapping'
+		class='com.boluozhai.snowflake.datatable.mapping.TypeMappingConfig'>
+		<property name="models">
 			<map>
 				<entry key='TESTING_OBJECT'>
 					<bean class='com.boluozhai.snowflake.datatable.pojo.TestingPOJO' />

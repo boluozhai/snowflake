@@ -1,6 +1,6 @@
 package com.boluozhai.snowflake.datatable.pojo;
 
-public class TestingB {
+public class TestingB implements Model {
 
 	private int hash;
 

@@ -9,7 +9,6 @@ import com.boluozhai.snowflake.cli.util.ParamReader.Builder;
 import com.boluozhai.snowflake.cli.util.ParamSet;
 import com.boluozhai.snowflake.context.SnowflakeContext;
 import com.boluozhai.snowflake.datatable.DataClient;
-import com.boluozhai.snowflake.datatable.DataLine;
 import com.boluozhai.snowflake.datatable.Transaction;
 import com.boluozhai.snowflake.h2o.data.H2oDataTable;
 import com.boluozhai.snowflake.h2o.data.pojo.model.Account;
@@ -73,41 +72,41 @@ public class CmdAdd extends AbstractCLICommandHandler {
 
 		public void exec() {
 
-			DataClient dc = null;
+			DataClient client = null;
 
 			try {
-				dc = H2oDataTable.openClient(context);
+				client = H2oDataTable.openClient(context);
 
-				Transaction tx = dc.beginTransaction();
+				Transaction tx = client.beginTransaction();
 
-				DataLine line = dc.line(email);
+				String id = this.email;
 
 				Account account = new Account();
 				account.setEmail(this.email);
 				account.setNickname(this.nickname);
-				account = line.insert(account);
+				account = client.insert(id, account);
 
 				Alias alias = new Alias();
 				alias.setTo(null);
-				alias = line.insert(alias);
+				alias = client.insert(id, alias);
 
 				Auth auth = new Auth();
-				auth = line.insert(auth);
+				auth = client.insert(id, auth);
 
 				if (this.alias != null) {
 
-					DataLine line_alias = dc.line(this.alias);
+					id = this.alias;
 
 					Alias alias2 = new Alias();
 					alias2.setTo(null);
-					alias2 = line_alias.insert(alias2);
+					alias2 = client.insert(id, alias2);
 
 				}
 
 				tx.commit();
 
 			} finally {
-				IOTools.close(dc);
+				IOTools.close(client);
 			}
 
 		}

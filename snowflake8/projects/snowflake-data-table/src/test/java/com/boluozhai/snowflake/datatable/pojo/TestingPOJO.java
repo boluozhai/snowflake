@@ -1,6 +1,6 @@
 package com.boluozhai.snowflake.datatable.pojo;
 
-public class TestingPOJO {
+public class TestingPOJO implements Model {
 
 	private String id;
 	private String someData;

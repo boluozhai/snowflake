@@ -3,9 +3,10 @@ package com.boluozhai.snowflake.h2o.data.pojo.model;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.boluozhai.snowflake.datatable.pojo.Model;
 import com.boluozhai.snowflake.h2o.data.pojo.element.AliasItem;
 
-public class Alias {
+public class Alias implements Model {
 
 	private Set<AliasItem> from = new HashSet<AliasItem>();
 	private AliasItem to;

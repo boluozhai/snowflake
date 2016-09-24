@@ -1,6 +1,6 @@
 package com.boluozhai.snowflake.datatable.pojo;
 
-public class TestingA {
+public class TestingA implements Model {
 
 	private long time;
 
