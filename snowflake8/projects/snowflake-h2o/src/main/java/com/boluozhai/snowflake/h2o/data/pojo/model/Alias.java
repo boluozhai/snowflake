@@ -1,21 +1,21 @@
 package com.boluozhai.snowflake.h2o.data.pojo.model;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.boluozhai.snowflake.datatable.pojo.Model;
 import com.boluozhai.snowflake.h2o.data.pojo.element.AliasItem;
 
 public class Alias implements Model {
 
-	private Set<AliasItem> from = new HashSet<AliasItem>();
+	private Map<String, AliasItem> from = new HashMap<String, AliasItem>();
 	private AliasItem to;
 
-	public Set<AliasItem> getFrom() {
+	public Map<String, AliasItem> getFrom() {
 		return from;
 	}
 
-	public void setFrom(Set<AliasItem> from) {
+	public void setFrom(Map<String, AliasItem> from) {
 		this.from = from;
 	}
 
