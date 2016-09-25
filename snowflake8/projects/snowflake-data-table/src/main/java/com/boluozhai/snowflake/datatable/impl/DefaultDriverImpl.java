@@ -350,8 +350,8 @@ final class DefaultDriverImpl implements DataTableDriver {
 			ComponentContext cc = repo.getComponentContext();
 			ObjectBank objects = (ObjectBank) cc
 					.getBean(XGitContext.component.objects);
-			RefManager private_refs = (RefManager) cc
-					.getBean(XGitContext.component.private_refs);
+			RefManager refs = (RefManager) cc
+					.getBean(XGitContext.component.refs);
 			HashPathMapper path_mapper = (HashPathMapper) cc
 					.getBean(XGitContext.component.hash_path_mapper);
 
@@ -360,7 +360,7 @@ final class DefaultDriverImpl implements DataTableDriver {
 					.child("xgit.datatable");
 
 			this.objects = objects;
-			this.private_refs = private_refs;
+			this.private_refs = refs;
 			this.path_mapper = path_mapper;
 			this.data_table_base = base;
 			this.vfsio = VFSIO.Agent.getInstance(context);
@@ -451,8 +451,8 @@ final class DefaultDriverImpl implements DataTableDriver {
 
 		public ObjectId get_obj_id(String name, boolean create) {
 			// make ref
-			String refname = String.format("%s/datatable/%s",
-					XGitContext.component.private_refs, name);
+			String refname = String.format("%sdatatable/%s",
+					RefManager.prefix.xgit_private_refs, name);
 			Ref ref = this.private_refs.getReference(refname);
 			// get id
 			ObjectId id = null;

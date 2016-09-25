@@ -16,6 +16,13 @@ public interface RefManager extends XGitComponent {
 
 	}
 
+	interface prefix {
+
+		String refs = "refs/";
+		String xgit_private_refs = "xgit.private_refs/";
+
+	}
+
 	Ref getReference(String name);
 
 	/***

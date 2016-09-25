@@ -50,7 +50,7 @@ public interface XGitContext extends ModelContext, ComponentContext {
 		String uri_meta = "xgit.meta_by_uri";
 		String id_meta = "xgit.meta_by_id";
 		String remotes = "xgit.remotes";
-		String private_refs = "xgit.private_refs";
+		// String private_refs = "xgit.private_refs";
 
 		// xgit.virtual
 		String client = "xgit.client";

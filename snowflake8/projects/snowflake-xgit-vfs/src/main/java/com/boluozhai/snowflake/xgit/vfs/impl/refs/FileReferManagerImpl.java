@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 import com.boluozhai.snowflake.context.ContextBuilder;
+import com.boluozhai.snowflake.core.SnowflakeException;
 import com.boluozhai.snowflake.mvc.model.Component;
 import com.boluozhai.snowflake.mvc.model.ComponentBuilder;
 import com.boluozhai.snowflake.mvc.model.ComponentContext;
@@ -14,14 +15,21 @@ import com.boluozhai.snowflake.vfs.VPath;
 import com.boluozhai.snowflake.xgit.refs.Ref;
 import com.boluozhai.snowflake.xgit.refs.RefManager;
 import com.boluozhai.snowflake.xgit.vfs.base.FileXGitComponentBuilder;
+import com.boluozhai.snowflake.xgit.vfs.support.FileRefsManagerFactory;
 
 final class FileReferManagerImpl implements RefManager {
 
-	public static ComponentBuilder newBuilder() {
-		return new Builder();
+	public static ComponentBuilder newBuilder(FileRefsManagerFactory factory) {
+		return new Builder(factory);
 	}
 
 	private static class Builder extends FileXGitComponentBuilder {
+
+		private List<String> _accept_prefix;
+
+		public Builder(FileRefsManagerFactory factory) {
+			this._accept_prefix = factory.getAcceptPrefix();
+		}
 
 		@Override
 		public void configure(ContextBuilder cb) {
@@ -29,8 +37,18 @@ final class FileReferManagerImpl implements RefManager {
 
 		@Override
 		public Component create(ComponentContext cc) {
+
+			List<String> accept = this._accept_prefix;
+			if (accept == null) {
+				throw new SnowflakeException("need property: acceptPrefix");
+			}
+			String[] accept_array = accept.toArray(new String[accept.size()]);
+			if (accept_array.length == 0) {
+				throw new SnowflakeException("need property: acceptPrefix");
+			}
+
 			VPath path = this.getPath();
-			return new FileReferManagerImpl(cc, path);
+			return new FileReferManagerImpl(cc, path, accept_array);
 		}
 
 	}
@@ -50,6 +68,19 @@ final class FileReferManagerImpl implements RefManager {
 		public RefsFinder(VPath base, VPath begin) {
 			this.base = base;
 			this.begin = begin;
+
+			// check
+			VPath p = begin;
+			for (; p != null; p = p.parent()) {
+				if (p == base) {
+					break;
+				}
+			}
+			if (p == null) {
+				String msg = "the begin[path] not a child of base[path]";
+				throw new SnowflakeException(msg);
+			}
+
 			this.results = new ArrayList<String>();
 		}
 
@@ -110,12 +141,12 @@ final class FileReferManagerImpl implements RefManager {
 
 		private final ComponentContext context;
 		private final VPath base;
-		private final String reg_prefix;
+		private final String[] reg_prefix;
 
-		public Inner(ComponentContext cc, VPath path) {
+		public Inner(ComponentContext cc, VPath path, String[] accept) {
 			this.base = path;
 			this.context = cc;
-			this.reg_prefix = base.name();
+			this.reg_prefix = accept;
 		}
 
 		public String[] name2array(String name) {
@@ -163,23 +194,26 @@ final class FileReferManagerImpl implements RefManager {
 			return sb.toString();
 		}
 
+		public void check_name(String name) {
+
+			for (String prefix : reg_prefix) {
+				if (name.startsWith(prefix)) {
+					return;
+				}
+			}
+
+			String msg = "the prefix [%s] & name [%s] not match";
+			msg = String.format(msg, reg_prefix, name);
+			throw new RuntimeException(msg);
+
+		}
+
 		public void check_array(String[] array) {
-
 			final int len = array.length;
-
 			if (len < 3) {
 				String msg = "the name-path is too short: " + len;
 				throw new RuntimeException(msg);
 			}
-
-			final String p0 = array[0];
-
-			if (!p0.equals(reg_prefix)) {
-				String msg = "the prefix [%s] & name [%s] not match";
-				msg = String.format(msg, reg_prefix, p0);
-				throw new RuntimeException(msg);
-			}
-
 		}
 
 		public Ref make_ref(String name, String[] array) {
@@ -213,8 +247,9 @@ final class FileReferManagerImpl implements RefManager {
 
 	private final Inner inner;
 
-	private FileReferManagerImpl(ComponentContext cc, VPath path) {
-		this.inner = new Inner(cc, path);
+	private FileReferManagerImpl(ComponentContext cc, VPath path,
+			String[] accept_array) {
+		this.inner = new Inner(cc, path, accept_array);
 	}
 
 	@Override
@@ -229,6 +264,7 @@ final class FileReferManagerImpl implements RefManager {
 
 	@Override
 	public Ref getReference(String name) {
+		inner.check_name(name);
 		String[] array = inner.name2array(name);
 		array = inner.normal(array);
 		name = inner.array2name(array);

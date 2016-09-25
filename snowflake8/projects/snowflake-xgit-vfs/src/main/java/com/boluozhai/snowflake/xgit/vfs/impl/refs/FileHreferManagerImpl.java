@@ -47,10 +47,6 @@ final class FileHreferManagerImpl implements HrefManager {
 		private final ComponentContext context;
 		private RefPointerManager refptrs;
 		private RefManager refs;
-		private RefManager private_refs;
-
-		private String prefix_refs;
-		private String prefix_private_refs;
 
 		public Inner(ComponentContext cc) {
 			this.context = cc;
@@ -64,24 +60,10 @@ final class FileHreferManagerImpl implements HrefManager {
 			this.refptrs = (RefPointerManager) context
 					.getAttribute(XGitContext.component.refptrs);
 
-			this.private_refs = (RefManager) context
-					.getAttribute(XGitContext.component.private_refs);
-
-			this.prefix_refs = XGitContext.component.refs + '/';
-			this.prefix_private_refs = XGitContext.component.private_refs + '/';
-
 		}
 
 		public Ref find_ref_by_refname(String refname) {
-			if (refname == null) {
-				return null;
-			} else if (refname.startsWith(prefix_refs)) {
-				return refs.getReference(refname);
-			} else if (refname.startsWith(prefix_private_refs)) {
-				return private_refs.getReference(refname);
-			} else {
-				return null;
-			}
+			return refs.getReference(refname);
 		}
 	}
 
@@ -107,11 +89,12 @@ final class FileHreferManagerImpl implements HrefManager {
 		if (name == null) {
 			return null;
 
-		} else if (name.startsWith(inner.prefix_refs)) {
+		} else if (name.indexOf('\\') >= 0) {
+			name = name.replace('\\', '/');
 			return inner.refs.getReference(name);
 
-		} else if (name.startsWith(inner.prefix_private_refs)) {
-			return inner.private_refs.getReference(name);
+		} else if (name.indexOf('/') >= 0) {
+			return inner.refs.getReference(name);
 
 		} else {
 			RefPointer ptr = inner.refptrs.getPointer(name);
