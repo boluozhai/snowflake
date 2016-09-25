@@ -6,6 +6,7 @@ import com.boluozhai.snowflake.mvc.model.ComponentContext;
 import com.boluozhai.snowflake.mvc.model.ComponentLifecycle;
 import com.boluozhai.snowflake.xgit.XGitContext;
 import com.boluozhai.snowflake.xgit.site.SiteRepository;
+import com.boluozhai.snowflake.xgit.workspace.Workspace;
 
 public class SiteRepoWrapper implements SiteRepository {
 
@@ -29,6 +30,11 @@ public class SiteRepoWrapper implements SiteRepository {
 
 	public URI location() {
 		return inner.location();
+	}
+
+	@Override
+	public Workspace getWorking() {
+		return inner.getWorking();
 	}
 
 }

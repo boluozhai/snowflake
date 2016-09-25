@@ -6,6 +6,7 @@ import com.boluozhai.snowflake.mvc.model.ComponentContext;
 import com.boluozhai.snowflake.mvc.model.ComponentLifecycle;
 import com.boluozhai.snowflake.xgit.XGitContext;
 import com.boluozhai.snowflake.xgit.site.SiteRepository;
+import com.boluozhai.snowflake.xgit.workspace.Workspace;
 
 public class AbstractSiteRepo implements SiteRepository {
 
@@ -40,6 +41,11 @@ public class AbstractSiteRepo implements SiteRepository {
 		@Override
 		public void onCreate() {
 		}
+	}
+
+	@Override
+	public Workspace getWorking() {
+		return null;
 	}
 
 }

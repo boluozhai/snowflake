@@ -8,6 +8,7 @@ import com.boluozhai.snowflake.mvc.model.ComponentLifecycle;
 import com.boluozhai.snowflake.xgit.XGitContext;
 import com.boluozhai.snowflake.xgit.http.client.base.HttpXGitComponentBuilder;
 import com.boluozhai.snowflake.xgit.http.client.repo.HttpRepository;
+import com.boluozhai.snowflake.xgit.workspace.Workspace;
 
 public class XHttpRepoImpl extends HttpRepository {
 
@@ -58,6 +59,11 @@ public class XHttpRepoImpl extends HttpRepository {
 	@Override
 	public ComponentContext getComponentContext() {
 		return this._context;
+	}
+
+	@Override
+	public Workspace getWorking() {
+		throw new RuntimeException("unsupported");
 	}
 
 }

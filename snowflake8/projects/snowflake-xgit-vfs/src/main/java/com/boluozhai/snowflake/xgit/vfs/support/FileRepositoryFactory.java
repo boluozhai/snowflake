@@ -13,9 +13,11 @@ import com.boluozhai.snowflake.vfs.VFS;
 import com.boluozhai.snowflake.vfs.VFile;
 import com.boluozhai.snowflake.vfs.VPath;
 import com.boluozhai.snowflake.xgit.XGitContext;
+import com.boluozhai.snowflake.xgit.config.Config;
 import com.boluozhai.snowflake.xgit.vfs.FileRepository;
 import com.boluozhai.snowflake.xgit.vfs.base.FileXGitComponentBuilder;
 import com.boluozhai.snowflake.xgit.vfs.context.FileRepositoryContext;
+import com.boluozhai.snowflake.xgit.workspace.Workspace;
 
 public class FileRepositoryFactory implements ComponentBuilderFactory {
 
@@ -79,6 +81,7 @@ public class FileRepositoryFactory implements ComponentBuilderFactory {
 
 		private final FileRepositoryContext _context;
 		private final VPath _path;
+		private Workspace _working;
 
 		public MyComponent(FileRepositoryContext cc, VPath path) {
 			this._context = cc;
@@ -108,6 +111,23 @@ public class FileRepositoryFactory implements ComponentBuilderFactory {
 		@Override
 		public FileRepositoryContext context() {
 			return this._context;
+		}
+
+		@Override
+		public Workspace getWorking() {
+			Workspace wk = this._working;
+			if (wk == null) {
+				ComponentContext cc = this.context();
+				Config conf = cc.getBean(XGitContext.component.config,
+						Config.class);
+				String bare = conf.getProperty("core.bare", "false");
+				if (bare.equals("true")) {
+					return null;
+				}
+				wk = cc.getBean(XGitContext.component.working, Workspace.class);
+				this._working = wk;
+			}
+			return wk;
 		}
 	}
 
