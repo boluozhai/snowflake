@@ -1,4 +1,4 @@
-package com.boluozhai.snowflake.rest.server.helper;
+package com.boluozhai.snowflake.rest.server.info.session;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;

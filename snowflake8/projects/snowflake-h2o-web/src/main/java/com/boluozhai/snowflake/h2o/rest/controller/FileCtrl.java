@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.boluozhai.snowflake.context.SnowflakeContext;
+import com.boluozhai.snowflake.h2o.rest.helper.PathInfoWrapper;
 import com.boluozhai.snowflake.h2o.utils.PathElements2VFile;
 import com.boluozhai.snowflake.libwebapp.utils.WebContextUtils;
 import com.boluozhai.snowflake.rest.api.h2o.FileModel;
@@ -17,7 +18,8 @@ import com.boluozhai.snowflake.rest.element.file.Node;
 import com.boluozhai.snowflake.rest.element.file.NodeList;
 import com.boluozhai.snowflake.rest.server.JsonRestView;
 import com.boluozhai.snowflake.rest.server.RestController;
-import com.boluozhai.snowflake.rest.server.RestServlet.RestInfo;
+import com.boluozhai.snowflake.rest.server.info.RestRequestInfo;
+import com.boluozhai.snowflake.rest.server.info.path.PathPart;
 import com.boluozhai.snowflake.vfs.VFS;
 import com.boluozhai.snowflake.vfs.VFile;
 
@@ -33,27 +35,28 @@ public class FileCtrl extends RestController {
 			// context
 			ServletContext sc = request.getServletContext();
 			SnowflakeContext context = WebContextUtils.getWebContext(sc);
-			RestInfo rest_info = this.getRestInfo(request);
+			RestRequestInfo rest_info = this.getRestInfo(request);
+			PathInfoWrapper path_info = new PathInfoWrapper(rest_info);
 
 			// make model
 			FileModel model = new FileModel();
 			VFS vfs = VFS.Factory.getVFS(context);
 			NodeListBuilder nlb = new NodeListBuilder();
 			nlb.vfs = vfs;
-			nlb.rest_info = rest_info;
+			nlb.offset_path = path_info.getId();
 			nlb.uri = request.getRequestURL().toString();
 			view.setResponsePOJO(model);
 			model.setVfile(nlb.create());
 
 		} finally {
-			view.forward(request, response);
+			view.handle(request, response);
 		}
 
 	}
 
 	private static class NodeListBuilder {
 
-		public RestInfo rest_info;
+		public PathPart offset_path;
 		public VFS vfs;
 		private String uri;
 
@@ -74,7 +77,7 @@ public class FileCtrl extends RestController {
 			nlist.setDirectory(node.isDirectory());
 			nlist.setFileURI(node.toURI().toString());
 			nlist.setBaseURI(this.makeBaseURI(nlist));
-			nlist.setPath(rest_info.id);
+			nlist.setPath(this.offset_path.toArray());
 			nlist.setList(list);
 
 			nlist.setDebugAbsPath(node.getAbsolutePath());
@@ -85,7 +88,7 @@ public class FileCtrl extends RestController {
 
 		private String makeBaseURI(NodeList nlist) {
 			final String full = nlist.getFileURI();
-			final String[] array = this.rest_info.id;
+			final String[] array = this.offset_path.toArray();
 			final StringBuilder sb = new StringBuilder();
 			for (String s : array) {
 				if (sb.length() > 0) {
@@ -153,7 +156,7 @@ public class FileCtrl extends RestController {
 
 		private VFile getThisNode() {
 			PathElements2VFile tools = new PathElements2VFile(vfs);
-			return tools.getFile(rest_info.id);
+			return tools.getFile(offset_path.toArray());
 		}
 
 	}

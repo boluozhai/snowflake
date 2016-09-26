@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.boluozhai.snowflake.rest.api.h2o.AccountModel;
 import com.boluozhai.snowflake.rest.server.JsonRestView;
 import com.boluozhai.snowflake.rest.server.RestController;
+import com.boluozhai.snowflake.rest.server.info.RestRequestInfo;
 
 public class AccountCtrl extends RestController {
 
@@ -19,11 +20,17 @@ public class AccountCtrl extends RestController {
 		JsonRestView view = new JsonRestView();
 		try {
 
+			RestRequestInfo rri = RestRequestInfo.Factory.getInstance(request);
+			rri.getContext();
+			rri.getRequest();
+			rri.getPathInfo();
+			rri.getSessionInfo();
+
 			AccountModel pojo = new AccountModel();
 			view.setResponsePOJO(pojo);
 
 		} finally {
-			view.forward(request, response);
+			view.handle(request, response);
 		}
 
 	}

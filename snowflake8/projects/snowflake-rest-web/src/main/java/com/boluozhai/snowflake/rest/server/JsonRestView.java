@@ -4,8 +4,8 @@ import java.io.IOException;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -29,7 +29,7 @@ public class JsonRestView extends RestView {
 	}
 
 	@Override
-	public void forward(ServletRequest request, ServletResponse response)
+	public void handle(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
 		Object obj = this.responsePOJO;
@@ -54,12 +54,6 @@ public class JsonRestView extends RestView {
 		ServletOutputStream out = response.getOutputStream();
 		out.write(ba);
 
-	}
-
-	@Override
-	public void include(ServletRequest request, ServletResponse response)
-			throws ServletException, IOException {
-		this.forward(request, response);
 	}
 
 	public static class ObjectForNull {

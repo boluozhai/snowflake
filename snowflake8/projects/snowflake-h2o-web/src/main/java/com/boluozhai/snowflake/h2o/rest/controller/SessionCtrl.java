@@ -6,11 +6,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.boluozhai.snowflake.h2o.rest.helper.PathInfoWrapper;
 import com.boluozhai.snowflake.rest.api.h2o.SessionModel;
 import com.boluozhai.snowflake.rest.server.JsonRestView;
 import com.boluozhai.snowflake.rest.server.RestController;
-import com.boluozhai.snowflake.rest.server.RestServlet.RestInfo;
-import com.boluozhai.snowflake.rest.server.helper.SessionInfoHolder;
+import com.boluozhai.snowflake.rest.server.info.RestRequestInfo;
+import com.boluozhai.snowflake.rest.server.info.session.SessionInfoHolder;
 import com.google.gson.Gson;
 
 public class SessionCtrl extends RestController {
@@ -19,8 +20,10 @@ public class SessionCtrl extends RestController {
 	protected void rest_get(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 
-		RestInfo rest_info = this.getRestInfo(request);
-		String[] ids = rest_info.id;
+		RestRequestInfo rest_info = this.getRestInfo(request);
+		PathInfoWrapper path_info = new PathInfoWrapper(rest_info);
+
+		String[] ids = path_info.getId().toArray();
 
 		if (ids[ids.length - 1].endsWith(".js")) {
 			this.rest_response_js(request, response);
@@ -36,7 +39,7 @@ public class SessionCtrl extends RestController {
 			view.setResponsePOJO(pojo);
 
 		} finally {
-			view.forward(request, response);
+			view.handle(request, response);
 		}
 
 	}

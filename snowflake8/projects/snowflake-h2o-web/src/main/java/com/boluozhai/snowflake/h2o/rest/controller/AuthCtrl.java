@@ -9,9 +9,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.boluozhai.snowflake.access.security.web.auth.WebAuthManager;
 import com.boluozhai.snowflake.context.SnowflakeContext;
+import com.boluozhai.snowflake.h2o.rest.helper.PathInfoWrapper;
 import com.boluozhai.snowflake.libwebapp.utils.WebContextUtils;
 import com.boluozhai.snowflake.rest.server.RestController;
-import com.boluozhai.snowflake.rest.server.RestServlet.RestInfo;
+import com.boluozhai.snowflake.rest.server.info.RestRequestInfo;
 
 public class AuthCtrl extends RestController {
 
@@ -22,12 +23,13 @@ public class AuthCtrl extends RestController {
 		ServletContext sc = request.getServletContext();
 		SnowflakeContext context = WebContextUtils.getWebContext(sc);
 
-		RestInfo info = this.getRestInfo(request);
-		String auth_method = info.id[0];
+		RestRequestInfo rest_info = this.getRestInfo(request);
+		PathInfoWrapper path_info = new PathInfoWrapper(rest_info);
+		String auth_method = path_info.getId().toString();
 
 		WebAuthManager am = WebAuthManager.Agent.getInstance(context);
 		RestController handler = am.getHandler(auth_method);
-		handler.forward(request, response);
+		handler.handle(request, response);
 
 	}
 

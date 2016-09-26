@@ -23,7 +23,7 @@ public class RepoHomeCtrl extends GitHttpController {
 
 		JsonRestView view = new JsonRestView();
 		view.setResponsePOJO(holder);
-		view.forward(request, response);
+		view.handle(request, response);
 
 	}
 

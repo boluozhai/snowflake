@@ -23,7 +23,7 @@ public class RepoFileCtrl extends RestController {
 			view.setResponsePOJO(pojo);
 
 		} finally {
-			view.forward(request, response);
+			view.handle(request, response);
 		}
 
 	}

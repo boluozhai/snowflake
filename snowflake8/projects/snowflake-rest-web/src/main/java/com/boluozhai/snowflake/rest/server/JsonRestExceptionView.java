@@ -4,8 +4,7 @@ import java.io.IOException;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
@@ -23,7 +22,7 @@ public class JsonRestExceptionView extends RestView {
 	}
 
 	@Override
-	public void forward(ServletRequest request, ServletResponse response)
+	public void handle(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 
 		String enc = "utf-8";
@@ -37,7 +36,6 @@ public class JsonRestExceptionView extends RestView {
 		String str = gs.toJson(pojo);
 		byte[] ba = str.getBytes(enc);
 
-		HttpServletResponse resp = (HttpServletResponse) response;
 		resp.setCharacterEncoding(enc);
 		resp.setContentType(mime);
 		resp.setContentLength(ba.length);

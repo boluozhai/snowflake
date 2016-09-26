@@ -14,7 +14,7 @@ import com.boluozhai.snowflake.rest.element.session.SessionInfo;
 import com.boluozhai.snowflake.rest.server.JsonRestPojoLoader;
 import com.boluozhai.snowflake.rest.server.JsonRestView;
 import com.boluozhai.snowflake.rest.server.RestController;
-import com.boluozhai.snowflake.rest.server.helper.SessionInfoHolder;
+import com.boluozhai.snowflake.rest.server.info.session.SessionInfoHolder;
 import com.boluozhai.snowflake.util.HashTools;
 
 public class EmailPasswordMethod extends RestController {
@@ -39,7 +39,7 @@ public class EmailPasswordMethod extends RestController {
 
 		JsonRestView view = new JsonRestView();
 		view.setResponsePOJO(model);
-		view.forward(request, response);
+		view.handle(request, response);
 
 	}
 

@@ -22,7 +22,7 @@ public class RestAuthCtrl extends RestController {
 			view.setResponsePOJO("" + this);
 
 		} finally {
-			view.forward(request, response);
+			view.handle(request, response);
 		}
 
 	}

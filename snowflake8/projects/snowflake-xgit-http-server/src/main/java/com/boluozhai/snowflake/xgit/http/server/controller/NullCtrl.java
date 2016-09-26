@@ -20,7 +20,7 @@ public class NullCtrl extends GitHttpController {
 
 		JsonRestView view = new JsonRestView();
 		view.setResponsePOJO("http 403 forbidden");
-		view.forward(request, response);
+		view.handle(request, response);
 
 	}
 

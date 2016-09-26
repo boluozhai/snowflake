@@ -59,7 +59,7 @@ public class CommandCtrl extends RestController {
 			result.setMessage(result_text);
 			result.setPathURI(path.toURI().toString());
 			result.setCommand(arg.getCommand());
-			view.forward(request, response);
+			view.handle(request, response);
 
 		} finally {
 		}

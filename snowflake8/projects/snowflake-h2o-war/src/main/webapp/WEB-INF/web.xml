@@ -25,14 +25,18 @@
 	<servlet>
 		<servlet-name>rest-root</servlet-name>
 		<servlet-class>com.boluozhai.snowflake.h2o.servlet.H2ORestServlet</servlet-class>
+		<init-param>
+			<param-name>handler</param-name>
+			<param-value>rest:gateway:rest</param-value>
+		</init-param>
 	</servlet>
 
 	<servlet>
 		<servlet-name>xgit-http-root</servlet-name>
 		<servlet-class>com.boluozhai.snowflake.xgit.http.server.servlet.DefaultGitHttpServlet</servlet-class>
 		<init-param>
-			<param-name>repo-path-offset</param-name>
-			<param-value>/repo/*</param-value>
+			<param-name>handler</param-name>
+			<param-value>rest:gateway:repo</param-value>
 		</init-param>
 	</servlet>
 

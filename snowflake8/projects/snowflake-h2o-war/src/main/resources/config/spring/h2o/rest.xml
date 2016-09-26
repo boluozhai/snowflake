@@ -7,4 +7,102 @@
 		class='com.boluozhai.snowflake.rest.support.DefaultRESTClientFactory'></bean>
 
 
+	<bean id='rest:request-info:factory'
+		class='com.boluozhai.snowflake.rest.server.support.DefaultRestRequestInfoFactory'>
+
+		<property name="pathInfoFactory">
+			<bean
+				class='com.boluozhai.snowflake.rest.server.support.DefaultPathInfoFactory'>
+
+				<property name="inAppPathPattern" value='~/api/user/repository/type/id/*' />
+
+			</bean>
+		</property>
+
+		<property name="sessionInfoFactory">
+			<bean
+				class='com.boluozhai.snowflake.rest.server.support.DefaultSessionInfoFactory'></bean>
+		</property>
+
+	</bean>
+
+
+	<!-- gateway -->
+
+
+	<bean id='rest:gateway:parent'
+		class='com.boluozhai.snowflake.rest.server.support.handler.DefaultRequestHandler'>
+
+		<property name="listeners">
+			<list>
+				<bean
+					class='com.boluozhai.snowflake.rest.server.support.handler.InfoFactoryBindingListener'>
+
+					<property name="factory">
+						<ref bean='rest:request-info:factory' />
+					</property>
+
+				</bean>
+			</list>
+		</property>
+
+	</bean>
+
+	<bean id='rest:gateway:repo' parent='rest:gateway:parent'>
+		<property name="nextHanlder">
+			<ref bean='rest:switch:repo' />
+		</property>
+	</bean>
+
+	<bean id='rest:gateway:rest' parent='rest:gateway:parent'>
+		<property name="nextHanlder">
+			<ref bean='rest:switch:rest' />
+		</property>
+	</bean>
+
+
+	<!-- switch -->
+
+
+	<bean id='rest:switch:rest'
+		class='com.boluozhai.snowflake.rest.server.support.handler.RestHandlerSwitch'>
+
+		<property name="pathPartName">
+			<value>type</value>
+		</property>
+
+		<property name="defaultHandler">
+			<bean class='com.boluozhai.snowflake.h2o.rest.controller.Http404Ctrl'></bean>
+		</property>
+
+		<property name="handlers">
+			<map>
+				<entry key='file'>
+					<bean class='com.boluozhai.snowflake.h2o.rest.controller.Http404Ctrl'></bean>
+				</entry>
+			</map>
+		</property>
+
+	</bean>
+
+
+	<bean id='rest:switch:repo'
+		class='com.boluozhai.snowflake.rest.server.support.handler.RestHandlerSwitch'>
+
+		<property name="pathPartName">
+			<value>type</value>
+		</property>
+
+		<property name="defaultHandler">
+			<bean class='com.boluozhai.snowflake.h2o.rest.controller.Http404Ctrl'></bean>
+		</property>
+
+		<property name="handlers">
+			<map>
+			</map>
+		</property>
+
+	</bean>
+
+
 </beans>

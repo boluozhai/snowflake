@@ -2,22 +2,17 @@ package com.boluozhai.snowflake.rest.server;
 
 import java.io.IOException;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.boluozhai.snowflake.rest.server.RestServlet.RestInfo;
+import com.boluozhai.snowflake.rest.server.info.RestRequestInfo;
 
-public class RestController implements RequestDispatcher {
+public class RestController implements RequestHandler {
 
-	private final void dispatch(ServletRequest req, ServletResponse res)
-			throws ServletException, IOException {
-
-		HttpServletRequest request = (HttpServletRequest) req;
-		HttpServletResponse response = (HttpServletResponse) res;
+	@Override
+	public final void handle(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
 
 		String method = request.getMethod();
 
@@ -36,24 +31,13 @@ public class RestController implements RequestDispatcher {
 			this.rest_delete(request, response);
 
 		} else {
+			// NOP
 		}
 
 	}
 
-	public final RestInfo getRestInfo(ServletRequest request) {
-		return RestServlet.getRestInfo(request);
-	}
-
-	@Override
-	public final void forward(ServletRequest request, ServletResponse response)
-			throws ServletException, IOException {
-		this.dispatch(request, response);
-	}
-
-	@Override
-	public final void include(ServletRequest request, ServletResponse response)
-			throws ServletException, IOException {
-		this.dispatch(request, response);
+	public final RestRequestInfo getRestInfo(HttpServletRequest request) {
+		return RestRequestInfo.Factory.getInstance(request);
 	}
 
 	protected void rest_get(HttpServletRequest request,
