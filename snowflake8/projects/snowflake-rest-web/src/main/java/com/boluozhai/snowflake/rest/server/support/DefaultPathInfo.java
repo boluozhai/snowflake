@@ -9,8 +9,9 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import com.boluozhai.snowflake.core.SnowflakeException;
+import com.boluozhai.snowflake.rest.path.PathPart;
+import com.boluozhai.snowflake.rest.path.PathPattern;
 import com.boluozhai.snowflake.rest.server.info.path.PathInfo;
-import com.boluozhai.snowflake.rest.server.info.path.PathPart;
 
 public class DefaultPathInfo implements PathInfo {
 
@@ -19,7 +20,7 @@ public class DefaultPathInfo implements PathInfo {
 	private PathPart _in_app_part;
 	private Map<String, PathPart> _named_parts;
 
-	public DefaultPathInfo(HttpServletRequest request, PathPart[] pattern) {
+	public DefaultPathInfo(HttpServletRequest request, PathPattern pattern) {
 		BasePathParser parser = new BasePathParser();
 		parser.parse(request);
 		this._full_part = parser.full;
@@ -61,12 +62,14 @@ public class DefaultPathInfo implements PathInfo {
 
 		}
 
-		public Map<String, PathPart> make_named_parts(PathPart[] pattern) {
+		public Map<String, PathPart> make_named_parts(PathPattern pattern) {
+
+			PathPart[] pps = pattern.getParts();
 
 			final PathPart inapp = this.in_app;
 			final Map<String, PathPart> map = new HashMap<String, PathPart>();
 			int count = 0;
-			for (PathPart pp1 : pattern) {
+			for (PathPart pp1 : pps) {
 				String name = pp1.data[pp1.offset];
 				if (pp1.length == 0) {
 					// the end

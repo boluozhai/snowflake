@@ -4,22 +4,19 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.boluozhai.snowflake.context.SnowflakeContext;
-import com.boluozhai.snowflake.h2o.rest.helper.PathInfoWrapper;
+import com.boluozhai.snowflake.h2o.rest.helper.H2oRestInfo;
 import com.boluozhai.snowflake.h2o.utils.PathElements2VFile;
-import com.boluozhai.snowflake.libwebapp.utils.WebContextUtils;
 import com.boluozhai.snowflake.rest.api.h2o.FileModel;
 import com.boluozhai.snowflake.rest.element.file.Node;
 import com.boluozhai.snowflake.rest.element.file.NodeList;
+import com.boluozhai.snowflake.rest.path.PathPart;
 import com.boluozhai.snowflake.rest.server.JsonRestView;
 import com.boluozhai.snowflake.rest.server.RestController;
-import com.boluozhai.snowflake.rest.server.info.RestRequestInfo;
-import com.boluozhai.snowflake.rest.server.info.path.PathPart;
 import com.boluozhai.snowflake.vfs.VFS;
 import com.boluozhai.snowflake.vfs.VFile;
 
@@ -33,17 +30,15 @@ public class FileCtrl extends RestController {
 		try {
 
 			// context
-			ServletContext sc = request.getServletContext();
-			SnowflakeContext context = WebContextUtils.getWebContext(sc);
-			RestRequestInfo rest_info = this.getRestInfo(request);
-			PathInfoWrapper path_info = new PathInfoWrapper(rest_info);
+			H2oRestInfo rest_info = H2oRestInfo.getInstance(request);
+			SnowflakeContext context = rest_info.getRequestInfo().getContext();
 
 			// make model
 			FileModel model = new FileModel();
 			VFS vfs = VFS.Factory.getVFS(context);
 			NodeListBuilder nlb = new NodeListBuilder();
 			nlb.vfs = vfs;
-			nlb.offset_path = path_info.getId();
+			nlb.offset_path = rest_info.getId();
 			nlb.uri = request.getRequestURL().toString();
 			view.setResponsePOJO(model);
 			model.setVfile(nlb.create());

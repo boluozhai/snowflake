@@ -6,11 +6,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.boluozhai.snowflake.h2o.rest.helper.PathInfoWrapper;
+import com.boluozhai.snowflake.h2o.rest.helper.H2oRestInfo;
 import com.boluozhai.snowflake.rest.api.h2o.SessionModel;
 import com.boluozhai.snowflake.rest.server.JsonRestView;
 import com.boluozhai.snowflake.rest.server.RestController;
-import com.boluozhai.snowflake.rest.server.info.RestRequestInfo;
 import com.boluozhai.snowflake.rest.server.info.session.SessionInfoHolder;
 import com.google.gson.Gson;
 
@@ -20,8 +19,7 @@ public class SessionCtrl extends RestController {
 	protected void rest_get(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 
-		RestRequestInfo rest_info = this.getRestInfo(request);
-		PathInfoWrapper path_info = new PathInfoWrapper(rest_info);
+		H2oRestInfo path_info = H2oRestInfo.getInstance(request);
 
 		String[] ids = path_info.getId().toArray();
 

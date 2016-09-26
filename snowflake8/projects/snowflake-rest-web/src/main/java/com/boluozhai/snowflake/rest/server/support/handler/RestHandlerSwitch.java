@@ -7,10 +7,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.boluozhai.snowflake.rest.path.PathPart;
 import com.boluozhai.snowflake.rest.server.RequestHandler;
 import com.boluozhai.snowflake.rest.server.info.RestRequestInfo;
 import com.boluozhai.snowflake.rest.server.info.path.PathInfo;
-import com.boluozhai.snowflake.rest.server.info.path.PathPart;
 
 public class RestHandlerSwitch implements RequestHandler {
 

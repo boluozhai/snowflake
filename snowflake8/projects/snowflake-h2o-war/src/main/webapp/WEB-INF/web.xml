@@ -23,7 +23,7 @@
 	<!-- servlet -->
 
 	<servlet>
-		<servlet-name>rest-root</servlet-name>
+		<servlet-name>rest-servlet</servlet-name>
 		<servlet-class>com.boluozhai.snowflake.h2o.servlet.H2ORestServlet</servlet-class>
 		<init-param>
 			<param-name>handler</param-name>
@@ -32,7 +32,7 @@
 	</servlet>
 
 	<servlet>
-		<servlet-name>xgit-http-root</servlet-name>
+		<servlet-name>repo-servlet</servlet-name>
 		<servlet-class>com.boluozhai.snowflake.xgit.http.server.servlet.DefaultGitHttpServlet</servlet-class>
 		<init-param>
 			<param-name>handler</param-name>
@@ -49,12 +49,12 @@
 	<!-- mapping -->
 
 	<servlet-mapping>
-		<servlet-name>rest-root</servlet-name>
+		<servlet-name>rest-servlet</servlet-name>
 		<url-pattern>/rest/*</url-pattern>
 	</servlet-mapping>
 
 	<servlet-mapping>
-		<servlet-name>xgit-http-root</servlet-name>
+		<servlet-name>repo-servlet</servlet-name>
 		<url-pattern>/repo/*</url-pattern>
 	</servlet-mapping>
 

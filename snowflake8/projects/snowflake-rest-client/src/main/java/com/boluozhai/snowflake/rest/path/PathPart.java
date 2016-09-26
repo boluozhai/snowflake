@@ -1,4 +1,4 @@
-package com.boluozhai.snowflake.rest.server.info.path;
+package com.boluozhai.snowflake.rest.path;
 
 public class PathPart {
 
