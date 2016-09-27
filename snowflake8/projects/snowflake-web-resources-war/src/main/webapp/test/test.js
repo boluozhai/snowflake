@@ -121,20 +121,29 @@ JS.module(function(mc) {
 			var REST = snowflake.rest.REST;
 			var context = Context.getInstance();
 			var client = REST.getClient(context);
+			client.pathPattern('~/api/type/id/*');
+			// client. pathPattern ( '' ) ;
 
-			var app = client.getApplication(null);
-			var api = app.getAPI('RestAPI');
-			var type = api.getType('RestType');
+			var res = client.getResource();
+			res.part('api', 'RestAPI');
+			res.part('type', 'RestType');
+			res.part('id', 'RestId.json');
 
 			// res1
 
-			var res = type.getResource('RestId.json');
 			var request = res.get();
 			request.execute(callback);
 
 			// res2
 
-			var res2 = api.getType('bad_t').getResource('bad_res');
+			client.pathPattern('~/api/type/+/+/id/*/++');
+
+			var res2 = client.getResource();
+			res2.parts({
+				'api' : 'RestAPI',
+				'type' : 'bad_t/xxx/3',
+				'id' : 'bad_id/xxx/yyy/zzz',
+			});
 			request = res2.post();
 			request.entity().text('abc');
 			request.execute(callback);

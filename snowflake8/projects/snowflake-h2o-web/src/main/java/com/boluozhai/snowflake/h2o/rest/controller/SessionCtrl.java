@@ -31,14 +31,9 @@ public class SessionCtrl extends RestController {
 		}
 
 		JsonRestView view = new JsonRestView();
-		try {
-
-			SessionModel pojo = new SessionModel();
-			view.setResponsePOJO(pojo);
-
-		} finally {
-			view.handle(request, response);
-		}
+		SessionModel pojo = new SessionModel();
+		view.setResponsePOJO(pojo);
+		view.handle(request, response);
 
 	}
 

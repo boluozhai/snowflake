@@ -53,7 +53,7 @@ JS.module(function(mc) {
 			// loader
 
 			var vfs_factory = new VFSFactory();
-			vfs_factory.httpURI('~/rest/file');
+			vfs_factory.httpURI('~/rest/null/null/file');
 			var vfs = vfs_factory.create(context);
 			vfs.ready(function() {
 

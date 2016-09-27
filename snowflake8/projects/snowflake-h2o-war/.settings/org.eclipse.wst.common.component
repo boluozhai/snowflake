@@ -34,12 +34,6 @@
         <dependent-module archiveName="snowflake-rest-api-0.8.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/snowflake-rest-api/snowflake-rest-api">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="snowflake-rest-web-0.8.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/snowflake-rest-web/snowflake-rest-web">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="snowflake-rest-client-0.8.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/snowflake-rest-client/snowflake-rest-client">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
         <dependent-module archiveName="snowflake-cli-0.8.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/snowflake-cli/snowflake-cli">
             <dependency-type>uses</dependency-type>
         </dependent-module>
@@ -58,13 +52,10 @@
         <dependent-module archiveName="snowflake-data-table-0.8.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/snowflake-data-table/snowflake-data-table">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="snowflake-xgit-http-server-0.8.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/snowflake-xgit-http-server/snowflake-xgit-http-server">
+        <dependent-module archiveName="snowflake-access-security-web-0.8.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/snowflake-access-security-web/snowflake-access-security-web">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="snowflake-xgit-0.8.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/snowflake-xgit/snowflake-xgit">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="snowflake-httpclient-0.8.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/snowflake-httpclient/snowflake-httpclient">
+        <dependent-module archiveName="snowflake-access-security-0.8.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/snowflake-access-security/snowflake-access-security">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="snowflake-xgit-http-client-0.8.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/snowflake-xgit-http-client/snowflake-xgit-http-client">
@@ -73,10 +64,19 @@
         <dependent-module archiveName="snowflake-xgit-http-0.8.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/snowflake-xgit-http/snowflake-xgit-http">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="snowflake-access-security-web-0.8.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/snowflake-access-security-web/snowflake-access-security-web">
+        <dependent-module archiveName="snowflake-httpclient-0.8.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/snowflake-httpclient/snowflake-httpclient">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="snowflake-access-security-0.8.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/snowflake-access-security/snowflake-access-security">
+        <dependent-module archiveName="snowflake-xgit-http-server-0.8.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/snowflake-xgit-http-server/snowflake-xgit-http-server">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="snowflake-xgit-0.8.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/snowflake-xgit/snowflake-xgit">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="snowflake-rest-web-0.8.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/snowflake-rest-web/snowflake-rest-web">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="snowflake-rest-client-0.8.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/snowflake-rest-client/snowflake-rest-client">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <property name="java-output-path" value="/snowflake-web-resource/target/classes"/>
