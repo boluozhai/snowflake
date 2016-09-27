@@ -6,6 +6,12 @@ public class PathPart {
 	public final int offset;
 	public final int length;
 
+	public PathPart(String[] elements) {
+		this.data = elements;
+		this.offset = 0;
+		this.length = elements.length;
+	}
+
 	public PathPart(String[] elements, int offset, int len) {
 
 		if (elements.length < offset + len) {
