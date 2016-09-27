@@ -10,7 +10,7 @@ import com.boluozhai.snowflake.rest.api.h2o.RepoFileModel;
 import com.boluozhai.snowflake.rest.server.JsonRestView;
 import com.boluozhai.snowflake.rest.server.RestController;
 
-public class RepoFileCtrl extends RestController {
+public class WorkingDirCtrl extends RestController {
 
 	@Override
 	protected void rest_get(HttpServletRequest request,

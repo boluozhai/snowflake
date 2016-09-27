@@ -12,6 +12,12 @@ public interface PathInfo {
 
 	PathPart getPart(String name);
 
+	PathPart getRequiredPart(String name);
+
 	PathPart getPart(String name, boolean required);
+
+	String getPartString(String name);
+
+	String getPartString(String name, boolean required);
 
 }

@@ -49,15 +49,34 @@
 	</bean>
 
 	<bean id='rest:gateway:repo' parent='rest:gateway:parent'>
+
 		<property name="nextHanlder">
-			<ref bean='rest:switch:repo' />
+			<bean
+				class='com.boluozhai.snowflake.rest.server.support.handler.DefaultRequestHandler'>
+
+				<property name="listeners">
+					<list>
+						<bean
+							class='com.boluozhai.snowflake.xgit.http.server.listener.RepoInfoBindingListener'>
+						</bean>
+					</list>
+				</property>
+
+				<property name="nextHanlder">
+					<ref bean='rest:switch:repo' />
+				</property>
+
+			</bean>
 		</property>
+
 	</bean>
 
 	<bean id='rest:gateway:rest' parent='rest:gateway:parent'>
+
 		<property name="nextHanlder">
 			<ref bean='rest:switch:rest' />
 		</property>
+
 	</bean>
 
 
@@ -66,6 +85,8 @@
 
 	<bean id='rest:switch:rest'
 		class='com.boluozhai.snowflake.rest.server.support.handler.RestHandlerSwitch'>
+
+		<!-- ~/rest/* -->
 
 		<property name="pathPartName">
 			<value>type</value>
@@ -77,8 +98,26 @@
 
 		<property name="handlers">
 			<map>
+				<entry key='account'>
+					<bean class='com.boluozhai.snowflake.h2o.rest.controller.AccountCtrl'></bean>
+				</entry>
+				<entry key='auth'>
+					<bean class='com.boluozhai.snowflake.h2o.rest.controller.AuthCtrl'></bean>
+				</entry>
+				<entry key='command'>
+					<bean class='com.boluozhai.snowflake.h2o.rest.controller.CommandCtrl'></bean>
+				</entry>
 				<entry key='file'>
-					<bean class='com.boluozhai.snowflake.h2o.rest.controller.Http404Ctrl'></bean>
+					<bean class='com.boluozhai.snowflake.h2o.rest.controller.FileCtrl'></bean>
+				</entry>
+				<entry key='repository'>
+					<bean class='com.boluozhai.snowflake.h2o.rest.controller.RepositoryCtrl'></bean>
+				</entry>
+				<entry key='session'>
+					<bean class='com.boluozhai.snowflake.h2o.rest.controller.SessionCtrl'></bean>
+				</entry>
+				<entry key='working'>
+					<bean class='com.boluozhai.snowflake.h2o.rest.controller.WorkingDirCtrl'></bean>
 				</entry>
 			</map>
 		</property>
@@ -89,16 +128,23 @@
 	<bean id='rest:switch:repo'
 		class='com.boluozhai.snowflake.rest.server.support.handler.RestHandlerSwitch'>
 
+		<!-- ~/repo/* -->
+
 		<property name="pathPartName">
 			<value>type</value>
 		</property>
 
 		<property name="defaultHandler">
-			<bean class='com.boluozhai.snowflake.h2o.rest.controller.Http404Ctrl'></bean>
+			<bean
+				class='com.boluozhai.snowflake.xgit.http.server.controller.RepoHomeCtrl'></bean>
 		</property>
 
 		<property name="handlers">
 			<map>
+				<entry key='info'>
+					<bean
+						class='com.boluozhai.snowflake.xgit.http.server.controller.InfoRefsCtrl'></bean>
+				</entry>
 			</map>
 		</property>
 

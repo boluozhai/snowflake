@@ -14,10 +14,10 @@ import com.boluozhai.snowflake.xgit.http.server.GitHttpInfoHolder;
 public class RepoHomeCtrl extends GitHttpController {
 
 	@Override
-	protected void git_get(HttpServletRequest request,
+	protected void rest_get(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 
-		GitHttpInfo info = this.getInfo(request);
+		GitHttpInfo info = GitHttpInfo.Agent.get(request);
 		myHolder holder = new myHolder();
 		holder.setInfo(info);
 

@@ -19,6 +19,7 @@
 		<module>snowflake-cli</module>
 		<module>snowflake-context</module>
 		<module>snowflake-core</module>
+		<module>snowflake-data-table</module>
 		<module>snowflake-discovery</module>
 		<module>snowflake-disk-manager</module>
 		<module>snowflake-example-war</module>

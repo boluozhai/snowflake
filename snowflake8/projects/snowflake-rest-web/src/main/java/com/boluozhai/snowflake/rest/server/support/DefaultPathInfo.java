@@ -130,6 +130,11 @@ public class DefaultPathInfo implements PathInfo {
 	}
 
 	@Override
+	public PathPart getRequiredPart(String name) {
+		return this.getPart(name, true);
+	}
+
+	@Override
 	public PathPart getPart(String name, boolean required) {
 		PathPart pp = this._named_parts.get(name);
 		if (pp == null) {
@@ -138,6 +143,26 @@ public class DefaultPathInfo implements PathInfo {
 			}
 		}
 		return pp;
+	}
+
+	@Override
+	public String getPartString(String name) {
+		return this.getPartString(name, false);
+	}
+
+	@Override
+	public String getPartString(String name, boolean required) {
+
+		PathPart p = this.getPart(name, required);
+		if (p == null) {
+			if (required) {
+				throw new SnowflakeException("no required path-part: " + name);
+			}
+			return null;
+		} else {
+			return p.toString();
+		}
+
 	}
 
 }

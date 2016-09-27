@@ -14,7 +14,13 @@ public class GitHttpInfo {
 	 * the repository name
 	 * */
 
-	public String name;
+	public String repository;
+
+	/***
+	 * the user name
+	 * */
+
+	public String user;
 
 	/***
 	 * the service name
@@ -57,12 +63,12 @@ public class GitHttpInfo {
 		this.url = url;
 	}
 
-	public String getName() {
-		return name;
+	public String getRepository() {
+		return repository;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setRepository(String repository) {
+		this.repository = repository;
 	}
 
 	public String getService() {
@@ -79,6 +85,14 @@ public class GitHttpInfo {
 
 	public void setResource(String resource) {
 		this.resource = resource;
+	}
+
+	public String getUser() {
+		return user;
+	}
+
+	public void setUser(String user) {
+		this.user = user;
 	}
 
 }

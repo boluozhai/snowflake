@@ -61,13 +61,18 @@
 
 				<entry key='refs'>
 					<bean
-						class='com.boluozhai.snowflake.xgit.vfs.support.FileRefsManagerFactory' />
+						class='com.boluozhai.snowflake.xgit.vfs.support.FileRefsManagerFactory'>
+
+						<property name="acceptPrefix">
+							<list>
+								<value>refs/</value>
+								<value>xgit.private_refs/</value>
+							</list>
+						</property>
+
+					</bean>
 				</entry>
 
-				<entry key='xgit.private_refs'>
-					<bean
-						class='com.boluozhai.snowflake.xgit.vfs.support.FileRefsManagerFactory' />
-				</entry>
 
 				<entry key='xgit.refptrs'>
 					<bean
