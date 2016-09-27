@@ -39,16 +39,32 @@ JS.module(function(_mc_) {
 
 	function RESTClient(context) {
 		this._context = context;
+		this.baseURL('~');
 	}
 
 	_mc_.class(function(cc) {
 		cc.type(RESTClient);
+		cc.extends(Attributes);
 	});
 
 	RESTClient.prototype = {
 
-		getApplication : function(app_name) {
-			return new RestApplication(this, app_name);
+		getResource : function() {
+			return new RestResource(this);
+		},
+
+		baseURL : function(value) {
+			return this.attr('base_url', value);
+		},
+
+		getURL : function() {
+			var context = this._context;
+			var base = this.baseURL();
+			return context.normalizeURL(base);
+		},
+
+		pathPattern : function(value) {
+			return this.attr('path_pattern', value);
 		},
 
 		getContextURL : function() {
@@ -88,99 +104,19 @@ JS.module(function(_mc_) {
 
 	_mc_.class(function(cc) {
 		cc.type(RESTClientFactory);
+		cc.extends(Attributes);
 	});
 
 	RESTClientFactory.prototype = {
 
 		create : function(context) {
-			return new RESTClient(context);
+			var client = new RESTClient(context);
+			client.pathPattern(this.pathPattern());
+			return client;
 		},
 
-	};
-
-	/***************************************************************************
-	 * class RestApplication
-	 */
-
-	function RestApplication(client, name) {
-
-		this._client = client;
-		this._name = name;
-
-		var context_url = client.getContextURL();
-
-		if (name == null) {
-			this._display_name = 'myself';
-			this._url = context_url;
-		} else {
-			this._url = context_url + '/../' + name;
-		}
-	}
-
-	_mc_.class(function(cc) {
-		cc.type(RestApplication);
-	});
-
-	RestApplication.prototype = {
-
-		getURL : function() {
-			return this._url;
-		},
-
-		getAPI : function(name) {
-			return new RestAPI(this, name);
-		},
-
-	};
-
-	/***************************************************************************
-	 * class RestAPI
-	 */
-
-	function RestAPI(app, name) {
-		this._owner_app = app;
-		this._name = name;
-		this._url = app.getURL() + '/' + name;
-	}
-
-	_mc_.class(function(cc) {
-		cc.type(RestAPI);
-	});
-
-	RestAPI.prototype = {
-
-		getURL : function() {
-			return this._url;
-		},
-
-		getType : function(name) {
-			return new RestType(this, name);
-		},
-
-	};
-
-	/***************************************************************************
-	 * class RestType
-	 */
-
-	function RestType(api, name) {
-		this._owner_api = api;
-		this._name = name;
-		this._url = api.getURL() + '/' + name;
-	}
-
-	_mc_.class(function(cc) {
-		cc.type(RestType);
-	});
-
-	RestType.prototype = {
-
-		getURL : function() {
-			return this._url;
-		},
-
-		getResource : function(id) {
-			return new RestResource(this, id);
+		pathPattern : function(value) {
+			return this.attr('path_pattern', value);
 		},
 
 	};
@@ -189,10 +125,8 @@ JS.module(function(_mc_) {
 	 * class RestResource
 	 */
 
-	function RestResource(type, id) {
-		this._owner_type = type;
-		this._res_id = id;
-		this._url = type.getURL() + '/' + id;
+	function RestResource(client) {
+		this._path_builder = new RestPathBuilder(client);
 	}
 
 	_mc_.class(function(cc) {
@@ -202,7 +136,18 @@ JS.module(function(_mc_) {
 	RestResource.prototype = {
 
 		getURL : function() {
-			return this._url;
+			return this._path_builder.create();
+		},
+
+		part : function(key, value) {
+			return this._path_builder.part(key, value);
+		},
+
+		parts : function(table) {
+			for ( var key in table) {
+				var val = table[key];
+				this.part(key, val);
+			}
 		},
 
 		'post' : function() {
@@ -290,6 +235,179 @@ JS.module(function(_mc_) {
 
 		entity : function(ent) {
 			return this.attr('entity', ent);
+		},
+
+	};
+
+	/***************************************************************************
+	 * class RestPathPart
+	 */
+
+	function RestPathPart() {
+		this._x_length = false; // the indeterminable length
+		this._length = 1;
+	}
+
+	RestPathPart.prototype = {
+
+		mark_as_x_length : function() {
+			this._x_length = true;
+		},
+
+		attr : function(key, value) {
+			key = '__attr_' + key + '__';
+			if (value == null) {
+				value = this[key];
+			} else {
+				this[key] = value;
+			}
+			return value;
+		},
+
+		name : function(value) {
+			return this.attr('name', value);
+		},
+
+		value : function(value) {
+			return this.attr('value', value);
+		},
+
+		to_regular_string : function() {
+
+			var val = this.value();
+			if (val == null) {
+				var msg = 'the part is not set: ' + this.name();
+				throw new Exception(msg);
+			}
+
+			var a1 = val.split('/');
+			var a2 = [];
+			for ( var i in a1) {
+				var s = a1[i].trim();
+				if (s == null) {
+					// skip
+				} else if (s == '') {
+					// skip
+				} else {
+					a2.push(s);
+				}
+			}
+
+			if (this._x_length) {
+				// skip
+			} else if (this._length != a2.length) {
+				var want = this._length;
+				var real = a2.length;
+				var msg = 'bad path length, want:' + want + ', but:' + real;
+				throw new Exception(msg);
+			}
+
+			var sb = '';
+			for ( var i in a2) {
+				var val = a2[i];
+				if (sb.length == 0) {
+					sb = val;
+				} else {
+					sb += ('/' + val);
+				}
+			}
+
+			return sb;
+		},
+
+		inc_count : function() {
+			this._length++;
+		},
+
+	};
+
+	/***************************************************************************
+	 * class RestPathBuilder
+	 */
+
+	function RestPathBuilder(client) {
+		this._context = client._context;
+		this._pattern = client.pathPattern();
+		this._base = client.getURL();
+		this._part_list = null;
+		this._part_table = null;
+		this.parsePattern();
+	}
+
+	RestPathBuilder.prototype = {
+
+		part : function(name, value) {
+			var tab = this._part_table;
+			var part = tab[name];
+			if (part == null) {
+				var msg = 'no part with name: ' + name;
+				throw new RuntimeException(msg);
+			}
+			return part.value(value);
+		},
+
+		parsePattern : function() {
+
+			var pattern = this._pattern;
+			if (pattern == null) {
+				var msg = 'no pattern setted, in rest-client';
+				throw new SnowflakeException(msg);
+			}
+
+			var parts = [];
+			var cur_part = null;
+			var array = pattern.split('/');
+			for ( var i in array) {
+				var s = array[i];
+				if (s == null) {
+					// skip
+				} else if (s == '') {
+					// skip
+				} else if (s == '~') {
+					// skip
+				} else if (s == '+') {
+					cur_part.inc_count();
+				} else if (s == '*') {
+					// end
+					cur_part.mark_as_x_length();
+					break;
+				} else {
+					if (cur_part != null) {
+						parts.push(cur_part);
+					}
+					cur_part = new RestPathPart();
+					cur_part.name(s);
+				}
+			}
+			parts.push(cur_part);
+
+			var table = {};
+			for ( var i in parts) {
+				var part = parts[i];
+				var name = part.name();
+				table[name] = part;
+			}
+
+			this._part_list = parts;
+			this._part_table = table;
+
+		},
+
+		setPart : function(name, value) {
+			var part = this._part_table[name];
+			part.setValue(value);
+		},
+
+		create : function() {
+			var sb = this._base;
+			var list = this._part_list;
+			for ( var i in list) {
+				var part = list[i];
+				var s = part.to_regular_string();
+				sb += ('/' + s);
+			}
+			var context = this._context;
+			return context.normalizeURL(sb);
 		},
 
 	};

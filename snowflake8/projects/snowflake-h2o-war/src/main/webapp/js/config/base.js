@@ -19,9 +19,9 @@ snowflake.web.WebContextUtils.init(function(factory) {
 
 	factory.onCreate(function(context) {
 
-		// var bean1 = context.getBean('id1');
-		// var bean2 = context.getBean('id2');
-		// bean1.equals(bean2);
+		var rest_factory = context.getBean('snowflake.rest.RESTClientFactory');
+
+		rest_factory.pathPattern('~/api/uid/repo/type/id/*');
 
 	});
 

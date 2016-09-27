@@ -267,10 +267,14 @@ JS.module(function(mc) {
 			var cur_uri = cur_file.toFileURI();
 
 			var client = RESTClient.getInstance(context);
-			var app = client.getApplication();
-			var api = app.getAPI('rest');
-			var type = api.getType('command');
-			var res = type.getResource(args[0]);
+			var res = client.getResource();
+			res.parts({
+				api : 'rest',
+				uid : 'null',
+				repo : 'null',
+				type : 'command',
+				id : args[0],
+			});
 			var request = res.post();
 
 			var req_entity = new RestEntity();

@@ -275,6 +275,10 @@ JS.module(function(_mc_) {
 		to_regular_string : function() {
 
 			var val = this.value();
+			if (val == null) {
+				var msg = 'the part is not set: ' + this.name();
+				throw new Exception(msg);
+			}
 
 			var a1 = val.split('/');
 			var a2 = [];
