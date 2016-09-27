@@ -142,8 +142,47 @@
 		<property name="handlers">
 			<map>
 				<entry key='info'>
+					<ref bean='rest:switch:info-refs-service' />
+				</entry>
+			</map>
+		</property>
+
+	</bean>
+
+
+
+	<bean id='rest:switch:info-refs-service'
+		class='com.boluozhai.snowflake.rest.server.support.handler.RestHandlerSwitch'>
+
+		<!-- .../info/refs?service=??? -->
+
+		<property name="expression">
+			<bean
+				class='com.boluozhai.snowflake.xgit.http.server.controller.InfoRefsSwitchExpression' />
+		</property>
+
+		<property name="defaultHandler">
+			<bean
+				class='com.boluozhai.snowflake.xgit.http.server.controller.service.XgitBadService' />
+		</property>
+
+		<property name="handlers">
+			<map>
+				<entry key='xgit-receive-objects'>
 					<bean
-						class='com.boluozhai.snowflake.xgit.http.server.controller.InfoRefsCtrl'></bean>
+						class='com.boluozhai.snowflake.xgit.http.server.controller.service.XgitReceiveObjects'></bean>
+				</entry>
+				<entry key='xgit-upload-objects'>
+					<bean
+						class='com.boluozhai.snowflake.xgit.http.server.controller.service.XgitUploadObjects'></bean>
+				</entry>
+				<entry key='xgit-receive-pack'>
+					<bean
+						class='com.boluozhai.snowflake.xgit.http.server.controller.service.XgitReceivePack'></bean>
+				</entry>
+				<entry key='xgit-upload-pack'>
+					<bean
+						class='com.boluozhai.snowflake.xgit.http.server.controller.service.XgitUploadPack'></bean>
 				</entry>
 			</map>
 		</property>

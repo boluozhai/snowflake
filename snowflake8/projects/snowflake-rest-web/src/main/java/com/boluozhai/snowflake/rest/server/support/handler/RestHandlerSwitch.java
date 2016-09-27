@@ -7,16 +7,23 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.boluozhai.snowflake.rest.path.PathPart;
+import com.boluozhai.snowflake.core.SnowflakeException;
 import com.boluozhai.snowflake.rest.server.RestRequestHandler;
-import com.boluozhai.snowflake.rest.server.info.RestRequestInfo;
-import com.boluozhai.snowflake.rest.server.info.path.PathInfo;
 
 public class RestHandlerSwitch implements RestRequestHandler {
 
-	private String pathPartName;
+	private RestHandlerSwitchExpression expression;
+	private String pathPartName; // a simple way to use the 'expression'
 	private Map<String, RestRequestHandler> handlers;
 	private RestRequestHandler defaultHandler;
+
+	public RestHandlerSwitchExpression getExpression() {
+		return expression;
+	}
+
+	public void setExpression(RestHandlerSwitchExpression expression) {
+		this.expression = expression;
+	}
 
 	public RestRequestHandler getDefaultHandler() {
 		return defaultHandler;
@@ -46,20 +53,28 @@ public class RestHandlerSwitch implements RestRequestHandler {
 	public void handle(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		// make key name
-		RestRequestInfo info = RestRequestInfo.Factory.getInstance(request);
-		PathInfo path_info = info.getPathInfo();
-		PathPart pp = path_info.getPart(this.pathPartName, true);
-		String key = pp.toString();
-
-		// find next handler
+		RestHandlerSwitchExpression exp = this.inner_get_expression();
+		String key = exp.getValue(request);
 		RestRequestHandler next = this.handlers.get(key);
 		if (next == null) {
 			next = this.defaultHandler;
 		}
-
 		next.handle(request, response);
 
+	}
+
+	private RestHandlerSwitchExpression inner_get_expression() {
+		RestHandlerSwitchExpression exp = this.expression;
+		if (exp == null) {
+			String pp_name = this.pathPartName;
+			if (pp_name == null) {
+				String msg = "both of the [expression] & [pathPartName] is null.";
+				throw new SnowflakeException(msg);
+			}
+			exp = new PathNameExpression(pp_name);
+			this.expression = exp;
+		}
+		return exp;
 	}
 
 }
