@@ -50,7 +50,8 @@ public class FolderView extends RestView {
 	}
 
 	@Override
-	public void handle(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public void handle(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 
 		NodeListBuilder nlb = new NodeListBuilder();
 		nlb.base = this.base;
@@ -180,11 +181,14 @@ public class FolderView extends RestView {
 			} else {
 				base = file.toURI().toString();
 			}
-			final String url;
+			String url;
 			if (base.endsWith("/")) {
-				url = base + off + '/';
+				url = base + off;
 			} else {
-				url = base + "/" + off + '/';
+				url = base + "/" + off;
+			}
+			if (!url.endsWith("/")) {
+				url = url + '/';
 			}
 			final VFS vfs = file.vfs();
 			return vfs.newFile(URI.create(url));
