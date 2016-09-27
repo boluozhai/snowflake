@@ -173,6 +173,9 @@ public class FolderView extends RestView {
 		}
 
 		private VFile getThisNode() {
+
+			// TODO fix bug of path name in Chinese
+
 			final VFile file = this.base.file();
 			final String off = this.offset.toString();
 			final String base;

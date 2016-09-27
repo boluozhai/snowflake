@@ -48,6 +48,7 @@ JS.module(function(mc) {
 
 		init : function() {
 
+			var self = this;
 			var context = this._context;
 
 			var cl = new CurrentLocation(context);
@@ -64,8 +65,12 @@ JS.module(function(mc) {
 			path_bar_ctrl.currentLocation(cl);
 			filelist_ctrl.currentLocation(cl);
 
+			var path_bar_head = $('#directory-path-bar-head');
+			this.setupFsRootButton(path_bar_head);
+
 			console_ctrl.binder().parent('#console');
 			path_bar_ctrl.binder().parent('#path-bar');
+			path_bar_ctrl.binder().head(path_bar_head);
 			filelist_ctrl.binder().parent('#file-list');
 
 			console_ctrl.init();
@@ -74,12 +79,29 @@ JS.module(function(mc) {
 
 			// vfs
 			var vfs_factory = new VFSFactory();
-			vfs_factory.httpURI('~/rest/file');
+			vfs_factory.httpURI('~/rest/uid/repo/file');
 			var vfs = vfs_factory.create(context);
+			this._vfs = vfs;
 			vfs.ready(function() {
-				var root = vfs.root();
-				cl.location(root);
+				self.gotoRoot();
 			});
+
+		},
+
+		setupFsRootButton : function(query) {
+			var self = this;
+			query.find('.btn').click(function() {
+				self.gotoRoot();
+			});
+		},
+
+		gotoRoot : function() {
+
+			var cl = this._cur_location;
+			var vfs = this._vfs;
+
+			var root = vfs.root();
+			cl.location(root);
 
 		},
 

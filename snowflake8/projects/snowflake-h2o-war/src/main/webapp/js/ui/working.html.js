@@ -73,14 +73,17 @@ JS.module(function(mc) {
 			path_bar_ctrl.currentLocation(cl);
 			filelist_ctrl.currentLocation(cl);
 
+			var path_bar_head = $('.path-bar-head');
+			this.setupPathBarHead(path_bar_head);
+
 			head_ctrl.binder().parent('#page-head');
 			// console_ctrl.binder().parent('#console');
 			path_bar_ctrl.binder().parent('#path-bar');
 			filelist_ctrl.binder().parent('#file-list');
-			path_bar_ctrl.binder().head($('.path-bar-head'));
-			path_bar_ctrl.binder().onCreateHead(function(item) {
-				self.setupMagicButton(item);
-			});
+			path_bar_ctrl.binder().head(path_bar_head);
+			// path_bar_ctrl.binder().onCreateHead(function(item) {
+			// self.setupMagicButton(item);
+			// });
 
 			head_ctrl.init();
 			// console_ctrl.init();
@@ -91,18 +94,16 @@ JS.module(function(mc) {
 			var vfs_factory = new VFSFactory();
 			vfs_factory.httpURI(this.genWorkingBaseHttpURI());
 			var vfs = vfs_factory.create(context);
+			this._vfs = vfs;
 			vfs.ready(function() {
-				var root = vfs.root();
-				cl.location(root);
+				self.fireOnClickRootBtn();
 			});
-
-			this.setupMagicButton(null);
 
 		},
 
 		genWorkingBaseHttpURI : function() {
 
-			var temp = '~/rest/working/{user}/{repo}/';
+			var temp = '~/rest/{user}/{repo}/working';
 			var info = new ViewportInfo();
 			var user = info.owner();
 			var repo = info.repository();
@@ -113,36 +114,58 @@ JS.module(function(mc) {
 			return temp;
 		},
 
-		setupMagicButton : function(item) {
+		setupPathBarHead : function(query) {
+			this.setupRootButton(query);
+			this.setupMagicButton(query);
+		},
+
+		setupRootButton : function(q) {
+
+			var info = new ViewportInfo();
+			var user = info.owner();
+			var repo = info.repository();
+
+			var self = this;
+			var btn = q.find('.h2o-root-button');
+			btn.text(user + '^' + repo);
+			btn.click(function() {
+				self.fireOnClickRootBtn();
+			});
+
+		},
+
+		setupMagicButton : function(q) {
 
 			var head = $('#page-head');
+			var speed = 200;
 
-			if (item == null) {
+			var base = q;
+			var btn = base.find('.btn-h2o-magic');
+			var mark = base.find('.mark-h2o-plus');
 
-				head.hide();
-				is_head_visible = false;
+			btn.click(function() {
+				if (!is_head_visible) {
+					mark.text('-');
+					head.show(speed);
+					is_head_visible = true;
+				} else {
+					mark.text('+');
+					head.hide(speed);
+					is_head_visible = false;
+				}
+			});
 
-			} else {
+			head.hide();
+			is_head_visible = false;
 
-				var speed = 200;
+		},
 
-				var base = item.view();
-				var btn = base.find('.btn-h2o-magic');
-				var mark = base.find('.mark-h2o-plus');
+		fireOnClickRootBtn : function() {
 
-				btn.click(function() {
-					if (!is_head_visible) {
-						mark.text('-');
-						head.show(speed);
-						is_head_visible = true;
-					} else {
-						mark.text('+');
-						head.hide(speed);
-						is_head_visible = false;
-					}
-				});
-
-			}
+			var vfs = this._vfs;
+			var cl = this._cur_location;
+			var root = vfs.root();
+			cl.location(root);
 
 		},
 

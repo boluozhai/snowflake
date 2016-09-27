@@ -77,12 +77,12 @@ JS.module(function(mc) {
 		},
 
 		head : function(value) {
-			return this.attr('head', value);
+			return this.bind('head', value);
 		},
 
-		onCreateHead : function(fn /* (list_item) */) {
-			return this.attr('onCreateHead', fn);
-		},
+	// onCreateHead : function(fn /* (list_item) */) {
+	// return this.attr('onCreateHead', fn);
+	// },
 
 	};
 
@@ -171,14 +171,18 @@ JS.module(function(mc) {
 			// items
 
 			builder.addHead('.list-head').onCreate(function(item) {
-				var view = item.view();
-				view.find('.btn-root-path').click(function() {
-					self.fireOnClickRoot(item);
-				});
 
-				var fn = binder.onCreateHead();
-				if (fn != null) {
-					fn(item);
+				var view = item.view();
+				var head = binder.head();
+
+				if (head == null) {
+					var btn = view.find('.btn-root-path');
+					btn.click(function() {
+						self.fireOnClickRoot();
+					});
+				} else {
+					view.empty();
+					view.append(head);
 				}
 
 			}).onUpdate(function(item) {
@@ -230,7 +234,7 @@ JS.module(function(mc) {
 			cl.location(file);
 		},
 
-		fireOnClickRoot : function(item) {
+		fireOnClickRoot : function() {
 			var cl = this.currentLocation();
 			var file = cl.location();
 			var vfs = file.vfs();
