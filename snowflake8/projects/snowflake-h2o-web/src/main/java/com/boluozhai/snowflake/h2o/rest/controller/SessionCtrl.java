@@ -10,7 +10,7 @@ import com.boluozhai.snowflake.h2o.rest.helper.H2oRestInfo;
 import com.boluozhai.snowflake.rest.api.h2o.SessionModel;
 import com.boluozhai.snowflake.rest.server.JsonRestView;
 import com.boluozhai.snowflake.rest.server.RestController;
-import com.boluozhai.snowflake.rest.server.info.session.SessionInfoHolder;
+import com.boluozhai.snowflake.rest.server.info.RestRequestInfo;
 import com.google.gson.Gson;
 
 public class SessionCtrl extends RestController {
@@ -45,8 +45,10 @@ public class SessionCtrl extends RestController {
 	private void rest_response_js(HttpServletRequest request,
 			HttpServletResponse response) throws IOException, ServletException {
 
-		SessionInfoHolder holder = SessionInfoHolder.create(request);
-		SessionModel model = holder.get();
+		RestRequestInfo rest_info = RestRequestInfo.Factory
+				.getInstance(request);
+
+		SessionModel model = rest_info.getSessionInfo().getModel();
 
 		Gson gs = new Gson();
 		String json = gs.toJson(model);

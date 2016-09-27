@@ -12,10 +12,10 @@ import com.boluozhai.snowflake.context.SnowflakeContext;
 import com.boluozhai.snowflake.core.SnowflakeException;
 import com.boluozhai.snowflake.libwebapp.utils.WebContextUtils;
 
-public class RestServlet extends HttpServlet implements RequestHandler {
+public class RestServlet extends HttpServlet implements RestRequestHandler {
 
 	private static final long serialVersionUID = -6829149650943898084L;
-	private RequestHandler _next_handler;
+	private RestRequestHandler _next_handler;
 
 	@Override
 	protected final void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -47,7 +47,7 @@ public class RestServlet extends HttpServlet implements RequestHandler {
 
 		try {
 
-			RequestHandler next = this.get_next_handler();
+			RestRequestHandler next = this.get_next_handler();
 			next.handle(request, response);
 
 		} catch (Exception e) {
@@ -63,8 +63,8 @@ public class RestServlet extends HttpServlet implements RequestHandler {
 
 	}
 
-	private RequestHandler get_next_handler() {
-		RequestHandler next = this._next_handler;
+	private RestRequestHandler get_next_handler() {
+		RestRequestHandler next = this._next_handler;
 		if (next == null) {
 			next = this.load_next_handler();
 			this._next_handler = next;
@@ -72,7 +72,7 @@ public class RestServlet extends HttpServlet implements RequestHandler {
 		return next;
 	}
 
-	private RequestHandler load_next_handler() {
+	private RestRequestHandler load_next_handler() {
 		String key = "handler";
 		String bean_id = this.getInitParameter(key);
 		if (bean_id == null) {
@@ -81,7 +81,7 @@ public class RestServlet extends HttpServlet implements RequestHandler {
 		}
 		ServletContext sc = this.getServletContext();
 		SnowflakeContext context = WebContextUtils.getWebContext(sc);
-		return context.getBean(bean_id, RequestHandler.class);
+		return context.getBean(bean_id, RestRequestHandler.class);
 	}
 
 }

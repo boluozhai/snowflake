@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.boluozhai.snowflake.rest.server.info.RestRequestInfo;
 
-public class RestController implements RequestHandler {
+public class RestController implements RestRequestHandler {
 
 	@Override
 	public final void handle(HttpServletRequest request,

@@ -8,21 +8,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.boluozhai.snowflake.rest.path.PathPart;
-import com.boluozhai.snowflake.rest.server.RequestHandler;
+import com.boluozhai.snowflake.rest.server.RestRequestHandler;
 import com.boluozhai.snowflake.rest.server.info.RestRequestInfo;
 import com.boluozhai.snowflake.rest.server.info.path.PathInfo;
 
-public class RestHandlerSwitch implements RequestHandler {
+public class RestHandlerSwitch implements RestRequestHandler {
 
 	private String pathPartName;
-	private Map<String, RequestHandler> handlers;
-	private RequestHandler defaultHandler;
+	private Map<String, RestRequestHandler> handlers;
+	private RestRequestHandler defaultHandler;
 
-	public RequestHandler getDefaultHandler() {
+	public RestRequestHandler getDefaultHandler() {
 		return defaultHandler;
 	}
 
-	public void setDefaultHandler(RequestHandler defaultHandler) {
+	public void setDefaultHandler(RestRequestHandler defaultHandler) {
 		this.defaultHandler = defaultHandler;
 	}
 
@@ -34,11 +34,11 @@ public class RestHandlerSwitch implements RequestHandler {
 		this.pathPartName = pathPartName;
 	}
 
-	public Map<String, RequestHandler> getHandlers() {
+	public Map<String, RestRequestHandler> getHandlers() {
 		return handlers;
 	}
 
-	public void setHandlers(Map<String, RequestHandler> handlers) {
+	public void setHandlers(Map<String, RestRequestHandler> handlers) {
 		this.handlers = handlers;
 	}
 
@@ -53,7 +53,7 @@ public class RestHandlerSwitch implements RequestHandler {
 		String key = pp.toString();
 
 		// find next handler
-		RequestHandler next = this.handlers.get(key);
+		RestRequestHandler next = this.handlers.get(key);
 		if (next == null) {
 			next = this.defaultHandler;
 		}

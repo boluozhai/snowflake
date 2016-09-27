@@ -1,17 +1,17 @@
 package com.boluozhai.snowflake.rest.server.support.handler;
 
-import com.boluozhai.snowflake.rest.server.RequestHandler;
+import com.boluozhai.snowflake.rest.server.RestRequestHandler;
 
-public abstract class RestRequestFilter implements RequestHandler {
+public abstract class RestRequestFilter implements RestRequestHandler {
 
-	private RequestHandler nextHanlder;
+	private RestRequestHandler nextHanlder;
 	private RestRequestListener[] listeners;
 
-	public RequestHandler getNextHanlder() {
+	public RestRequestHandler getNextHanlder() {
 		return nextHanlder;
 	}
 
-	public void setNextHanlder(RequestHandler nextHanlder) {
+	public void setNextHanlder(RestRequestHandler nextHanlder) {
 		this.nextHanlder = nextHanlder;
 	}
 
