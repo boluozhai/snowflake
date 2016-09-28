@@ -6,9 +6,9 @@ public interface SiteRepository extends Repository {
 
 	interface TYPE {
 
-		String system = "system";
-		String data = "data";
-		String user = "user";
+		String system = RepositoryType.system;
+		String data = RepositoryType.data;
+		String user = RepositoryType.user;
 
 	}
 

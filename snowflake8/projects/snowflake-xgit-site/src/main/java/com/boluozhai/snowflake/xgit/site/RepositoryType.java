@@ -2,10 +2,10 @@ package com.boluozhai.snowflake.xgit.site;
 
 public interface RepositoryType {
 
-	String normal = "normal";
-	String system = "system";
-	String partition = "partition";
-	String user = "user";
-	String data = "data";
+	String normal = "NORMAL";
+	String system = "SYSTEM";
+	String partition = "PARTITION";
+	String user = "USER";
+	String data = "DATA";
 
 }

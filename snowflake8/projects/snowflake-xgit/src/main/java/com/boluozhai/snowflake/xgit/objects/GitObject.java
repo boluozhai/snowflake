@@ -6,12 +6,18 @@ public interface GitObject {
 
 	interface TYPE {
 
+		// for regular git
+
 		String blob = "blob";
 		String tree = "tree";
 		String commit = "commit";
 		String tag = "tag";
 
-		String commit_section = "commit_section";
+		// for xgit
+
+		String blob_fragment = "blobfragment";
+		String commit_section = "commitsection";
+		String descriptor = "descriptor";
 
 	}
 

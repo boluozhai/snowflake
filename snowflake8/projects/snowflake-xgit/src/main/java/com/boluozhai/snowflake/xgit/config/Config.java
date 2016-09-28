@@ -3,7 +3,10 @@ package com.boluozhai.snowflake.xgit.config;
 import java.io.IOException;
 
 import com.boluozhai.snowflake.context.MutableProperties;
+import com.boluozhai.snowflake.mvc.model.ComponentContext;
 import com.boluozhai.snowflake.xgit.XGitComponent;
+import com.boluozhai.snowflake.xgit.XGitContext;
+import com.boluozhai.snowflake.xgit.repository.Repository;
 
 public interface Config extends XGitComponent, MutableProperties {
 
@@ -44,5 +47,14 @@ public interface Config extends XGitComponent, MutableProperties {
 	void load() throws IOException;
 
 	void save() throws IOException;
+
+	class Factory {
+
+		public static Config getInstance(Repository repo) {
+			ComponentContext cc = repo.getComponentContext();
+			return (Config) cc.getAttribute(XGitContext.component.config);
+		}
+
+	}
 
 }
