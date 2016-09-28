@@ -36,6 +36,28 @@ public final class ParamSet {
 		this._args = args;
 	}
 
+	public boolean hasOption(String name) {
+		Parameter op = this._opts.get(name);
+		return (op != null);
+	}
+
+	public Parameter getOptionParam(String name) {
+		return this.getOptionParam(name, false);
+	}
+
+	public Parameter getRequiredOptionParam(String name) {
+		return this.getOptionParam(name, true);
+	}
+
+	public Parameter getOptionParam(String name, boolean required) {
+		Parameter p = this._opts.get(name);
+		if ((p == null) && required) {
+			String msg = "need option: " + name;
+			throw new SnowflakeException(msg);
+		}
+		return p;
+	}
+
 	public String getOption(String name) {
 		return this.getOption(name, null, false);
 	}

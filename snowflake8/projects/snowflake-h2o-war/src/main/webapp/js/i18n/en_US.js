@@ -1,5 +1,5 @@
 /*******************************************************************************
- * js/i18n/default.js
+ * js/i18n/en_US.js
  */
 
 this.h2o.i18n.StringResTable.mapping = {

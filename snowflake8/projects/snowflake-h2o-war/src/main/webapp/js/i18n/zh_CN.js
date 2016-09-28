@@ -1,5 +1,5 @@
 /*******************************************************************************
- * js/i18n/default.js
+ * js/i18n/zh_CN.js
  */
 
 this.h2o.i18n.StringResTable.mapping = {
@@ -15,8 +15,11 @@ this.h2o.i18n.StringResTable.mapping = {
 	search_for : '仓库，帐号...',
 	size : '大小',
 	space : '空间',
+	terminal : '终端',
 	time : '时间',
+	title_console : '控制台',
+	title_directory : '目录',
+	title_working : '工作空间',
 	type : '类型',
-	working_space : '工作空间',
 
 };
