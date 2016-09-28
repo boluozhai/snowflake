@@ -18,7 +18,7 @@
 <meta charset='utf-8' />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<title>Working</title>
+<title class='i18n' i18n='working_space'>Working</title>
 
 <link href="./lib/bootstrap/css/bootstrap.min.css" rel="stylesheet"
 	type="text/css" />
@@ -61,7 +61,7 @@ body {
 
 		<div class='page-foot side-bar '>
 			<div>
-				<span> &gt;_&lt; ，没有了！ </span>
+				<span class='i18n' i18n='no_more'> &gt;_&lt; ，没有了！ </span>
 			</div>
 		</div>
 
@@ -74,10 +74,10 @@ body {
 			<span class='path-bar-head'>
 				<button class='btn btn-primary  btn-h2o-magic '>
 					<img class='hide' src='image/bucket.png' style='width: 36px' /> <span
-						class='mark-h2o-plus'>+</span> <span>Magic</span> 
+						class='mark-h2o-plus'>+</span> <span class='i18n' i18n='magic'>Magic</span>
 				</button>
-				<button class='btn btn-link  h2o-root-button  btn-root-path '>ak's
-					home</button>
+				<button class='btn btn-link  h2o-root-button  btn-root-path i18n'
+					i18n='home'>ak's home</button>
 			</span>
 		</div>
 
@@ -93,7 +93,7 @@ body {
 	<script src="./lib/snowflake/rest.js"></script>
 	<script src="./lib/snowflake/listview.js"></script>
 
-	<script src="./rest/null/null/session/current-session-info.js"></script>
+	<script src="./js/session/current-session-info.js"></script>
 	<script src="./js/controller/viewport.js"></script>
 
 	<script src="./export/h2o/js/widget.js"></script>
@@ -106,6 +106,8 @@ body {
 	<script src="./js/ui/working.html.js"></script>
 
 	<script src="./js/config/base.js"></script>
+	<script src="./js/config/i18n-base.js"></script>
+	<script src="./js/config/i18n.js"></script>
 	<script src="./js/config/final.js"></script>
 	<script src="./this.js"></script>
 

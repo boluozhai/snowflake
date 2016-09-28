@@ -234,6 +234,15 @@ JS.module(function(mc) {
 
 		},
 
+		testI18n : function() {
+
+			var context = Context.getInstance();
+			context.i18n($('body'));
+
+			System.out.println('translate done.');
+
+		},
+
 		testNormalizeURL : function() {
 
 			var context = Context.getInstance();

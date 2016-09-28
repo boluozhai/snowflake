@@ -53,6 +53,9 @@ JS.module(function(mc) {
 				var child = $(txt);
 				var parent = $('<div></div>');
 				parent.append(child);
+
+				context.i18n(parent);
+
 				fn(parent);
 
 			};

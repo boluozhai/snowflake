@@ -80,6 +80,14 @@
 	</bean>
 
 
+
+	<bean id='rest:gateway:resource' parent='rest:gateway:parent'>
+		<property name="nextHanlder">
+			<ref bean='rest:switch:resource' />
+		</property>
+	</bean>
+
+
 	<!-- switch -->
 
 
@@ -188,6 +196,34 @@
 		</property>
 
 	</bean>
+
+
+	<bean id='rest:switch:resource'
+		class='com.boluozhai.snowflake.rest.server.support.handler.RestHandlerSwitch'>
+
+		<property name="expression">
+			<bean
+				class='com.boluozhai.snowflake.h2o.rest.controller.res.ResourceSwitchExpression' />
+		</property>
+
+		<property name="defaultHandler">
+			<bean class='com.boluozhai.snowflake.h2o.rest.controller.Http404Ctrl' />
+		</property>
+
+		<property name="handlers">
+			<map>
+				<entry key='~/js/config/i18n.js'>
+					<bean class='com.boluozhai.snowflake.h2o.rest.controller.res.I18nJsCtrl'></bean>
+				</entry>
+				<entry key='~/js/session/current-session-info.js'>
+					<bean
+						class='com.boluozhai.snowflake.h2o.rest.controller.res.SessionJsCtrl'></bean>
+				</entry>
+			</map>
+		</property>
+
+	</bean>
+
 
 
 </beans>

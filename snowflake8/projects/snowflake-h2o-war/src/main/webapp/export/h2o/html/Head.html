@@ -18,15 +18,15 @@
 								class="icon-bar"></span> <span class="icon-bar"></span> <span
 								class="icon-bar"></span>
 						</button>
-						<a class="navbar-brand" href="#">H2O</a>
+						<a class="navbar-brand i18n" href="#" i18n='h2o'>H2O</a>
 					</div>
 
 					<!-- Collect the nav links, forms, and other content for toggling -->
 					<div class="collapse navbar-collapse"
 						id="bs-example-navbar-collapse-1">
 						<ul class="nav navbar-nav">
-							<li class="active"><a href="#">时</a></li>
-							<li class='-hide'><a href="#">空</a></li>
+							<li class="active"><a href="#" class='i18n' i18n='time'>时</a></li>
+							<li class='-hide'><a href="#" class='i18n' i18n='space'>空</a></li>
 							<li class="dropdown hide"><a href="#"
 								class="dropdown-toggle" data-toggle="dropdown">Dropdown <span
 									class="caret"></span></a>
@@ -42,15 +42,19 @@
 						</ul>
 						<form class="navbar-form navbar-left" role="search">
 							<div class="form-group">
-								<input type="text" class="form-control" placeholder="Search" />
+								<input type="text" class="form-control i18n "
+									placeholder="Search" i18n-placeholder='search_for' />
 							</div>
-							<button type='button' class="btn btn-default">找一找</button>
+							<button type='button' class="btn btn-default i18n "
+								i18n='do_search'>找一找</button>
 						</form>
 						<ul class="nav navbar-nav navbar-right">
 
 							<li class='view-if-login-not' style='margin-left: 10px'>
-								<button class='btn btn-default navbar-btn btn-auth-login'>登录</button>
-								<button class='btn btn-success navbar-btn btn-auth-reg'>注册</button>
+								<button class='btn btn-default navbar-btn btn-auth-login i18n'
+									i18n='login'>登录</button>
+								<button class='btn btn-success navbar-btn btn-auth-reg i18n'
+									i18n='register'>注册</button>
 							</li>
 
 							<li class="view-if-login dropdown"><a href="#"
@@ -62,11 +66,14 @@
 									<li style='text-align: center'><img src='image/h2o.png'
 										alt='avatar' class=''
 										style='width: 128px; height: 128px; margin: 20px' /></li>
-									<li><a href="#" id='account-profile'>简介</a></li>
-									<li><a href="#" id='account-settings'>设置</a></li>
-									<li><a href="#" id='account-repository'>库</a></li>
+									<li><a href="#" id='account-profile' class='i18n'
+										i18n='profile'>简介</a></li>
+									<li><a href="#" id='account-settings' class='i18n'
+										i18n='settings'>设置</a></li>
+									<li><a href="#" id='account-repository' class='i18n'
+										i18n='repository'>库</a></li>
 									<li class="divider"></li>
-									<li><a href="#">退出</a></li>
+									<li><a href="#" class='i18n' i18n='logout'>退出</a></li>
 								</ul></li>
 						</ul>
 					</div>

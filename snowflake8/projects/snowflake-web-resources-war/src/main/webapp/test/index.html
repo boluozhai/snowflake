@@ -46,6 +46,10 @@ li {
 			<li>
 				<button class='btn btn-default test-listview'>Test ListView</button>
 			</li>
+			<li>
+				<button class='btn btn-default test-i18n  i18n ' i18n='test_i18n'>Test
+					i18n</button>
+			</li>
 		</ol>
 
 		<div>
@@ -107,6 +111,10 @@ li {
 
 			$('.test-normalize-path').click(function() {
 				t.testNormalizeURL();
+			});
+
+			$('.test-i18n').click(function() {
+				t.testI18n();
 			});
 
 			t.test();

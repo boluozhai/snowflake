@@ -172,6 +172,7 @@ JS.module(function(mc) {
 	function WebContext(beans) {
 		this.Context(beans);
 		this._path_in_webapp = null;
+		this._i18n = new Internationalization();
 	}
 
 	mc.class(function(cc) {
@@ -183,6 +184,14 @@ JS.module(function(mc) {
 
 		pathInWebapp : function() {
 			return this._path_in_webapp;
+		},
+
+		i18n : function(query) {
+			var i18n = this._i18n;
+			if (query != null) {
+				i18n.translate(query);
+			}
+			return i18n;
 		},
 
 		normalizeURL : function(path) {
@@ -287,6 +296,49 @@ JS.module(function(mc) {
 		}
 
 		fn(factory);
+	};
+
+	/***************************************************************************
+	 * class Internationalization
+	 */
+
+	function Internationalization() {
+		this._mapping = {};
+	}
+
+	mc.class(function(cc) {
+		cc.type(Internationalization);
+		// cc.extends(Attributes);
+	});
+
+	Internationalization.prototype = {
+
+		appendMapping : function(map) {
+			var to = this._mapping;
+			for ( var key in map) {
+				var value = map[key];
+				to[key] = value;
+			}
+		},
+
+		translate : function(query) {
+
+			var mapping = this._mapping;
+			var list = query.find('.i18n');
+
+			for (var i = list.length - 1; i >= 0; i--) {
+				var ele = list[i];
+				var q = $(ele);
+				var key = q.attr('i18n');
+				var value = mapping[key];
+				if (value == null) {
+					value = 'i18n(' + key + ')';
+				}
+				q.text(value);
+			}
+
+		},
+
 	};
 
 });

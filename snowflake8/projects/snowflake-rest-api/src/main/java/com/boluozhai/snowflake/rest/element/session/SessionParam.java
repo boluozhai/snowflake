@@ -1,13 +1,22 @@
 package com.boluozhai.snowflake.rest.element.session;
 
-public class SessionInfo {
+public class SessionParam {
 
 	private String hashId;
 	private String email;
 	private String nickname;
 	private String avatar;
+	private String language;
 	private long loginTimestamp;
 	private boolean login;
+
+	public String getLanguage() {
+		return language;
+	}
+
+	public void setLanguage(String language) {
+		this.language = language;
+	}
 
 	public String getEmail() {
 		return email;

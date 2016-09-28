@@ -10,7 +10,7 @@ import com.boluozhai.snowflake.core.SnowflakeException;
 import com.boluozhai.snowflake.rest.api.h2o.AuthModel;
 import com.boluozhai.snowflake.rest.api.h2o.SessionModel;
 import com.boluozhai.snowflake.rest.element.auth.AuthInfo;
-import com.boluozhai.snowflake.rest.element.session.SessionInfo;
+import com.boluozhai.snowflake.rest.element.session.SessionParam;
 import com.boluozhai.snowflake.rest.server.JsonRestPojoLoader;
 import com.boluozhai.snowflake.rest.server.JsonRestView;
 import com.boluozhai.snowflake.rest.server.RestController;
@@ -55,7 +55,7 @@ public class EmailPasswordMethod extends RestController {
 				.getSessionInfo();
 
 		SessionModel session = session_info.getModel();
-		SessionInfo info = new SessionInfo();
+		SessionParam info = new SessionParam();
 		session.setSession(info);
 
 		info.setNickname("haha");
