@@ -187,6 +187,20 @@
 						<property name='description' value='以文本形式输出对象的内容' />
 					</bean>
 				</entry>
+
+				<entry key='ll-push'>
+					<bean class='com.boluozhai.snowflake.xgit.command.XGitLLPush'>
+						<property name='description' value='低级命令::向远程仓库推送数据' />
+					</bean>
+				</entry>
+
+				<entry key='ll-fetch'>
+					<bean class='com.boluozhai.snowflake.xgit.command.XGitLLFetch'>
+						<property name='description' value='低级命令::从远程仓库获取数据' />
+					</bean>
+				</entry>
+
+
 			</map>
 		</property>
 	</bean>

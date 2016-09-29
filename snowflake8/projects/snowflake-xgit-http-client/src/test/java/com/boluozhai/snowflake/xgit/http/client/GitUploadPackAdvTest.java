@@ -14,7 +14,7 @@ import com.boluozhai.snowflake.xgit.http.client.toolkit.GitClientToolkit;
 import com.boluozhai.snowflake.xgit.http.client.toolkit.GitUploadPackAdvertisement;
 import com.boluozhai.snowflake.xgit.http.client.toolkit.GitUploadPackRequest;
 import com.boluozhai.snowflake.xgit.http.client.toolkit.RemoteAgent;
-import com.boluozhai.snowflake.xgit.http.pktline.io.PktLineReader;
+import com.boluozhai.snowflake.xgit.http.pktline.io.PktLineInputStreamReader;
 
 public class GitUploadPackAdvTest {
 
@@ -27,7 +27,7 @@ public class GitUploadPackAdvTest {
 		Testing testing = null;
 		InputStream in = null;
 		HttpConnection conn = null;
-		PktLineReader reader = null;
+		PktLineInputStreamReader reader = null;
 
 		try {
 

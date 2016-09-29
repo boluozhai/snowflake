@@ -10,7 +10,7 @@ import com.boluozhai.snowflake.util.IOTools;
 import com.boluozhai.snowflake.xgit.http.client.GitHttpService;
 import com.boluozhai.snowflake.xgit.http.client.toolkit.GitUploadPackResult;
 import com.boluozhai.snowflake.xgit.http.pktline.PktLine;
-import com.boluozhai.snowflake.xgit.http.pktline.io.PktLineReader;
+import com.boluozhai.snowflake.xgit.http.pktline.io.PktLineInputStreamReader;
 
 final class GitUploadPackResultImpl implements GitUploadPackResult {
 
@@ -75,14 +75,14 @@ final class GitUploadPackResultImpl implements GitUploadPackResult {
 		}
 
 		public void parse_response(HttpResponse response) throws IOException {
-			PktLineReader reader = null;
+			PktLineInputStreamReader reader = null;
 			try {
 				HttpEntity ent = response.getEntity();
 				String type = ent.type();
 				System.out.println(type);
 
 				InputStream in = ent.input();
-				reader = new PktLineReader(in);
+				reader = new PktLineInputStreamReader(in);
 				for (;;) {
 					PktLine line = reader.read();
 					if (line == null) {

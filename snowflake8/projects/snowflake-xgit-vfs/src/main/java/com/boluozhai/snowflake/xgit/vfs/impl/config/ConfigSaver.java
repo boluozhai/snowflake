@@ -16,7 +16,7 @@ import com.boluozhai.snowflake.util.TextTools;
 import com.boluozhai.snowflake.vfs.VFile;
 import com.boluozhai.snowflake.vfs.io.VFSIO;
 
-final class ConfigSaver {
+public final class ConfigSaver {
 
 	private final SnowflakeContext context;
 

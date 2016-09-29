@@ -153,6 +153,10 @@
 						class='com.boluozhai.snowflake.xgit.vfs.support.FileRefptrManagerFactory' />
 				</entry>
 
+				<entry key='xgit.remotes'>
+					<bean
+						class='com.boluozhai.snowflake.xgit.vfs.support.FileRemoteManagerFactory' />
+				</entry>
 
 				<entry key='xgit.hash_path_mapper'>
 					<bean
