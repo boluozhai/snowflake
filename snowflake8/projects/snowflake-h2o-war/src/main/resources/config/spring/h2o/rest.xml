@@ -59,6 +59,9 @@
 						<bean
 							class='com.boluozhai.snowflake.xgit.http.server.listener.RepoInfoBindingListener'>
 						</bean>
+						<bean
+							class='com.boluozhai.snowflake.h2o.rest.listener.XgitServiceRepoBindingListener'>
+						</bean>
 					</list>
 				</property>
 
@@ -184,13 +187,13 @@
 					<bean
 						class='com.boluozhai.snowflake.xgit.http.server.controller.service.XgitUploadObjects'></bean>
 				</entry>
-				<entry key='xgit-receive-pack'>
+				<entry key='xgit-receive-refs'>
 					<bean
-						class='com.boluozhai.snowflake.xgit.http.server.controller.service.XgitReceivePack'></bean>
+						class='com.boluozhai.snowflake.xgit.http.server.controller.service.XgitReceiveRefs'></bean>
 				</entry>
-				<entry key='xgit-upload-pack'>
+				<entry key='xgit-upload-refs'>
 					<bean
-						class='com.boluozhai.snowflake.xgit.http.server.controller.service.XgitUploadPack'></bean>
+						class='com.boluozhai.snowflake.xgit.http.server.controller.service.XgitUploadRefs'></bean>
 				</entry>
 			</map>
 		</property>
