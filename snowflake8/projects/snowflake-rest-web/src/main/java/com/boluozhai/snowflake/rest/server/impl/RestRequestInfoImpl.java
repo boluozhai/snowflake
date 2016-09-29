@@ -1,6 +1,5 @@
 package com.boluozhai.snowflake.rest.server.impl;
 
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
 import com.boluozhai.snowflake.context.SnowflakeContext;
@@ -34,8 +33,7 @@ final class RestRequestInfoImpl implements RestRequestInfo {
 
 		@Override
 		public RestRequestInfo getInstance(HttpServletRequest request) {
-			ServletContext sc = request.getServletContext();
-			SnowflakeContext context = WebContextUtils.getWebContext(sc);
+			SnowflakeContext context = WebContextUtils.getWebContext(request);
 			return new RestRequestInfoImpl(this, context, request);
 		}
 

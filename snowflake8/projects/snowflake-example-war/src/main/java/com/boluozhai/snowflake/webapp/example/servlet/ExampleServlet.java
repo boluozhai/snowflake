@@ -3,7 +3,6 @@ package com.boluozhai.snowflake.webapp.example.servlet;
 import java.io.IOException;
 import java.io.PrintStream;
 
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
@@ -38,8 +37,8 @@ public class ExampleServlet extends HttpServlet {
 		// builder.create();
 
 		// in simple style
-		ServletContext sc = req.getServletContext();
-		SnowflakeContext context = WebContextUtils.getWebContext(sc);
+
+		SnowflakeContext context = WebContextUtils.getWebContext(req);
 
 		String enc = "utf-8";
 

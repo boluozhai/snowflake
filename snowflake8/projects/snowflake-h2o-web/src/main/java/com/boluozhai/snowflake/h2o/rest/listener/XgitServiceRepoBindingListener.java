@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.boluozhai.snowflake.context.MutableContext;
 import com.boluozhai.snowflake.context.SnowflakeContext;
+import com.boluozhai.snowflake.core.SnowflakeException;
 import com.boluozhai.snowflake.datatable.DataClient;
 import com.boluozhai.snowflake.h2o.data.H2oDataTable;
 import com.boluozhai.snowflake.h2o.data.dao.AliasDAO;
@@ -34,8 +35,8 @@ public class XgitServiceRepoBindingListener extends RestRequestListener {
 		MutableContext mut_context = (MutableContext) context;
 
 		PathInfo path_info = req_info.getPathInfo();
-		final String uid = path_info.getPartString("uid");
-		final String repoid = path_info.getPartString("repoid");
+		final String uid_1 = path_info.getPartString("user", true);
+		final String rid_1 = path_info.getPartString("repository", true);
 
 		DataClient data_client = null;
 		try {
@@ -44,18 +45,44 @@ public class XgitServiceRepoBindingListener extends RestRequestListener {
 
 			AliasDAO alias_dao = new AliasDAO(data_client);
 			RepoDAO repo_dao = new RepoDAO(data_client);
-			String u2 = alias_dao.findUser(uid);
-			RepoItem repo_item = repo_dao.findRepo(u2, repoid);
+			final String uid_2 = alias_dao.findUser(uid_1);
+			final String rid_2 = this.inner_normalize_repo_id(rid_1);
+			RepoItem repo_item = repo_dao.findRepo(uid_2, rid_2);
+			if (repo_item == null) {
+				String msg = "the repository [%s:%s] is not found.";
+				msg = String.format(msg, uid_1, rid_1);
+				throw new SnowflakeException(msg);
+			}
 			String loc = repo_item.getLocation();
 			URI uri = URI.create(loc);
 
-			RepositoryAgent agent = new MyRepositoryAgent(uri, uid, u2);
+			RepositoryAgent agent = new MyRepositoryAgent(uri, uid_2, rid_2);
 			RepositoryAgent.Factory.bind(mut_context, agent);
 
 		} finally {
 			IOTools.close(data_client);
 		}
 
+	}
+
+	private String inner_normalize_repo_id(final String repo_id) {
+
+		final int index = repo_id.lastIndexOf('.');
+		if (index < 0) {
+			return repo_id;
+		}
+
+		String p1 = repo_id.substring(0, index);
+		String p2 = repo_id.substring(index).toLowerCase();
+
+		String[] array = { ".sf", ".git", ".xgit", ".snow", ".snowflake" };
+		for (String s : array) {
+			if (p2.equals(s)) {
+				return p1;
+			}
+		}
+
+		return repo_id;
 	}
 
 	private static class MyRepositoryAgent implements RepositoryAgent {

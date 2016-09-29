@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -34,8 +33,7 @@ public class CommandCtrl extends RestController {
 
 		try {
 
-			ServletContext sc = request.getServletContext();
-			SnowflakeContext context = WebContextUtils.getWebContext(sc);
+			SnowflakeContext context = WebContextUtils.getWebContext(request);
 
 			// load
 			CommandModel model = this.load_request_entity(request);

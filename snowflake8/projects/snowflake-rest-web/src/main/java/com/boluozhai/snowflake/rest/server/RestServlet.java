@@ -2,7 +2,6 @@ package com.boluozhai.snowflake.rest.server;
 
 import java.io.IOException;
 
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -47,7 +46,7 @@ public class RestServlet extends HttpServlet implements RestRequestHandler {
 
 		try {
 
-			RestRequestHandler next = this.get_next_handler();
+			RestRequestHandler next = this.get_next_handler(request);
 			next.handle(request, response);
 
 		} catch (Exception e) {
@@ -63,24 +62,24 @@ public class RestServlet extends HttpServlet implements RestRequestHandler {
 
 	}
 
-	private RestRequestHandler get_next_handler() {
+	private RestRequestHandler get_next_handler(HttpServletRequest request) {
 		RestRequestHandler next = this._next_handler;
 		if (next == null) {
-			next = this.load_next_handler();
+			next = this.load_next_handler(request);
 			this._next_handler = next;
 		}
 		return next;
 	}
 
-	private RestRequestHandler load_next_handler() {
+	private RestRequestHandler load_next_handler(HttpServletRequest request) {
 		String key = "handler";
 		String bean_id = this.getInitParameter(key);
 		if (bean_id == null) {
 			String msg = "the handler id not set: " + key;
 			throw new SnowflakeException(msg);
 		}
-		ServletContext sc = this.getServletContext();
-		SnowflakeContext context = WebContextUtils.getWebContext(sc);
+
+		SnowflakeContext context = WebContextUtils.getWebContext(request);
 		return context.getBean(bean_id, RestRequestHandler.class);
 	}
 

@@ -2,7 +2,6 @@ package com.boluozhai.snowflake.h2o.rest.controller;
 
 import java.io.IOException;
 
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,8 +18,7 @@ public class AuthCtrl extends RestController {
 	protected void rest_post(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 
-		ServletContext sc = request.getServletContext();
-		SnowflakeContext context = WebContextUtils.getWebContext(sc);
+		SnowflakeContext context = WebContextUtils.getWebContext(request);
 
 		H2oRestInfo path_info = H2oRestInfo.getInstance(request);
 		String auth_method = path_info.getId().toString();
