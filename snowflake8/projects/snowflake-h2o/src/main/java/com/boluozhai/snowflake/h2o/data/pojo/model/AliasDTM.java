@@ -6,10 +6,19 @@ import java.util.Map;
 import com.boluozhai.snowflake.datatable.pojo.Model;
 import com.boluozhai.snowflake.h2o.data.pojo.element.AliasItem;
 
-public class Alias implements Model {
+public class AliasDTM implements Model {
 
 	private Map<String, AliasItem> from = new HashMap<String, AliasItem>();
 	private AliasItem to;
+	private String name;
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
 
 	public Map<String, AliasItem> getFrom() {
 		return from;

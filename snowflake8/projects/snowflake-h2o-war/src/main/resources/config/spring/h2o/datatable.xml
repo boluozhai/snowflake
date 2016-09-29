@@ -38,19 +38,19 @@
 					<map>
 
 						<entry key='account'>
-							<bean class='com.boluozhai.snowflake.h2o.data.pojo.model.Account' />
+							<bean class='com.boluozhai.snowflake.h2o.data.pojo.model.AccountDTM' />
 						</entry>
 
 						<entry key='account-alias'>
-							<bean class='com.boluozhai.snowflake.h2o.data.pojo.model.Alias' />
+							<bean class='com.boluozhai.snowflake.h2o.data.pojo.model.AliasDTM' />
 						</entry>
 
 						<entry key='auth'>
-							<bean class='com.boluozhai.snowflake.h2o.data.pojo.model.Auth' />
+							<bean class='com.boluozhai.snowflake.h2o.data.pojo.model.AuthDTM' />
 						</entry>
 
-						<entry key='repo'>
-							<bean class='com.boluozhai.snowflake.h2o.data.pojo.model.RepoInfo' />
+						<entry key='repository'>
+							<bean class='com.boluozhai.snowflake.h2o.data.pojo.model.RepoDTM' />
 						</entry>
 
 					</map>

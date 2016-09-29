@@ -13,9 +13,9 @@ import com.boluozhai.snowflake.datatable.DataClient;
 import com.boluozhai.snowflake.datatable.Transaction;
 import com.boluozhai.snowflake.h2o.data.H2oDataTable;
 import com.boluozhai.snowflake.h2o.data.pojo.element.AliasItem;
-import com.boluozhai.snowflake.h2o.data.pojo.model.Account;
-import com.boluozhai.snowflake.h2o.data.pojo.model.Alias;
-import com.boluozhai.snowflake.h2o.data.pojo.model.Auth;
+import com.boluozhai.snowflake.h2o.data.pojo.model.AccountDTM;
+import com.boluozhai.snowflake.h2o.data.pojo.model.AliasDTM;
+import com.boluozhai.snowflake.h2o.data.pojo.model.AuthDTM;
 import com.boluozhai.snowflake.util.IOTools;
 
 public class CmdAdd extends AbstractCLICommandHandler {
@@ -111,16 +111,16 @@ public class CmdAdd extends AbstractCLICommandHandler {
 				final String id1 = this.email;
 				final String id2 = this.alias;
 
-				Account account = new Account();
+				AccountDTM account = new AccountDTM();
 				account.setEmail(this.email);
 				account.setNickname(this.nickname);
 				account = client.insert(id1, account);
 
-				Alias alias1 = new Alias();
+				AliasDTM alias1 = new AliasDTM();
 				alias1.setTo(null);
 				alias1 = client.insert(id1, alias1);
 
-				Auth auth = new Auth();
+				AuthDTM auth = new AuthDTM();
 				auth = client.insert(id1, auth);
 
 				if (id2 != null) {
@@ -128,7 +128,7 @@ public class CmdAdd extends AbstractCLICommandHandler {
 					AliasItem to = new AliasItem();
 					AliasItem from = new AliasItem();
 
-					Alias alias2 = new Alias();
+					AliasDTM alias2 = new AliasDTM();
 					to.setName(id1);
 					alias2.setTo(to);
 					alias2 = client.insert(id2, alias2);

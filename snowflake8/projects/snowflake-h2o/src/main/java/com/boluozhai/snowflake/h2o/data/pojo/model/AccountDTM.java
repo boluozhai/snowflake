@@ -2,12 +2,12 @@ package com.boluozhai.snowflake.h2o.data.pojo.model;
 
 import com.boluozhai.snowflake.datatable.pojo.Model;
 
-public class Account implements Model {
+public class AccountDTM implements Model {
 
 	private String nickname;
 	private String email;
 
-	public Account() {
+	public AccountDTM() {
 	}
 
 	public String getNickname() {

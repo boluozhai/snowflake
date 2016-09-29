@@ -6,7 +6,7 @@ import java.util.Map;
 import com.boluozhai.snowflake.datatable.pojo.Model;
 import com.boluozhai.snowflake.h2o.data.pojo.element.RepoItem;
 
-public class RepoInfo implements Model {
+public class RepoDTM implements Model {
 
 	private Map<String, RepoItem> table = new HashMap<String, RepoItem>();
 

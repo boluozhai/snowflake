@@ -21,7 +21,7 @@ import com.boluozhai.snowflake.datatable.Transaction;
 import com.boluozhai.snowflake.h2o.data.H2oDataTable;
 import com.boluozhai.snowflake.h2o.data.dao.AliasDAO;
 import com.boluozhai.snowflake.h2o.data.pojo.element.RepoItem;
-import com.boluozhai.snowflake.h2o.data.pojo.model.RepoInfo;
+import com.boluozhai.snowflake.h2o.data.pojo.model.RepoDTM;
 import com.boluozhai.snowflake.util.IOTools;
 import com.boluozhai.snowflake.xgit.ObjectId;
 import com.boluozhai.snowflake.xgit.config.Config;
@@ -48,9 +48,11 @@ public class CmdImport extends AbstractCLICommandHandler {
 			InnerRepoWrapper sys_repo = task.load_system_repo();
 			InnerRepoWrapper cur_repo = task.load_current_repo();
 			cur_repo.load_param();
+
+			client = task.open_data_table();
+
 			cur_repo.check_self();
 			sys_repo.check_self();
-			client = task.open_data_table();
 			cur_repo.appendTo(sys_repo);
 
 			CLIResponse cli = CLIResponse.Agent.getResponse(context);
@@ -236,6 +238,17 @@ public class CmdImport extends AbstractCLICommandHandler {
 
 			this.check_text(RepositoryType.user, this.getType());
 
+			// check the user name , exists or not.
+			AliasDAO alias_dao = new AliasDAO(this.task.data_client);
+			String user = this.op_user;
+			user = alias_dao.findUser(user);
+			if (user == null) {
+				String msg = "the user [%s] is not exists.";
+				msg = String.format(msg, this.op_user);
+				throw new SnowflakeException(msg);
+			}
+
+			// check the current repo's descriptor.
 			ObjectId desc_id = this.getRepoDescriptorId();
 			if (desc_id != null) {
 				String msg = "the current repo have a repo-descriptor: %s";
@@ -287,9 +300,9 @@ public class CmdImport extends AbstractCLICommandHandler {
 			AliasDAO alias_dao = new AliasDAO(dc);
 			uid = alias_dao.findUser(uid);
 
-			RepoInfo repoinfo = dc.get(uid, RepoInfo.class);
+			RepoDTM repoinfo = dc.get(uid, RepoDTM.class);
 			if (repoinfo == null) {
-				repoinfo = new RepoInfo();
+				repoinfo = new RepoDTM();
 				dc.insert(uid, repoinfo);
 			}
 
@@ -305,6 +318,7 @@ public class CmdImport extends AbstractCLICommandHandler {
 			RepoItem item = new RepoItem();
 			item.setName(repoid);
 			item.setLocation(location.toString());
+			item.setDescriptor(this.getRepoDescriptorId().toString());
 			tab.put(repoid, item);
 
 			dc.update(repoinfo);
@@ -344,6 +358,7 @@ public class CmdImport extends AbstractCLICommandHandler {
 
 			// update config
 			config.setProperty(Config.xgit.siterepositorydescriptor, refname);
+			config.save();
 
 		}
 	}
