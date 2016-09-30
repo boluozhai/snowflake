@@ -1,20 +1,11 @@
 package com.boluozhai.snowflake.xgit.http.client.smart;
 
-import com.boluozhai.snowflake.xgit.http.client.GitHttpRepo;
-import com.boluozhai.snowflake.xgit.repository.Repository;
+import java.io.IOException;
 
-public interface SmartClient {
+public interface SmartClient extends SmartClientConfigGetter {
 
-	Repository getLocalRepository();
+	SmartTx openTx() throws IOException;
 
-	GitHttpRepo getRemoteRepository();
-
-	String getDefaultResource();
-
-	String getDefaultService();
-
-	SmartTx openTx();
-
-	SmartTx openTx(String resource, String service);
+	SmartTx openTx(String resource, String service) throws IOException;
 
 }

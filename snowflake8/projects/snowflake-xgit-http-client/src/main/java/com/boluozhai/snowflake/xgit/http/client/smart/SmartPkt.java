@@ -1,87 +1,60 @@
 package com.boluozhai.snowflake.xgit.http.client.smart;
 
-import com.boluozhai.snowflake.xgit.ObjectId;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class SmartPkt {
 
 	public interface COMMAND {
 
-		String entity = "virtual.command.entity";
+		String v_cmd_prefix = "+v-cmd-";
+		String entity = v_cmd_prefix + "entity";
+		String stream_begin = v_cmd_prefix + "stream-begin";
+		String stream_end = v_cmd_prefix + "stream-end";
 
 		String want = "want";
 		String have = "have";
 
 	}
 
-	private String command; // [want,have,etc]
-	private ObjectId id;
-	private ObjectId id2;
-	private String ref;
+	public interface DEFINE {
 
-	private boolean containEntity;
-	private boolean recursion; // -R
+		char param_sep = ' ';
+		char opt_sep = ';';
+		char kv_sep = '=';
 
-	private String type; // [ blob | tree|commit|tag|etc ]
-	private String accept; // [ blob | tree|commit|tag|etc ]
+	}
 
-	private long plainSize;
-	private long offset;
-	private long length;
-	private long remain;
+	public interface OPTION {
+
+		String containEntity = "entity"; // boolean
+		String recursion = "r"; // boolean , -R
+
+		String type = "type"; // string, [ blob | tree|commit|tag|etc ]
+		String accept = "accept"; // string , [ blob | tree|commit|tag|etc ]
+
+		String plainSize = "plain-size"; // long
+		String offset = "offset"; // long
+		String length = "length"; // long
+		String remain = "remain"; // long
+
+	}
+
+	private String command;
+	private List<String> param;
+	private Map<String, String> option;
 
 	public SmartPkt() {
+		this.param = new ArrayList<String>();
+		this.option = new HashMap<String, String>();
 	}
 
 	public SmartPkt(SmartPkt init) {
-		this.accept = init.accept;
 		this.command = init.command;
-		this.containEntity = init.containEntity;
-		this.id = init.id;
-		this.length = init.length;
-		this.offset = init.offset;
-		this.recursion = init.recursion;
-		this.remain = init.remain;
-		this.type = init.type;
-	}
-
-	public long getOffset() {
-		return offset;
-	}
-
-	public void setOffset(long offset) {
-		this.offset = offset;
-	}
-
-	public long getLength() {
-		return length;
-	}
-
-	public void setLength(long length) {
-		this.length = length;
-	}
-
-	public long getRemain() {
-		return remain;
-	}
-
-	public void setRemain(long remain) {
-		this.remain = remain;
-	}
-
-	public boolean isContainEntity() {
-		return containEntity;
-	}
-
-	public void setContainEntity(boolean containEntity) {
-		this.containEntity = containEntity;
-	}
-
-	public ObjectId getId() {
-		return id;
-	}
-
-	public void setId(ObjectId id) {
-		this.id = id;
+		this.param = new ArrayList<String>(init.param);
+		this.option = new HashMap<String, String>(init.option);
 	}
 
 	public String getCommand() {
@@ -92,52 +65,20 @@ public class SmartPkt {
 		this.command = command;
 	}
 
-	public boolean isRecursion() {
-		return recursion;
+	public List<String> getParam() {
+		return param;
 	}
 
-	public void setRecursion(boolean recursion) {
-		this.recursion = recursion;
+	public void setParam(List<String> param) {
+		this.param = param;
 	}
 
-	public String getType() {
-		return type;
+	public Map<String, String> getOption() {
+		return option;
 	}
 
-	public void setType(String type) {
-		this.type = type;
-	}
-
-	public String getAccept() {
-		return accept;
-	}
-
-	public void setAccept(String accept) {
-		this.accept = accept;
-	}
-
-	public long getPlainSize() {
-		return plainSize;
-	}
-
-	public void setPlainSize(long plainSize) {
-		this.plainSize = plainSize;
-	}
-
-	public String getRef() {
-		return ref;
-	}
-
-	public void setRef(String ref) {
-		this.ref = ref;
-	}
-
-	public ObjectId getId2() {
-		return id2;
-	}
-
-	public void setId2(ObjectId id2) {
-		this.id2 = id2;
+	public void setOption(Map<String, String> option) {
+		this.option = option;
 	}
 
 }

@@ -1,7 +1,10 @@
 package com.boluozhai.snowflake.xgit.http.client.smart.impl;
 
+import java.io.IOException;
+
 import com.boluozhai.snowflake.xgit.http.client.GitHttpRepo;
 import com.boluozhai.snowflake.xgit.http.client.smart.SmartClient;
+import com.boluozhai.snowflake.xgit.http.client.smart.SmartClientConfigGetter;
 import com.boluozhai.snowflake.xgit.http.client.smart.SmartTx;
 import com.boluozhai.snowflake.xgit.repository.Repository;
 
@@ -12,11 +15,11 @@ final class SmartClientImpl implements SmartClient {
 	private final String resource_default;
 	private final String service_default;
 
-	public SmartClientImpl(InnerSmartClientConfig config) {
-		this.remote_repo = config.remote;
-		this.local_repo = config.local;
-		this.resource_default = config.resource;
-		this.service_default = config.service;
+	public SmartClientImpl(SmartClientConfigGetter config) {
+		this.remote_repo = config.getRemoteRepository();
+		this.local_repo = config.getLocalRepository();
+		this.resource_default = config.getDefaultResource();
+		this.service_default = config.getDefaultService();
 	}
 
 	@Override
@@ -40,13 +43,14 @@ final class SmartClientImpl implements SmartClient {
 	}
 
 	@Override
-	public SmartTx openTx() {
+	public SmartTx openTx() throws IOException {
 		return this.openTx(this.resource_default, this.service_default);
 	}
 
 	@Override
-	public SmartTx openTx(String resource, String service) {
-		return new SmartTxImpl(this, resource, service);
+	public SmartTx openTx(String resource, String service) throws IOException {
+		InnerSmartCore core = new InnerSmartCore(this, resource, service);
+		return new SmartTxImpl(core);
 	}
 
 }

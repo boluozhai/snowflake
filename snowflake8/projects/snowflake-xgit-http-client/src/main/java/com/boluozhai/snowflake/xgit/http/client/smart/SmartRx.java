@@ -1,10 +1,7 @@
 package com.boluozhai.snowflake.xgit.http.client.smart;
 
-import java.io.Closeable;
-import java.io.IOException;
+import com.boluozhai.snowflake.xgit.http.client.smart.io.SmartPktReader;
 
-public interface SmartRx extends Closeable {
-
-	SmartPkt read() throws IOException;
+public interface SmartRx extends SmartPktReader {
 
 }

@@ -5,13 +5,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import com.boluozhai.snowflake.util.IOTools;
 import com.boluozhai.snowflake.xgit.ObjectId;
 import com.boluozhai.snowflake.xgit.http.client.smart.SmartPkt;
+import com.boluozhai.snowflake.xgit.http.client.smart.SmartPktWrapper;
 import com.boluozhai.snowflake.xgit.http.pktline.PktLine;
 import com.boluozhai.snowflake.xgit.http.pktline.PktPayload;
 import com.boluozhai.snowflake.xgit.http.pktline.io.PktLineWriter;
@@ -20,7 +20,7 @@ import com.boluozhai.snowflake.xgit.objects.GitObjectEntity;
 import com.boluozhai.snowflake.xgit.objects.ObjectBank;
 import com.boluozhai.snowflake.xgit.repository.Repository;
 
-public class SmartPktTx implements SmartPktWriter {
+public class DefaultSmartPktTx implements SmartPktWriter {
 
 	// private final Repository repo;
 	private final PktLineWriter out;
@@ -28,7 +28,8 @@ public class SmartPktTx implements SmartPktWriter {
 	private final PktLineBuilder builder;
 	private final ObjectBank bank;
 
-	public SmartPktTx(PktLineWriter out, Repository repo, SmartPktHandler h) {
+	public DefaultSmartPktTx(PktLineWriter out, Repository repo,
+			SmartPktHandler h) {
 
 		if (h == null) {
 			h = new DefaultSmartPktHandler();
@@ -76,7 +77,7 @@ public class SmartPktTx implements SmartPktWriter {
 		try {
 
 			final SmartPktWrapper pkt_wrapper = new SmartPktWrapper(pkt);
-			final ObjectId id = pkt.getId();
+			final ObjectId id = pkt_wrapper.getIdParam(0);
 			final GitObject obj = bank.object(id);
 			final GitObjectEntity ent = obj.entity();
 			final long zip_size = obj.zippedSize();
@@ -91,7 +92,11 @@ public class SmartPktTx implements SmartPktWriter {
 					break;
 				}
 				final long remain = zip_size - (offset + cb);
-				pkt_wrapper.setPosition(offset, cb, remain);
+
+				pkt_wrapper.setOption(SmartPkt.OPTION.offset, offset);
+				pkt_wrapper.setOption(SmartPkt.OPTION.length, cb);
+				pkt_wrapper.setOption(SmartPkt.OPTION.remain, remain);
+
 				this.inner_send_simple_pkt(pkt, buffer, 0, cb);
 				offset += cb;
 			}
@@ -118,22 +123,6 @@ public class SmartPktTx implements SmartPktWriter {
 		this.handler.onTx(pkt);
 	}
 
-	private static class SmartPktWrapper {
-
-		private final SmartPkt pkt;
-
-		public SmartPktWrapper(SmartPkt pkt) {
-			this.pkt = pkt;
-		}
-
-		public void setPosition(long offset, int cb, long remain) {
-			pkt.setOffset(offset);
-			pkt.setLength(cb);
-			pkt.setRemain(remain);
-		}
-
-	}
-
 	private static class PktLineBuilder {
 
 		private final ByteArrayOutputStream baos;
@@ -149,7 +138,16 @@ public class SmartPktTx implements SmartPktWriter {
 
 		public void append_entity(byte[] data, int off, int len)
 				throws IOException {
+
+			if (data == null) {
+				return;
+			}
+			if (len < 1) {
+				return;
+			}
+
 			this.flush_head();
+			this.baos.write(0);
 			this.baos.write(data, off, len);
 		}
 
@@ -162,42 +160,41 @@ public class SmartPktTx implements SmartPktWriter {
 			final SmartPkt pkt = this.head;
 			final StringBuilder sb = new StringBuilder();
 
+			// command
+
 			final String cmd = pkt.getCommand();
-			final ObjectId id = pkt.getId();
-			final ObjectId id2 = pkt.getId2();
-			final String ref = pkt.getRef();
 
-			if (cmd != null) {
-				sb.append(cmd).append(' ');
-			}
-			if (id != null) {
-				sb.append(id).append(' ');
-			}
-			if (id2 != null) {
-				sb.append(id2).append(' ');
-			}
-			if (ref != null) {
-				sb.append(ref).append(' ');
+			if (cmd == null) {
+				// NOP
+			} else if (cmd.startsWith(SmartPkt.COMMAND.v_cmd_prefix)) {
+				// NOP
+			} else {
+				sb.append(cmd);
 			}
 
-			Map<String, String> param = new HashMap<String, String>();
-			param.put("accept", pkt.getAccept());
-			param.put("type", pkt.getType());
-			param.put("length", Long.toString(pkt.getLength()));
-			param.put("offset", Long.toString(pkt.getOffset()));
-			param.put("remain", Long.toString(pkt.getRemain()));
-			param.put("plain-size", Long.toString(pkt.getPlainSize()));
+			// parameter
 
-			param.put("entity", String.valueOf(pkt.isContainEntity()));
-			param.put("recursion", String.valueOf(pkt.isRecursion()));
+			final List<String> param = pkt.getParam();
 
-			List<String> keys = new ArrayList<String>(param.keySet());
+			for (String s : param) {
+				if (sb.length() > 0) {
+					sb.append(' ');
+				}
+				sb.append(s);
+			}
+
+			// option
+			final Map<String, String> opt = pkt.getOption();
+
+			List<String> keys = new ArrayList<String>(opt.keySet());
 			Collections.sort(keys);
 			for (String key : keys) {
-				String value = param.get(key);
-				sb.append(';').append(key);
-				sb.append('=').append(value);
+				String value = opt.get(key);
+				sb.append(SmartPkt.DEFINE.opt_sep).append(key);
+				sb.append(SmartPkt.DEFINE.kv_sep).append(value);
 			}
+
+			// write
 
 			final String enc = "utf-8";
 			byte[] ba = sb.toString().getBytes(enc);
