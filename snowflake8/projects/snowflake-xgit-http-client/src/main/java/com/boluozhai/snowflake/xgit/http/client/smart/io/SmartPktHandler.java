@@ -8,4 +8,10 @@ public interface SmartPktHandler {
 
 	void onRx(SmartPkt pkt);
 
+	/***
+	 * @return if true, store the Rx object to local repository.
+	 * */
+
+	boolean accept(SmartPkt pkt);
+
 }

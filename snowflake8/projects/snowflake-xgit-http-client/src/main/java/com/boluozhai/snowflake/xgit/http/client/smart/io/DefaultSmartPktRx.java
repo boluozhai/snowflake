@@ -40,7 +40,7 @@ public class DefaultSmartPktRx implements SmartPktReader {
 			SmartPktHandler h) {
 
 		if (h == null) {
-			h = new DefaultSmartPktHandler();
+			h = new DefaultSmartPktHandler(true);
 		}
 		this.in = in;
 		this.bank = ObjectBank.Factory.getBank(repo);
@@ -65,12 +65,18 @@ public class DefaultSmartPktRx implements SmartPktReader {
 			this.bank = bank;
 		}
 
-		private void open() throws IOException {
+		private void open(boolean accept) throws IOException {
 
 			GitObject obj = bank.object(id);
-			if (obj.exists()) {
+
+			if (!accept) {
 				// make a NOP output
 				this._output = new NopOutputStream();
+
+			} else if (obj.exists()) {
+				// make a NOP output
+				this._output = new NopOutputStream();
+
 			} else {
 				GitObjectEntity ent = obj.entity();
 				this._output = ent.openZippedOutput();
@@ -221,20 +227,21 @@ public class DefaultSmartPktRx implements SmartPktReader {
 			final int win_length = (int) length;
 			final int win_offset = pkt.getIntOption(define.payload_offset);
 
-			EntityBuilder builder = this.getEntityBuilder(id, true);
+			EntityBuilder builder = this.getEntityBuilder(id, pkt, true);
 			builder.write(win_data, win_offset, win_length, offset);
 
 			this._has_more = (remain > 0);
 
 		}
 
-		private EntityBuilder getEntityBuilder(ObjectId id, boolean create)
-				throws IOException {
+		private EntityBuilder getEntityBuilder(ObjectId id,
+				SmartPktWrapper pkt, boolean create) throws IOException {
 			EntityBuilder eb = this._entity_builder;
 			if (eb == null) {
 				if (create) {
+					boolean accept = this.accept_pkt(pkt);
 					eb = new EntityBuilder(id, bank);
-					eb.open();
+					eb.open(accept);
 					this._entity_builder = eb;
 				}
 			} else {
@@ -248,9 +255,13 @@ public class DefaultSmartPktRx implements SmartPktReader {
 			return eb;
 		}
 
+		private boolean accept_pkt(SmartPktWrapper pkt) {
+			return DefaultSmartPktRx.this.handler.accept(pkt.getPkt());
+		}
+
 		@Override
 		public void close() throws IOException {
-			EntityBuilder builder = this.getEntityBuilder(null, false);
+			EntityBuilder builder = this.getEntityBuilder(null, null, false);
 			if (builder == null) {
 				return;
 			} else {

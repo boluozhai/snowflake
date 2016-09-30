@@ -32,7 +32,7 @@ public class DefaultSmartPktTx implements SmartPktWriter {
 			SmartPktHandler h) {
 
 		if (h == null) {
-			h = new DefaultSmartPktHandler();
+			h = new DefaultSmartPktHandler(true);
 		}
 
 		// this.repo = repo;
