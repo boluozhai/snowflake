@@ -9,6 +9,9 @@
 	<bean id='com.boluozhai.snowflake.xgit.utils.RepositoryAgent'
 		class='com.boluozhai.snowflake.xgit.utils.DefaultRepositoryAgent' />
 
+	<bean id='com.boluozhai.snowflake.xgit.http.client.GitHttpClientFactory'
+		class='com.boluozhai.snowflake.xgit.http.client.support.DefaultGitHttpClientFactory' />
+
 
 	<!-- RM -->
 
@@ -21,13 +24,6 @@
 
 				<entry key="file">
 					<ref bean="xgit:driver:file" />
-				</entry>
-
-				<entry key="http">
-					<ref bean="xgit:driver:http" />
-				</entry>
-				<entry key="https">
-					<ref bean="xgit:driver:http" />
 				</entry>
 
 				<entry key="site-system">
@@ -60,12 +56,6 @@
 	</bean>
 
 
-	<bean id='xgit:driver:http'
-		class='com.boluozhai.snowflake.xgit.http.client.support.HttpRepositoryDriver'>
-		<property name="profile">
-			<ref bean='xgit:driver:http:profile' />
-		</property>
-	</bean>
 
 
 	<bean id='xgit:driver:site:system'
@@ -219,62 +209,6 @@
 
 	</bean>
 
-
-	<bean id='xgit:driver:http:profile' class='com.boluozhai.snowflake.xgit.support.RepositoryProfile'>
-
-		<property name="components">
-			<!-- in Map<String,ComponentBuilderFactory> -->
-			<map>
-				<entry key='repository'>
-					<bean
-						class='com.boluozhai.snowflake.xgit.http.client.support.HttpRepositoryFactory' />
-				</entry>
-
-				<entry key='config'>
-					<bean
-						class='com.boluozhai.snowflake.xgit.http.client.support.HttpConfigFactory' />
-				</entry>
-
-				<entry key='objects'>
-					<bean
-						class='com.boluozhai.snowflake.xgit.http.client.support.HttpObjectBankFactory' />
-				</entry>
-
-				<entry key='refs'>
-					<bean
-						class='com.boluozhai.snowflake.xgit.http.client.support.HttpRefsManagerFactory' />
-				</entry>
-			</map>
-		</property>
-
-		<property name="defaultProperties">
-			<!-- in Map<String,String> -->
-			<map>
-				<entry key='xgit.hashalgorithm'>
-					<value>SHA-1</value>
-				</entry>
-			</map>
-		</property>
-
-		<property name="finalProperties">
-			<!-- in Map<String,String> -->
-			<map>
-				<entry key='xgit.final'>
-					<value>xxx</value>
-				</entry>
-			</map>
-		</property>
-
-		<property name="avaliableRepositoryDirectoryNames">
-			<list>
-				<value>.git</value>
-				<value>.xgit</value>
-				<value>.snow</value>
-				<value>.snowflake</value>
-			</list>
-		</property>
-
-	</bean>
 
 
 

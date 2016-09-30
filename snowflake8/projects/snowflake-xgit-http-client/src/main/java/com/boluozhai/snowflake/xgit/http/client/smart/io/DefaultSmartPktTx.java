@@ -81,6 +81,7 @@ public class DefaultSmartPktTx implements SmartPktWriter {
 			final GitObject obj = bank.object(id);
 			final GitObjectEntity ent = obj.entity();
 			final long zip_size = obj.zippedSize();
+			final String type = obj.type();
 			final byte[] buffer = new byte[65500 - 2000];
 
 			in = ent.openZippedInput();
@@ -92,6 +93,10 @@ public class DefaultSmartPktTx implements SmartPktWriter {
 					break;
 				}
 				final long remain = zip_size - (offset + cb);
+
+				pkt_wrapper.setCommand(null);
+				pkt_wrapper.setOption(SmartPkt.OPTION.containEntity, true);
+				pkt_wrapper.setOption(SmartPkt.OPTION.type, type);
 
 				pkt_wrapper.setOption(SmartPkt.OPTION.offset, offset);
 				pkt_wrapper.setOption(SmartPkt.OPTION.length, cb);

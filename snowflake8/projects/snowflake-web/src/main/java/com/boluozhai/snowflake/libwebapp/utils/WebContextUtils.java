@@ -34,9 +34,9 @@ public class WebContextUtils extends SnowContextUtils {
 
 		public static MutableContext create(HttpServletRequest request) {
 
-			long time = System.currentTimeMillis();
-			String c_name = BindingBuilder.class.getName();
-			System.out.println(c_name + ".create@time=" + time);
+			// long time = System.currentTimeMillis();
+			// String c_name = BindingBuilder.class.getName();
+			// System.out.println(c_name + ".create@time=" + time);
 
 			ServletContext sc = request.getServletContext();
 			SnowflakeContext parent = SnowContextUtils

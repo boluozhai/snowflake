@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import com.boluozhai.snowflake.core.SnowflakeException;
 import com.boluozhai.snowflake.httpclient.HttpConnection;
 import com.boluozhai.snowflake.xgit.http.client.GitHttpRepo;
 import com.boluozhai.snowflake.xgit.http.client.GitHttpService;
@@ -85,7 +86,14 @@ final class InnerSmartCore {
 	private HttpConnection get_http_connection() throws IOException {
 		HttpConnection htc = this._http_conn;
 		if (htc == null) {
+
+			String type = this.get_request_content_type();
+
 			htc = this._service.open();
+			htc.setRequestMethod("POST");
+			htc.setRequestProperty("Content-Type", type);
+			htc.setDoOutput(true);
+
 			this._http_conn = htc;
 		}
 		return htc;
@@ -105,10 +113,34 @@ final class InnerSmartCore {
 		InputStream in = this._input_stream;
 		if (in == null) {
 			HttpConnection con = this.get_http_connection();
+
+			final int code = con.getResponseCode();
+			if (code != 200) {
+				final String msg = con.getResponseMessage();
+				throw new SnowflakeException("HTTP " + code + " " + msg);
+			}
+			final String type = con.getContentType();
+			final String reg_type = this.get_response_content_type();
+			if (!reg_type.equals(type)) {
+				String msg = "bad http response context-type:[%s], want:[%s]";
+				msg = String.format(msg, type, reg_type);
+				throw new SnowflakeException(msg);
+			}
+
 			in = con.getInputStream();
 			this._input_stream = in;
 		}
 		return in;
+	}
+
+	private String get_request_content_type() {
+		String name = this._service.getServiceName();
+		return ("application/x-" + name + "-request");
+	}
+
+	private String get_response_content_type() {
+		String name = this._service.getServiceName();
+		return ("application/x-" + name + "-result");
 	}
 
 	private SmartPktHandler get_smart_pkt_handler() {

@@ -260,7 +260,10 @@ public class GitAdd extends AbstractCLICommandHandler {
 			ud.load();
 			ScanningNode parent = node.parent();
 			if (parent != null) {
+
 				MyUserData parent_ud = (MyUserData) parent.getUserData();
+				parent_ud.lazy_load();
+
 				final int mode = TreeItem.MODE.directory;
 				final String name = node.getName();
 				final TreeItem item = new TreeItem();
@@ -307,6 +310,12 @@ public class GitAdd extends AbstractCLICommandHandler {
 
 		private Class<TreeObject> meta_type() {
 			return TreeObject.class;
+		}
+
+		public void lazy_load() {
+			if (this._new_items == null) {
+				this.load();
+			}
 		}
 
 		public void load() {

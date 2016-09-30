@@ -10,5 +10,7 @@
 	<bean id='com.boluozhai.snowflake.appdata.AppDataAgent'
 		class='com.boluozhai.snowflake.appdata.support.DefaultAppDataAgent'></bean>
 
+	<bean id='com.boluozhai.snowflake.httpclient.HttpClientFactory'
+		class='com.boluozhai.snowflake.httpclient.support.DefaultHttpClientFactory'></bean>
 
 </beans>

@@ -46,6 +46,12 @@
 
 		<dependency>
 			<groupId>com.boluozhai.snowflake</groupId>
+			<artifactId>snowflake-xgit-http-client</artifactId>
+			<version>0.8.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.boluozhai.snowflake</groupId>
 			<artifactId>snowflake-rest-web</artifactId>
 			<version>0.8.0</version>
 		</dependency>

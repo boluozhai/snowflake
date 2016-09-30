@@ -207,10 +207,14 @@ final class DefaultDriverImpl implements DataTableDriver {
 
 		private void log(String op) {
 
-			String name = this.id.name;
-			String type = this.id.type.name();
-			String msg = "%s.%s [%s:%s]\n";
-			System.out.println(String.format(msg, this, op, type, name));
+			boolean en = false;
+
+			if (en) {
+				String name = this.id.name;
+				String type = this.id.type.name();
+				String msg = "%s.%s [%s:%s]\n";
+				System.out.println(String.format(msg, this, op, type, name));
+			}
 
 		}
 

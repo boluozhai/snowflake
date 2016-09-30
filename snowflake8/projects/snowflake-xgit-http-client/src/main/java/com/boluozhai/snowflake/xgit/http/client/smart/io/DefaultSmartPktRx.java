@@ -109,7 +109,7 @@ public class DefaultSmartPktRx implements SmartPktReader {
 
 	private class PktGroup implements Closeable {
 
-		private boolean _has_more = false;
+		private boolean _has_more = true;
 		private SmartPkt _last_pkt;
 		private EntityBuilder _entity_builder;
 
@@ -261,7 +261,7 @@ public class DefaultSmartPktRx implements SmartPktReader {
 
 		@Override
 		public void close() throws IOException {
-			EntityBuilder builder = this.getEntityBuilder(null, null, false);
+			EntityBuilder builder = this._entity_builder;
 			if (builder == null) {
 				return;
 			} else {
