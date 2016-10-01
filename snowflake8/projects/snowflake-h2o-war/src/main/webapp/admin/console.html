@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<!--
+/***********************************************************************
+ * 
+ * console.html
+ * 
+ * @Copyright (c) 2016 boluozhai.com
+ * @License MIT License
+ * @Author xukun<xukun17@sina.com>
+ * 
+ */
+-->
+
+<head>
+
+<meta charset='utf-8' />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title class='i18n' i18n='title_console'>Console</title>
+
+<link href="../lib/bootstrap/css/bootstrap.min.css" rel="stylesheet"
+	type="text/css" />
+
+<link href="../export/h2o/css/console.css" rel="stylesheet"
+	type="text/css" />
+
+
+</head>
+<body>
+
+	<div id='client' class='container'>
+
+		<!-- h2>Console</h2 -->
+
+
+		<div style='margin-top: 30px'></div>
+
+		<div id='console'></div>
+
+	</div>
+
+	<script src="../lib/jquery/jquery.min.js"></script>
+	<script src="../lib/bootstrap/js/bootstrap.min.js"></script>
+
+	<script src="../lib/snowflake/core.js"></script>
+	<script src="../lib/snowflake/context.js"></script>
+	<script src="../lib/snowflake/event.js"></script>
+	<script src="../lib/snowflake/rest.js"></script>
+
+	<script src="../export/h2o/js/vfs.js"></script>
+	<script src="../export/h2o/js/widget.js"></script>
+	<script src="../export/h2o/js/console.js"></script>
+	<script src="../export/h2o/js/cli.js"></script>
+
+	<script src="../js/ui/console.html.js"></script>
+
+	<script src="../js/config/base.js"></script>
+	<script src="../js/config/i18n-base.js"></script>
+	<script src="../js/config/i18n.js"></script>
+	<script src="../js/config/console.js"></script>
+	<script src="../js/config/final.js"></script>
+	<script src="this.js"></script>
+
+
+	<script src="../js/session/current-session-info.js"></script>
+
+
+	<script type="text/javascript">
+		$(document).ready(function() {
+
+			var ConsoleHtml = com.boluozhai.h2o.html.ConsoleHtml;
+			var context = Snowflake.getContext();
+			var ctrl = new ConsoleHtml(context);
+			ctrl.init();
+
+		});
+	</script>
+
+</body>
+</html>

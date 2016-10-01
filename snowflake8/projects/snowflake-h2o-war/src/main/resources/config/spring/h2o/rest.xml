@@ -43,6 +43,12 @@
 					</property>
 
 				</bean>
+
+				<bean
+					class='com.boluozhai.snowflake.rest.server.support.handler.NginxProxyHttpsUrlPrepareListener'>
+					<!-- nginx proxy https url prepare listener -->
+				</bean>
+
 			</list>
 		</property>
 
