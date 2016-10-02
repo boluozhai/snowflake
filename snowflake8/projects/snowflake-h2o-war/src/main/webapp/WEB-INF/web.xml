@@ -7,11 +7,14 @@
 
 	<display-name>snowflake-h2o-war</display-name>
 
+
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>/WEB-INF/applicationContext.xml</param-value>
 	</context-param>
 
+
+	<!-- listener -->
 
 	<listener>
 		<listener-class>
@@ -20,59 +23,26 @@
 	</listener>
 
 
-	<!-- servlet -->
+	<!-- filter -->
 
-	<servlet>
-		<servlet-name>rest-servlet</servlet-name>
-		<servlet-class>com.boluozhai.snowflake.h2o.servlet.H2ORestServlet</servlet-class>
-		<init-param>
-			<param-name>handler</param-name>
-			<param-value>rest:gateway:rest</param-value>
-		</init-param>
-	</servlet>
-
-	<servlet>
-		<servlet-name>repo-servlet</servlet-name>
-		<servlet-class>com.boluozhai.snowflake.xgit.http.server.servlet.DefaultGitHttpServlet</servlet-class>
+	<filter>
+		<filter-name>rest-handler-filter</filter-name>
+		<filter-class>com.boluozhai.snowflake.h2o.H2oRestFilter</filter-class>
+		<display-name>RestHandlerFilter</display-name>
+		<description></description>
 		<init-param>
 			<param-name>handler</param-name>
 			<param-value>rest:gateway:repo</param-value>
 		</init-param>
-	</servlet>
-
-	<servlet>
-		<servlet-name>resource-servlet</servlet-name>
-		<servlet-class>com.boluozhai.snowflake.rest.server.RestServlet</servlet-class>
-		<init-param>
-			<param-name>handler</param-name>
-			<param-value>rest:gateway:resource</param-value>
-		</init-param>
-	</servlet>
-
+	</filter>
 
 
 	<!-- mapping -->
 
-	<servlet-mapping>
-		<servlet-name>rest-servlet</servlet-name>
-		<url-pattern>/rest/*</url-pattern>
-	</servlet-mapping>
-
-	<servlet-mapping>
-		<servlet-name>repo-servlet</servlet-name>
-		<url-pattern>/repo/*</url-pattern>
-	</servlet-mapping>
-
-	<servlet-mapping>
-		<servlet-name>resource-servlet</servlet-name>
-		<url-pattern>/js/config/i18n.js</url-pattern>
-	</servlet-mapping>
-
-	<servlet-mapping>
-		<servlet-name>resource-servlet</servlet-name>
-		<url-pattern>/js/session/current-session-info.js</url-pattern>
-	</servlet-mapping>
-
+	<filter-mapping>
+		<filter-name>rest-handler-filter</filter-name>
+		<url-pattern>*</url-pattern>
+	</filter-mapping>
 
 
 </web-app>
