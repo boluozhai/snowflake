@@ -32,7 +32,7 @@
 		<description></description>
 		<init-param>
 			<param-name>handler</param-name>
-			<param-value>rest:gateway:repo</param-value>
+			<param-value>rest:gateway:root</param-value>
 		</init-param>
 	</filter>
 

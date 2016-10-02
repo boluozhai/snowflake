@@ -24,7 +24,7 @@ import com.boluozhai.snowflake.xgit.repository.Repository;
 import com.boluozhai.snowflake.xgit.repository.RepositoryManager;
 import com.boluozhai.snowflake.xgit.utils.RepositoryAgent;
 
-public class XgitServiceRepoBindingListener extends RestRequestListener {
+public class XgitServiceRepoBindingListener implements RestRequestListener {
 
 	@Override
 	public void handle(HttpServletRequest request, HttpServletResponse response)

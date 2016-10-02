@@ -14,7 +14,7 @@
 			<bean
 				class='com.boluozhai.snowflake.rest.server.support.DefaultPathInfoFactory'>
 
-				<property name="inAppPathPattern" value='~/api/user/repository/type/id/*' />
+				<property name="inAppPathPattern" value='~/user/repository/api/type/id/*' />
 
 			</bean>
 		</property>
@@ -54,67 +54,74 @@
 
 	</bean>
 
-	<bean id='rest:gateway:repo' parent='rest:gateway:parent'>
+
+	<bean id='rest:gateway:root' parent='rest:gateway:parent'>
 
 		<property name="nextHanlder">
-			<bean
-				class='com.boluozhai.snowflake.rest.server.support.handler.DefaultRequestHandler'>
-
-				<property name="listeners">
-					<list>
-						<bean
-							class='com.boluozhai.snowflake.xgit.http.server.listener.RepoInfoBindingListener'>
-						</bean>
-						<bean
-							class='com.boluozhai.snowflake.h2o.rest.listener.XgitServiceRepoBindingListener'>
-						</bean>
-					</list>
-				</property>
-
-				<property name="nextHanlder">
-					<ref bean='rest:switch:repo' />
-				</property>
-
-			</bean>
+			<ref bean='rest:switch:root' />
 		</property>
 
-	</bean>
-
-	<bean id='rest:gateway:rest' parent='rest:gateway:parent'>
-
-		<property name="nextHanlder">
-			<ref bean='rest:switch:rest' />
-		</property>
-
-	</bean>
-
-
-
-	<bean id='rest:gateway:resource' parent='rest:gateway:parent'>
-		<property name="nextHanlder">
-			<ref bean='rest:switch:resource' />
-		</property>
 	</bean>
 
 
 	<!-- switch -->
 
 
-	<bean id='rest:switch:rest'
+	<bean id='rest:switch:root'
 		class='com.boluozhai.snowflake.rest.server.support.handler.RestHandlerSwitch'>
 
-		<!-- ~/rest/* -->
-
-		<property name="pathPartName">
-			<value>type</value>
+		<property name="expression">
+			<bean
+				class='com.boluozhai.snowflake.h2o.rest.controller.res.ResourceSwitchExpression' />
 		</property>
 
 		<property name="defaultHandler">
-			<bean class='com.boluozhai.snowflake.h2o.rest.controller.Http404Ctrl'></bean>
+			<bean class='com.boluozhai.snowflake.h2o.rest.controller.Http404Ctrl' />
 		</property>
 
 		<property name="handlers">
 			<map>
+
+				<entry key='do'>
+					<ref bean='rest:switch:do' />
+				</entry>
+
+				<entry key='info'>
+					<ref bean='rest:switch:info-refs-service' />
+				</entry>
+
+				<entry key='js'>
+					<ref bean='rest:switch:js' />
+				</entry>
+
+			</map>
+		</property>
+
+	</bean>
+
+
+
+
+	<bean id='rest:switch:do'
+		class='com.boluozhai.snowflake.rest.server.support.handler.RestHandlerSwitch'>
+
+		<!-- ~/rest/* -->
+
+		<property name="expression">
+			<bean
+				class='com.boluozhai.snowflake.h2o.rest.controller.res.ResourceSwitchExpression' />
+		</property>
+
+		<property name="defaultHandler">
+			<bean
+				class='com.boluozhai.snowflake.xgit.http.server.controller.RepoHomeCtrl'></bean>
+		</property>
+
+		<property name="handlers">
+			<map>
+
+				<!-- sys -->
+
 				<entry key='account'>
 					<bean class='com.boluozhai.snowflake.h2o.rest.controller.AccountCtrl'></bean>
 				</entry>
@@ -136,35 +143,13 @@
 				<entry key='working'>
 					<bean class='com.boluozhai.snowflake.h2o.rest.controller.WorkingDirCtrl'></bean>
 				</entry>
+
 			</map>
 		</property>
 
 	</bean>
 
 
-	<bean id='rest:switch:repo'
-		class='com.boluozhai.snowflake.rest.server.support.handler.RestHandlerSwitch'>
-
-		<!-- ~/repo/* -->
-
-		<property name="pathPartName">
-			<value>type</value>
-		</property>
-
-		<property name="defaultHandler">
-			<bean
-				class='com.boluozhai.snowflake.xgit.http.server.controller.RepoHomeCtrl'></bean>
-		</property>
-
-		<property name="handlers">
-			<map>
-				<entry key='info'>
-					<ref bean='rest:switch:info-refs-service' />
-				</entry>
-			</map>
-		</property>
-
-	</bean>
 
 
 
@@ -177,6 +162,7 @@
 			<bean
 				class='com.boluozhai.snowflake.xgit.http.server.controller.InfoRefsSwitchExpression' />
 		</property>
+
 
 		<property name="defaultHandler">
 			<bean
@@ -207,8 +193,11 @@
 	</bean>
 
 
-	<bean id='rest:switch:resource'
+	<bean id='rest:switch:js'
 		class='com.boluozhai.snowflake.rest.server.support.handler.RestHandlerSwitch'>
+
+
+		<!-- active js -->
 
 		<property name="expression">
 			<bean

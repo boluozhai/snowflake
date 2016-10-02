@@ -7,7 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class NginxProxyHttpsUrlPrepareListener extends RestRequestListener {
+public class NginxProxyHttpsUrlPrepareListener implements RestRequestListener {
 
 	private static final String key_base = NginxProxyHttpsUrlPrepareListener.class
 			.getName();

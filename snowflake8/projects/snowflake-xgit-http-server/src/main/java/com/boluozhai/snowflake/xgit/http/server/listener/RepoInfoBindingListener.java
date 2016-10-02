@@ -12,7 +12,7 @@ import com.boluozhai.snowflake.rest.server.info.path.PathInfo;
 import com.boluozhai.snowflake.rest.server.support.handler.RestRequestListener;
 import com.boluozhai.snowflake.xgit.http.server.GitHttpInfo;
 
-public class RepoInfoBindingListener extends RestRequestListener {
+public class RepoInfoBindingListener implements RestRequestListener {
 
 	@Override
 	public void handle(HttpServletRequest request, HttpServletResponse response)

@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.boluozhai.snowflake.core.SnowflakeException;
 import com.boluozhai.snowflake.rest.server.info.RestRequestInfoFactory;
 
-public class InfoFactoryBindingListener extends RestRequestListener {
+public class InfoFactoryBindingListener implements RestRequestListener {
 
 	private final static String key = "com.boluozhai.snowflake.rest.server.support.AgentRestRequestInfoFactory.factory";
 
