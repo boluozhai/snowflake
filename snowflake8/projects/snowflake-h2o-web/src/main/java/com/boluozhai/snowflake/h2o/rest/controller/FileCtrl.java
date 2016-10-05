@@ -30,6 +30,7 @@ public class FileCtrl extends RestController {
 		VFS vfs = VFS.Factory.getVFS(context);
 		PathPart offset = path_info.getRequiredPart("id");
 		VFile base = vfs.newFile(URI.create("file:///"));
+		offset = this.normalize(offset);
 
 		FolderView view = new FolderView();
 		view.setBaseAtFsRoot(true);
@@ -38,6 +39,10 @@ public class FileCtrl extends RestController {
 
 		view.handle(request, response);
 
+	}
+
+	private PathPart normalize(PathPart offset) {
+		return offset.trim();
 	}
 
 }

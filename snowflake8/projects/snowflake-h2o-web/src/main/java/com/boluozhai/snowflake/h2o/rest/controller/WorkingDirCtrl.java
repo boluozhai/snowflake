@@ -39,7 +39,7 @@ public class WorkingDirCtrl extends RestController {
 
 		FolderView view = new FolderView();
 		view.setBaseAtFsRoot(false);
-		view.setOffset(offset);
+		view.setOffset(offset.trim());
 		view.setBase(base.toPath());
 
 		view.handle(request, response);

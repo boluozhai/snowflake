@@ -1,5 +1,8 @@
 package com.boluozhai.snowflake.rest.path;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class PathPart {
 
 	public final String[] data;
@@ -33,6 +36,33 @@ public class PathPart {
 			array[i] = data[offset + i];
 		}
 		return array;
+	}
+
+	public PathPart trim() {
+		String[] array = this.trimToArray();
+		return new PathPart(array);
+	}
+
+	public String[] trimToArray() {
+		final List<String> list = new ArrayList<String>();
+		final int end = this.offset + this.length;
+		for (int i = this.offset; i < end; i++) {
+			String part = this.data[i];
+			if (part == null) {
+				// NOP
+			} else if (part.equals("")) {
+				// NOP
+			} else if (part.equals("~")) {
+				list.clear();
+			} else if (part.equals(".")) {
+				// NOP
+			} else if (part.equals("..")) {
+				list.remove(list.size() - 1);
+			} else {
+				list.add(part);
+			}
+		}
+		return list.toArray(new String[list.size()]);
 	}
 
 	public String toString() {
