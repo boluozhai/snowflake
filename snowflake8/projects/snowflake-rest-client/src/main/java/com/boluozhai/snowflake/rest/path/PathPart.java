@@ -24,6 +24,7 @@ public class PathPart {
 		this.data = elements;
 		this.offset = offset;
 		this.length = len;
+
 	}
 
 	public String[] toArray() {
@@ -39,20 +40,22 @@ public class PathPart {
 	}
 
 	public String toString(String prefix) {
-		final int end = offset + length;
+
 		StringBuilder sb = new StringBuilder();
+		if (prefix != null) {
+			sb.append(prefix);
+		}
+		final int end = offset + length;
 		for (int i = offset; i < end; i++) {
-			String s = data[i];
-			if (i == offset) {
-				if (prefix != null) {
-					sb.append(prefix);
-				}
+			final String s = data[i];
+			if (sb.length() == 0) {
 				sb.append(s);
 			} else {
 				sb.append('/').append(s);
 			}
 		}
 		return sb.toString();
+
 	}
 
 }

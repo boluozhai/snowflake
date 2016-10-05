@@ -67,6 +67,11 @@ JS.module(function(_mc_) {
 			return this.attr('path_pattern', value);
 		},
 
+		parsePath : function(path) {
+			var pb = new RestPathBuilder(this);
+			return pb.parsePath(path);
+		},
+
 		getContextURL : function() {
 			var context = this._context;
 			var path = context.pathInWebapp();
@@ -240,7 +245,64 @@ JS.module(function(_mc_) {
 	};
 
 	/***************************************************************************
-	 * class RestPathPart
+	 * inner class RestPathReader
+	 */
+
+	function RestPathReader(path) {
+
+		var array = path.split('/');
+		var a2 = [];
+		for ( var i in array) {
+			var s = array[i];
+			if (s == null) {
+				// NOP
+			} else if (s == '') {
+				// NOP
+			} else if (s == '.') {
+				// NOP
+			} else if (s == '..') {
+				a2.pop();
+			} else if (s == '~') {
+				a2.empty();
+			} else {
+				a2.push(s);
+			}
+		}
+		this._path_elements = a2;
+		this._ptr = 0;
+	}
+
+	RestPathReader.prototype = {
+
+		read : function(part) {
+
+			var array = this._path_elements;
+			var ptr = this._ptr;
+			var sb = '';
+			var end = ptr + part.length();
+
+			if (part.mutableLength()) {
+				end = array.length;
+			}
+
+			for (; ptr < end; ptr++) {
+				var ele = array[ptr];
+				if (sb.length > 0) {
+					sb = sb + '/' + ele;
+				} else {
+					sb = ele;
+				}
+			}
+
+			this._ptr = end;
+			return sb;
+
+		},
+
+	};
+
+	/***************************************************************************
+	 * inner class RestPathPart
 	 */
 
 	function RestPathPart() {
@@ -319,10 +381,18 @@ JS.module(function(_mc_) {
 			this._length++;
 		},
 
+		length : function() {
+			return this._length;
+		},
+
+		mutableLength : function() {
+			return (this._x_length == true);
+		},
+
 	};
 
 	/***************************************************************************
-	 * class RestPathBuilder
+	 * inner class RestPathBuilder
 	 */
 
 	function RestPathBuilder(client) {
@@ -344,6 +414,38 @@ JS.module(function(_mc_) {
 				throw new RuntimeException(msg);
 			}
 			return part.value(value);
+		},
+
+		parsePath : function(path) {
+
+			var context = this._context;
+			var cp = context.getContextPath();
+
+			// path = '/context/path' or '~/path'
+			if (path == null) {
+				return null;
+
+			} else if (path.indexOf('~/') == 0) {
+				path = path.substring(2);
+
+			} else if (path.indexOf(cp) == 0) {
+				path = path.substring(cp.length);
+
+			} else {
+				return null;
+			}
+
+			var reader = new RestPathReader(path);
+			var tab = {};
+			var plist = this._part_list;
+			for ( var i in plist) {
+				var part = plist[i];
+				var s = reader.read(part);
+				tab[part.name()] = s;
+			}
+
+			return tab;
+
 		},
 
 		parsePattern : function() {

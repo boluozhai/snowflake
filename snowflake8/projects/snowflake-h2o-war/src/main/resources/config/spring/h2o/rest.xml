@@ -3,6 +3,10 @@
  "http://www.springframework.org/dtd/spring-beans-2.0.dtd" >
 <beans>
 
+
+	<!-- base -->
+
+
 	<bean id='com.boluozhai.snowflake.rest.client.RESTClientFactory'
 		class='com.boluozhai.snowflake.rest.support.DefaultRESTClientFactory'></bean>
 
@@ -27,14 +31,31 @@
 	</bean>
 
 
+	<!-- expression -->
+
+
+	<bean id='rest:expression:root'
+		class='com.boluozhai.snowflake.h2o.rest.expression.RootExpression' />
+
+	<bean id='rest:expression:www-res'
+		class='com.boluozhai.snowflake.h2o.rest.expression.WwwResExpression' />
+
+	<bean id='rest:expression:rest-api'
+		class='com.boluozhai.snowflake.h2o.rest.expression.RestApiExpression' />
+
+	<bean id='rest:expression:info-refs-service'
+		class='com.boluozhai.snowflake.h2o.rest.expression.InfoRefsExpression' />
+
+
 	<!-- gateway -->
 
 
-	<bean id='rest:gateway:parent'
+	<bean id='rest:gateway:root'
 		class='com.boluozhai.snowflake.rest.server.support.handler.DefaultRequestHandler'>
 
 		<property name="listeners">
 			<list>
+
 				<bean
 					class='com.boluozhai.snowflake.rest.server.support.handler.InfoFactoryBindingListener'>
 
@@ -52,13 +73,45 @@
 			</list>
 		</property>
 
+		<property name="nextHanlder">
+			<ref bean='rest:switch:root' />
+		</property>
+
 	</bean>
 
 
-	<bean id='rest:gateway:root' parent='rest:gateway:parent'>
+	<bean id='rest:gateway:info-refs-service'
+		class='com.boluozhai.snowflake.rest.server.support.handler.DefaultRequestHandler'>
 
 		<property name="nextHanlder">
-			<ref bean='rest:switch:root' />
+			<ref bean='rest:switch:info-refs-service' />
+		</property>
+
+	</bean>
+
+
+	<bean id='rest:gateway:www-res'
+		class='com.boluozhai.snowflake.rest.server.support.handler.DefaultRequestHandler'>
+
+		<property name="filters">
+			<list>
+				<!-- bean class='com.boluozhai.snowflake.rest.server.support.handler.DefaultRequestHandler' 
+					/ -->
+			</list>
+		</property>
+
+		<property name="nextHanlder">
+			<ref bean='rest:switch:www-res' />
+		</property>
+
+	</bean>
+
+
+	<bean id='rest:gateway:rest-api'
+		class='com.boluozhai.snowflake.rest.server.support.handler.DefaultRequestHandler'>
+
+		<property name="nextHanlder">
+			<ref bean='rest:switch:rest-api' />
 		</property>
 
 	</bean>
@@ -71,27 +124,26 @@
 		class='com.boluozhai.snowflake.rest.server.support.handler.RestHandlerSwitch'>
 
 		<property name="expression">
-			<bean
-				class='com.boluozhai.snowflake.h2o.rest.controller.res.ResourceSwitchExpression' />
+			<ref bean='rest:expression:root' />
 		</property>
 
 		<property name="defaultHandler">
-			<bean class='com.boluozhai.snowflake.h2o.rest.controller.Http404Ctrl' />
+			<ref bean='rest:gateway:www-res' />
 		</property>
 
 		<property name="handlers">
 			<map>
 
-				<entry key='do'>
-					<ref bean='rest:switch:do' />
+				<entry key='www'>
+					<ref bean='rest:gateway:www-res' />
 				</entry>
 
 				<entry key='info'>
-					<ref bean='rest:switch:info-refs-service' />
+					<ref bean='rest:gateway:info-refs-service' />
 				</entry>
 
-				<entry key='js'>
-					<ref bean='rest:switch:js' />
+				<entry key='rest'>
+					<ref bean='rest:gateway:rest-api' />
 				</entry>
 
 			</map>
@@ -102,14 +154,13 @@
 
 
 
-	<bean id='rest:switch:do'
+	<bean id='rest:switch:rest-api'
 		class='com.boluozhai.snowflake.rest.server.support.handler.RestHandlerSwitch'>
 
 		<!-- ~/rest/* -->
 
 		<property name="expression">
-			<bean
-				class='com.boluozhai.snowflake.h2o.rest.controller.res.ResourceSwitchExpression' />
+			<ref bean='rest:expression:rest-api' />
 		</property>
 
 		<property name="defaultHandler">
@@ -193,30 +244,36 @@
 	</bean>
 
 
-	<bean id='rest:switch:js'
+	<bean id='rest:switch:www-res'
 		class='com.boluozhai.snowflake.rest.server.support.handler.RestHandlerSwitch'>
-
 
 		<!-- active js -->
 
 		<property name="expression">
-			<bean
-				class='com.boluozhai.snowflake.h2o.rest.controller.res.ResourceSwitchExpression' />
+			<ref bean='rest:expression:www-res' />
 		</property>
 
 		<property name="defaultHandler">
-			<bean class='com.boluozhai.snowflake.h2o.rest.controller.Http404Ctrl' />
+			<bean class='com.boluozhai.snowflake.h2o.rest.controller.DefaultWebCtrl' />
 		</property>
 
 		<property name="handlers">
 			<map>
-				<entry key='~/js/config/i18n.js'>
+
+				<entry key='i18n.js'>
 					<bean class='com.boluozhai.snowflake.h2o.rest.controller.res.I18nJsCtrl'></bean>
 				</entry>
-				<entry key='~/js/session/current-session-info.js'>
+
+				<entry key='current-session-info.js'>
 					<bean
 						class='com.boluozhai.snowflake.h2o.rest.controller.res.SessionJsCtrl'></bean>
 				</entry>
+
+				<entry key='--this.js'>
+					<bean
+						class='com.boluozhai.snowflake.h2o.rest.controller.res.SessionJsCtrl'></bean>
+				</entry>
+
 			</map>
 		</property>
 

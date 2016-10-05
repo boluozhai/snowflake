@@ -33,7 +33,7 @@ public class SessionJsCtrl extends RestController {
 		String json = gs.toJson(model);
 
 		StringBuilder sb = new StringBuilder();
-		sb.append("this.com.boluozhai.snowflake.web.SessionInfo.data = ");
+		sb.append("this.com.boluozhai.h2o.web.SessionInfo.data = ");
 		sb.append(json);
 		sb.append(';');
 
@@ -42,8 +42,10 @@ public class SessionJsCtrl extends RestController {
 
 		// response.setContentLength(ba.length);
 		response.setContentType("text/javascript");
-		request.getRequestDispatcher("/js/controller/session.js").include(
-				request, response);
+
+		// request.getRequestDispatcher("/js/controller/session.js").include(
+		// request, response);
+
 		response.getOutputStream().write(ba);
 
 	}

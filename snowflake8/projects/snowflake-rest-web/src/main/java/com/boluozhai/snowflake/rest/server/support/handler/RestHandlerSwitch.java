@@ -44,13 +44,21 @@ public class RestHandlerSwitch implements RestRequestHandler {
 			throws ServletException, IOException {
 
 		RestHandlerSwitchExpression exp = this.expression;
-		String key = exp.getValue(request);
+		final String key = exp.getValue(request);
 		RestRequestHandler next = this.handlers.get(key);
 		if (next == null) {
 			next = this.defaultHandler;
 		}
-		next.handle(request, response);
+
+		try {
+			next.handle(request, response);
+		} catch (Exception e) {
+
+			String msg = "rest_switch(key=%s)";
+			msg = String.format(msg, key);
+			throw new ServletException(msg, e);
+
+		}
 
 	}
-
 }

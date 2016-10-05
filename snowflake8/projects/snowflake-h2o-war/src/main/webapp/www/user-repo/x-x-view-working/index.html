@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<!--
+/***********************************************************************
+ * 
+ * x-x-view-working/index.html
+ * 
+ * @Copyright (c) 2016 boluozhai.com
+ * @License MIT License
+ * @Author xukun<xukun17@sina.com>
+ * 
+ */
+-->
+
+<head>
+
+<meta charset='utf-8' />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title class='i18n' i18n='title_working'>Working</title>
+
+<link href="./../../../../lib/bootstrap/css/bootstrap.min.css"
+	rel="stylesheet" type="text/css" />
+
+<link href="./../../../../export/h2o/css/console.css" rel="stylesheet"
+	type="text/css" />
+
+<link href="./../../../../export/h2o/css/folder.css" rel="stylesheet"
+	type="text/css" />
+
+<link href="./../../../../css/working.css" rel="stylesheet"
+	type="text/css" />
+
+<style type="text/css">
+.side-bar {
+	text-align: center;
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+.start-btn {
+	width: 32px;
+	height: 32px;
+}
+
+body {
+	margin-top: 20px;
+}
+</style>
+
+
+
+</head>
+<body>
+
+	<div id='client' class='container'>
+
+		<div id='page-head'></div>
+
+		<div id='path-bar'></div>
+
+		<div id='file-list'></div>
+
+		<div class='page-foot side-bar '>
+			<div>
+				<span class='i18n' i18n='no_more'> &gt;_&lt; ，没有了！ </span>
+			</div>
+		</div>
+
+	</div>
+
+
+	<div class=' addition-widget  hide '>
+
+		<div class='hide'>
+			<span class='path-bar-head'>
+				<button class='btn btn-primary  btn-h2o-magic '>
+					<img class='hide context ' context-src='~/image/bucket.png'
+						style='width: 36px' /> <span class='mark-h2o-plus'>+</span> <span
+						class='i18n' i18n='magic'>Magic</span>
+				</button>
+				<button class='btn btn-link  h2o-root-button  btn-root-path i18n'
+					i18n='home'>ak's home</button>
+			</span>
+		</div>
+
+	</div>
+
+
+	<script src="./../../../../lib/jquery/jquery-1.11.2.js"></script>
+	<script src="./../../../../lib/bootstrap/js/bootstrap.min.js"></script>
+
+
+	<script src="./../../../../lib/snowflake/core.js"></script>
+	<script src="./../../../../lib/snowflake/context.js"></script>
+	<script src="./../../../../lib/snowflake/event.js"></script>
+	<script src="./../../../../lib/snowflake/rest.js"></script>
+	<script src="./../../../../lib/snowflake/listview.js"></script>
+
+
+	<script src="./../../../../export/h2o/js/widget.js"></script>
+	<script src="./../../../../export/h2o/js/folder.js"></script>
+	<script src="./../../../../export/h2o/js/cli.js"></script>
+	<script src="./../../../../export/h2o/js/console.js"></script>
+	<script src="./../../../../export/h2o/js/vfs.js"></script>
+	<script src="./../../../../export/h2o/js/session.js"></script>
+	<script src="./../../../../export/h2o/js/head.js"></script>
+
+
+	<script src="./../../../../js/controller/viewport.js"></script>
+	<script src="./../../../../js/config/base.js"></script>
+	<script src="./../../../../js/config/i18n-base.js"></script>
+	<script src="./../../../../js/config/final.js"></script>
+	<script src="./../../../../js/ui/working.html.js"></script>
+
+
+	<script src="./this.js"></script>
+	<script src="./i18n.js"></script>
+	<script src="./current-session-info.js"></script>
+
+
+	<script type="text/javascript">
+		$(document).ready(function() {
+
+			var WorkingHtml = com.boluozhai.h2o.html.WorkingHtml;
+			var context = Snowflake.getContext();
+			var ctrl = new WorkingHtml(context);
+			ctrl.init();
+
+		});
+	</script>
+
+</body>
+</html>

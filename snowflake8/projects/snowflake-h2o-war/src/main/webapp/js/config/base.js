@@ -21,7 +21,7 @@ snowflake.web.WebContextUtils.init(function(factory) {
 
 		var rest_factory = context.getBean('snowflake.rest.RESTClientFactory');
 
-		rest_factory.pathPattern('~/api/uid/repo/type/id/*');
+		rest_factory.pathPattern('~/uid/repo/api/type/id/*');
 
 	});
 

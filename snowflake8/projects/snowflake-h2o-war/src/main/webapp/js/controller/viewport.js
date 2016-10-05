@@ -23,61 +23,53 @@ JS.module(function(mc) {
 	// var DirDataCtrl = mc.import(widget_x + '.folder.DirDataCtrl');
 	// var ConsoleCtrl = mc.import(widget_x + '.console.ConsoleCtrl');
 
-	function InnerHolder() {
+	// var REST = mc.import('com.boluozhai.....REST');
+	var REST = snowflake.rest.REST;
+
+	function InnerHolder(context) {
+		this._context = context;
 	}
 
-	InnerHolder.getInstance = function() {
+	InnerHolder.getInstance = function(context) {
 		var inst = InnerHolder.instance;
 		if (inst == null) {
-			inst = new InnerHolder();
+			inst = new InnerHolder(context);
+			inst.load();
 			InnerHolder.instance = inst;
 		}
 		return inst;
 	};
 
-	InnerHolder.init = function() {
-		var inst = InnerHolder.getInstance();
-		inst.load();
-	};
+	// InnerHolder.init = function() {
+	// var inst = InnerHolder.getInstance();
+	// inst.load();
+	// };
 
 	InnerHolder.prototype = {
 
 		load : function() {
 
-			var url = window.location.href;
+			var path = window.location.pathname;
+			var client = REST.getClient(this._context);
 
-			var uid = this.getQueryParam(url, 'uid');
-			var repoid = this.getQueryParam(url, 'repoid');
+			var path_map = client.parsePath(path);
+			var user = this.getPathPart('uid', path_map, true);
+			var repo = this.getPathPart('repo', path_map, true);
 
-			this._uid = uid;
-			this._repo_id = repoid;
+			this._uid = user;
+			this._repo_id = repo;
 
 		},
 
-		getQueryParam : function(url, key) {
-
-			var i0 = url.indexOf('#');
-			if (i0 >= 0) {
-				url = url.substring(0, i0);
+		getPathPart : function(key, path_map, required) {
+			var value = path_map[key];
+			if (value == null) {
+				if (required) {
+					var msg = 'no field named[' + key + '] in the path.';
+					this.onError(msg);
+				}
 			}
-
-			i0 = url.indexOf('?');
-			if (i0 < 0) {
-				return this.onError('no param: ' + key);
-			}
-
-			var i1 = url.indexOf(key + '=', i0);
-			if (i1 < 0) {
-				return this.onError('no param: ' + key);
-			}
-
-			var i2 = url.indexOf('&', i1);
-			if (i2 < 0) {
-				return url.substring(i1 + key.length + 1);
-			} else {
-				return url.substring(i1 + key.length + 1, i2);
-			}
-
+			return value;
 		},
 
 		onError : function(msg) {
@@ -106,15 +98,15 @@ JS.module(function(mc) {
 
 	};
 
-	InnerHolder.init();
+	// InnerHolder.init();
 
 	/***************************************************************************
 	 * class ViewportInfo
 	 */
 
-	function ViewportInfo() {
+	function ViewportInfo(context) {
 
-		var inst = InnerHolder.getInstance();
+		var inst = InnerHolder.getInstance(context);
 
 		this._owner = inst.user();
 		this._repo = inst.repo();

@@ -26,7 +26,7 @@ JS.module(function(mc) {
 	var DocumentBinder = mc.import('com.boluozhai.h2o.widget.DocumentBinder');
 	var ResourceLoader = mc.import('com.boluozhai.h2o.widget.ResourceLoader');
 
-	var SessionInfo = mc.import('com.boluozhai.snowflake.web.SessionInfo');
+	var SessionInfo = mc.import('com.boluozhai.h2o.web.SessionInfo');
 
 	/***************************************************************************
 	 * class HeadCtrl

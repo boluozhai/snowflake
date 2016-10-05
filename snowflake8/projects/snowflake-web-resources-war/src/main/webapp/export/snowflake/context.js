@@ -228,6 +228,38 @@ JS.module(function(mc) {
 
 		},
 
+		getContextPath : function() {
+
+			var base = '~/.';
+			base = this.normalizeURL(base);
+			var path = window.location.pathname + '/' + base;
+			var array = path.split('/');
+			var a2 = [];
+
+			for (var i = 0; i < array.length; i++) {
+				var ele = array[i];
+				if (ele == null) {
+					// skip
+				} else if (ele == '') {
+					// skip
+				} else if (ele == '.') {
+					// skip
+				} else if (ele == '..') {
+					a2.pop();
+				} else {
+					a2.push(ele);
+				}
+			}
+
+			path = '/';
+			for ( var i in a2) {
+				var ele = a2[i];
+				path += (ele + '/');
+			}
+
+			return path;
+		},
+
 	};
 
 	/***************************************************************************

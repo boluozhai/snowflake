@@ -104,7 +104,7 @@ JS.module(function(mc) {
 
 		genWorkingBaseHttpURI : function() {
 
-			var temp = '~/rest/{user}/{repo}/working';
+			var temp = '~/{user}/{repo}/rest/working/';
 			var info = new ViewportInfo();
 			var user = info.owner();
 			var repo = info.repository();
@@ -122,7 +122,9 @@ JS.module(function(mc) {
 
 		setupRootButton : function(q) {
 
-			var info = new ViewportInfo();
+			var context = this._context;
+
+			var info = new ViewportInfo(context);
 			var user = info.owner();
 			var repo = info.repository();
 
