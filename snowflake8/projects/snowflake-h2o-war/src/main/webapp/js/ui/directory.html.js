@@ -80,7 +80,7 @@ JS.module(function(mc) {
 
 			// vfs
 			var vfs_factory = new VFSFactory();
-			vfs_factory.httpURI('~/rest/uid/repo/file');
+			vfs_factory.httpURI('~/u/r/rest/file');
 			var vfs = vfs_factory.create(context);
 			this._vfs = vfs;
 			vfs.ready(function() {

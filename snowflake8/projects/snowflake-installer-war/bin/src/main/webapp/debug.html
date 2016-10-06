@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta charset="utf-8" />
+
+<title>BLZ 系统更新程序 - (debug)</title>
+<link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+
+<style type="text/css">
+.panel {
+	margin-top: 20px;
+}
+</style>
+
+</head>
+<body>
+
+	<div class='container'>
+
+		<div class="panel panel-default">
+			<div class="panel-heading">BLZ 系统更新程序 (debug)</div>
+
+			<div class="panel-body">
+
+				<table class='table'>
+					<tr>
+						<td>a</td>
+						<td>1</td>
+					</tr>
+					<tr>
+						<td>b</td>
+						<td>2</td>
+					</tr>
+					<tr>
+						<td>c</td>
+						<td>3</td>
+					</tr>
+
+
+				</table>
+
+				<div>
+					<button class='btn btn-success'>OK</button>
+				</div>
+
+			</div>
+		</div>
+
+		<div class="panel panel-default">
+			<div class="panel-heading">debug</div>
+			<div class="panel-body">
+				<table class='table'>
+					<tr>
+						<td><button class='btn btn-default btn-do-check'>check</button></td>
+						<td><button class='btn btn-default btn-do-download'>download</button></td>
+						<td><button class='btn btn-default btn-do-install'>install</button></td>
+						<td><button class='btn btn-default btn-do-all'>all</button></td>
+					</tr>
+				</table>
+
+				<pre id='output'> </pre>
+
+			</div>
+		</div>
+
+	</div>
+
+	<script src="js/jquery.min.js"></script>
+	<script src="js/bootstrap.js"></script>
+
+	<script type="text/javascript">
+		$(document).ready(function() {
+
+			//	alert("hello, jQuery");
+
+			$('.btn-do-check').click(function() {
+				do_update('check');
+			});
+
+			$('.btn-do-download').click(function() {
+				do_update('download');
+			});
+
+			$('.btn-do-install').click(function() {
+				do_update('install');
+			});
+
+			$('.btn-do-all').click(function() {
+				do_update('all');
+			});
+
+		});
+
+		function do_update(op) {
+
+			var url = "DoUpdate?op=" + op;
+			var output = $('#output');
+			$.post(url, null, function(response, status, xhr) {
+
+				var str = JSON.stringify(response, null, 4);
+				output.text("response: " + str);
+
+			});
+
+		}
+	</script>
+
+</body>
+</html>

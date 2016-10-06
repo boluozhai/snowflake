@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" 
+ "http://www.springframework.org/dtd/spring-beans-2.0.dtd" >
+<beans>
+
+	<bean id='com.boluozhai.snowflake.installer.min.InstallerConfig'
+		class='com.boluozhai.snowflake.installer.min.InstallerConfig'>
+
+		<property name="remote">
+			<bean class='com.boluozhai.snowflake.installer.min.pojo.PackageDescriptor'>
+				<property name="url">
+					<value>https://www.boluozhai.com/download/snowflake-installer/info.json</value>
+				</property>
+				<property name="name">
+					<value>snowflake-installer</value>
+				</property>
+			</bean>
+		</property>
+
+		<property name="httpsOnly">
+			<value>true</value>
+		</property>
+
+	</bean>
+
+</beans>
