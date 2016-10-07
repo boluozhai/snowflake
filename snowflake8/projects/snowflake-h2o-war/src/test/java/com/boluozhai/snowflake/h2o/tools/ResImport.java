@@ -7,6 +7,7 @@ public class ResImport extends WebResDescriptor {
 	public static void main(String[] arg) {
 
 		ResImport ri = new ResImport();
+		ri.setPathInProject("src/main/webapp/lib/import");
 
 		ri.addItem("com.boluozhai.snowflake:snowflake-web-resources-war:0.8.0:export");
 

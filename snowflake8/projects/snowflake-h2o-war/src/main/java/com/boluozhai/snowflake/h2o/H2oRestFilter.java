@@ -61,15 +61,8 @@ public class H2oRestFilter extends RestFilter {
 
 		List<String> list = new ArrayList<String>();
 		list.add("admin");
-		list.add("css");
-		list.add("export");
-		list.add("image");
-		list.add("js");
+		list.add("user");
 		list.add("lib");
-		list.add("sign");
-		list.add("system");
-		list.add("test");
-		list.add("www");
 		return list;
 
 	}

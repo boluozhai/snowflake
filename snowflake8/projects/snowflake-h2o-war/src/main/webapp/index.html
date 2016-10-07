@@ -4,7 +4,7 @@
 <!--
 /***********************************************************************
  * 
- * index.html
+ * index.html (webapp-root)
  * 
  * @Copyright (c) 2016 boluozhai.com
  * @License MIT License
@@ -18,47 +18,97 @@
 <meta charset='utf-8' />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<title>H2O</title>
+<title class='i18n' i18n='title_h2o'>h2o</title>
 
-<link href="./lib/bootstrap/css/bootstrap.min.css" rel="stylesheet"
+<link href="./lib/import/bootstrap/css/bootstrap.min.css"
+	rel="stylesheet" type="text/css" />
+
+<link href="./lib/export/h2o/css/console.css" rel="stylesheet"
 	type="text/css" />
 
+<link href="./lib/export/h2o/css/folder.css" rel="stylesheet"
+	type="text/css" />
+
+<link href="./lib/css/working.css" rel="stylesheet" type="text/css" />
+
+
 <style type="text/css">
-.ak {
+.page-foot {
 	text-align: center;
 }
 
-img.ak {
-	margin-top: 100px;
-	width: 256px;
+h1 {
+	text-align: center;
 }
 </style>
-
 
 </head>
 <body>
 
-	<div class='ak'>
+	<div id='client' class='container'>
 
-		<img class='ak' src='image/h2o.png' />
-		<h1>H2O</h1>
-		<h3>康敏苏...</h3>
+
+		<div id='page-head'></div>
+
+
+		<h1>h2o Home</h1>
+		<h1>FLOW</h1>
+
+
+		<div class='page-foot side-bar '>
+			<div>
+				<span class='i18n' i18n='no_more'> &gt;_&lt; ，没有了！ </span>
+			</div>
+		</div>
 
 	</div>
 
-	<script src="./lib/jquery/jquery.min.js"></script>
-	<script src="./lib/bootstrap/js/bootstrap.min.js"></script>
 
-	<script src="./lib/snowflake/core.js"></script>
-	<script src="./lib/snowflake/context.js"></script>
+	<script src="./lib/import/jquery/jquery-1.11.2.js"></script>
+	<script src="./lib/import/bootstrap/js/bootstrap.min.js"></script>
 
-	<script src="./this.js"></script>
-	<script src="./export/h2o/js/FolderView.js"></script>
+
+	<script src="./lib/import/snowflake/core.js"></script>
+	<script src="./lib/import/snowflake/context.js"></script>
+	<script src="./lib/import/snowflake/event.js"></script>
+	<script src="./lib/import/snowflake/rest.js"></script>
+	<script src="./lib/import/snowflake/listview.js"></script>
+
+
+	<script src="./lib/export/h2o/js/session.js"></script>
+	<script src="./lib/export/h2o/js/viewport.js"></script>
+	<script src="./lib/export/h2o/js/widget.js"></script>
+	<script src="./lib/export/h2o/js/folder.js"></script>
+	<script src="./lib/export/h2o/js/cli.js"></script>
+	<script src="./lib/export/h2o/js/console.js"></script>
+	<script src="./lib/export/h2o/js/vfs.js"></script>
+	<script src="./lib/export/h2o/js/head.js"></script>
+
+
+	<script src="./lib/js/config/base.js"></script>
+	<script src="./lib/js/config/i18n-base.js"></script>
+	<script src="./lib/js/config/final.js"></script>
+	<script src="./lib/js/ui/webapp-home.html.js"></script>
+
+
+	<script src="./lib/escape_dir/webapp-this.js"></script>
+	<script src="./u/r/api/type/id/current-session-info.js"></script>
+	<script src="./u/r/api/type/id/i18n.js"></script>
+
 
 	<script type="text/javascript">
 		$(document).ready(function() {
+
+			var UserHomeHtml = com.boluozhai.h2o.html.UserHomeHtml;
+			var context = Snowflake.getContext();
+			var ctrl = new UserHomeHtml(context);
+			ctrl.init();
+
 		});
 	</script>
 
 </body>
 </html>
+
+
+

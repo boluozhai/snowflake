@@ -37,9 +37,9 @@ public class DefaultWebCtrl extends RestController {
 
 	private static class MyPathMaker {
 
-		private String[] _array;
 		private String _redirect_2;
 		private String _file_name;
+		private String[] _path_elements;
 
 		public MyPathMaker(HttpServletRequest request) {
 
@@ -47,21 +47,7 @@ public class DefaultWebCtrl extends RestController {
 					.getInstance(request);
 			PathInfo path_info = rest_info.getPathInfo();
 
-			String user = path_info.getPartString("user");
-			String repo = path_info.getPartString("repository");
-			String api = path_info.getPartString("api");
-			String type = path_info.getPartString("type");
-
-			if (user != null) {
-				user = DEFINE.xxxx;
-			}
-
-			if (repo != null) {
-				repo = DEFINE.xxxx;
-			}
-
-			String[] a1 = { user, repo, api, type };
-			this._array = a1;
+			this._path_elements = path_info.getInAppPart().trimToArray();
 
 			String url = request.getRequestURI();
 			this._redirect_2 = url;
@@ -83,17 +69,24 @@ public class DefaultWebCtrl extends RestController {
 		public boolean need_redirect() {
 
 			String fn = this._file_name;
+
 			if (fn == null) {
 			} else if (fn.equals("/")) {
-			} else if (fn.endsWith(".png")) {
-			} else if (fn.endsWith(".jpg")) {
-			} else if (fn.endsWith(".gif")) {
+
 			} else if (fn.endsWith(".js")) {
 			} else if (fn.endsWith(".css")) {
 			} else if (fn.endsWith(".html")) {
 
-			} else if (fn.endsWith(".git")) {
 			} else if (fn.endsWith(".sf")) {
+			} else if (fn.endsWith(".snow")) {
+			} else if (fn.endsWith(".snowflake")) {
+			} else if (fn.endsWith(".git")) {
+			} else if (fn.endsWith(".xgit")) {
+
+			} else if (fn.endsWith(".png")) {
+			} else if (fn.endsWith(".jpg")) {
+			} else if (fn.endsWith(".gif")) {
+
 			} else {
 				return true;
 			}
@@ -104,14 +97,27 @@ public class DefaultWebCtrl extends RestController {
 
 		public String create() {
 
-			String[] data = this._array;
-			String path = "/www/user-repo/%s-%s-%s-%s%s";
+			String[] data = this._path_elements;
+			this.setItem(data, 0, "user");
+			this.setItem(data, 1, "repo");
 
-			path = String.format(path, data[0], data[1], data[2], data[3],
-					this._file_name);
+			StringBuilder sb = new StringBuilder();
+			for (String s : data) {
+				sb.append('/').append(s);
+			}
 
-			return path;
+			if ("/".equals(this._file_name)) {
+				sb.append('/');
+			}
 
+			return sb.toString();
+
+		}
+
+		private void setItem(String[] array, int index, String value) {
+			if (index < array.length) {
+				array[index] = value;
+			}
 		}
 	}
 

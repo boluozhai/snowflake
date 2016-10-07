@@ -27,7 +27,7 @@ public class I18nJsCtrl extends RestController {
 			lang = "default";
 		}
 
-		String path = "/js/i18n/" + lang + ".js";
+		String path = "/lib/js/i18n/" + lang + ".js";
 
 		response.setStatus(200);
 		response.setContentType("application/javascript");
