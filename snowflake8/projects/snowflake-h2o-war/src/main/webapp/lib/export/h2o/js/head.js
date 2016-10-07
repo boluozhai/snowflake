@@ -88,11 +88,11 @@ JS.module(function(mc) {
 			var reg = base.find('.btn-auth-reg');
 
 			login.click(function() {
-				nav2("~/login.html");
+				nav2("~/user/login/");
 			});
 
 			reg.click(function() {
-				nav2("~/register.html");
+				nav2("~/user/register/");
 			});
 
 		},

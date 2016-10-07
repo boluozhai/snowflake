@@ -172,7 +172,7 @@ JS.module(function(mc) {
 	function WebContext(beans) {
 		this.Context(beans);
 		this._path_in_webapp = null;
-		this._i18n = new Internationalization();
+		this._i18n = new Internationalization(this);
 	}
 
 	mc.class(function(cc) {
@@ -334,8 +334,9 @@ JS.module(function(mc) {
 	 * class Internationalization
 	 */
 
-	function Internationalization() {
+	function Internationalization(context) {
 		this._mapping = {};
+		this._context = context;
 	}
 
 	mc.class(function(cc) {
@@ -367,6 +368,36 @@ JS.module(function(mc) {
 					value = 'i18n(' + key + ')';
 				}
 				q.text(value);
+			}
+
+			this.inner_trans_context_res(query);
+
+		},
+
+		inner_trans_context_res : function(query) {
+
+			var context = this._context;
+			var list = query.find('.context');
+			var prefix = 'context-';
+
+			for (var i = list.length - 1; i >= 0; i--) {
+
+				var ele = list[i];
+				var atts = ele.attributes;
+				var q = $(ele);
+
+				for ( var i2 in atts) {
+					var key = atts[i2].name;
+					if (key == null) {
+						continue;
+					} else if (key.indexOf(prefix) == 0) {
+						var value = q.attr(key);
+						var k2 = key.substring(prefix.length);
+						value = context.normalizeURL(value);
+						q.attr(k2, value);
+					}
+				}
+
 			}
 
 		},
