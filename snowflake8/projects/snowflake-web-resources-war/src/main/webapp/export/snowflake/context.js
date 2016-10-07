@@ -370,23 +370,33 @@ JS.module(function(mc) {
 				q.text(value);
 			}
 
-			this.inner_trans_href(query);
+			this.inner_trans_context_res(query);
 
 		},
 
-		inner_trans_href : function(query) {
+		inner_trans_context_res : function(query) {
 
 			var context = this._context;
 			var list = query.find('.context');
+			var prefix = 'context-';
 
 			for (var i = list.length - 1; i >= 0; i--) {
 
 				var ele = list[i];
+				var atts = ele.attributes;
 				var q = $(ele);
 
-				var href = q.attr('context-src');
-				href = context.normalizeURL(href);
-				q.attr('src', href);
+				for ( var i2 in atts) {
+					var key = atts[i2].name;
+					if (key == null) {
+						continue;
+					} else if (key.indexOf(prefix) == 0) {
+						var value = q.attr(key);
+						var k2 = key.substring(prefix.length);
+						value = context.normalizeURL(value);
+						q.attr(k2, value);
+					}
+				}
 
 			}
 
