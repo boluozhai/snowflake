@@ -6,9 +6,8 @@ public class GitObjectDescriptor {
 	private String id;
 	private String owner;
 	private String repository;
-	private long length;
-
 	private String url;
+	private long length;
 
 	public String getType() {
 		return type;

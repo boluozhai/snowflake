@@ -7,7 +7,6 @@ public class RepositoryProfile {
 	private String name; // the repo id
 	private String owner; // the uid of owner
 	private String description;
-
 	private GitObjectDescriptor icon;
 
 	public String getOwner() {

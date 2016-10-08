@@ -25,6 +25,7 @@ JS.module(function(mc) {
 
 	// var REST = mc.import('com.boluozhai.....REST');
 	var REST = snowflake.rest.REST;
+	var RestAPI = mc.import("com.boluozhai.snowflake.rest.api.RestAPI");
 
 	function InnerHolder(context) {
 		this._context = context;
@@ -166,9 +167,11 @@ JS.module(function(mc) {
 			var client = REST.getClient(context);
 			var res = client.getResource();
 
+			var api = new RestAPI(client);
 			var info = this._info;
 			var user = info.owner('u');
 			var repo = info.repository('r');
+
 			res.parts({
 				uid : user,
 				repo : repo,
@@ -179,6 +182,8 @@ JS.module(function(mc) {
 
 			var request = res.get();
 			request.execute(function(resp) {
+
+				var pojo = api.parseResponse(resp);
 
 				resp.toString();
 
