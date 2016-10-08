@@ -1,21 +1,21 @@
 package com.boluozhai.snowflake.rest.api.h2o;
 
 import com.boluozhai.snowflake.rest.api.RestDoc;
-import com.boluozhai.snowflake.rest.element.session.SessionParam;
+import com.boluozhai.snowflake.rest.element.session.SessionProfile;
 
 public class SessionModel extends RestDoc {
 
-	private SessionParam session;
+	private SessionProfile session;
 
 	public SessionModel() {
-		this.session = new SessionParam();
+		this.session = new SessionProfile();
 	}
 
-	public SessionParam getSession() {
+	public SessionProfile getSession() {
 		return session;
 	}
 
-	public void setSession(SessionParam session) {
+	public void setSession(SessionProfile session) {
 		this.session = session;
 	}
 

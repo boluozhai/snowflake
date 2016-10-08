@@ -1,21 +1,25 @@
-package com.boluozhai.snowflake.h2o.data.pojo.model;
+package com.boluozhai.snowflake.rest.element.account;
 
-import com.boluozhai.snowflake.datatable.pojo.Model;
 import com.boluozhai.snowflake.rest.element.GitObjectDescriptor;
 
-public class AccountDTM implements Model {
+public class AccountProfile {
 
-	private String uid;
 	private String hashId;
+	private String uid;
 	private String nickname;
-	private String description;
 	private String email;
-	private String location;
+	private String description;
 	private String language;
+	private String location;
 
 	private GitObjectDescriptor avatar;
 
-	public AccountDTM() {
+	public String getUid() {
+		return uid;
+	}
+
+	public void setUid(String uid) {
+		this.uid = uid;
 	}
 
 	public String getNickname() {
@@ -34,12 +38,12 @@ public class AccountDTM implements Model {
 		this.email = email;
 	}
 
-	public String getUid() {
-		return uid;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setUid(String uid) {
-		this.uid = uid;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public String getHashId() {
@@ -50,12 +54,12 @@ public class AccountDTM implements Model {
 		this.hashId = hashId;
 	}
 
-	public String getDescription() {
-		return description;
+	public String getLanguage() {
+		return language;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
+	public void setLanguage(String language) {
+		this.language = language;
 	}
 
 	public String getLocation() {
@@ -66,20 +70,12 @@ public class AccountDTM implements Model {
 		this.location = location;
 	}
 
-	public String getLanguage() {
-		return language;
-	}
-
-	public void setLanguage(String language) {
-		this.language = language;
+	public GitObjectDescriptor getAvatar() {
+		return avatar;
 	}
 
 	public void setAvatar(GitObjectDescriptor avatar) {
 		this.avatar = avatar;
-	}
-
-	public GitObjectDescriptor getAvatar() {
-		return avatar;
 	}
 
 }

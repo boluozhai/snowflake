@@ -51,6 +51,25 @@ JS.module(function(mc) {
 			head_ctrl.binder().parent('#page-head');
 			head_ctrl.init();
 
+			this.setupViewportInfo();
+			this.setupRepositoryList();
+
+		},
+
+		setupViewportInfo : function() {
+
+			var context = this._context;
+			var vpinfo = new ViewportInfo(context);
+			var loader = vpinfo.getDetailLoader();
+			loader.load(function() {
+
+				;
+
+			});
+
+		},
+
+		setupRepositoryList : function() {
 		},
 
 	};

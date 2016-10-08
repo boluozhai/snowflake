@@ -9,8 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 import com.boluozhai.snowflake.core.SnowflakeException;
 import com.boluozhai.snowflake.rest.api.h2o.AuthModel;
 import com.boluozhai.snowflake.rest.api.h2o.SessionModel;
-import com.boluozhai.snowflake.rest.element.auth.AuthInfo;
-import com.boluozhai.snowflake.rest.element.session.SessionParam;
+import com.boluozhai.snowflake.rest.element.auth.AuthProfile;
+import com.boluozhai.snowflake.rest.element.session.SessionProfile;
 import com.boluozhai.snowflake.rest.server.JsonRestPojoLoader;
 import com.boluozhai.snowflake.rest.server.JsonRestView;
 import com.boluozhai.snowflake.rest.server.RestController;
@@ -46,7 +46,7 @@ public class EmailPasswordMethod extends RestController {
 	private void inner_make_session(HttpServletRequest request,
 			HttpServletResponse response, AuthModel auth) {
 
-		AuthInfo ar = auth.getResponse();
+		AuthProfile ar = auth.getResponse();
 		String name = ar.getName();
 
 		RestRequestInfo rest_info = RestRequestInfo.Factory
@@ -55,7 +55,7 @@ public class EmailPasswordMethod extends RestController {
 				.getSessionInfo();
 
 		SessionModel session = session_info.getModel();
-		SessionParam info = new SessionParam();
+		SessionProfile info = new SessionProfile();
 		session.setSession(info);
 
 		info.setNickname("haha");
@@ -63,7 +63,7 @@ public class EmailPasswordMethod extends RestController {
 		info.setLogin(true);
 		info.setLoginTimestamp(System.currentTimeMillis());
 		info.setHashId("n/a");
-		info.setAvatar("n/a");
+		info.setAvatar(null);
 
 		session_info.setModel(session);
 
@@ -74,7 +74,7 @@ public class EmailPasswordMethod extends RestController {
 		this.inner_hash_psw_again(model);
 		final String method = model.getRequest().getMethod();
 
-		AuthInfo response = new AuthInfo();
+		AuthProfile response = new AuthProfile();
 		model.setResponse(response);
 		response.setMethod(method);
 		response.setStatus("undef");
@@ -99,7 +99,7 @@ public class EmailPasswordMethod extends RestController {
 	}
 
 	private void inner_hash_psw_again(AuthModel model) {
-		AuthInfo req = model.getRequest();
+		AuthProfile req = model.getRequest();
 		String key = req.getKey();
 		String key2 = HashTools.sha1string(key);
 		req.setKey(key2);
@@ -108,8 +108,8 @@ public class EmailPasswordMethod extends RestController {
 	private AuthModel inner_login(AuthModel model) {
 		// TODO Auto-generated method stub
 
-		AuthInfo req = model.getRequest();
-		AuthInfo res = model.getResponse();
+		AuthProfile req = model.getRequest();
+		AuthProfile res = model.getResponse();
 
 		String pass = req.getKey();
 		String user = req.getName();

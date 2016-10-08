@@ -26,13 +26,18 @@
 					<div class="collapse navbar-collapse"
 						id="bs-example-navbar-collapse-1">
 						<ul class="nav navbar-nav">
-							<li class="active"><a href="#" class='i18n' i18n='time'>时</a></li>
-							<li class='-hide'><a href="#" class='i18n' i18n='space'>空</a></li>
-							<li class="dropdown hide"><a href="#"
-								class="dropdown-toggle" data-toggle="dropdown">Dropdown <span
-									class="caret"></span></a>
-								<ul class="dropdown-menu" role="menu">
-									<li><a href="#">Action</a></li>
+
+							<li class=" hide active"><a href="#" class='i18n'
+								i18n='time'>时</a></li>
+							<li class=' hide '><a href="#" class='i18n' i18n='space'>空</a></li>
+
+							<li class="dropdown  panel-list-menu "><a href="#"
+								class="dropdown-toggle" data-toggle="dropdown"><span
+									class='menu-title'>Dropdown</span> <span class="caret"></span>
+							</a>
+
+								<ul class="dropdown-menu list " role="menu">
+									<li class='list-item'><a class='li-label' href="#">Action</a></li>
 									<li><a href="#">Another action</a></li>
 									<li><a href="#">Something else here</a></li>
 									<li class="divider"></li>
@@ -40,6 +45,8 @@
 									<li class="divider"></li>
 									<li><a href="#">One more separated link</a></li>
 								</ul></li>
+
+
 						</ul>
 						<form class="navbar-form navbar-left" role="search">
 							<div class="form-group">
@@ -60,9 +67,10 @@
 
 							<li class="view-if-login dropdown"><a href="#"
 								class="dropdown-toggle" data-toggle="dropdown"> <img
-									class='context' context-src='~/lib/image/account.png' alt='avatar'
-									style='width: 18px' /> <span class='string-account-nickname'>
-										(nickname)</span> <span class="caret"></span></a>
+									class='context' context-src='~/lib/image/account.png'
+									alt='avatar' style='width: 18px' /> <span
+									class='string-account-nickname'> (nickname)</span> <span
+									class="caret"></span></a>
 								<ul class="dropdown-menu" role="menu">
 									<li style='text-align: center'><img
 										context-src='~/lib/image/h2o.png' alt='avatar' class='context'

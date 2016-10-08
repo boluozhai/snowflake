@@ -164,8 +164,7 @@
 		</property>
 
 		<property name="defaultHandler">
-			<bean
-				class='com.boluozhai.snowflake.xgit.http.server.controller.RepoHomeCtrl'></bean>
+			<bean class='com.boluozhai.snowflake.h2o.rest.controller.Http404Ctrl' />
 		</property>
 
 		<property name="handlers">
@@ -174,25 +173,28 @@
 				<!-- sys -->
 
 				<entry key='account'>
-					<bean class='com.boluozhai.snowflake.h2o.rest.controller.AccountCtrl'></bean>
+					<bean class='com.boluozhai.snowflake.h2o.rest.controller.AccountCtrl' />
 				</entry>
 				<entry key='auth'>
-					<bean class='com.boluozhai.snowflake.h2o.rest.controller.AuthCtrl'></bean>
+					<bean class='com.boluozhai.snowflake.h2o.rest.controller.AuthCtrl' />
 				</entry>
 				<entry key='command'>
-					<bean class='com.boluozhai.snowflake.h2o.rest.controller.CommandCtrl'></bean>
+					<bean class='com.boluozhai.snowflake.h2o.rest.controller.CommandCtrl' />
 				</entry>
 				<entry key='file'>
-					<bean class='com.boluozhai.snowflake.h2o.rest.controller.FileCtrl'></bean>
+					<bean class='com.boluozhai.snowflake.h2o.rest.controller.FileCtrl' />
 				</entry>
 				<entry key='repository'>
-					<bean class='com.boluozhai.snowflake.h2o.rest.controller.RepositoryCtrl'></bean>
+					<bean class='com.boluozhai.snowflake.h2o.rest.controller.RepositoryCtrl' />
 				</entry>
 				<entry key='session'>
-					<bean class='com.boluozhai.snowflake.h2o.rest.controller.SessionCtrl'></bean>
+					<bean class='com.boluozhai.snowflake.h2o.rest.controller.SessionCtrl' />
+				</entry>
+				<entry key='viewport'>
+					<bean class='com.boluozhai.snowflake.h2o.rest.controller.ViewportCtrl' />
 				</entry>
 				<entry key='working'>
-					<bean class='com.boluozhai.snowflake.h2o.rest.controller.WorkingDirCtrl'></bean>
+					<bean class='com.boluozhai.snowflake.h2o.rest.controller.WorkingDirCtrl' />
 				</entry>
 
 			</map>

@@ -112,6 +112,7 @@ JS.module(function(mc) {
 		this._repo = inst.repo();
 		this._err = inst.error();
 		this._str = inst.user() + '/' + inst.repo();
+		this._context = context;
 
 	}
 
@@ -122,16 +123,67 @@ JS.module(function(mc) {
 
 	ViewportInfo.prototype = {
 
-		owner : function() {
-			return this._owner;
+		owner : function(def) {
+			var value = this._owner;
+			if (value == null) {
+				value = def;
+			}
+			return value;
 		},
 
-		repository : function() {
-			return this._repo;
+		repository : function(def) {
+			var value = this._repo;
+			if (value == null) {
+				value = def;
+			}
+			return value;
 		},
 
 		toString : function() {
 			return this._str;
+		},
+
+		getDetailLoader : function() {
+			return new ViewportDetailLoader(this);
+		},
+
+	};
+
+	/***************************************************************************
+	 * class ViewportDetailLoader
+	 */
+
+	function ViewportDetailLoader(info) {
+		this._info = info;
+		this._context = info._context;
+	}
+
+	ViewportDetailLoader.prototype = {
+
+		load : function(fn) {
+
+			var context = this._context;
+			var client = REST.getClient(context);
+			var res = client.getResource();
+
+			var info = this._info;
+			var user = info.owner('u');
+			var repo = info.repository('r');
+			res.parts({
+				uid : user,
+				repo : repo,
+				api : 'rest',
+				type : 'viewport',
+				id : 'a-id',
+			});
+
+			var request = res.get();
+			request.execute(function(resp) {
+
+				resp.toString();
+
+			});
+
 		},
 
 	};

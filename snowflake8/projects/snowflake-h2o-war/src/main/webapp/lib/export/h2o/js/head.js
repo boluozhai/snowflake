@@ -12,21 +12,19 @@ JS.module(function(mc) {
 
 	mc.package('com.boluozhai.h2o.widget.head');
 
+	// var widget_x = 'com.boluozhai.h2o.widget';
+
 	var System = mc.import('js.lang.System');
 	var Attributes = mc.import('js.lang.Attributes');
 	var RESTClient = mc.import('snowflake.rest.RESTClient');
-	// var SHA1 = mc.import('snowflake.security.sha1.SHA1');
 
-	var widget_x = 'com.boluozhai.h2o.widget';
-
-	// var FileListCtrl = mc.import(widget_x + '.folder.FileListCtrl');
-	// var PathBarCtrl = mc.import(widget_x + '.folder.PathBarCtrl');
-	// var DirDataCtrl = mc.import(widget_x + '.folder.DirDataCtrl');
-	// var ConsoleCtrl = mc.import(widget_x + '.console.ConsoleCtrl');
 	var DocumentBinder = mc.import('com.boluozhai.h2o.widget.DocumentBinder');
 	var ResourceLoader = mc.import('com.boluozhai.h2o.widget.ResourceLoader');
 
 	var SessionInfo = mc.import('com.boluozhai.h2o.web.SessionInfo');
+
+	var ListBuilder = mc.import('snowflake.view.list.ListBuilder');
+	var ListModel = mc.import('snowflake.view.list.ListModel');
 
 	/***************************************************************************
 	 * class HeadCtrl
@@ -35,7 +33,7 @@ JS.module(function(mc) {
 	function HeadCtrl(context) {
 		this._context = context;
 		this._binder = new HeadBinder();
-		this._hp_man = new HeadPanelManager(context);
+		this._hp_man = new PanelManager(context);
 	}
 
 	mc.class(function(cc) {
@@ -73,7 +71,19 @@ JS.module(function(mc) {
 
 			this.setupAuthButton(child);
 			this.setupAccountInfo();
+			this.setupPanelList(query);
 
+		},
+
+		setupPanelList : function(query) {
+
+			var hpm = this._hp_man;
+			hpm.selectMenu('.panel-list-menu');
+			hpm.selectMenuTitle('.menu-title');
+			hpm.selectMenuList('.list');
+			hpm.selectMenuItem('.list-item');
+
+			hpm.init(query);
 		},
 
 		setupAuthButton : function(base) {
@@ -140,10 +150,35 @@ JS.module(function(mc) {
 	};
 
 	/***************************************************************************
-	 * class HeadPanelManager
+	 * inner class PanelListModel
 	 */
 
-	function HeadPanelManager(context) {
+	function PanelListModel(list) {
+
+		if (list == null) {
+			list = [];
+		}
+
+		this._list = list; // a list of IPW
+	}
+
+	PanelListModel.prototype = {
+
+		size : function() {
+			return this._list.length;
+		},
+
+		get : function(index) {
+			return this._list[index];
+		},
+
+	};
+
+	/***************************************************************************
+	 * inner class PanelManager
+	 */
+
+	function PanelManager(context) {
 
 		this._context = context;
 
@@ -152,9 +187,99 @@ JS.module(function(mc) {
 		this._parent = null;
 		this._cur_ipw = null;
 
+		this._list_ctrl = null;
+		this._panel_list_menu = null;
+
 	}
 
-	HeadPanelManager.prototype = {
+	PanelManager.prototype = {
+
+		attr : function(k, v) {
+			k = '__attr_' + k;
+			if (v == null) {
+				v = this[k];
+			} else {
+				this[k] = v;
+			}
+			return v;
+		},
+
+		selectMenu : function(v) {
+			return this.attr('menu_', v);
+		},
+
+		selectMenuTitle : function(v) {
+			return this.attr('menu_title', v);
+		},
+
+		selectMenuList : function(v) {
+			return this.attr('menu_list', v);
+		},
+
+		selectMenuItem : function(v) {
+			return this.attr('menu_item', v);
+		},
+
+		init : function(query) {
+			this.setupMenuList(query);
+		},
+
+		setupMenuList : function(query) {
+
+			var self = this;
+
+			var sel_menu = this.selectMenu();
+			var sel_menu_title = this.selectMenuTitle();
+			var sel_menu_list = this.selectMenuList();
+			var sel_menu_item = this.selectMenuItem();
+
+			query = query.find(sel_menu);
+			var q_menu = query;
+			var q_menu_title = query.find(sel_menu_title);
+			var q_menu_list = query.find(sel_menu_list);
+			var q_menu_item = query.find(sel_menu_item);
+
+			var model = this.create_model();
+			var builder = new ListBuilder();
+
+			builder.view(q_menu_list);
+			builder.model(model);
+			builder.onSelectItem(function(model, index) {
+				return sel_menu_item;
+			});
+
+			// items
+
+			builder.addItem(sel_menu_item).onCreate(function(item) {
+				var view = item.view();
+				var btn = view.find('.li-label');
+				btn.click(function() {
+					self.fireOnClickItem(item);
+				});
+			}).onUpdate(function(item) {
+				var view = item.view();
+				var ipw = item.data();
+				var title = ipw.title();
+				var label = view.find('.li-label');
+				label.text(title);
+			});
+
+			this._panel_list_menu = query;
+			this._list_ctrl = builder.create();
+			this.update();
+
+		},
+
+		fireOnClickItem : function(item) {
+			var ipw = item.data();
+			var name = ipw.name();
+			this.setCurrentPanel(name);
+		},
+
+		create_model : function() {
+			var list = this._panel_list;
+			return new PanelListModel(list);
+		},
 
 		setParent : function(parent) {
 			this._parent = parent;
@@ -179,8 +304,17 @@ JS.module(function(mc) {
 			if (ipw != null) {
 				ipw.onShow();
 				this.setChild(ipw.ui());
+				var title = ipw.title();
+				this.setCurrentTitle(title);
 			}
 
+		},
+
+		setCurrentTitle : function(title) {
+			var menu = this._panel_list_menu;
+			if (menu != null) {
+				menu.find('.menu-title').text(title);
+			}
 		},
 
 		update : function() {
@@ -200,12 +334,28 @@ JS.module(function(mc) {
 				p.append(c);
 			}
 
+			var ctrl = this._list_ctrl;
+			var model = this.create_model();
+			if (ctrl != null) {
+				ctrl.model(model);
+				ctrl.update(true);
+			}
+
+			var menu = this._panel_list_menu;
+			if (menu != null) {
+				if (model.size() > 0) {
+					menu.show();
+				} else {
+					menu.hide();
+				}
+			}
+
 		},
 
 		addPanel : function(panel) {
 
 			var context = this._context;
-			panel = new InnerPanelWrapper(context, panel);
+			panel = new PanelWrapper(context, panel);
 
 			var table = this._panel_table;
 			var list = this._panel_list;
@@ -220,7 +370,7 @@ JS.module(function(mc) {
 
 			var self = this;
 			var table = this._panel_table;
-			var ipw = table[name]; // InnerPanelWrapper
+			var ipw = table[name]; // PanelWrapper
 
 			if (ipw == null) {
 				return;
@@ -258,14 +408,18 @@ JS.module(function(mc) {
 	 * class HeadPanel
 	 */
 
-	function HeadPanel(context) {
+	function HeadPanel(context, name) {
 
 		this._context = context;
 
+		if (name == null) {
+			name = 'a-head-panel';
+		}
+
 		this.domURL('~/lib/export/h2o/html/HeadPanel.html');
 		this.domSelector('.panel');
-		this.name('a-head-panel');
-		this.title('a-head-panel');
+		this.name(name);
+		this.title(name);
 
 	}
 
@@ -306,23 +460,32 @@ JS.module(function(mc) {
 
 		onLoad : function() {
 			// alert('on_load');
+
+			var ui = this.ui();
+			var title = this.title();
+			ui.find('.panel-title').text(title);
+
 		},
 
 	};
 
 	/***************************************************************************
-	 * class InnerPanelWrapper
+	 * inner class PanelWrapper
 	 */
 
-	function InnerPanelWrapper(context, panel) {
+	function PanelWrapper(context, panel) {
 		this._context = context;
 		this._panel = panel;
 	}
 
-	InnerPanelWrapper.prototype = {
+	PanelWrapper.prototype = {
 
 		name : function() {
 			return this._panel.name();
+		},
+
+		title : function() {
+			return this._panel.title();
 		},
 
 		ui : function() {

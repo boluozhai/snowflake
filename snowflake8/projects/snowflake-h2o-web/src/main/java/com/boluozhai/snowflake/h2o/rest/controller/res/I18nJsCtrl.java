@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.boluozhai.snowflake.rest.api.h2o.SessionModel;
-import com.boluozhai.snowflake.rest.element.session.SessionParam;
+import com.boluozhai.snowflake.rest.element.session.SessionProfile;
 import com.boluozhai.snowflake.rest.server.RestController;
 import com.boluozhai.snowflake.rest.server.info.RestRequestInfo;
 import com.boluozhai.snowflake.rest.server.info.session.SessionInfo;
@@ -20,7 +20,7 @@ public class I18nJsCtrl extends RestController {
 			HttpServletResponse response) throws ServletException, IOException {
 
 		RestRequestInfo info = RestRequestInfo.Factory.getInstance(request);
-		SessionParam session = info.getSessionInfo().getModel().getSession();
+		SessionProfile session = info.getSessionInfo().getModel().getSession();
 		String lang = session.getLanguage();
 
 		if (lang == null) {

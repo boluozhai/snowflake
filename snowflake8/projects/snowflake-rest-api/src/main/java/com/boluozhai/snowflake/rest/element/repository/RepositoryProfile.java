@@ -1,29 +1,21 @@
-package com.boluozhai.snowflake.h2o.data.pojo.element;
+package com.boluozhai.snowflake.rest.element.repository;
 
 import com.boluozhai.snowflake.rest.element.GitObjectDescriptor;
 
-public class RepoItem {
+public class RepositoryProfile {
 
-	private String name;
+	private String name; // the repo id
+	private String owner; // the uid of owner
 	private String description;
-	private String descriptor;
-	private String location; // file:url
+
 	private GitObjectDescriptor icon;
 
-	public String getDescriptor() {
-		return descriptor;
+	public String getOwner() {
+		return owner;
 	}
 
-	public void setDescriptor(String descriptor) {
-		this.descriptor = descriptor;
-	}
-
-	public String getLocation() {
-		return location;
-	}
-
-	public void setLocation(String location) {
-		this.location = location;
+	public void setOwner(String owner) {
+		this.owner = owner;
 	}
 
 	public String getName() {

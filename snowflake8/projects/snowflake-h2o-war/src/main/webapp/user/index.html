@@ -40,6 +40,20 @@
 h1 {
 	text-align: center;
 }
+
+.nickname {
+	margin-top: 100px;
+	margin-bottom: 100px;
+}
+
+.repo-icon {
+	width: 160px;
+	height: 160px;
+}
+
+.thumbnail {
+	text-align: center;
+}
 </style>
 
 </head>
@@ -51,12 +65,47 @@ h1 {
 		<div id='page-head'></div>
 
 
-		<h1>User Home</h1>
+		<h2 class='nickname'>User Nickname</h2>
+
+
+
+		<div class='repository-list'>
+
+			<h2 class='i18n hide ' i18n='repository-list'>repos</h2>
+
+			<div class="row">
+
+				<div class="col-sm-6 col-md-4">
+					<div class="thumbnail">
+						<img class='context repo-icon'
+							context-src="~/lib/image/bucket.png" alt="...">
+						<div class="caption">
+							<h3>
+								<a href='#'>[repo-name]</a>
+							</h3>
+							<p class=''>[repo-description]</p>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-sm-6 col-md-4 hide ">
+					<div class="thumbnail">
+						<img alt="...">
+						<div class="caption">
+							<h3>[repo-name]</h3>
+							<p class=''>[repo-description]</p>
+						</div>
+					</div>
+				</div>
+
+			</div>
+
+		</div>
 
 
 		<div class='page-foot side-bar '>
 			<div>
-				<span class='i18n' i18n='no_more'> &gt;_&lt; ，没有了！ </span>
+				<span class='i18n hide ' i18n='no_more'> &gt;_&lt; ，没有了！ </span>
 			</div>
 		</div>
 

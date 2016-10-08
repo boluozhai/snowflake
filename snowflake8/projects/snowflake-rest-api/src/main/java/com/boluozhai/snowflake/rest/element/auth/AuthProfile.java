@@ -1,6 +1,6 @@
 package com.boluozhai.snowflake.rest.element.auth;
 
-public class AuthInfo {
+public class AuthProfile {
 
 	private String method; // login|register|forget-pass|...
 	private String name; // user|email
