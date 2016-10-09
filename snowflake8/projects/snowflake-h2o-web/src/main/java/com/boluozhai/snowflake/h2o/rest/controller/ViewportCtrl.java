@@ -105,6 +105,7 @@ public class ViewportCtrl extends RestController {
 			profile.setLocation(account.getLocation());
 			profile.setNickname(account.getNickname());
 			profile.setUid(account.getUid());
+			profile.setExists(true);
 
 			return profile;
 
@@ -116,12 +117,14 @@ public class ViewportCtrl extends RestController {
 				return null;
 			}
 
+			AccountProfile owner2 = this.make(owner);
 			RepositoryProfile profile = new RepositoryProfile();
 
 			profile.setName(repo.getName());
 			profile.setIcon(repo.getIcon());
 			profile.setDescription(repo.getDescription());
-			profile.setOwner(owner.getUid());
+			profile.setOwner(owner2);
+			profile.setExists(true);
 
 			return profile;
 

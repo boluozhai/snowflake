@@ -148,16 +148,17 @@ JS.module(function(mc) {
 	 */
 
 	function AccountProfile(init) {
+
 		this.BaseElement(init);
 
-		// private String hashId;
-		// private String uid;
-		// private String nickname;
-		// private String email;
-		// private String description;
-		// private String language;
-		// private String location;
-		// private GitObjectDescriptor avatar;
+		// String hashId;
+		// String uid;
+		// String nickname;
+		// String email;
+		// String description;
+		// String language;
+		// String location;
+		// GitObjectDescriptor avatar;
 
 		this.avatar = new GitObjectDescriptor(this.avatar);
 
@@ -211,10 +212,10 @@ JS.module(function(mc) {
 	function RepositoryProfile(init) {
 		this.BaseElement(init);
 
-		// private String name; // the repo id
-		// private String owner; // the uid of owner
-		// private String description;
-		// private GitObjectDescriptor icon;
+		// String name; // the repo id
+		// String owner; // the uid of owner
+		// String description;
+		// GitObjectDescriptor icon;
 
 		this.icon = new GitObjectDescriptor(this.icon);
 
@@ -241,6 +242,86 @@ JS.module(function(mc) {
 
 		f_icon : function(v) {
 			return this.__field__('icon', v);
+		},
+
+	};
+
+	/***************************************************************************
+	 * class AuthProfile
+	 */
+
+	function AuthProfile(init) {
+
+		this.BaseElement(init);
+
+		// String mechanism; // password|email|sms|...
+		// String method; // login|register|forget-pass|...
+		// String name; // user|email
+		// String key; // password|...
+		// String key2; // for changed passwd
+		// String thread;
+		// String step;
+		// String status; // [ok|error|continue|...]
+		// String code; // status-code
+		// String message; // status-message
+		// boolean done;
+		// boolean success;
+
+	}
+
+	mc.class(function(cc) {
+		cc.type(AuthProfile);
+		cc.extends(BaseElement);
+	});
+
+	AuthProfile.prototype = {
+
+		f_mechanism : function(v) {
+			return this.__field__('mechanism', v);
+		},
+
+		f_method : function(v) {
+			return this.__field__('method', v);
+		},
+
+		f_name : function(v) {
+			return this.__field__('name', v);
+		},
+
+		f_key : function(v) {
+			return this.__field__('key', v);
+		},
+
+		f_key2 : function(v) {
+			return this.__field__('key2', v);
+		},
+
+		f_thread : function(v) {
+			return this.__field__('thread', v);
+		},
+
+		f_step : function(v) {
+			return this.__field__('step', v);
+		},
+
+		f_status : function(v) {
+			return this.__field__('status', v);
+		},
+
+		f_code : function(v) {
+			return this.__field__('code', v);
+		},
+
+		f_message : function(v) {
+			return this.__field__('message', v);
+		},
+
+		f_success : function(v) {
+			return this.__field__('success', v);
+		},
+
+		f_done : function(v) {
+			return this.__field__('done', v);
 		},
 
 	};
@@ -296,7 +377,38 @@ JS.module(function(mc) {
 
 	var BaseModel = mc.import(base_pkg + '.BaseModel');
 
+	var AuthProfile = mc.import(element_pkg + '.AuthProfile');
 	var ViewportProfile = mc.import(element_pkg + '.ViewportProfile');
+
+	/***************************************************************************
+	 * class AuthModel
+	 */
+
+	function AuthModel(init) {
+
+		this.BaseModel(init);
+
+		this.request = new AuthProfile(this.request);
+		this.response = new AuthProfile(this.response);
+
+	}
+
+	mc.class(function(cc) {
+		cc.type(AuthModel);
+		cc.extends(BaseModel);
+	});
+
+	AuthModel.prototype = {
+
+		f_request : function(v) {
+			return this.__field__('request', v);
+		},
+
+		f_response : function(v) {
+			return this.__field__('response', v);
+		},
+
+	};
 
 	/***************************************************************************
 	 * class ViewportModel
@@ -330,10 +442,13 @@ JS.module(function(mc) {
 
 	mc.package("com.boluozhai.snowflake.rest.api");
 
-	// var System = mc.import('js.lang.System');
-	// var Attributes = mc.import('js.lang.Attributes');
 	var model_pkg = "com.boluozhai.snowflake.rest.api.h2o";
 
+	var System = mc.import('js.lang.System');
+	var Attributes = mc.import('js.lang.Attributes');
+	var REST = mc.import('snowflake.rest.REST');
+
+	var AuthModel = mc.import(model_pkg + '.AuthModel');
 	var ViewportModel = mc.import(model_pkg + '.ViewportModel');
 
 	/***************************************************************************
@@ -396,6 +511,7 @@ JS.module(function(mc) {
 
 		registerAll : function() {
 
+			this.register('auth', new AuthModel());
 			this.register('viewport', new ViewportModel());
 
 		},
@@ -428,42 +544,166 @@ JS.module(function(mc) {
 	};
 
 	/***************************************************************************
-	 * class RestAPI
+	 * inner class JSONRestRequestImpl
 	 */
 
-	function RestAPI() {
+	function JSONRestRequestImpl(context, facade) {
+		this._context = context;
+		this._facade = facade;
+		this._method = null;
+		this._param = null;
+		this._check_response_type = true;
+	}
+
+	JSONRestRequestImpl.prototype = {
+
+		parse_response_ok : function(txt) {
+
+			var pojo = JSON.parse(txt);
+			var md_type = this._model_type;
+			var check_response_type = this._check_response_type;
+
+			var real_t_name = pojo.type;
+			var reg_t_name = md_type.getName();
+
+			if (check_response_type) {
+				if (reg_t_name != real_t_name) {
+					throw new Exception('the 2 types not match.');
+				}
+			}
+
+			return md_type.newInstance(pojo);
+		},
+
+		parse_response_error : function(txt) {
+			return txt;
+		},
+
+		open : function(method, param) {
+
+			var type_reg = RestModelRegistrar.getInstance();
+			var type = type_reg.getType(param.type, true);
+			var entity = type.newInstance();
+
+			this._method = method.toLowerCase();
+			this._param = param;
+			this._model_type = type;
+
+			return entity;
+
+		},
+
+		send : function(tx) {
+
+			var context = this._context;
+			var facade = this._facade;
+			var method = this._method;
+			var parts = this._param;
+			var request = null;
+
+			var fn = facade.onResult();
+			if (fn == null) {
+				fn = function() {
+				};
+			}
+
+			var client = REST.getClient(context);
+			var resource = client.getResource();
+			resource.parts(parts);
+
+			if (method == null) {
+				// NOP
+			} else if (method == 'get') {
+				request = resource.get();
+				tx = null;
+			} else if (method == 'post') {
+				request = resource.post();
+			} else if (method == 'put') {
+				request = resource.put();
+			} else if (method == 'delete') {
+				request = resource.del();
+			} else {
+				// NOP
+			}
+
+			if (request == null) {
+				throw new Exception('unsupported method: ' + method);
+			}
+
+			var self = this;
+			var req_ent = request.entity();
+			req_ent.json(tx);
+			facade.requestEntity(tx);
+
+			request.execute(function(response) {
+
+				var ok = response.ok();
+				var res_ent = response.entity();
+				var rx = res_ent.toString();
+
+				if (ok) {
+					rx = self.parse_response_ok(rx);
+				} else {
+					rx = self.parse_response_error(rx);
+				}
+
+				facade.ok(ok);
+				facade.responseEntity(rx);
+				facade.responseMessage(response.message());
+				facade.responseCode(response.code());
+				fn();
+
+			});
+
+		},
+
+	};
+
+	/***************************************************************************
+	 * class JSONRestRequest
+	 */
+
+	function JSONRestRequest(context) {
+		this._impl = new JSONRestRequestImpl(context, this);
 	}
 
 	mc.class(function(cc) {
-		cc.type(RestAPI);
+		cc.type(JSONRestRequest);
+		cc.extends(Attributes);
 	});
 
-	RestAPI.prototype = {
+	JSONRestRequest.prototype = {
 
-		parseResponseOk : function(response) {
-
-			var ent = response.entity();
-			var pojo = ent.toJSON();
-			var full_name = pojo.type;
-			var reg = RestModelRegistrar.getInstance();
-			var clazz = reg.getType(full_name, true);
-
-			var model = clazz.newInstance(pojo);
-
-			return model;
-
+		open : function(method, param) {
+			return this._impl.open(method, param);
 		},
 
-		parseResponseError : function(response) {
-			return 'error';
+		send : function(entity) {
+			return this._impl.send(entity);
 		},
 
-		parseResponse : function(response) {
-			if (response.ok()) {
-				return this.parseResponseOk(response);
-			} else {
-				return this.parseResponseError(response);
-			}
+		onResult : function(fn) {
+			return this.attr('on_result', fn);
+		},
+
+		ok : function(value) {
+			return this.attr('ok', value);
+		},
+
+		requestEntity : function(value) {
+			return this.attr('request_entity', value);
+		},
+
+		responseCode : function(value) {
+			return this.attr('response_code', value);
+		},
+
+		responseMessage : function(value) {
+			return this.attr('response_message', value);
+		},
+
+		responseEntity : function(value) {
+			return this.attr('response_entity', value);
 		},
 
 	};

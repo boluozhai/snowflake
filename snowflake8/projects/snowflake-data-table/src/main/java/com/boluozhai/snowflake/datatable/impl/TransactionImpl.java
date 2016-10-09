@@ -20,4 +20,9 @@ public class TransactionImpl implements Transaction {
 		inner.commit();
 	}
 
+	@Override
+	public void rollback() {
+		inner.rollback();
+	}
+
 }

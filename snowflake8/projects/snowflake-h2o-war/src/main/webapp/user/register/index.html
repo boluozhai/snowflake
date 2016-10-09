@@ -69,34 +69,91 @@
 	</div>
 
 
-
-
 	<script src="./../../lib/import/jquery/jquery.min.js"></script>
 	<script src="./../../lib/import/bootstrap/js/bootstrap.min.js"></script>
 
 	<script src="./../../lib/import/snowflake/core.js"></script>
 	<script src="./../../lib/import/snowflake/context.js"></script>
+	<script src="./../../lib/import/snowflake/event.js"></script>
+	<script src="./../../lib/import/snowflake/rest.js"></script>
+	<script src="./../../lib/import/snowflake/sha1.js"></script>
+
+	<script src="./../../lib/export/h2o/js/widget.js"></script>
+	<script src="./../../lib/export/h2o/js/h2o-rest-api.js"></script>
+	<script src="./../../lib/export/h2o/js/auth.js"></script>
+
+	<script src="./../../lib/js/config/base.js"></script>
+	<script src="./../../lib/js/config/final.js"></script>
 
 	<script src="./this.js"></script>
 
 
 	<script type="text/javascript">
+		var AuthCtrl = com.boluozhai.h2o.webui.auth.AuthCtrl;
+
 		$(document).ready(function() {
 
-			$('#btn-ok').click(onClickOK);
+			var context = Snowflake.getContext();
+			var ctrl = new AuthCtrl(context);
+
+			$('#btn-ok').click(function() {
+				onClickOK(ctrl);
+			});
+
+			set_ui_mode(false);
+			init_4_debug();
 
 		});
 
-		function onClickOK() {
+		function init_4_debug() {
+
+			$('#edit-email').val('test@blz.com');
+			$('#edit-passwd').val('1234');
+			$('#edit-passwd-2').val('1234');
+
+		}
+
+		function set_ui_mode(working) {
+		}
+
+		function onClickOK(ctrl) {
 
 			var email = $('#edit-email').val();
 			var passwd = $('#edit-passwd').val();
 			var passwd2 = $('#edit-passwd-2').val();
 
-			var msg = 'reg(' + email + ',' + passwd + ',' + passwd2 + ')';
-			//	System.out.println(msg);
-			alert(msg);
+			if (passwd != passwd2) {
+				alert('2 passwds not match.');
+				return;
+			}
 
+			set_ui_mode(true);
+
+			var task = ctrl.register();
+			task.email(email);
+			task.password(passwd);
+
+			task.execute(function() {
+
+				if (task.success()) {
+					onLoginOK(task);
+				} else {
+					onLoginError(task);
+				}
+
+				set_ui_mode(false);
+
+			});
+
+		}
+
+		function onLoginError(task) {
+			var msg = task.message();
+			alert('Error: ' + msg);
+		}
+
+		function onLoginOK(task) {
+			alert('OK');
 		}
 	</script>
 

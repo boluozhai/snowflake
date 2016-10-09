@@ -1,20 +1,23 @@
 package com.boluozhai.snowflake.rest.element.repository;
 
 import com.boluozhai.snowflake.rest.element.GitObjectDescriptor;
+import com.boluozhai.snowflake.rest.element.account.AccountProfile;
 
 public class RepositoryProfile {
 
 	private String name; // the repo id
-	private String owner; // the uid of owner
 	private String description;
+	private String url;
+	private boolean exists;
+	private AccountProfile owner;
 	private GitObjectDescriptor icon;
 
-	public String getOwner() {
-		return owner;
+	public boolean isExists() {
+		return exists;
 	}
 
-	public void setOwner(String owner) {
-		this.owner = owner;
+	public void setExists(boolean exists) {
+		this.exists = exists;
 	}
 
 	public String getName() {
@@ -31,6 +34,22 @@ public class RepositoryProfile {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
+	public AccountProfile getOwner() {
+		return owner;
+	}
+
+	public void setOwner(AccountProfile owner) {
+		this.owner = owner;
 	}
 
 	public GitObjectDescriptor getIcon() {

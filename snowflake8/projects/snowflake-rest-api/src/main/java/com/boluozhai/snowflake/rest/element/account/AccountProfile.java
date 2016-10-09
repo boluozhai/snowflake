@@ -11,8 +11,16 @@ public class AccountProfile {
 	private String description;
 	private String language;
 	private String location;
-
+	private boolean exists;
 	private GitObjectDescriptor avatar;
+
+	public boolean isExists() {
+		return exists;
+	}
+
+	public void setExists(boolean exists) {
+		this.exists = exists;
+	}
 
 	public String getUid() {
 		return uid;

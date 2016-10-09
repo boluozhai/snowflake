@@ -25,7 +25,8 @@ JS.module(function(mc) {
 
 	// var REST = mc.import('com.boluozhai.....REST');
 	var REST = snowflake.rest.REST;
-	var RestAPI = mc.import("com.boluozhai.snowflake.rest.api.RestAPI");
+	var JSONRestRequest = mc
+			.import("com.boluozhai.snowflake.rest.api.JSONRestRequest");
 
 	function InnerHolder(context) {
 		this._context = context;
@@ -163,32 +164,37 @@ JS.module(function(mc) {
 
 		load : function(fn) {
 
+			var self = this;
 			var context = this._context;
-			var client = REST.getClient(context);
-			var res = client.getResource();
-
-			var api = new RestAPI(client);
 			var info = this._info;
 			var user = info.owner('u');
 			var repo = info.repository('r');
 
-			res.parts({
+			var jrr = new JSONRestRequest(context);
+			var tx_entity = jrr.open('GET', {
 				uid : user,
 				repo : repo,
 				api : 'rest',
 				type : 'viewport',
 				id : 'a-id',
 			});
-
-			var request = res.get();
-			request.execute(function(resp) {
-
-				var pojo = api.parseResponse(resp);
-
-				resp.toString();
-
+			jrr.onResult(function() {
+				if (jrr.ok()) {
+					self.result(jrr.responseEntity());
+				}
+				fn();
 			});
+			jrr.send(tx_entity);
 
+		},
+
+		result : function(value) {
+			if (value == null) {
+				value = this._result;
+			} else {
+				this._result = value;
+			}
+			return value;
 		},
 
 	};

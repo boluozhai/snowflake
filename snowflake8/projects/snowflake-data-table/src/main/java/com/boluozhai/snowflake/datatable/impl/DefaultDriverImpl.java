@@ -287,6 +287,10 @@ final class DefaultDriverImpl implements DataTableDriver {
 
 		@Override
 		public void begin() {
+			this.reset();
+		}
+
+		public void reset() {
 			this.read_cache.clear();
 			this.write_cache.clear();
 			this.models.clear();
@@ -319,6 +323,11 @@ final class DefaultDriverImpl implements DataTableDriver {
 				}
 			}
 			return mh;
+		}
+
+		@Override
+		public void rollback() {
+			this.reset();
 		}
 
 	}

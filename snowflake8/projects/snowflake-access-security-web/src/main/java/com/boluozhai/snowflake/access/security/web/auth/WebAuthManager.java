@@ -15,7 +15,7 @@ public interface WebAuthManager {
 
 	}
 
-	RestController getHandler(String name);
+	RestController getHandler(String mach_name);
 
 	String[] getHandlerNames();
 

@@ -58,18 +58,26 @@ JS.module(function(mc) {
 
 		setupViewportInfo : function() {
 
+			var self = this;
 			var context = this._context;
 			var vpinfo = new ViewportInfo(context);
 			var loader = vpinfo.getDetailLoader();
 			loader.load(function() {
-
-				;
-
+				self.onLoadViewportInfo(loader.result());
 			});
 
 		},
 
 		setupRepositoryList : function() {
+		},
+
+		onLoadViewportInfo : function(model) {
+			var vpt = model.f_viewport();
+			var owner = vpt.f_owner();
+			var nickname = owner.f_nickname();
+			var uid = owner.f_uid();
+			$('.nickname').text(nickname);
+			$('.uid').text(uid);
 		},
 
 	};

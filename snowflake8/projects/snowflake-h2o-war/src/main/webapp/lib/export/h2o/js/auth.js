@@ -17,12 +17,8 @@ JS.module(function(mc) {
 	var RESTClient = mc.import('snowflake.rest.RESTClient');
 	var SHA1 = mc.import('snowflake.security.sha1.SHA1');
 
-	var widget_x = 'com.boluozhai.h2o.widget';
-
-	// var FileListCtrl = mc.import(widget_x + '.folder.FileListCtrl');
-	// var PathBarCtrl = mc.import(widget_x + '.folder.PathBarCtrl');
-	// var DirDataCtrl = mc.import(widget_x + '.folder.DirDataCtrl');
-	// var ConsoleCtrl = mc.import(widget_x + '.console.ConsoleCtrl');
+	var JSONRestRequest = mc
+			.import("com.boluozhai.snowflake.rest.api.JSONRestRequest");
 
 	/***************************************************************************
 	 * class AuthCtrl
@@ -85,7 +81,7 @@ JS.module(function(mc) {
 	 * inner class DoRegister
 	 */
 
-	function DoRegister(ctrl) {
+	function DoRegister(context) {
 		this._context = context;
 		this._helper = new InnerHelper(context);
 	}
@@ -97,48 +93,54 @@ JS.module(function(mc) {
 
 	DoRegister.prototype = {
 
+		email : function(value) {
+			return this.attr('email', value);
+		},
+
+		password : function(value) {
+			return this.attr('password', value);
+		},
+
 		execute : function(fn) {
 
-			not_impl();
-
-			var email = param.email;
-			var psw = param.password;
+			var self = this;
+			var context = this._context;
+			var user = this.email();
+			var pass = this.password();
 
 			var helper = this._helper;
-			var email_hash = helper.hash(email);
-			var psw_hash = helper.hash(psw);
-			if (!helper.check_password(psw)) {
+			var user_hash = helper.hash(user);
+			var pass_hash = helper.hash(pass);
+
+			if (!helper.check_email(user)) {
+				var msg = 'bad email: ' + user;
+				return helper.show_error(this, msg, fn);
+			}
+			if (!helper.check_password(pass)) {
 				var msg = 'bad password !';
-				return helper.show_error(msg, fn);
-			}
-			if (!helper.check_email(email)) {
-				var msg = 'bad email: ' + email;
-				return helper.show_error(msg, fn);
+				return helper.show_error(this, msg, fn);
 			}
 
-			var client = RESTClient.getInstance(this._context);
-			var app = client.getApplication();
-			var api = app.getAPI('rest');
-			var type = api.getType('Auth');
-			var res = type.getResource(email_hash);
-			var request = res.put();
-
-			var tx = {
-				auth : {
-					type : 'email+password',
-					email : email,
-					uid : email_hash,
-					password : psw_hash,
-				}
-			};
-			var entity = request.entity();
-			entity.json(tx);
-
-			request.execute(function(response) {
-
-				// alert('xxxx');
-
+			var jrr = new JSONRestRequest(context);
+			var req_ent = jrr.open('POST', {
+				uid : 'u',
+				repo : 'r',
+				api : 'rest',
+				type : 'auth',
+				id : 'register',
 			});
+
+			var param = req_ent.f_request();
+			param.f_mechanism('password');
+			param.f_method('register');
+			param.f_name(user);
+			param.f_key(pass_hash);
+
+			jrr.onResult(function() {
+				helper.process_response(self, jrr);
+				fn();
+			});
+			jrr.send(req_ent);
 
 		},
 
@@ -171,6 +173,7 @@ JS.module(function(mc) {
 		execute : function(fn) {
 
 			var self = this;
+			var context = this._context;
 			var user = this.email();
 			var pass = this.password();
 
@@ -187,26 +190,26 @@ JS.module(function(mc) {
 				return helper.show_error(this, msg, fn);
 			}
 
-			var client = RESTClient.getInstance(this._context);
-			var app = client.getApplication();
-			var api = app.getAPI('rest');
-			var type = api.getType('auth');
-			var res = type.getResource('email+password');
-			var request = res.post();
-
-			var entity = request.entity();
-			entity.json({
-				request : {
-					method : 'login',
-					name : user,
-					key : pass_hash,
-				}
+			var jrr = new JSONRestRequest(context);
+			var req_ent = jrr.open('POST', {
+				uid : 'u',
+				repo : 'r',
+				api : 'rest',
+				type : 'auth',
+				id : 'login',
 			});
 
-			request.execute(function(response) {
-				helper.process_response(self, response);
+			var param = req_ent.f_request();
+			param.f_mechanism('password');
+			param.f_method('login');
+			param.f_name(user);
+			param.f_key(pass_hash);
+
+			jrr.onResult(function() {
+				helper.process_response(self, jrr);
 				fn();
 			});
+			jrr.send(req_ent);
 
 		},
 
@@ -226,12 +229,31 @@ JS.module(function(mc) {
 			return SHA1.digest(plain);
 		},
 
-		process_response : function(task, response) {
-			var entity = response.entity();
-			var js = entity.toJSON();
-			task.success(js.response.success);
-			task.message(js.response.message);
-			task.status(js.response.status);
+		process_response : function(task, jrr) {
+
+			var ok = false;
+			var msg = null;
+			var code = null;
+			var status = null;
+
+			if (jrr.ok()) {
+				var ent = jrr.responseEntity();
+				var res = ent.f_response();
+				ok = res.f_success();
+				msg = res.f_message();
+				code = res.f_code();
+				status = res.f_status();
+			} else {
+				ok = false;
+				msg = jrr.responseMessage();
+				code = jrr.responseCode();
+			}
+
+			task.code(code);
+			task.success(ok);
+			task.status(status);
+			task.message(msg);
+
 		},
 
 		show_error : function(task, msg, fn) {
