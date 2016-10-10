@@ -1,2 +1,4 @@
-ignore1
-
+.classpath
+.settings
+bin
+target

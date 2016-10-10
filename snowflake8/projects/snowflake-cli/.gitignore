@@ -1,9 +1,4 @@
-target
 .classpath
 .settings
-/target/
-/target/
-/target/
-/target/
-/target/
-/target/
+bin
+target

@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.boluozhai.snowflake</groupId>
-	<artifactId>snowflake-xgit-http-server</artifactId>
+	<artifactId>snowflake-public-service-client</artifactId>
 	<version>0.8.0</version>
 	<packaging>jar</packaging>
 
-	<name>snowflake-xgit-http-server</name>
+	<name>snowflake-public-service-client</name>
 	<url>http://snow.boluozhai.com</url>
 
 	<properties>
@@ -32,34 +31,21 @@
 		</dependency>
 
 		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>javax.servlet-api</artifactId>
-			<version>3.1.0</version>
-			<scope>provided</scope>
-		</dependency>
-
-		<dependency>
 			<groupId>com.boluozhai.snowflake</groupId>
-			<artifactId>snowflake-xgit</artifactId>
+			<artifactId>snowflake-context</artifactId>
 			<version>0.8.0</version>
 		</dependency>
 
 		<dependency>
 			<groupId>com.boluozhai.snowflake</groupId>
-			<artifactId>snowflake-rest-web</artifactId>
-			<version>0.8.0</version>
-		</dependency>
-
-		<dependency>
-			<groupId>com.boluozhai.snowflake</groupId>
-			<artifactId>snowflake-httpclient</artifactId>
+			<artifactId>snowflake-xgit-http-client</artifactId>
 			<version>0.8.0</version>
 		</dependency>
 
 	</dependencies>
 
 	<build>
-		<finalName>snowflake-xgit-http-server</finalName>
+		<finalName>snowflake-public-service-client</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

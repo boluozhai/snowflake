@@ -3,8 +3,6 @@ package com.boluozhai.snowflake.xgit.http.client;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.junit.Test;
-
 import com.boluozhai.snowflake.httpclient.HttpConnection;
 import com.boluozhai.snowflake.test.TestContext;
 import com.boluozhai.snowflake.test.Tester;
@@ -18,7 +16,7 @@ import com.boluozhai.snowflake.xgit.http.pktline.io.PktLineInputStreamReader;
 
 public class GitUploadPackAdvTest {
 
-	@Test
+	// @Test
 	public void test() {
 
 		String href = "https://github.com/git/git.git";
