@@ -31,18 +31,20 @@ JS.module(function(mc) {
 	var CurrentLocation = mc.import(vfs_x + '.CurrentLocation');
 	var VFSFactory = mc.import(vfs_x + '.VFSFactory');
 
+	var WebPageController = mc
+			.import('com.boluozhai.snowflake.web.WebPageController');
+
 	/***************************************************************************
 	 * class DirectoryHtml
 	 */
 
 	function DirectoryHtml(context) {
-		this._context = context;
-		context.i18n($(document));
+		this.WebPageController(context);
 	}
 
 	mc.class(function(cc) {
 		cc.type(DirectoryHtml);
-		cc.extends(Attributes);
+		cc.extends(WebPageController);
 	});
 
 	DirectoryHtml.prototype = {

@@ -14,6 +14,7 @@ JS.module(function(mc) {
 
 	var Object = mc.import('js.lang.Object');
 	var Class = mc.import('js.lang.Class');
+	var Attributes = mc.import('js.lang.Attributes');
 	var RuntimeException = mc.import('js.lang.RuntimeException');
 
 	var singleton = {
@@ -33,6 +34,7 @@ JS.module(function(mc) {
 
 	mc.class(function(cc) {
 		cc.type(Context);
+		cc.extends(Attributes);
 	});
 
 	Context.prototype = {
@@ -374,6 +376,34 @@ JS.module(function(mc) {
 
 		},
 
+		inner_trans_atts : function(context, str) {
+			// like '{attr:xxxx}'
+			var head = '{attr:';
+			var tail = '}';
+			var sb = '';
+			var i = 0;
+			for (;;) {
+				var i0 = str.indexOf(head, i);
+				if (i0 < 0) {
+					break;
+				}
+				var i1 = str.indexOf(tail, i0);
+				if (i1 < 0) {
+					break;
+				}
+				sb += str.substring(i, i0);
+				var key = str.substring(i0 + head.length, i1);
+				var value = context.attr(key);
+				if (value == null) {
+					value = '(attr:' + key + ')';
+				}
+				sb += value;
+				i = i1 + tail.length;
+			}
+			sb += str.substring(i);
+			return sb;
+		},
+
 		inner_trans_context_res : function(query) {
 
 			var context = this._context;
@@ -393,6 +423,7 @@ JS.module(function(mc) {
 					} else if (key.indexOf(prefix) == 0) {
 						var value = q.attr(key);
 						var k2 = key.substring(prefix.length);
+						value = this.inner_trans_atts(context, value);
 						value = context.normalizeURL(value);
 						q.attr(k2, value);
 					}

@@ -111,6 +111,8 @@ JS.module(function(mc) {
 
 		setupAccountInfo : function() {
 
+			var context = this._context;
+
 			var info = new SessionInfo();
 			var signed = info.signed();
 			var nickname = info.nickname();
@@ -127,7 +129,7 @@ JS.module(function(mc) {
 				view_login_not.show();
 			}
 
-			base.find('.account-nickname').text(nickname);
+			base.find('.string-account-nickname').text(nickname);
 
 		},
 

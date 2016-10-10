@@ -29,8 +29,14 @@ JS.module(function(mc) {
 	 */
 
 	function SessionInfo(context) {
+
+		var ses = SessionInfo.data.session;
+		if (ses == null) {
+			ses = {};
+		}
+
 		this._context = context;
-		this.session = SessionInfo.data.session;
+		this.session = ses;
 	}
 
 	mc.class(function(cc) {
@@ -46,6 +52,10 @@ JS.module(function(mc) {
 
 		nickname : function() {
 			return this.session.nickname;
+		},
+
+		uid : function() {
+			return this.session.uid;
 		},
 
 		avatarURL : function() {

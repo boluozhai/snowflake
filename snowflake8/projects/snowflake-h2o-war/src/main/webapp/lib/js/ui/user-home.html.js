@@ -22,19 +22,20 @@ JS.module(function(mc) {
 	var HeadCtrl = mc.import(widget_x + '.head.HeadCtrl');
 
 	var ViewportInfo = mc.import('com.boluozhai.snowflake.web.ViewportInfo');
+	var WebPageController = mc
+			.import('com.boluozhai.snowflake.web.WebPageController');
 
 	/***************************************************************************
 	 * class UserHomeHtml
 	 */
 
 	function UserHomeHtml(context) {
-		this._context = context;
-		context.i18n($(document));
+		this.WebPageController(context);
 	}
 
 	mc.class(function(cc) {
 		cc.type(UserHomeHtml);
-		cc.extends(Attributes);
+		cc.extends(WebPageController);
 	});
 
 	var is_head_visible = false;

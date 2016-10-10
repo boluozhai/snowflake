@@ -23,18 +23,20 @@ JS.module(function(mc) {
 	var widget_x = 'com.boluozhai.h2o.widget';
 	var ConsoleCtrl = mc.import(widget_x + '.console.ConsoleCtrl');
 
+	var WebPageController = mc
+			.import('com.boluozhai.snowflake.web.WebPageController');
+
 	/***************************************************************************
 	 * class ConsoleHtml
 	 */
 
 	function ConsoleHtml(context) {
-		this._context = context;
-		context.i18n($(document));
+		this.WebPageController(context);
 	}
 
 	mc.class(function(cc) {
 		cc.type(ConsoleHtml);
-		cc.extends(Attributes);
+		cc.extends(WebPageController);
 	});
 
 	ConsoleHtml.prototype = {

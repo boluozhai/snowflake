@@ -21,7 +21,11 @@ public class I18nJsCtrl extends RestController {
 
 		RestRequestInfo info = RestRequestInfo.Factory.getInstance(request);
 		SessionProfile session = info.getSessionInfo().getModel().getSession();
-		String lang = session.getLanguage();
+		String lang = null;
+
+		if (session != null) {
+			lang = session.getLanguage();
+		}
 
 		if (lang == null) {
 			lang = "default";

@@ -72,17 +72,28 @@
 									class='string-account-nickname'> (nickname)</span> <span
 									class="caret"></span></a>
 								<ul class="dropdown-menu" role="menu">
+
 									<li style='text-align: center'><img
 										context-src='~/lib/image/h2o.png' alt='avatar' class='context'
 										style='width: 128px; height: 128px; margin: 20px' /></li>
-									<li><a href="#" id='account-profile' class='i18n'
+
+									<li><a href="#" id='account-profile' class='i18n context'
+										context-href='~/{attr:session-uid}/r/account-profile/'
 										i18n='profile'>简介</a></li>
-									<li><a href="#" id='account-settings' class='i18n'
+
+									<li><a href="#" id='account-settings' class='i18n context'
+										context-href='~/{attr:session-uid}/r/account-settings/'
 										i18n='settings'>设置</a></li>
-									<li><a href="#" id='account-repository' class='i18n'
+
+									<li><a href="#" id='account-repository'
+										class='i18n context' context-href='~/{attr:session-uid}/'
 										i18n='repository'>库</a></li>
+
 									<li class="divider"></li>
-									<li><a href="#" class='i18n' i18n='logout'>退出</a></li>
+
+									<li><a href="#" class='i18n context' i18n='logout'
+										context-href='~/user/logout/'>退出</a></li>
+
 								</ul></li>
 						</ul>
 					</div>

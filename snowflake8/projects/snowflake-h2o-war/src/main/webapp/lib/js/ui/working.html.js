@@ -33,19 +33,20 @@ JS.module(function(mc) {
 	var VFSFactory = mc.import(vfs_x + '.VFSFactory');
 
 	var ViewportInfo = mc.import('com.boluozhai.snowflake.web.ViewportInfo');
+	var WebPageController = mc
+			.import('com.boluozhai.snowflake.web.WebPageController');
 
 	/***************************************************************************
 	 * class WorkingHtml
 	 */
 
 	function WorkingHtml(context) {
-		this._context = context;
-		context.i18n($(document));
+		this.WebPageController(context);
 	}
 
 	mc.class(function(cc) {
 		cc.type(WorkingHtml);
-		cc.extends(Attributes);
+		cc.extends(WebPageController);
 	});
 
 	var is_head_visible = false;

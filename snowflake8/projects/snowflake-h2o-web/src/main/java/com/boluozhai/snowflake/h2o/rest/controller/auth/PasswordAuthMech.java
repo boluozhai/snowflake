@@ -182,6 +182,8 @@ public class PasswordAuthMech extends RestController {
 
 		} catch (Exception e) {
 
+			e.printStackTrace();
+
 			tran.rollback();
 
 			result = model;

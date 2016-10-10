@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<!--
+/***********************************************************************
+ * 
+ * user/logout/index.html
+ * 
+ * @Copyright (c) 2016 boluozhai.com
+ * @License MIT License
+ * @Author xukun<xukun17@sina.com>
+ * 
+ */
+-->
+
+<head>
+
+<meta charset='utf-8' />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>退出</title>
+
+<link href="./../../lib/import/bootstrap/css/bootstrap.min.css"
+	rel="stylesheet" type="text/css" />
+
+<link href="./../../lib/css/signin.css" rel="stylesheet" type="text/css" />
+
+
+<style type="text/css">
+h1 {
+	margin-top: 150px;
+	margin-bottom: 150px;
+}
+
+.root-box {
+	text-align: center;
+}
+</style>
+
+</head>
+<body>
+
+
+
+	<div class="container root-box hide ">
+
+		<div class='view-success'>
+			<!-- success -->
+			<h1>已退出</h1>
+			<button class='btn btn-primary btn-ok'>确定</button>
+		</div>
+
+		<div class='view-error'>
+			<!-- error -->
+			<h1>还没有退出</h1>
+			<button class='btn btn-primary btn-logout'>去意已决</button>
+		</div>
+
+	</div>
+
+
+	<script src="./../../lib/import/jquery/jquery.min.js"></script>
+	<script src="./../../lib/import/bootstrap/js/bootstrap.min.js"></script>
+
+	<script src="./../../lib/import/snowflake/core.js"></script>
+	<script src="./../../lib/import/snowflake/context.js"></script>
+	<script src="./../../lib/import/snowflake/event.js"></script>
+	<script src="./../../lib/import/snowflake/rest.js"></script>
+	<script src="./../../lib/import/snowflake/sha1.js"></script>
+
+
+	<script src="./../../lib/export/h2o/js/session.js"></script>
+	<script src="./../../lib/export/h2o/js/widget.js"></script>
+	<script src="./../../lib/export/h2o/js/h2o-rest-api.js"></script>
+	<script src="./../../lib/export/h2o/js/auth.js"></script>
+
+	<script src="./../../lib/js/config/base.js"></script>
+	<script src="./../../lib/js/config/i18n-base.js"></script>
+	<script src="./../../lib/js/config/final.js"></script>
+
+	<script src="./this.js"></script>
+	<script src="./../../u/r/api/type/id/current-session-info.js"></script>
+	<script src="./../../u/r/api/type/id/i18n.js"></script>
+
+	<script type="text/javascript">
+		var AuthCtrl = com.boluozhai.h2o.webui.auth.AuthCtrl;
+		var SessionInfo = com.boluozhai.h2o.web.SessionInfo;
+
+		$(document).ready(function() {
+
+			var context = Snowflake.getContext();
+			var ctrl = new AuthCtrl(context);
+
+			$('.btn-ok').click(function() {
+				onClickOK(ctrl);
+			});
+
+			$('.btn-logout').click(function() {
+				onClickLogout(ctrl);
+			});
+
+			set_ui_as_success(true);
+			update_ui();
+			$('.root-box').removeClass('hide');
+
+		});
+
+		function onClickOK(ctrl) {
+			var url = '~/';
+			var context = ctrl._context;
+			url = context.normalizeURL(url);
+			window.location = url;
+		}
+
+		function onClickLogout(ctrl) {
+			var task = ctrl.logout();
+			task.execute(function() {
+				refresh_page();
+			});
+		}
+
+		function refresh_page() {
+
+			// alert('refresh');
+
+			window.location = './';
+
+		}
+
+		function update_ui() {
+			var ses = new SessionInfo();
+			if (ses.signed()) {
+				set_ui_as_success(false);
+			} else {
+				set_ui_as_success(true);
+			}
+		}
+
+		function set_ui_as_success(ok) {
+			var show = null;
+			var hide = null;
+			if (ok) {
+				show = '.view-success';
+				hide = '.view-error';
+			} else {
+				hide = '.view-success';
+				show = '.view-error';
+			}
+			$(hide).hide();
+			$(show).show();
+		}
+	</script>
+
+</body>
+</html>

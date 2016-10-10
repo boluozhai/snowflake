@@ -39,6 +39,10 @@ JS.module(function(mc) {
 			return new DoLogin(this._context);
 		},
 
+		logout : function() {
+			return new DoLogout(this._context);
+		},
+
 		register : function() {
 			return new DoRegister(this._context);
 		},
@@ -204,6 +208,52 @@ JS.module(function(mc) {
 			param.f_method('login');
 			param.f_name(user);
 			param.f_key(pass_hash);
+
+			jrr.onResult(function() {
+				helper.process_response(self, jrr);
+				fn();
+			});
+			jrr.send(req_ent);
+
+		},
+
+	};
+
+	/***************************************************************************
+	 * inner class DoLogout
+	 */
+
+	function DoLogout(context) {
+		this._context = context;
+		this._helper = new InnerHelper(context);
+	}
+
+	mc.class(function(cc) {
+		cc.type(DoLogout);
+		cc.extends(AuthTask);
+	});
+
+	DoLogout.prototype = {
+
+		execute : function(fn) {
+
+			var self = this;
+			var context = this._context;
+			var helper = this._helper;
+
+			var jrr = new JSONRestRequest(context);
+			var req_ent = jrr.open('POST', {
+				uid : 'u',
+				repo : 'r',
+				api : 'rest',
+				type : 'auth',
+				id : 'logout',
+			});
+
+			var param = req_ent.f_request();
+			param.f_mechanism('password');
+			param.f_method('logout');
+			param.f_key('***');
 
 			jrr.onResult(function() {
 				helper.process_response(self, jrr);

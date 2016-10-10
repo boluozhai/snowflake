@@ -23,19 +23,20 @@ JS.module(function(mc) {
 	var HeadPanel = mc.import(widget_x + '.head.HeadPanel');
 
 	var ViewportInfo = mc.import('com.boluozhai.snowflake.web.ViewportInfo');
+	var WebPageController = mc
+			.import('com.boluozhai.snowflake.web.WebPageController');
 
 	/***************************************************************************
 	 * class AppHomeHtml
 	 */
 
 	function AppHomeHtml(context) {
-		this._context = context;
-		context.i18n($(document));
+		this.WebPageController(context);
 	}
 
 	mc.class(function(cc) {
 		cc.type(AppHomeHtml);
-		cc.extends(Attributes);
+		cc.extends(WebPageController);
 	});
 
 	var is_head_visible = false;

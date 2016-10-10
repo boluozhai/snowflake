@@ -23,6 +23,8 @@ JS.module(function(mc) {
 	// var DirDataCtrl = mc.import(widget_x + '.folder.DirDataCtrl');
 	// var ConsoleCtrl = mc.import(widget_x + '.console.ConsoleCtrl');
 
+	var SessionInfo = mc.import('com.boluozhai.h2o.web.SessionInfo');
+
 	// var REST = mc.import('com.boluozhai.....REST');
 	var REST = snowflake.rest.REST;
 	var JSONRestRequest = mc
@@ -55,7 +57,7 @@ JS.module(function(mc) {
 			var client = REST.getClient(this._context);
 
 			var path_map = client.parsePath(path);
-			var user = this.getPathPart('uid', path_map, true);
+			var user = this.getPathPart('uid', path_map, false);
 			var repo = this.getPathPart('repo', path_map, false);
 
 			this._uid = user;
@@ -133,6 +135,10 @@ JS.module(function(mc) {
 			return value;
 		},
 
+		uid : function(def) {
+			return this.owner(def);
+		},
+
 		repository : function(def) {
 			var value = this._repo;
 			if (value == null) {
@@ -195,6 +201,45 @@ JS.module(function(mc) {
 				this._result = value;
 			}
 			return value;
+		},
+
+	};
+
+	/***************************************************************************
+	 * class WebPageController
+	 */
+
+	function WebPageController(context) {
+		this.Attributes();
+		this._context = context;
+		this.inner_load_context_atts(context);
+		context.i18n($(document));
+	}
+
+	mc.class(function(cc) {
+		cc.type(WebPageController);
+		cc.extends(Attributes);
+	});
+
+	WebPageController.prototype = {
+
+		init : function() {
+			throw new Exception('override this method in sub-class');
+		},
+
+		inner_load_context_atts : function(context) {
+
+			var session = new SessionInfo();
+			var vpt = new ViewportInfo(context);
+
+			var ses_uid = session.uid();
+			var vpt_uid = vpt.uid();
+			var vpt_repo_id = vpt.repository();
+
+			context.attr('session-uid', ses_uid);
+			context.attr('viewport-uid', vpt_uid);
+			context.attr('viewport-repo-id', vpt_repo_id);
+
 		},
 
 	};
