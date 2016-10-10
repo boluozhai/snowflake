@@ -27,12 +27,12 @@
 
 	<filter>
 		<filter-name>rest-handler-filter</filter-name>
-		<filter-class>com.boluozhai.snowflake.h2o.H2oRestFilter</filter-class>
+		<filter-class>com.boluozhai.snowflake.rest.server.RestAdapterFilter</filter-class>
 		<display-name>RestHandlerFilter</display-name>
 		<description></description>
 		<init-param>
 			<param-name>handler</param-name>
-			<param-value>rest:gateway:root</param-value>
+			<param-value>rest:filter:root</param-value>
 		</init-param>
 	</filter>
 

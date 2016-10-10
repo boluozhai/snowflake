@@ -18,12 +18,12 @@
 <meta charset='utf-8' />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<title>注册</title>
+<title class='i18n' i18n='register'>注册</title>
 
-<link href="./../../lib/import/bootstrap/css/bootstrap.min.css"
+<link href="./lib/import/bootstrap/css/bootstrap.min.css"
 	rel="stylesheet" type="text/css" />
 
-<link href="./../../lib/css/signin.css" rel="stylesheet" type="text/css" />
+<link href="./lib/css/signin.css" rel="stylesheet" type="text/css" />
 
 
 <style type="text/css">
@@ -41,51 +41,55 @@
 
 		<form class="form-signin" role="form">
 			<div>
-				<h2 class="form-signin-heading">注册个帐号</h2>
+				<h2 class="form-signin-heading i18n " i18n='register_account'>注册个帐号</h2>
 			</div>
 			<div>
-				<input id='edit-email' type="email" class="form-control"
-					placeholder="邮箱地址" required autofocus />
+				<input id='edit-email' type="email" class="form-control i18n "
+					i18n-placeholder='email_address' placeholder="邮箱地址" required
+					autofocus />
 			</div>
 			<div>
-				<input id='edit-passwd' type="password" class="form-control"
-					placeholder="密码" required />
+				<input id='edit-passwd' type="password" class="form-control i18n"
+					i18n-placeholder='password' placeholder="密码" required />
 			</div>
 			<div>
-				<input id='edit-passwd-2' type="password" class="form-control"
+				<input id='edit-passwd-2' type="password"
+					class="form-control  i18n " i18n-placeholder='password_again'
 					placeholder="密码，再来一次" required />
 			</div>
 			<div>
-				<button id='btn-ok' class="btn btn-lg btn-primary btn-block"
-					type="button">确定</button>
+				<button id='btn-ok' class="btn btn-lg btn-primary btn-block i18n "
+					type="button" i18n='ok'>确定</button>
 			</div>
 		</form>
 
 
 		<div class='to-reg'>
-			<a href='./../login/'>我有现成的帐号！</a>
+			<a href='./login' class='i18n' i18n='i_have_a_account'>我有现成的帐号！</a>
 		</div>
 
 	</div>
 
 
-	<script src="./../../lib/import/jquery/jquery.min.js"></script>
-	<script src="./../../lib/import/bootstrap/js/bootstrap.min.js"></script>
+	<script src="./lib/import/jquery/jquery.min.js"></script>
+	<script src="./lib/import/bootstrap/js/bootstrap.min.js"></script>
 
-	<script src="./../../lib/import/snowflake/core.js"></script>
-	<script src="./../../lib/import/snowflake/context.js"></script>
-	<script src="./../../lib/import/snowflake/event.js"></script>
-	<script src="./../../lib/import/snowflake/rest.js"></script>
-	<script src="./../../lib/import/snowflake/sha1.js"></script>
+	<script src="./lib/import/snowflake/core.js"></script>
+	<script src="./lib/import/snowflake/context.js"></script>
+	<script src="./lib/import/snowflake/event.js"></script>
+	<script src="./lib/import/snowflake/rest.js"></script>
+	<script src="./lib/import/snowflake/sha1.js"></script>
 
-	<script src="./../../lib/export/h2o/js/widget.js"></script>
-	<script src="./../../lib/export/h2o/js/h2o-rest-api.js"></script>
-	<script src="./../../lib/export/h2o/js/auth.js"></script>
+	<script src="./lib/export/h2o/js/widget.js"></script>
+	<script src="./lib/export/h2o/js/h2o-rest-api.js"></script>
+	<script src="./lib/export/h2o/js/auth.js"></script>
 
-	<script src="./../../lib/js/config/base.js"></script>
-	<script src="./../../lib/js/config/final.js"></script>
+	<script src="./lib/js/config/base.js"></script>
+	<script src="./lib/js/config/i18n-base.js"></script>
+	<script src="./lib/js/config/final.js"></script>
 
 	<script src="./this.js"></script>
+	<script src="./i18n.js?service=active-www"></script>
 
 
 	<script type="text/javascript">

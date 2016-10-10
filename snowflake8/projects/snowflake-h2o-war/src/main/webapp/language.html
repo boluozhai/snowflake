@@ -18,7 +18,7 @@
 <meta charset='utf-8' />
 <title>Language</title>
 
-<link href="./../../lib/import/bootstrap/css/bootstrap.min.css"
+<link href="./lib/import/bootstrap/css/bootstrap.min.css"
 	rel="stylesheet" type="text/css" />
 
 </head>
@@ -46,11 +46,11 @@
 		</div>
 	</div>
 
-	<script src="./../../lib/import/jquery/jquery.min.js"></script>
-	<script src="./../../lib/import/bootstrap/js/bootstrap.min.js"></script>
+	<script src="./lib/import/jquery/jquery.min.js"></script>
+	<script src="./lib/import/bootstrap/js/bootstrap.min.js"></script>
 
-	<script src="./../../lib/import/snowflake/core.js"></script>
-	<script src="./../../lib/import/snowflake/context.js"></script>
+	<script src="./lib/import/snowflake/core.js"></script>
+	<script src="./lib/import/snowflake/context.js"></script>
 
 	<script src="./this.js"></script>
 
@@ -73,7 +73,7 @@
 		}
 
 		function send(lang) {
-			var url = './../../u/r/js/config/i18n.js?language=' + lang;
+			var url = './i18n.js?service=active-www&language=' + lang;
 			var xhr = new XMLHttpRequest();
 			xhr.open('POST', url, true);
 			xhr.onreadystatechange = function() {

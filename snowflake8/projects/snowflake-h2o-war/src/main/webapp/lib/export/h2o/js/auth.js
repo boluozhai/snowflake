@@ -26,6 +26,9 @@ JS.module(function(mc) {
 
 	function AuthCtrl(context) {
 		this._context = context;
+
+		context.i18n($(document));
+
 	}
 
 	mc.class(function(cc) {

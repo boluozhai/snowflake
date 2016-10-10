@@ -144,6 +144,10 @@ JS.module(function(_mc_) {
 			return this._path_builder.create();
 		},
 
+		service : function(value) {
+			return this._path_builder.service(value);
+		},
+
 		part : function(key, value) {
 			return this._path_builder.part(key, value);
 		},
@@ -159,7 +163,7 @@ JS.module(function(_mc_) {
 			return new RestRequest(this, 'POST');
 		},
 
-		'delete' : function() {
+		'del' : function() {
 			return new RestRequest(this, 'DELETE');
 		},
 
@@ -500,6 +504,20 @@ JS.module(function(_mc_) {
 			part.setValue(value);
 		},
 
+		service : function(value) {
+			return this.attr('service', value);
+		},
+
+		attr : function(k, v) {
+			k = '__attr_' + k;
+			if (v == null) {
+				v = this[k];
+			} else {
+				this[k] = v;
+			}
+			return v;
+		},
+
 		create : function() {
 			var sb = this._base;
 			var list = this._part_list;
@@ -508,6 +526,14 @@ JS.module(function(_mc_) {
 				var s = part.to_regular_string();
 				sb += ('/' + s);
 			}
+
+			var service = this.service();
+			if (service == null) {
+				// NOP
+			} else {
+				sb += ('?service=' + service);
+			}
+
 			var context = this._context;
 			return context.normalizeURL(sb);
 		},

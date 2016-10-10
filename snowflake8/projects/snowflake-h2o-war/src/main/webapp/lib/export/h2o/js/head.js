@@ -100,11 +100,11 @@ JS.module(function(mc) {
 			var reg = base.find('.btn-auth-reg');
 
 			login.click(function() {
-				nav2("~/user/login/");
+				nav2("~/login");
 			});
 
 			reg.click(function() {
-				nav2("~/user/register/");
+				nav2("~/register");
 			});
 
 		},

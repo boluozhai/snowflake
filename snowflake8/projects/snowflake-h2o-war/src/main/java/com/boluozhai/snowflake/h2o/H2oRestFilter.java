@@ -1,86 +1,92 @@
 package com.boluozhai.snowflake.h2o;
 
 import java.io.IOException;
-import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
-import com.boluozhai.snowflake.rest.server.RestFilter;
+import com.boluozhai.snowflake.rest.server.RestRequestHandler;
+import com.boluozhai.snowflake.rest.server.support.handler.RestRequestFilter;
 
-public class H2oRestFilter extends RestFilter {
+/*************
+ * switch by query parameter named 'service' , the value can be
+ * [www|system-api|repo-api|git-upload-pack|...]
+ * */
 
-	private String[] _static_prefix;
-	private String _root_path;
+public class H2oRestFilter implements RestRequestFilter {
+
+	private RestRequestHandler nextHandler;
+	private List<String> staticResourceSuffix;
+
+	private String[] _static_suffix; // cache
 
 	public H2oRestFilter() {
 	}
 
-	public void destroy() {
-		super.destroy();
+	public List<String> getStaticResourceSuffix() {
+		return staticResourceSuffix;
 	}
 
-	public void doFilter(ServletRequest request, ServletResponse response,
-			FilterChain chain) throws IOException, ServletException {
-
-		if (this.is_static_res(request)) {
-			chain.doFilter(request, response);
-		} else {
-			super.doFilter(request, response, chain);
-		}
-
+	public void setStaticResourceSuffix(List<String> staticResourceSuffix) {
+		this.staticResourceSuffix = staticResourceSuffix;
 	}
 
-	private boolean is_static_res(ServletRequest request) {
+	public RestRequestHandler getNextHandler() {
+		return nextHandler;
+	}
 
-		HttpServletRequest http_request = (HttpServletRequest) request;
-		String path = URI.create(http_request.getRequestURI()).getPath();
+	public void setNextHandler(RestRequestHandler nextHandler) {
+		this.nextHandler = nextHandler;
+	}
 
-		System.out.println("path = " + path);
+	private boolean is_static_res(HttpServletRequest request) {
 
-		if (path.equals(this._root_path)) {
+		final String uri = request.getRequestURI();
+		System.out.println("URI = " + uri);
+
+		final String service = request.getParameter("service");
+		if (service == null) {
+			// continue
+		} else if (service.equals("www")) {
 			return true;
+		} else {
+			return false;
 		}
 
-		String[] array = this._static_prefix;
-		for (String s : array) {
-			if (path.startsWith(s)) {
+		String[] array = this.get_static_res_suffix_list();
+		for (String suffix : array) {
+			if (uri.endsWith(suffix)) {
 				return true;
 			}
 		}
+
 		return false;
 	}
 
-	private List<String> get_static_res_list() {
-
-		List<String> list = new ArrayList<String>();
-		list.add("admin");
-		list.add("user");
-		list.add("lib");
-		return list;
-
+	private String[] get_static_res_suffix_list() {
+		String[] array = this._static_suffix;
+		if (array == null) {
+			List<String> list = this.staticResourceSuffix;
+			array = list.toArray(new String[list.size()]);
+			this._static_suffix = array;
+		}
+		return array;
 	}
 
-	public void init(FilterConfig conf) throws ServletException {
-		super.init(conf);
+	@Override
+	public void doFilter(HttpServletRequest request,
+			HttpServletResponse response, RestRequestHandler next)
+			throws ServletException, IOException {
 
-		String cp = conf.getServletContext().getContextPath();
-		List<String> list = this.get_static_res_list();
-		List<String> s2 = new ArrayList<String>();
-
-		for (String s : list) {
-			String prefix = cp + '/' + s + '/';
-			s2.add(prefix);
+		if (this.is_static_res(request)) {
+			// static
+			next.handle(request, response);
+		} else {
+			// active
+			this.nextHandler.handle(request, response);
 		}
-
-		this._static_prefix = s2.toArray(new String[s2.size()]);
-		this._root_path = cp + '/';
 
 	}
 

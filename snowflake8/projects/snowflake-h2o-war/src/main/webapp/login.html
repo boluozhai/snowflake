@@ -4,7 +4,7 @@
 <!--
 /***********************************************************************
  * 
- * user/login/index.html
+ * ~/login.html
  * 
  * @Copyright (c) 2016 boluozhai.com
  * @License MIT License
@@ -18,12 +18,12 @@
 <meta charset='utf-8' />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<title>登录</title>
+<title class='i18n' i18n='login'>登录</title>
 
-<link href="./../../lib/import/bootstrap/css/bootstrap.min.css"
+<link href="./lib/import/bootstrap/css/bootstrap.min.css"
 	rel="stylesheet" type="text/css" />
 
-<link href="./../../lib/css/signin.css" rel="stylesheet" type="text/css" />
+<link href="./lib/css/signin.css" rel="stylesheet" type="text/css" />
 
 
 <style type="text/css">
@@ -46,7 +46,7 @@
 
 		<form class="form-signin" role="form">
 			<div>
-				<h2 class="form-signin-heading">请登录</h2>
+				<h2 class="form-signin-heading i18n " i18n='please_login'>请登录</h2>
 			</div>
 			<div class='--no-work'>
 				<input id='edit-email' type="email" class="form-control"
@@ -58,11 +58,12 @@
 			</div>
 			<div class="checkbox">
 				<label> <input id='check-remember-me' type="checkbox"
-					value="remember-me"> 记住登录状态
+					value="remember-me"> <span class='i18n' i18n='remember_me'>
+						记住登录状态 </span>
 				</label>
 			</div>
 			<div class='working'>
-				<div>正在登录...</div>
+				<div class='i18n' i18n='logining'>正在登录...</div>
 				<div class='progress'>
 					<div class="progress-bar progress-bar-striped active"
 						role="progressbar" aria-valuenow="100" aria-valuemin="0"
@@ -72,36 +73,39 @@
 				</div>
 			</div>
 			<div class='no-work'>
-				<button id='btn-ok' class="btn btn-lg btn-primary btn-block"
-					type="button">登录</button>
+				<button id='btn-ok' class="btn btn-lg btn-primary btn-block i18n "
+					type="button" i18n='login'>登录</button>
 			</div>
 		</form>
 
 
 		<div class='to-reg'>
-			<span>还没有帐号?</span> <a href='./../register/'>注个册先！</a>
+			<span class='i18n' i18n='no_account'>还没有帐号?</span> <a class='i18n'
+				i18n='register_account' href='./register'>注个册先！</a>
 		</div>
 
 	</div>
 
 
-	<script src="./../../lib/import/jquery/jquery.min.js"></script>
-	<script src="./../../lib/import/bootstrap/js/bootstrap.min.js"></script>
+	<script src="./lib/import/jquery/jquery.min.js"></script>
+	<script src="./lib/import/bootstrap/js/bootstrap.min.js"></script>
 
-	<script src="./../../lib/import/snowflake/core.js"></script>
-	<script src="./../../lib/import/snowflake/context.js"></script>
-	<script src="./../../lib/import/snowflake/event.js"></script>
-	<script src="./../../lib/import/snowflake/rest.js"></script>
-	<script src="./../../lib/import/snowflake/sha1.js"></script>
+	<script src="./lib/import/snowflake/core.js"></script>
+	<script src="./lib/import/snowflake/context.js"></script>
+	<script src="./lib/import/snowflake/event.js"></script>
+	<script src="./lib/import/snowflake/rest.js"></script>
+	<script src="./lib/import/snowflake/sha1.js"></script>
 
-	<script src="./../../lib/export/h2o/js/widget.js"></script>
-	<script src="./../../lib/export/h2o/js/h2o-rest-api.js"></script>
-	<script src="./../../lib/export/h2o/js/auth.js"></script>
+	<script src="./lib/export/h2o/js/widget.js"></script>
+	<script src="./lib/export/h2o/js/h2o-rest-api.js"></script>
+	<script src="./lib/export/h2o/js/auth.js"></script>
 
-	<script src="./../../lib/js/config/base.js"></script>
-	<script src="./../../lib/js/config/final.js"></script>
+	<script src="./lib/js/config/base.js"></script>
+	<script src="./lib/js/config/i18n-base.js"></script>
+	<script src="./lib/js/config/final.js"></script>
 
 	<script src="./this.js"></script>
+	<script src="./i18n.js?service=active-www"></script>
 
 	<script type="text/javascript">
 		var AuthCtrl = com.boluozhai.h2o.webui.auth.AuthCtrl;

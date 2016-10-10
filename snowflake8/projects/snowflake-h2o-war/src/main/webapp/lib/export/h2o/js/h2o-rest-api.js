@@ -455,9 +455,10 @@ JS.module(function(mc) {
 	 * class RestModelInfo
 	 */
 
-	function RestModelInfo(api_name, clazz) {
-		this._api_name = api_name;
-		this._class_name = clazz.getName();
+	function RestModelInfo(service, tag_name, clazz) {
+		this._service_name = service;
+		this._tag_name = tag_name;
+		this._full_name = clazz.getName();
 		this._class = clazz;
 	}
 
@@ -467,15 +468,19 @@ JS.module(function(mc) {
 
 	RestModelInfo.prototype = {
 
-		apiName : function() {
-			return this._api_name;
+		service : function() {
+			return this._service_name;
 		},
 
-		fullName : function() {
-			return this._class_name;
+		tag : function() {
+			return this._tag_name;
 		},
 
-		type : function() {
+		name : function() {
+			return this._full_name;
+		},
+
+		getModelClass : function() {
 			return this._class;
 		},
 
@@ -492,7 +497,7 @@ JS.module(function(mc) {
 
 	mc.class(function(cc) {
 		cc.type(RestModelRegistrar);
-		// cc.extends(Attributes);
+		cc.extends(Attributes);
 	});
 
 	RestModelRegistrar.prototype = {
@@ -502,17 +507,27 @@ JS.module(function(mc) {
 			var clazz = pojo.getClass();
 			var n1 = api_name;
 			var n2 = clazz.getName();
+			var service = this.currentService();
 
-			var item = new RestModelInfo(api_name, clazz);
+			var item = new RestModelInfo(service, api_name, clazz);
 			this._table[n1] = item;
 			this._table[n2] = item;
 
 		},
 
+		currentService : function(v) {
+			return this.attr('current_service', v);
+		},
+
 		registerAll : function() {
 
+			this.currentService('system-api');
 			this.register('auth', new AuthModel());
 			this.register('viewport', new ViewportModel());
+
+			this.currentService('user-api');
+
+			this.currentService('repo-api');
 
 		},
 
@@ -520,13 +535,13 @@ JS.module(function(mc) {
 			this.registerAll();
 		},
 
-		getType : function(name, required) {
+		getTypeInfo : function(name, required) {
 			var item = this._table[name];
 			if ((item == null) && required) {
 				var msg = 'no type named: ' + name;
 				throw new Exception(msg);
 			}
-			return item.type();
+			return item;
 		},
 
 	};
@@ -560,11 +575,11 @@ JS.module(function(mc) {
 		parse_response_ok : function(txt) {
 
 			var pojo = JSON.parse(txt);
-			var md_type = this._model_type;
+			var model_info = this._model_info;
 			var check_response_type = this._check_response_type;
 
 			var real_t_name = pojo.type;
-			var reg_t_name = md_type.getName();
+			var reg_t_name = model_info.name();
 
 			if (check_response_type) {
 				if (reg_t_name != real_t_name) {
@@ -572,7 +587,8 @@ JS.module(function(mc) {
 				}
 			}
 
-			return md_type.newInstance(pojo);
+			var model_class = model_info.getModelClass();
+			return model_class.newInstance(pojo);
 		},
 
 		parse_response_error : function(txt) {
@@ -582,12 +598,15 @@ JS.module(function(mc) {
 		open : function(method, param) {
 
 			var type_reg = RestModelRegistrar.getInstance();
-			var type = type_reg.getType(param.type, true);
-			var entity = type.newInstance();
+			var info = type_reg.getTypeInfo(param.type, true);
+			var clazz = info.getModelClass();
+			var service = info.service();
+			var entity = clazz.newInstance();
 
 			this._method = method.toLowerCase();
 			this._param = param;
-			this._model_type = type;
+			this._model_info = info;
+			this._service = service;
 
 			return entity;
 
@@ -610,6 +629,7 @@ JS.module(function(mc) {
 			var client = REST.getClient(context);
 			var resource = client.getResource();
 			resource.parts(parts);
+			resource.service(this._service);
 
 			if (method == null) {
 				// NOP
@@ -721,8 +741,9 @@ JS.module(function(mc) {
 	// test/body
 
 	var reg = RestModelRegistrar.getInstance();
-	var type = reg.getType('viewport');
-	var model = type.newInstance();
+	var type = reg.getTypeInfo('viewport');
+	var clazz = type.getModelClass();
+	var model = clazz.newInstance();
 	var vpt = model.f_viewport();
 	var owner = vpt.f_owner();
 

@@ -15,10 +15,11 @@ import javax.servlet.http.HttpServletResponse;
 import com.boluozhai.snowflake.context.SnowflakeContext;
 import com.boluozhai.snowflake.context.utils.SnowContextUtils;
 import com.boluozhai.snowflake.core.SnowflakeException;
+import com.boluozhai.snowflake.rest.server.support.handler.RestRequestFilter;
 
-public class RestFilter implements Filter {
+public class RestAdapterFilter implements Filter {
 
-	private RestRequestHandler _next_handler;
+	private RestRequestFilter _inner;
 
 	@Override
 	public void init(FilterConfig config) throws ServletException {
@@ -34,8 +35,12 @@ public class RestFilter implements Filter {
 		ServletContext sc = config.getServletContext();
 		SnowflakeContext context = SnowContextUtils
 				.getWebApplicationContext(sc);
-		this._next_handler = context.getBean(bean_id, RestRequestHandler.class);
+		this._inner = context.getBean(bean_id, RestRequestFilter.class);
 
+	}
+
+	private RestRequestFilter get_inner(ServletRequest request) {
+		return this._inner;
 	}
 
 	@Override
@@ -44,8 +49,26 @@ public class RestFilter implements Filter {
 
 		HttpServletRequest http_request = (HttpServletRequest) request;
 		HttpServletResponse http_response = (HttpServletResponse) response;
-		this._next_handler.handle(http_request, http_response);
 
+		RestRequestFilter inner = this.get_inner(request);
+		inner.doFilter(http_request, http_response, new MyChainWrapper(chain));
+
+	}
+
+	private static class MyChainWrapper implements RestRequestHandler {
+
+		private final FilterChain chain;
+
+		public MyChainWrapper(FilterChain chain) {
+			this.chain = chain;
+		}
+
+		@Override
+		public void handle(HttpServletRequest request,
+				HttpServletResponse response) throws ServletException,
+				IOException {
+			chain.doFilter(request, response);
+		}
 	}
 
 	@Override

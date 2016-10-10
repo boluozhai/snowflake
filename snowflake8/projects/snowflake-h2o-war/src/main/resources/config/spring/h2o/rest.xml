@@ -35,10 +35,17 @@
 
 
 	<bean id='rest:expression:root'
-		class='com.boluozhai.snowflake.h2o.rest.expression.RootExpression' />
+		class='com.boluozhai.snowflake.h2o.rest.expression.RootExpression'>
+		<!-- by ?service=xxxx -->
+	</bean>
 
-	<bean id='rest:expression:www-res'
+
+	<bean id='rest:expression:www'
 		class='com.boluozhai.snowflake.h2o.rest.expression.WwwResExpression' />
+
+	<bean id='rest:expression:active-www'
+		class='com.boluozhai.snowflake.h2o.rest.expression.WwwResExpression' />
+
 
 	<bean id='rest:expression:rest-api'
 		class='com.boluozhai.snowflake.h2o.rest.expression.RestApiExpression' />
@@ -48,6 +55,29 @@
 
 
 	<!-- gateway -->
+
+
+	<bean id='rest:filter:root' class='com.boluozhai.snowflake.h2o.H2oRestFilter'>
+
+		<property name="staticResourceSuffix">
+			<list>
+				<value>.html</value>
+				<value>.css</value>
+				<value>.js</value>
+
+				<value>.png</value>
+				<value>.jpg</value>
+				<value>.jpeg</value>
+				<value>.gif</value>
+
+			</list>
+		</property>
+
+		<property name="nextHandler">
+			<ref bean='rest:gateway:root' />
+		</property>
+
+	</bean>
 
 
 	<bean id='rest:gateway:root'
@@ -80,17 +110,23 @@
 	</bean>
 
 
+	<bean id='rest:gateway:404' class='com.boluozhai.snowflake.h2o.rest.controller.Http404Ctrl'>
+
+	</bean>
+
+
 	<bean id='rest:gateway:info-refs-service'
 		class='com.boluozhai.snowflake.rest.server.support.handler.DefaultRequestHandler'>
 
 		<property name="nextHanlder">
-			<ref bean='rest:switch:info-refs-service' />
+			<!-- ref bean='rest:switch:info-refs-service' / -->
+			<ref bean='rest:gateway:404' />
 		</property>
 
 	</bean>
 
 
-	<bean id='rest:gateway:www-res'
+	<bean id='rest:gateway:www'
 		class='com.boluozhai.snowflake.rest.server.support.handler.DefaultRequestHandler'>
 
 		<property name="filters">
@@ -101,17 +137,47 @@
 		</property>
 
 		<property name="nextHanlder">
-			<ref bean='rest:switch:www-res' />
+			<ref bean='rest:switch:www' />
 		</property>
 
 	</bean>
 
 
-	<bean id='rest:gateway:rest-api'
+	<bean id='rest:gateway:active-www'
 		class='com.boluozhai.snowflake.rest.server.support.handler.DefaultRequestHandler'>
 
 		<property name="nextHanlder">
-			<ref bean='rest:switch:rest-api' />
+			<ref bean='rest:switch:active-www' />
+		</property>
+
+	</bean>
+
+
+	<bean id='rest:gateway:system-api'
+		class='com.boluozhai.snowflake.rest.server.support.handler.DefaultRequestHandler'>
+
+		<property name="nextHanlder">
+			<ref bean='rest:switch:system-api' />
+		</property>
+
+	</bean>
+
+
+	<bean id='rest:gateway:user-api'
+		class='com.boluozhai.snowflake.rest.server.support.handler.DefaultRequestHandler'>
+
+		<property name="nextHanlder">
+			<ref bean='rest:switch:user-api' />
+		</property>
+
+	</bean>
+
+
+	<bean id='rest:gateway:repo-api'
+		class='com.boluozhai.snowflake.rest.server.support.handler.DefaultRequestHandler'>
+
+		<property name="nextHanlder">
+			<ref bean='rest:switch:repo-api' />
 		</property>
 
 	</bean>
@@ -128,22 +194,59 @@
 		</property>
 
 		<property name="defaultHandler">
-			<ref bean='rest:gateway:www-res' />
+			<ref bean='rest:gateway:404' />
 		</property>
 
 		<property name="handlers">
 			<map>
 
-				<entry key='www'>
-					<ref bean='rest:gateway:www-res' />
+
+				<!-- ?service=www-proxy -->
+
+				<entry key='null'>
+					<ref bean='rest:gateway:www' />
 				</entry>
 
-				<entry key='info'>
-					<ref bean='rest:gateway:info-refs-service' />
+				<entry key='active-www'>
+					<ref bean='rest:gateway:active-www' />
 				</entry>
 
-				<entry key='rest'>
-					<ref bean='rest:gateway:rest-api' />
+
+				<!-- ?service=xxx-api -->
+
+				<entry key='system-api'>
+					<ref bean='rest:gateway:system-api' />
+				</entry>
+
+				<entry key='user-api'>
+					<ref bean='rest:gateway:user-api' />
+				</entry>
+
+				<entry key='repo-api'>
+					<ref bean='rest:gateway:repo-api' />
+				</entry>
+
+
+				<!-- info/refs?service=xxx -->
+
+				<entry key='xgit-receive-objects'>
+					<bean
+						class='com.boluozhai.snowflake.xgit.http.server.controller.service.XgitReceiveObjects'></bean>
+				</entry>
+
+				<entry key='xgit-upload-objects'>
+					<bean
+						class='com.boluozhai.snowflake.xgit.http.server.controller.service.XgitUploadObjects'></bean>
+				</entry>
+
+				<entry key='xgit-receive-refs'>
+					<bean
+						class='com.boluozhai.snowflake.xgit.http.server.controller.service.XgitReceiveRefs'></bean>
+				</entry>
+
+				<entry key='xgit-upload-refs'>
+					<bean
+						class='com.boluozhai.snowflake.xgit.http.server.controller.service.XgitUploadRefs'></bean>
 				</entry>
 
 			</map>
@@ -154,27 +257,23 @@
 
 
 
-	<bean id='rest:switch:rest-api'
+	<bean id='rest:switch:system-api'
 		class='com.boluozhai.snowflake.rest.server.support.handler.RestHandlerSwitch'>
 
-		<!-- ~/rest/* -->
 
 		<property name="expression">
 			<ref bean='rest:expression:rest-api' />
 		</property>
 
 		<property name="defaultHandler">
-			<bean class='com.boluozhai.snowflake.h2o.rest.controller.Http404Ctrl' />
+			<ref bean='rest:gateway:404' />
 		</property>
 
 		<property name="handlers">
 			<map>
 
-				<!-- sys -->
+				<!-- api for system -->
 
-				<entry key='account'>
-					<bean class='com.boluozhai.snowflake.h2o.rest.controller.AccountCtrl' />
-				</entry>
 				<entry key='auth'>
 					<bean class='com.boluozhai.snowflake.h2o.rest.controller.AuthCtrl' />
 				</entry>
@@ -184,14 +283,67 @@
 				<entry key='file'>
 					<bean class='com.boluozhai.snowflake.h2o.rest.controller.FileCtrl' />
 				</entry>
-				<entry key='repository'>
-					<bean class='com.boluozhai.snowflake.h2o.rest.controller.RepositoryCtrl' />
-				</entry>
 				<entry key='session'>
 					<bean class='com.boluozhai.snowflake.h2o.rest.controller.SessionCtrl' />
 				</entry>
 				<entry key='viewport'>
 					<bean class='com.boluozhai.snowflake.h2o.rest.controller.ViewportCtrl' />
+				</entry>
+
+			</map>
+		</property>
+
+	</bean>
+
+
+
+	<bean id='rest:switch:user-api'
+		class='com.boluozhai.snowflake.rest.server.support.handler.RestHandlerSwitch'>
+
+
+		<property name="expression">
+			<ref bean='rest:expression:rest-api' />
+		</property>
+
+		<property name="defaultHandler">
+			<ref bean='rest:gateway:404' />
+		</property>
+
+		<property name="handlers">
+			<map>
+
+				<!-- api for user -->
+
+				<entry key='account'>
+					<bean class='com.boluozhai.snowflake.h2o.rest.controller.AccountCtrl' />
+				</entry>
+
+			</map>
+		</property>
+
+	</bean>
+
+
+
+	<bean id='rest:switch:repo-api'
+		class='com.boluozhai.snowflake.rest.server.support.handler.RestHandlerSwitch'>
+
+
+		<property name="expression">
+			<ref bean='rest:expression:rest-api' />
+		</property>
+
+		<property name="defaultHandler">
+			<ref bean='rest:gateway:404' />
+		</property>
+
+		<property name="handlers">
+			<map>
+
+				<!-- for repo -->
+
+				<entry key='repository'>
+					<bean class='com.boluozhai.snowflake.h2o.rest.controller.RepositoryCtrl' />
 				</entry>
 				<entry key='working'>
 					<bean class='com.boluozhai.snowflake.h2o.rest.controller.WorkingDirCtrl' />
@@ -203,60 +355,41 @@
 	</bean>
 
 
+	<bean id='rest:switch:www'
+		class='com.boluozhai.snowflake.rest.server.support.handler.RestWwwProxy'>
 
-
-
-	<bean id='rest:switch:info-refs-service'
-		class='com.boluozhai.snowflake.rest.server.support.handler.RestHandlerSwitch'>
-
-		<!-- .../info/refs?service=??? -->
-
-		<property name="expression">
-			<bean
-				class='com.boluozhai.snowflake.xgit.http.server.controller.InfoRefsSwitchExpression' />
+		<property name="keywords">
+			<list>
+				<value>flow</value>
+				<value>language</value>
+				<value>login</value>
+				<value>logout</value>
+				<value>objects</value>
+				<value>profile</value>
+				<value>refs</value>
+				<value>register</value>
+				<value>remote</value>
+				<value>search</value>
+				<value>settings</value>
+				<value>working</value>
+			</list>
 		</property>
 
-
-		<property name="defaultHandler">
-			<bean
-				class='com.boluozhai.snowflake.xgit.http.server.controller.service.XgitBadService' />
-		</property>
-
-		<property name="handlers">
-			<map>
-				<entry key='xgit-receive-objects'>
-					<bean
-						class='com.boluozhai.snowflake.xgit.http.server.controller.service.XgitReceiveObjects'></bean>
-				</entry>
-				<entry key='xgit-upload-objects'>
-					<bean
-						class='com.boluozhai.snowflake.xgit.http.server.controller.service.XgitUploadObjects'></bean>
-				</entry>
-				<entry key='xgit-receive-refs'>
-					<bean
-						class='com.boluozhai.snowflake.xgit.http.server.controller.service.XgitReceiveRefs'></bean>
-				</entry>
-				<entry key='xgit-upload-refs'>
-					<bean
-						class='com.boluozhai.snowflake.xgit.http.server.controller.service.XgitUploadRefs'></bean>
-				</entry>
-			</map>
-		</property>
 
 	</bean>
 
 
-	<bean id='rest:switch:www-res'
+	<bean id='rest:switch:active-www'
 		class='com.boluozhai.snowflake.rest.server.support.handler.RestHandlerSwitch'>
 
 		<!-- active js -->
 
 		<property name="expression">
-			<ref bean='rest:expression:www-res' />
+			<ref bean='rest:expression:active-www' />
 		</property>
 
 		<property name="defaultHandler">
-			<bean class='com.boluozhai.snowflake.h2o.rest.controller.DefaultWebCtrl' />
+			<ref bean='rest:gateway:404' />
 		</property>
 
 		<property name="handlers">
