@@ -167,7 +167,10 @@
 		}
 
 		function onLoginOK(task) {
-			window.location = 'working.html';
+			var url = '~/';
+			var context = task._context;
+			url = context.normalizeURL(url);
+			window.location = url;
 		}
 
 		function onLoginError(task) {

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<!--
+/***********************************************************************
+ * 
+ * user/repo/profile/index.html (repo-home)
+ * 
+ * @Copyright (c) 2016 boluozhai.com
+ * @License MIT License
+ * @Author xukun<xukun17@sina.com>
+ * 
+ */
+-->
+
+<head>
+
+<meta charset='utf-8' />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title class='i18n' i18n='title_account_profile'>RepoHome</title>
+
+<link href="./../../../lib/import/bootstrap/css/bootstrap.min.css"
+	rel="stylesheet" type="text/css" />
+
+<style type="text/css">
+</style>
+
+</head>
+<body>
+
+	<div id='client' class='container'>
+
+
+		<div id='page-head'></div>
+
+
+		<h1>account profile - no implemented</h1>
+
+
+		<div class='page-foot side-bar '>
+			<div>
+				<span class='i18n' i18n='no_more'> &gt;_&lt; ，没有了！ </span>
+			</div>
+		</div>
+
+	</div>
+
+
+	<script src="./../../../lib/import/jquery/jquery-1.11.2.js"></script>
+	<script src="./../../../lib/import/bootstrap/js/bootstrap.min.js"></script>
+
+
+	<script src="./../../../lib/import/snowflake/core.js"></script>
+	<script src="./../../../lib/import/snowflake/context.js"></script>
+	<script src="./../../../lib/import/snowflake/event.js"></script>
+	<script src="./../../../lib/import/snowflake/rest.js"></script>
+	<script src="./../../../lib/import/snowflake/listview.js"></script>
+
+
+	<script src="./../../../lib/export/h2o/js/session.js"></script>
+	<script src="./../../../lib/export/h2o/js/viewport.js"></script>
+	<script src="./../../../lib/export/h2o/js/widget.js"></script>
+	<script src="./../../../lib/export/h2o/js/head.js"></script>
+
+
+	<script src="./../../../lib/js/config/base.js"></script>
+	<script src="./../../../lib/js/config/i18n-base.js"></script>
+	<script src="./../../../lib/js/config/final.js"></script>
+	<script src="./../../../lib/js/ui/account-profile.html.js"></script>
+
+
+	<script src="./this.js"></script>
+	<script src="./../../../u/r/api/type/id/current-session-info.js"></script>
+	<script src="./../../../u/r/api/type/id/i18n.js"></script>
+
+
+	<script type="text/javascript">
+		$(document).ready(function() {
+
+			var UserHomeHtml = com.boluozhai.h2o.html.UserHomeHtml;
+			var context = Snowflake.getContext();
+			var ctrl = new UserHomeHtml(context);
+			ctrl.init();
+
+		});
+	</script>
+
+</body>
+</html>
+
+
+
