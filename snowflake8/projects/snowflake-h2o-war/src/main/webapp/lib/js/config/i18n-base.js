@@ -31,4 +31,6 @@ JS.module(function(mc) {
 
 	StringResTable.prototype = {};
 
+	StringResTable.mapping = {};
+
 });

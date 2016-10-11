@@ -26,7 +26,11 @@
 
 	<div class='container'>
 
+
+		<div id='page-head'></div>
+
 		<!-- for debug -->
+
 
 		<h1 class='i18n' i18n='language'>Language</h1>
 
@@ -44,23 +48,63 @@
 			</div>
 
 		</div>
+
+		<div>
+			<pre class='i18n-out'></pre>
+		</div>
+
 	</div>
 
 	<script src="./lib/import/jquery/jquery.min.js"></script>
 	<script src="./lib/import/bootstrap/js/bootstrap.min.js"></script>
 
+
 	<script src="./lib/import/snowflake/core.js"></script>
 	<script src="./lib/import/snowflake/context.js"></script>
+	<script src="./lib/import/snowflake/rest.js"></script>
+	<script src="./lib/import/snowflake/event.js"></script>
+	<script src="./lib/import/snowflake/listview.js"></script>
 
+
+	<script src="./lib/export/h2o/js/widget.js"></script>
+	<script src="./lib/export/h2o/js/h2o-rest-api.js"></script>
+	<script src="./lib/export/h2o/js/session.js"></script>
+	<script src="./lib/export/h2o/js/viewport.js"></script>
+	<script src="./lib/export/h2o/js/head.js"></script>
+
+
+	<script src="./lib/js/config/base.js"></script>
+	<script src="./lib/js/config/i18n-base.js"></script>
+	<script src="./lib/js/config/final.js"></script>
+
+	<script src="./lib/js/i18n/zh_CN.js"></script>
+	<script src="./lib/js/i18n/en_US.js"></script>
+	<script src="./lib/js/i18n/default.js"></script>
+
+
+	<script src="./lib/js/ui/language.html.js"></script>
+
+	<script src="./current-session-info.js?service=active-www"></script>
 	<script src="./this.js"></script>
 
 	<script type="text/javascript">
 		$(document).ready(function() {
 
+			var LanguageHtml = com.boluozhai.h2o.html.LanguageHtml;
+
+			var context = Snowflake.getContext();
+			var ctrl = new LanguageHtml(context);
+			ctrl.init();
+
 			var input = $('.input-lang-name');
 			input.val('zh_CN');
-
 			$('.btn-setup').click(do_setup);
+
+			// output i18n mapping
+			var i18n = context.i18n();
+			var js = i18n._word_table;
+			var str = JSON.stringify(js, null, 4);
+			$('.i18n-out').text('i18n = ' + str);
 
 		});
 

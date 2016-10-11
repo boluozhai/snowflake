@@ -234,7 +234,14 @@ JS.module(function(mc) {
 
 			var base = '~/.';
 			base = this.normalizeURL(base);
-			var path = window.location.pathname + '/' + base;
+
+			var page_dir = window.location.pathname;
+			var i_last_slash = page_dir.lastIndexOf('/');
+			if (i_last_slash >= 0) {
+				page_dir = page_dir.substring(0, i_last_slash);
+			}
+
+			var path = page_dir + '/' + base;
 			var array = path.split('/');
 			var a2 = [];
 
@@ -337,7 +344,8 @@ JS.module(function(mc) {
 	 */
 
 	function Internationalization(context) {
-		this._mapping = {};
+		this._lang_table = {};
+		this._word_table = {};
 		this._context = context;
 	}
 
@@ -348,17 +356,33 @@ JS.module(function(mc) {
 
 	Internationalization.prototype = {
 
-		appendMapping : function(map) {
-			var to = this._mapping;
-			for ( var key in map) {
-				var value = map[key];
+		appendMapping : function(lang_tab) {
+			var to = this._word_table;
+			for ( var lang in lang_tab) {
+				var words = lang_tab[lang];
+				this._lang_table[lang] = words;
+				for ( var key in words) {
+					var value = words[key];
+					to[key] = value;
+				}
+			}
+		},
+
+		setCurrentLanguage : function(lang) {
+			var to = this._word_table;
+			var words = this._lang_table;
+			if (words == null) {
+				return;
+			}
+			for ( var key in words) {
+				var value = words[key];
 				to[key] = value;
 			}
 		},
 
 		translate : function(query) {
 
-			var mapping = this._mapping;
+			var mapping = this._word_table;
 			var list = query.find('.i18n');
 
 			for (var i = list.length - 1; i >= 0; i--) {

@@ -2,7 +2,7 @@
  * js/i18n/default.js
  */
 
-this.h2o.i18n.StringResTable.mapping = {
+this.h2o.i18n.StringResTable.mapping['default'] = {
 
 	do_search : '找一找',
 	h2o : 'H2O',

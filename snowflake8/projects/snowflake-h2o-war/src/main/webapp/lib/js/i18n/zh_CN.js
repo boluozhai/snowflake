@@ -2,7 +2,7 @@
  * js/i18n/zh_CN.js
  */
 
-this.h2o.i18n.StringResTable.mapping = {
+this.h2o.i18n.StringResTable.mapping.zh_CN = {
 
 	do_search : '找一找',
 	h2o : 'H2O',

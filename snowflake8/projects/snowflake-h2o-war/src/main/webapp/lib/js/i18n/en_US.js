@@ -2,7 +2,7 @@
  * js/i18n/en_US.js
  */
 
-this.h2o.i18n.StringResTable.mapping = {
+this.h2o.i18n.StringResTable.mapping.en_US = {
 
 	do_search : 'Search',
 	h2o : 'H2O',
