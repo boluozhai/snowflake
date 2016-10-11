@@ -323,19 +323,14 @@ JS.module(function(mc) {
 
 			var p = this._parent;
 			var c = this._child;
-
-			if (p == null) {
-				return;
-			} else {
+			if (p != null) {
 				p.empty();
+				if (c != null) {
+					p.append(c);
+				}
 			}
 
-			if (c == null) {
-				return;
-			} else {
-				p.append(c);
-			}
-
+			// menu model
 			var ctrl = this._list_ctrl;
 			var model = this.create_model();
 			if (ctrl != null) {
@@ -343,6 +338,7 @@ JS.module(function(mc) {
 				ctrl.update(true);
 			}
 
+			// menu visible
 			var menu = this._panel_list_menu;
 			if (menu != null) {
 				if (model.size() > 0) {
@@ -350,6 +346,13 @@ JS.module(function(mc) {
 				} else {
 					menu.hide();
 				}
+			}
+
+			// menu title
+			var ipw = this._cur_ipw;
+			if (ipw != null) {
+				var title = ipw.title();
+				this.setCurrentTitle(title);
 			}
 
 		},
@@ -370,7 +373,6 @@ JS.module(function(mc) {
 
 		setCurrentPanel : function(name) {
 
-			var self = this;
 			var table = this._panel_table;
 			var ipw = table[name]; // PanelWrapper
 
@@ -379,8 +381,9 @@ JS.module(function(mc) {
 			}
 
 			ipw.load(function() {
-				self.setCurrentIPW(ipw);
 			});
+
+			this.setCurrentIPW(ipw);
 
 		},
 
@@ -418,10 +421,13 @@ JS.module(function(mc) {
 			name = 'a-head-panel';
 		}
 
+		var ui = $('<div></div>');
+
 		this.domURL('~/lib/export/h2o/html/HeadPanel.html');
 		this.domSelector('.panel');
 		this.name(name);
 		this.title(name);
+		this.ui(ui);
 
 	}
 
@@ -450,6 +456,10 @@ JS.module(function(mc) {
 
 		domSelector : function(value) {
 			return this.attr('dom_sel', value);
+		},
+
+		loaded : function(value) {
+			return this.attr('loaded', value);
 		},
 
 		onShow : function() {
@@ -501,25 +511,27 @@ JS.module(function(mc) {
 				};
 			}
 
-			var ui = this._panel.ui();
-			var url = this._panel.domURL();
-			var selector = this._panel.domSelector();
+			var panel = this._panel;
+
+			var ui = panel.ui();
+			var url = panel.domURL();
+			var selector = panel.domSelector();
+			var loaded = panel.loaded();
 			var context = this._context;
 			var self = this;
 
-			if (ui == null) {
-
+			if (loaded) {
+				fn();
+			} else {
+				panel.loaded(true);
 				var loader = new ResourceLoader(context);
-
 				loader.loadHTML(url, function(query) {
 					var q2 = query.find(selector);
-					self._panel.ui(q2);
-					self._panel.onLoad();
+					ui.empty();
+					ui.append(q2);
+					panel.onLoad();
 					fn();
 				});
-
-			} else {
-				fn();
 			}
 
 		},

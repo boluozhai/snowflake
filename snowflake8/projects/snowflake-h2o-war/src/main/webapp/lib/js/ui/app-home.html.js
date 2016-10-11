@@ -48,17 +48,16 @@ JS.module(function(mc) {
 			var context = this._context;
 			var self = this;
 
-			var panel_a = new HeadPanel(context, 'Panel_A');
-			var panel_b = new HeadPanel(context, 'Panel_B');
-
 			var head_ctrl = new HeadCtrl(context);
 			this._head_ctrl = head_ctrl;
 			head_ctrl.binder().parent('#page-head');
-			head_ctrl.addPanel(panel_a);
-			head_ctrl.addPanel(panel_b);
 			head_ctrl.init();
 
-			head_ctrl.setCurrentPanel(panel_a.name());
+			var panel_a = new HeadPanel(context, 'Panel_A');
+			var panel_b = new HeadPanel(context, 'Panel_B');
+			// head_ctrl.addPanel(panel_a);
+			// head_ctrl.addPanel(panel_b);
+			head_ctrl.setCurrentPanel(panel_b.name());
 
 		},
 

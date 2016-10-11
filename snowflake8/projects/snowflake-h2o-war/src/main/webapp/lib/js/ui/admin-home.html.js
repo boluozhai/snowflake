@@ -54,11 +54,11 @@ JS.module(function(mc) {
 			var head_ctrl = new HeadCtrl(context);
 			this._head_ctrl = head_ctrl;
 			head_ctrl.binder().parent('#page-head');
-			head_ctrl.addPanel(panel_a);
-			head_ctrl.addPanel(panel_b);
 			head_ctrl.init();
 
-			head_ctrl.setCurrentPanel(panel_a.name());
+			head_ctrl.addPanel(panel_a);
+			head_ctrl.addPanel(panel_b);
+			head_ctrl.setCurrentPanel(panel_b.name());
 
 		},
 
