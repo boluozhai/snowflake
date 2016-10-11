@@ -12,92 +12,103 @@ JS.module(function(mc) {
 
 	mc.package('com.boluozhai.snowflake.web');
 
-	var System = mc.import('js.lang.System');
+	// var System = mc.import('js.lang.System');
 	var Attributes = mc.import('js.lang.Attributes');
-	// var SHA1 = mc.import('snowflake.security.sha1.SHA1');
 
-	// var widget_x = 'com.boluozhai.h2o.widget';
+	// var REST = snowflake.rest.REST;
+	// var JSONRestRequest = mc
+	// .import("com.boluozhai.snowflake.rest.api.JSONRestRequest");
 
-	// var FileListCtrl = mc.import(widget_x + '.folder.FileListCtrl');
-	// var PathBarCtrl = mc.import(widget_x + '.folder.PathBarCtrl');
-	// var DirDataCtrl = mc.import(widget_x + '.folder.DirDataCtrl');
-	// var ConsoleCtrl = mc.import(widget_x + '.console.ConsoleCtrl');
+	/***************************************************************************
+	 * class InnerHolder
+	 */
 
-	var SessionInfo = mc.import('com.boluozhai.h2o.web.SessionInfo');
-
-	// var REST = mc.import('com.boluozhai.....REST');
-	var REST = snowflake.rest.REST;
-	var JSONRestRequest = mc
-			.import("com.boluozhai.snowflake.rest.api.JSONRestRequest");
-
-	function InnerHolder(context) {
-		this._context = context;
+	function InnerHolder() {
 	}
 
-	InnerHolder.getInstance = function(context) {
+	InnerHolder.getInstance = function() {
 		var inst = InnerHolder.instance;
 		if (inst == null) {
-			inst = new InnerHolder(context);
+			inst = new InnerHolder();
 			inst.load();
 			InnerHolder.instance = inst;
 		}
 		return inst;
 	};
 
-	// InnerHolder.init = function() {
-	// var inst = InnerHolder.getInstance();
-	// inst.load();
-	// };
-
 	InnerHolder.prototype = {
+
+		attr : function(k, v, def) {
+
+			k = '__attr__' + k;
+
+			if (v == null) {
+				v = this[k];
+			} else {
+				this[k] = v;
+			}
+
+			if (v == null) {
+				v = def;
+			}
+
+			return v;
+		},
 
 		load : function() {
 
-			var path = window.location.pathname;
-			var client = REST.getClient(this._context);
+			var m = com.boluozhai.snowflake.web.Viewport.model;
+			var vpt = m.viewport;
 
-			var path_map = client.parsePath(path);
-			var user = this.getPathPart('uid', path_map, false);
-			var repo = this.getPathPart('repo', path_map, false);
+			// TODO
 
-			this._uid = user;
-			this._repo_id = repo;
+			var my = vpt.operator;
+			var owner = vpt.xxx;
+			var repo = vpt.xxx;
 
-		},
-
-		getPathPart : function(key, path_map, required) {
-			var value = path_map[key];
-			if (value == null) {
-				if (required) {
-					var msg = 'no field named[' + key + '] in the path.';
-					this.onError(msg);
+			if (my != null) {
+				if (my.exists) {
+					this.myNickname(my.nickname);
+					this.mySigned(my.login);
+					this.mySignTime(my.loginTimestamp);
+					this.myUid(my.uid);
 				}
 			}
-			return value;
-		},
 
-		onError : function(msg) {
-
-			var debug_mode = true;
-
-			this._error = msg;
-
-			if (debug_mode) {
-				throw new RuntimeException(msg);
+			if (owner != null) {
+				this.myNickname(owner.xxx);
 			}
 
+			if (repo != null) {
+				this.myNickname(repo.xxx);
+			}
+
+			xxxx.xx();
+
 		},
 
-		error : function(msg) {
-			return this._error;
+		myNickname : function(v, def) {
+			return this.attr('my_nickname', v, def);
 		},
 
-		user : function() {
-			return this._uid;
+		mySigned : function(v, def) {
+			return this.attr('my_signed', v, def);
 		},
 
-		repo : function() {
-			return this._repo_id;
+		mySignTime : function(v, def) {
+			return this.attr('my_sign_time', v, def);
+		},
+
+		myUid : function(v, def) {
+			return this.attr('my_uid', v, def);
+		},
+
+		ownerUid : function(v, def) {
+			return this.attr('owner_uid', v, def);
+		},
+
+		repo : function(v, def) {
+			return this.attr('repo_name', v, def);
 		},
 
 	};
@@ -105,102 +116,48 @@ JS.module(function(mc) {
 	// InnerHolder.init();
 
 	/***************************************************************************
-	 * class ViewportInfo
+	 * class Viewport
 	 */
 
-	function ViewportInfo(context) {
+	function Viewport() {
 
-		var inst = InnerHolder.getInstance(context);
+		var inst = InnerHolder.getInstance();
+		this._inner = inst;
 
-		this._owner = inst.user();
-		this._repo = inst.repo();
-		this._err = inst.error();
-		this._str = inst.user() + '/' + inst.repo();
-		this._context = context;
+		var uid = this.ownerUid('null');
+		var repo = this.repositoryName('null');
+		this._str = (uid + '^' + repo);
 
 	}
 
 	mc.class(function(cc) {
-		cc.type(ViewportInfo);
-		// cc.extends(Attributes);
+		cc.type(Viewport);
 	});
 
-	ViewportInfo.prototype = {
+	Viewport.prototype = {
 
-		owner : function(def) {
-			var value = this._owner;
-			if (value == null) {
-				value = def;
-			}
-			return value;
+		myNickname : function(def) {
+			return this._inner.myNickname(null, def);
 		},
 
-		uid : function(def) {
-			return this.owner(def);
+		myUid : function(def) {
+			return this._inner.myUid(null, def);
 		},
 
-		repository : function(def) {
-			var value = this._repo;
-			if (value == null) {
-				value = def;
-			}
-			return value;
+		ownerUid : function(def) {
+			return this._inner.ownerUid(null, def);
+		},
+
+		repositoryName : function(def) {
+			return this._inner.repo(null, def);
+		},
+
+		signed : function(def) {
+			return this._inner.mySigned(null, def);
 		},
 
 		toString : function() {
 			return this._str;
-		},
-
-		getDetailLoader : function() {
-			return new ViewportDetailLoader(this);
-		},
-
-	};
-
-	/***************************************************************************
-	 * class ViewportDetailLoader
-	 */
-
-	function ViewportDetailLoader(info) {
-		this._info = info;
-		this._context = info._context;
-	}
-
-	ViewportDetailLoader.prototype = {
-
-		load : function(fn) {
-
-			var self = this;
-			var context = this._context;
-			var info = this._info;
-			var user = info.owner('u');
-			var repo = info.repository('r');
-
-			var jrr = new JSONRestRequest(context);
-			var tx_entity = jrr.open('GET', {
-				uid : user,
-				repo : repo,
-				api : 'rest',
-				type : 'viewport',
-				id : 'a-id',
-			});
-			jrr.onResult(function() {
-				if (jrr.ok()) {
-					self.result(jrr.responseEntity());
-				}
-				fn();
-			});
-			jrr.send(tx_entity);
-
-		},
-
-		result : function(value) {
-			if (value == null) {
-				value = this._result;
-			} else {
-				this._result = value;
-			}
-			return value;
 		},
 
 	};
@@ -229,16 +186,15 @@ JS.module(function(mc) {
 
 		inner_load_context_atts : function(context) {
 
-			var session = new SessionInfo();
-			var vpt = new ViewportInfo(context);
+			var vpt = new Viewport();
 
-			var ses_uid = session.uid();
-			var vpt_uid = vpt.uid();
-			var vpt_repo_id = vpt.repository();
+			var ses_uid = vpt.myUid();
+			var vpt_uid = vpt.ownerUid();
+			var vpt_repo_id = vpt.repositoryName();
 
 			context.attr('session-uid', ses_uid);
 			context.attr('viewport-uid', vpt_uid);
-			context.attr('viewport-repo-id', vpt_repo_id);
+			context.attr('viewport-repo-name', vpt_repo_id);
 
 		},
 

@@ -21,7 +21,7 @@ JS.module(function(mc) {
 	var DocumentBinder = mc.import('com.boluozhai.h2o.widget.DocumentBinder');
 	var ResourceLoader = mc.import('com.boluozhai.h2o.widget.ResourceLoader');
 
-	var SessionInfo = mc.import('com.boluozhai.h2o.web.SessionInfo');
+	var Viewport = mc.import('com.boluozhai.snowflake.web.Viewport');
 
 	var ListBuilder = mc.import('snowflake.view.list.ListBuilder');
 	var ListModel = mc.import('snowflake.view.list.ListModel');
@@ -113,15 +113,15 @@ JS.module(function(mc) {
 
 			var context = this._context;
 
-			var info = new SessionInfo();
-			var signed = info.signed();
-			var nickname = info.nickname();
+			var vpt = new Viewport();
+			var signed = vpt.signed();
+			var nickname = vpt.myNickname();
 
 			var base = this.binder().parent();
 			var view_login = base.find('.view-if-login');
 			var view_login_not = base.find('.view-if-login-not');
 
-			if (info.signed()) {
+			if (signed) {
 				view_login_not.hide();
 				view_login.show();
 			} else {

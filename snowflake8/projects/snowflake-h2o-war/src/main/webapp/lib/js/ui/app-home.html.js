@@ -22,7 +22,7 @@ JS.module(function(mc) {
 	var HeadCtrl = mc.import(widget_x + '.head.HeadCtrl');
 	var HeadPanel = mc.import(widget_x + '.head.HeadPanel');
 
-	var ViewportInfo = mc.import('com.boluozhai.snowflake.web.ViewportInfo');
+	var Viewport = mc.import('com.boluozhai.snowflake.web.Viewport');
 	var WebPageController = mc
 			.import('com.boluozhai.snowflake.web.WebPageController');
 

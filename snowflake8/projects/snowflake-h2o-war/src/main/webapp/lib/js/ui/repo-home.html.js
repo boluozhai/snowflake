@@ -21,7 +21,7 @@ JS.module(function(mc) {
 	var widget_x = 'com.boluozhai.h2o.widget';
 	var HeadCtrl = mc.import(widget_x + '.head.HeadCtrl');
 
-	var ViewportInfo = mc.import('com.boluozhai.snowflake.web.ViewportInfo');
+	var Viewport = mc.import('com.boluozhai.snowflake.web.Viewport');
 	var WebPageController = mc
 			.import('com.boluozhai.snowflake.web.WebPageController');
 

@@ -395,18 +395,27 @@
 		<property name="handlers">
 			<map>
 
-				<entry key='i18n.js'>
-					<bean class='com.boluozhai.snowflake.h2o.rest.controller.res.I18nJsCtrl'></bean>
+				<entry key='current-viewport.js'>
+					<!-- include the regular viewport & session info -->
+					<bean
+						class='com.boluozhai.snowflake.h2o.rest.controller.res.CurrentViewportJsCtrl' />
 				</entry>
 
-				<entry key='current-session-info.js'>
-					<bean
-						class='com.boluozhai.snowflake.h2o.rest.controller.res.SessionJsCtrl'></bean>
+				<entry key='--i18n.js'>
+					<bean class='com.boluozhai.snowflake.h2o.rest.controller.res.I18nJsCtrl' />
 				</entry>
 
-				<entry key='--this.js'>
+				<entry key='--current-session-info.js'>
 					<bean
-						class='com.boluozhai.snowflake.h2o.rest.controller.res.SessionJsCtrl'></bean>
+						class='com.boluozhai.snowflake.h2o.rest.controller.res.SessionJsCtrl' />
+				</entry>
+
+				<entry key='this.js'>
+
+					<!-- TODO -->
+
+					<bean
+						class='com.boluozhai.snowflake.h2o.rest.controller.res.SessionJsCtrl' />
 				</entry>
 
 			</map>
