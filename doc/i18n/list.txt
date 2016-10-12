@@ -1,0 +1,24 @@
+i18n reference
+
+name		language	country
+======================================
+France		fr		FR
+Germany		de		DE
+Italy		it		IT
+------------------------------------
+Japan		ja		JP
+Russia		ru		RU
+Korea		ko		KR
+------------------------------------
+Spain		es		ES
+UK		en		GB
+China		zh		CN
+USA		en		US
+=======================================
+
+[Country Code]
+	https://en.wikipedia.org/wiki/ISO_3166-1
+
+[Language Code]
+	https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
+
