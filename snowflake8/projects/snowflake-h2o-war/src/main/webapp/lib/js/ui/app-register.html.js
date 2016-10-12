@@ -1,6 +1,6 @@
 /*******************************************************************************
  * 
- * Auth.js
+ * app-register.html.js
  * 
  * @Copyright (c) 2016 boluozhai.com
  * @License MIT License
@@ -10,7 +10,7 @@
 
 JS.module(function(mc) {
 
-	mc.package('com.boluozhai.h2o.webui.auth');
+	mc.package('com.boluozhai.h2o.html');
 
 	var System = mc.import('js.lang.System');
 	var Attributes = mc.import('js.lang.Attributes');
@@ -24,241 +24,108 @@ JS.module(function(mc) {
 	// var DirDataCtrl = mc.import(widget_x + '.folder.DirDataCtrl');
 	// var ConsoleCtrl = mc.import(widget_x + '.console.ConsoleCtrl');
 
+	var AuthCtrl = mc.import('com.boluozhai.h2o.webui.auth.AuthCtrl');
+
 	/***************************************************************************
-	 * class AuthCtrl
+	 * class RegisterHtml
 	 */
 
-	function AuthCtrl(context) {
-		this._context = context;
+	function RegisterHtml(context) {
+		this.HtmlCtrl(context);
 	}
 
 	mc.class(function(cc) {
-		cc.type(AuthCtrl);
-		cc.extends(Attributes);
+		cc.type(RegisterHtml);
+		cc.extends(snowflake.html.HtmlCtrl);
 	});
 
-	AuthCtrl.prototype = {
+	RegisterHtml.prototype = {
 
-		login : function() {
-			return new DoLogin(this._context);
+		onCreate : function() {
+
+			var ctrl = this;
+
+			// in this file
+			$('#btn-ok').click(function() {
+				onClickOK(ctrl);
+			});
+			set_ui_mode(false);
+			init_4_debug();
+
 		},
 
 		register : function() {
-			return new DoRegister(this._context);
+
+			var context = this._context;
+			var ctrl = new AuthCtrl(context);
+			return ctrl.register();
+
 		},
 
 	};
 
 	/***************************************************************************
-	 * inner class AuthTask
+	 * main
 	 */
 
-	function AuthTask() {
-	}
+	$(document).ready(function() {
 
-	mc.class(function(cc) {
-		cc.type(AuthTask);
-		cc.extends(Attributes);
+		var context = Snowflake.getContext();
+		var ctrl = new RegisterHtml(context);
+		ctrl.init();
+
 	});
 
-	AuthTask.prototype = {
+	function init_4_debug() {
 
-		message : function(value) {
-			return this.attr('message', value);
-		},
+		$('#edit-email').val('test@blz.com');
+		$('#edit-passwd').val('1234');
+		$('#edit-passwd-2').val('1234');
 
-		success : function(value) {
-			return this.attr('success', value);
-		},
-
-		status : function(value) {
-			return this.attr('status', value);
-		},
-
-		code : function(value) {
-			return this.attr('code', value);
-		},
-
-	};
-
-	/***************************************************************************
-	 * inner class DoRegister
-	 */
-
-	function DoRegister(ctrl) {
-		this._context = context;
-		this._helper = new InnerHelper(context);
 	}
 
-	mc.class(function(cc) {
-		cc.type(DoRegister);
-		cc.extends(AuthTask);
-	});
-
-	DoRegister.prototype = {
-
-		execute : function(fn) {
-
-			not_impl();
-
-			var email = param.email;
-			var psw = param.password;
-
-			var helper = this._helper;
-			var email_hash = helper.hash(email);
-			var psw_hash = helper.hash(psw);
-			if (!helper.check_password(psw)) {
-				var msg = 'bad password !';
-				return helper.show_error(msg, fn);
-			}
-			if (!helper.check_email(email)) {
-				var msg = 'bad email: ' + email;
-				return helper.show_error(msg, fn);
-			}
-
-			var client = RESTClient.getInstance(this._context);
-			var app = client.getApplication();
-			var api = app.getAPI('rest');
-			var type = api.getType('Auth');
-			var res = type.getResource(email_hash);
-			var request = res.put();
-
-			var tx = {
-				auth : {
-					type : 'email+password',
-					email : email,
-					uid : email_hash,
-					password : psw_hash,
-				}
-			};
-			var entity = request.entity();
-			entity.json(tx);
-
-			request.execute(function(response) {
-
-				// alert('xxxx');
-
-			});
-
-		},
-
-	};
-
-	/***************************************************************************
-	 * inner class DoLogin
-	 */
-
-	function DoLogin(context) {
-		this._context = context;
-		this._helper = new InnerHelper(context);
+	function set_ui_mode(working) {
 	}
 
-	mc.class(function(cc) {
-		cc.type(DoLogin);
-		cc.extends(AuthTask);
-	});
+	function onClickOK(ctrl) {
 
-	DoLogin.prototype = {
+		var email = $('#edit-email').val();
+		var passwd = $('#edit-passwd').val();
+		var passwd2 = $('#edit-passwd-2').val();
 
-		email : function(value) {
-			return this.attr('email', value);
-		},
+		if (passwd != passwd2) {
+			alert('2 passwds not match.');
+			return;
+		}
 
-		password : function(value) {
-			return this.attr('password', value);
-		},
+		set_ui_mode(true);
 
-		execute : function(fn) {
+		var task = ctrl.register();
+		task.email(email);
+		task.password(passwd);
 
-			var self = this;
-			var user = this.email();
-			var pass = this.password();
+		task.execute(function() {
 
-			var helper = this._helper;
-			var user_hash = helper.hash(user);
-			var pass_hash = helper.hash(pass);
-
-			if (!helper.check_email(user)) {
-				var msg = 'bad email: ' + user;
-				return helper.show_error(this, msg, fn);
-			}
-			if (!helper.check_password(pass)) {
-				var msg = 'bad password !';
-				return helper.show_error(this, msg, fn);
-			}
-
-			var client = RESTClient.getInstance(this._context);
-			var app = client.getApplication();
-			var api = app.getAPI('rest');
-			var type = api.getType('auth');
-			var res = type.getResource('email+password');
-			var request = res.post();
-
-			var entity = request.entity();
-			entity.json({
-				request : {
-					method : 'login',
-					name : user,
-					key : pass_hash,
-				}
-			});
-
-			request.execute(function(response) {
-				helper.process_response(self, response);
-				fn();
-			});
-
-		},
-
-	};
-
-	/***************************************************************************
-	 * inner class InnerHelper
-	 */
-
-	function InnerHelper(context) {
-		this._context = context;
-	}
-
-	InnerHelper.prototype = {
-
-		hash : function(plain) {
-			return SHA1.digest(plain);
-		},
-
-		process_response : function(task, response) {
-			var entity = response.entity();
-			var js = entity.toJSON();
-			task.success(js.response.success);
-			task.message(js.response.message);
-			task.status(js.response.status);
-		},
-
-		show_error : function(task, msg, fn) {
-			task.message(msg);
-			task.success(false);
-			fn();
-		},
-
-		check_email : function(user) {
-			if (user.length < 3) {
-				return false;
-			} else if (user.indexOf('@') < 1) {
-				return false;
+			if (task.success()) {
+				onLoginOK(task);
 			} else {
-				return true;
+				onLoginError(task);
 			}
-		},
 
-		check_password : function(pass) {
-			if (pass.length < 4) {
-				return false;
-			} else {
-				return true;
-			}
-		},
+			set_ui_mode(false);
 
-	};
+		});
+
+	}
+
+	function onLoginError(task) {
+		var msg = task.message();
+		alert('Error: ' + msg);
+	}
+
+	function onLoginOK(task) {
+		alert('OK');
+	}
 
 });
 

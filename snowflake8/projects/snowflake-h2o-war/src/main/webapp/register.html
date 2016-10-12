@@ -4,7 +4,7 @@
 <!--
 /***********************************************************************
  * 
- * user/register/index.html
+ * ~/register.html
  * 
  * @Copyright (c) 2016 boluozhai.com
  * @License MIT License
@@ -15,23 +15,21 @@
 
 <head>
 
+
 <meta charset='utf-8' />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
+
 <title class='i18n' i18n='register'>注册</title>
 
-<link href="./lib/import/bootstrap/css/bootstrap.min.css"
-	rel="stylesheet" type="text/css" />
 
-<link href="./lib/css/signin.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet"
+	href="./lib/import/bootstrap/css/bootstrap.min.css" />
 
+<link rel="stylesheet" href='./lib/css/h2o.css' />
+<link rel="stylesheet" href="./lib/css/signin.css" />
+<link rel="stylesheet" href="./lib/css/app-register.css" />
 
-<style type="text/css">
-.to-reg {
-	margin-top: 100px;
-	text-align: center;
-}
-</style>
 
 </head>
 <body>
@@ -68,11 +66,16 @@
 			<a href='./login' class='i18n' i18n='i_have_a_account'>我有现成的帐号！</a>
 		</div>
 
+		<div class='page-foot side-bar center hide'>
+			<span class='i18n' i18n='no_more'> </span>
+		</div>
+
 	</div>
 
 
 	<script src="./lib/import/jquery/jquery.min.js"></script>
 	<script src="./lib/import/bootstrap/js/bootstrap.min.js"></script>
+
 
 	<script src="./lib/import/snowflake/core.js"></script>
 	<script src="./lib/import/snowflake/context.js"></script>
@@ -80,86 +83,22 @@
 	<script src="./lib/import/snowflake/rest.js"></script>
 	<script src="./lib/import/snowflake/sha1.js"></script>
 
+
 	<script src="./lib/export/h2o/js/widget.js"></script>
 	<script src="./lib/export/h2o/js/h2o-rest-api.js"></script>
+	<script src="./lib/export/h2o/js/i18n.js"></script>
+	<script src="./lib/export/h2o/js/viewport.js"></script>
 	<script src="./lib/export/h2o/js/auth.js"></script>
 
+
 	<script src="./lib/js/config/base.js"></script>
-	<script src="./lib/js/config/i18n-base.js"></script>
 	<script src="./lib/js/config/final.js"></script>
+	<script src="./lib/js/i18n/default.js"></script>
+	<script src="./lib/js/ui/app-register.html.js"></script>
 
-	<script src="./this.js"></script>
-	<script src="./i18n.js?service=active-www"></script>
+	<script src="./current-viewport.js?service=active-www"></script>
 
 
-	<script type="text/javascript">
-		var AuthCtrl = com.boluozhai.h2o.webui.auth.AuthCtrl;
-
-		$(document).ready(function() {
-
-			var context = Snowflake.getContext();
-			var ctrl = new AuthCtrl(context);
-
-			$('#btn-ok').click(function() {
-				onClickOK(ctrl);
-			});
-
-			set_ui_mode(false);
-			init_4_debug();
-
-		});
-
-		function init_4_debug() {
-
-			$('#edit-email').val('test@blz.com');
-			$('#edit-passwd').val('1234');
-			$('#edit-passwd-2').val('1234');
-
-		}
-
-		function set_ui_mode(working) {
-		}
-
-		function onClickOK(ctrl) {
-
-			var email = $('#edit-email').val();
-			var passwd = $('#edit-passwd').val();
-			var passwd2 = $('#edit-passwd-2').val();
-
-			if (passwd != passwd2) {
-				alert('2 passwds not match.');
-				return;
-			}
-
-			set_ui_mode(true);
-
-			var task = ctrl.register();
-			task.email(email);
-			task.password(passwd);
-
-			task.execute(function() {
-
-				if (task.success()) {
-					onLoginOK(task);
-				} else {
-					onLoginError(task);
-				}
-
-				set_ui_mode(false);
-
-			});
-
-		}
-
-		function onLoginError(task) {
-			var msg = task.message();
-			alert('Error: ' + msg);
-		}
-
-		function onLoginOK(task) {
-			alert('OK');
-		}
-	</script>
 
 </body>
 </html>

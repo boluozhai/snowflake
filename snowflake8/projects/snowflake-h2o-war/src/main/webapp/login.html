@@ -15,26 +15,22 @@
 
 <head>
 
+
 <meta charset='utf-8' />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
+
 <title class='i18n' i18n='login'>登录</title>
 
-<link href="./lib/import/bootstrap/css/bootstrap.min.css"
-	rel="stylesheet" type="text/css" />
 
-<link href="./lib/css/signin.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet"
+	href="./lib/import/bootstrap/css/bootstrap.min.css" />
+
+<link rel="stylesheet" href='./lib/css/h2o.css' />
+<link rel="stylesheet" href="./lib/css/signin.css" />
+<link rel="stylesheet" href="./lib/css/app-login.css" />
 
 
-<style type="text/css">
-.to-reg {
-	margin-top: 100px;
-	text-align: center;
-}
-
-.working {
-	text-align: center;
-}
 </style>
 
 </head>
@@ -49,12 +45,12 @@
 				<h2 class="form-signin-heading i18n " i18n='please_login'>请登录</h2>
 			</div>
 			<div class='--no-work'>
-				<input id='edit-email' type="email" class="form-control"
-					placeholder="邮箱地址" required autofocus />
+				<input id='edit-email' type="email" class="form-control context "
+					i18n-placeholder="email_address" required autofocus />
 			</div>
 			<div class='--no-work'>
-				<input id='edit-passwd' type="password" class="form-control"
-					placeholder="密码" required />
+				<input id='edit-passwd' type="password"
+					class="form-control context " i18n-placeholder="password" required />
 			</div>
 			<div class="checkbox">
 				<label> <input id='check-remember-me' type="checkbox"
@@ -84,11 +80,16 @@
 				i18n='register_account' href='./register'>注个册先！</a>
 		</div>
 
+		<div class='page-foot side-bar center hide'>
+			<span class='i18n' i18n='no_more'> </span>
+		</div>
+
 	</div>
 
 
 	<script src="./lib/import/jquery/jquery.min.js"></script>
 	<script src="./lib/import/bootstrap/js/bootstrap.min.js"></script>
+
 
 	<script src="./lib/import/snowflake/core.js"></script>
 	<script src="./lib/import/snowflake/context.js"></script>
@@ -96,92 +97,22 @@
 	<script src="./lib/import/snowflake/rest.js"></script>
 	<script src="./lib/import/snowflake/sha1.js"></script>
 
+
 	<script src="./lib/export/h2o/js/widget.js"></script>
 	<script src="./lib/export/h2o/js/h2o-rest-api.js"></script>
+	<script src="./lib/export/h2o/js/i18n.js"></script>
+	<script src="./lib/export/h2o/js/viewport.js"></script>
 	<script src="./lib/export/h2o/js/auth.js"></script>
 
+
 	<script src="./lib/js/config/base.js"></script>
-	<script src="./lib/js/config/i18n-base.js"></script>
 	<script src="./lib/js/config/final.js"></script>
+	<script src="./lib/js/i18n/default.js"></script>
+	<script src="./lib/js/ui/app-login.html.js"></script>
 
-	<script src="./this.js"></script>
-	<!-- script src="./i18n.js?service=active-www"></script -->
 
-	<script type="text/javascript">
-		var AuthCtrl = com.boluozhai.h2o.webui.auth.AuthCtrl;
+	<script src="./current-viewport.js?service=active-www"></script>
 
-		$(document).ready(function() {
-
-			var context = Snowflake.getContext();
-			var ctrl = new AuthCtrl(context);
-
-			$('#btn-ok').click(function() {
-				onClickOK(ctrl);
-			});
-
-			set_ui_mode(false);
-			init_4_debug();
-
-		});
-
-		function init_4_debug() {
-
-			$('#edit-email').val('test@blz.com');
-			$('#edit-passwd').val('1234');
-
-		}
-
-		function set_ui_mode(in_working) {
-
-			var w = $('.working');
-			var nw = $('.no-work');
-
-			if (in_working) {
-				w.show();
-				nw.hide();
-			} else {
-				nw.show();
-				w.hide();
-			}
-
-		}
-
-		function onClickOK(ctrl) {
-
-			var email = $('#edit-email').val();
-			var passwd = $('#edit-passwd').val();
-			set_ui_mode(true);
-
-			var task = ctrl.login();
-			task.email(email);
-			task.password(passwd);
-
-			task.execute(function() {
-
-				if (task.success()) {
-					onLoginOK(task);
-				} else {
-					onLoginError(task);
-				}
-
-				set_ui_mode(false);
-
-			});
-
-		}
-
-		function onLoginOK(task) {
-			var url = '~/';
-			var context = task._context;
-			url = context.normalizeURL(url);
-			window.location = url;
-		}
-
-		function onLoginError(task) {
-			var msg = task.message();
-			alert("登录失败！" + msg);
-		}
-	</script>
 
 </body>
 </html>

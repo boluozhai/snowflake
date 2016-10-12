@@ -174,7 +174,6 @@ JS.module(function(mc) {
 	function WebContext(beans) {
 		this.Context(beans);
 		this._path_in_webapp = null;
-		this._i18n = new Internationalization(this);
 	}
 
 	mc.class(function(cc) {
@@ -186,14 +185,6 @@ JS.module(function(mc) {
 
 		pathInWebapp : function() {
 			return this._path_in_webapp;
-		},
-
-		i18n : function(query) {
-			var i18n = this._i18n;
-			if (query != null) {
-				i18n.translate(query);
-			}
-			return i18n;
 		},
 
 		normalizeURL : function(path) {
@@ -289,7 +280,7 @@ JS.module(function(mc) {
 
 		/***********************************************************************
 		 * @param path
-		 *            like '{webapp}/index.html'
+		 *            like '~/index.html'
 		 */
 
 		pathInWebapp : function(path) {
@@ -337,126 +328,6 @@ JS.module(function(mc) {
 		}
 
 		fn(factory);
-	};
-
-	/***************************************************************************
-	 * class Internationalization
-	 */
-
-	function Internationalization(context) {
-		this._lang_table = {};
-		this._word_table = {};
-		this._context = context;
-	}
-
-	mc.class(function(cc) {
-		cc.type(Internationalization);
-		// cc.extends(Attributes);
-	});
-
-	Internationalization.prototype = {
-
-		appendMapping : function(lang_tab) {
-			var to = this._word_table;
-			for ( var lang in lang_tab) {
-				var words = lang_tab[lang];
-				this._lang_table[lang] = words;
-				for ( var key in words) {
-					var value = words[key];
-					to[key] = value;
-				}
-			}
-		},
-
-		setCurrentLanguage : function(lang) {
-			var to = this._word_table;
-			var words = this._lang_table;
-			if (words == null) {
-				return;
-			}
-			for ( var key in words) {
-				var value = words[key];
-				to[key] = value;
-			}
-		},
-
-		translate : function(query) {
-
-			var mapping = this._word_table;
-			var list = query.find('.i18n');
-
-			for (var i = list.length - 1; i >= 0; i--) {
-				var ele = list[i];
-				var q = $(ele);
-				var key = q.attr('i18n');
-				var value = mapping[key];
-				if (value == null) {
-					value = 'i18n(' + key + ')';
-				}
-				q.text(value);
-			}
-
-			this.inner_trans_context_res(query);
-
-		},
-
-		inner_trans_atts : function(context, str) {
-			// like '{attr:xxxx}'
-			var head = '{attr:';
-			var tail = '}';
-			var sb = '';
-			var i = 0;
-			for (;;) {
-				var i0 = str.indexOf(head, i);
-				if (i0 < 0) {
-					break;
-				}
-				var i1 = str.indexOf(tail, i0);
-				if (i1 < 0) {
-					break;
-				}
-				sb += str.substring(i, i0);
-				var key = str.substring(i0 + head.length, i1);
-				var value = context.attr(key);
-				if (value == null) {
-					value = '(attr:' + key + ')';
-				}
-				sb += value;
-				i = i1 + tail.length;
-			}
-			sb += str.substring(i);
-			return sb;
-		},
-
-		inner_trans_context_res : function(query) {
-
-			var context = this._context;
-			var list = query.find('.context');
-			var prefix = 'context-';
-
-			for (var i = list.length - 1; i >= 0; i--) {
-
-				var ele = list[i];
-				var atts = ele.attributes;
-				var q = $(ele);
-
-				for ( var i2 in atts) {
-					var key = atts[i2].name;
-					if (key == null) {
-						continue;
-					} else if (key.indexOf(prefix) == 0) {
-						var value = q.attr(key);
-						var k2 = key.substring(prefix.length);
-						value = this.inner_trans_atts(context, value);
-						value = context.normalizeURL(value);
-						q.attr(k2, value);
-					}
-				}
-
-			}
-
-		},
-
 	};
 
 });

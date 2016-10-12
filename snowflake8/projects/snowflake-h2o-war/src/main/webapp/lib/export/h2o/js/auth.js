@@ -26,9 +26,6 @@ JS.module(function(mc) {
 
 	function AuthCtrl(context) {
 		this._context = context;
-
-		context.i18n($(document));
-
 	}
 
 	mc.class(function(cc) {
@@ -336,6 +333,8 @@ JS.module(function(mc) {
 	};
 
 });
+
+this.snowflake.AuthCtrl = this.com.boluozhai.h2o.webui.auth.AuthCtrl;
 
 /*******************************************************************************
  * EOF

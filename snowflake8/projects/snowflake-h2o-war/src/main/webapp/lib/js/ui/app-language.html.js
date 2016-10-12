@@ -1,6 +1,6 @@
 /*******************************************************************************
  * 
- * user-home.html.js
+ * app-language.html.js
  * 
  * @Copyright (c) 2016 boluozhai.com
  * @License MIT License
@@ -21,28 +21,27 @@ JS.module(function(mc) {
 	var widget_x = 'com.boluozhai.h2o.widget';
 	var HeadCtrl = mc.import(widget_x + '.head.HeadCtrl');
 
-	var ViewportInfo = mc.import('com.boluozhai.snowflake.web.ViewportInfo');
-	var WebPageController = mc
-			.import('com.boluozhai.snowflake.web.WebPageController');
+	var Viewport = mc.import('com.boluozhai.snowflake.web.Viewport');
+	var HtmlCtrl = mc.import('snowflake.html.HtmlCtrl');
 
 	/***************************************************************************
 	 * class LanguageHtml
 	 */
 
 	function LanguageHtml(context) {
-		this.WebPageController(context);
+		this.HtmlCtrl(context);
 	}
 
 	mc.class(function(cc) {
 		cc.type(LanguageHtml);
-		cc.extends(WebPageController);
+		cc.extends(HtmlCtrl);
 	});
 
 	var is_head_visible = false;
 
 	LanguageHtml.prototype = {
 
-		init : function() {
+		onCreate : function() {
 
 			var context = this._context;
 			var self = this;
@@ -55,9 +54,61 @@ JS.module(function(mc) {
 			// this.setupViewportInfo();
 			// this.setupRepositoryList();
 
+			var input = $('.input-lang-name');
+			input.val('zh_CN');
+			$('.btn-setup').click(do_setup);
+
+			// output i18n mapping
+			var i18n = context.getBean('i18n');
+			var js = i18n.getStringTable();
+			var str = JSON.stringify(js, null, 4);
+			$('.i18n-out').text('i18n = ' + str);
+
 		},
 
 	};
+
+	/***************************************************************************
+	 * main
+	 */
+
+	$(document).ready(function() {
+
+		var context = Snowflake.getContext();
+		var ctrl = new LanguageHtml(context);
+		ctrl.init();
+
+	});
+
+	function do_setup() {
+
+		var input = $('.input-lang-name');
+		var lang = input.val();
+		send(lang);
+
+	}
+
+	function send(lang) {
+		var url = './i18n.js?service=active-www&language=' + lang;
+		var xhr = new XMLHttpRequest();
+		xhr.open('POST', url, true);
+		xhr.onreadystatechange = function() {
+
+			var state = xhr.readyState;
+			if (state != 4) {
+				return;
+			}
+
+			var status = xhr.status;
+			if (status == 200) {
+				alert('setup language as : ' + lang);
+			} else {
+				alert('Error: HTTP ' + status);
+			}
+
+		};
+		xhr.send();
+	}
 
 });
 

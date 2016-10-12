@@ -1,6 +1,6 @@
 /*******************************************************************************
  * 
- * user-home.html.js
+ * app-index.html.js
  * 
  * @Copyright (c) 2016 boluozhai.com
  * @License MIT License
@@ -43,7 +43,7 @@ JS.module(function(mc) {
 
 	AppHomeHtml.prototype = {
 
-		init : function() {
+		onCreate : function() {
 
 			var context = this._context;
 			var self = this;
@@ -62,6 +62,17 @@ JS.module(function(mc) {
 		},
 
 	};
+
+	/***************************************************************************
+	 * main
+	 */
+
+	$(document).ready(function() {
+
+		var ctrl = new AppHomeHtml();
+		ctrl.init();
+
+	});
 
 });
 

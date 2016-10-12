@@ -401,7 +401,7 @@
 						class='com.boluozhai.snowflake.h2o.rest.controller.res.CurrentViewportJsCtrl' />
 				</entry>
 
-				<entry key='--i18n.js'>
+				<entry key='i18n.js'>
 					<bean class='com.boluozhai.snowflake.h2o.rest.controller.res.I18nJsCtrl' />
 				</entry>
 
@@ -410,7 +410,7 @@
 						class='com.boluozhai.snowflake.h2o.rest.controller.res.SessionJsCtrl' />
 				</entry>
 
-				<entry key='this.js'>
+				<entry key='--this.js'>
 
 					<!-- TODO -->
 

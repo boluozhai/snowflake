@@ -1,0 +1,9 @@
+.center {
+	text-align: center;
+}
+
+.jumbotron {
+	background-image: url(./../image/bg.jpg);
+	background-color: #155199;
+	color: #fff;
+}

@@ -32,6 +32,28 @@ JS.module(function(mc) {
 
 	ResourceLoader.prototype = {
 
+		loadCSS : function(url, fn/* () */) {
+			throw new Exception('no impl');
+		},
+
+		loadJS : function(url, fn/* () */) {
+
+			var context = this._context;
+			url = context.normalizeURL(url);
+
+			var js = '<script></script>';
+			var parent = $('body');
+			var child = $(js);
+
+			child[0].onload = (function() {
+				fn();
+			});
+
+			parent.append(child);
+			child.attr('src', url);
+
+		},
+
 		loadHTML : function(url, fn/* (query) */) {
 
 			var context = this._context;
@@ -54,7 +76,8 @@ JS.module(function(mc) {
 				var parent = $('<div></div>');
 				parent.append(child);
 
-				context.i18n(parent);
+				var i18n = context.getBean('i18n');
+				i18n.translate(context, parent);
 
 				fn(parent);
 
@@ -164,6 +187,8 @@ JS.module(function(mc) {
 	};
 
 });
+
+this.snowflake.ResourceLoader = com.boluozhai.h2o.widget.ResourceLoader;
 
 /*******************************************************************************
  * EOF

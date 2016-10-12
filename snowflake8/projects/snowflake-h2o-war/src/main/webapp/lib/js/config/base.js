@@ -10,6 +10,7 @@ function __config__() {
 __config__.base = {
 
 	'snowflake.rest.RESTClientFactory' : 'snowflake.rest.RESTClientFactory',
+	'i18n' : 'h2o.i18n.I18n',
 
 };
 

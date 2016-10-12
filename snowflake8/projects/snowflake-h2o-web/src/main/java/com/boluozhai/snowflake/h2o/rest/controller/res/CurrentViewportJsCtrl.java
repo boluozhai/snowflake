@@ -31,6 +31,8 @@ public class CurrentViewportJsCtrl extends RestController {
 
 	interface DEFINE {
 		String model_name = "com.boluozhai.snowflake.web.Viewport.model";
+		String this_class_name = "snowflake.web.WebContextUtils";
+
 	}
 
 	@Override
@@ -39,6 +41,11 @@ public class CurrentViewportJsCtrl extends RestController {
 
 		MyJsBuilder builder = new MyJsBuilder();
 		builder.load(request);
+
+		builder.append_this_js();
+		builder.append_i18n_js();
+		builder.append_viewport_js();
+
 		builder.writeTo(response);
 
 	}
@@ -46,20 +53,10 @@ public class CurrentViewportJsCtrl extends RestController {
 	private static class MyJsBuilder {
 
 		private ViewportModel _model;
+		private String _this_path;
+		private final StringBuilder sb = new StringBuilder();
 
 		public void writeTo(HttpServletResponse response) throws IOException {
-
-			final ViewportModel pojo = this._model;
-			final String comment = "/* the active viewport info , gen by %s  */\n";
-			final GsonBuilder gsb = new GsonBuilder();
-			gsb.setPrettyPrinting();
-
-			final StringBuilder sb = new StringBuilder();
-			sb.append(String.format(comment, this.getClass().getName()));
-			sb.append(DEFINE.model_name);
-			sb.append(" = ");
-			sb.append(gsb.create().toJson(pojo));
-			sb.append(';');
 
 			final String str = sb.toString();
 			final String enc = "utf-8";
@@ -72,6 +69,49 @@ public class CurrentViewportJsCtrl extends RestController {
 
 		}
 
+		public void append_i18n_js() {
+			// TODO Auto-generated method stub
+
+		}
+
+		public void append_viewport_js() {
+
+			final ViewportModel pojo = this._model;
+
+			final String comment = "/* the active viewport info , gen by %s  */\n";
+			final GsonBuilder gsb = new GsonBuilder();
+			gsb.setPrettyPrinting();
+
+			sb.append(String.format(comment, this.getClass().getName()));
+			sb.append(DEFINE.model_name);
+			sb.append(" = ");
+			sb.append(gsb.create().toJson(pojo));
+			sb.append(';');
+			sb.append('\n');
+			sb.append('\n');
+
+		}
+
+		public void append_this_js() {
+
+			final String comment = "/* the this.js info , gen by %s  */\n";
+
+			sb.append(String.format(comment, this.getClass().getName()));
+			sb.append(DEFINE.this_class_name);
+			sb.append(".init(function(factory) {");
+			sb.append('\n');
+
+			sb.append("\t factory.pathInWebapp('");
+			sb.append(this._this_path);
+			sb.append("');");
+			sb.append('\n');
+
+			sb.append("});");
+			sb.append('\n');
+			sb.append('\n');
+
+		}
+
 		public void load(HttpServletRequest request) {
 
 			final RestRequestInfo rr = RestRequestInfo.Factory
@@ -80,14 +120,30 @@ public class CurrentViewportJsCtrl extends RestController {
 
 			this.load_session_info(rr, vpt);
 			this.load_viewport_info(rr, vpt);
+			this.load_this_info(rr, vpt);
 
 			ViewportModel model = new ViewportModel();
 			model.setViewport(vpt);
 			this._model = model;
 		}
 
+		private void load_this_info(RestRequestInfo rr, ViewportProfile vpt) {
+
+			PathInfo pi = rr.getPathInfo();
+			String[] array = pi.getInAppPart().trimToArray();
+			final StringBuilder sb = new StringBuilder();
+			final int end = array.length - 1;
+			sb.append("~");
+			for (int i = 0; i < end; i++) {
+				sb.append('/').append('x');
+			}
+			sb.append("/this.js");
+
+			this._this_path = sb.toString();
+
+		}
+
 		private void load_viewport_info(RestRequestInfo rr, ViewportProfile vpt) {
-			// TODO Auto-generated method stub
 
 			AccountProfile owner = null;
 			RepositoryProfile repo = null;
@@ -137,6 +193,9 @@ public class CurrentViewportJsCtrl extends RestController {
 						repo.setExists(true);
 						repo.setName(repoid);
 						repo.setUrl("todo..." + this);
+
+						// TODO Auto-generated method stub
+
 					}
 				}
 				vpt.setRepository(repo);

@@ -4,7 +4,7 @@
 <!--
 /***********************************************************************
  * 
- * ~/index.html (webapp-root)
+ * ~/index.html (webapp-home)
  * 
  * @Copyright (c) 2016 boluozhai.com
  * @License MIT License
@@ -15,32 +15,24 @@
 
 <head>
 
+
 <meta charset='utf-8' />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
+
 <title class='i18n' i18n='h2o'>h2o</title>
 
-<link href="./lib/import/bootstrap/css/bootstrap.min.css"
-	rel="stylesheet" type="text/css" />
 
-<link href="./lib/export/h2o/css/console.css" rel="stylesheet"
-	type="text/css" />
+<link rel="stylesheet"
+	href="./lib/import/bootstrap/css/bootstrap.min.css" />
 
-<link href="./lib/export/h2o/css/folder.css" rel="stylesheet"
-	type="text/css" />
+<link rel="stylesheet" href="./lib/export/h2o/css/console.css" />
+<link rel="stylesheet" href="./lib/export/h2o/css/folder.css" />
 
-<link href="./lib/css/working.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href='./lib/css/h2o.css' />
+<link rel="stylesheet" href="./lib/css/working.css" />
+<link rel="stylesheet" href='./lib/css/app-home.css' />
 
-
-<style type="text/css">
-.page-foot {
-	text-align: center;
-}
-
-h1 {
-	text-align: center;
-}
-</style>
 
 </head>
 <body>
@@ -50,14 +42,22 @@ h1 {
 
 		<div id='page-head'></div>
 
+		<div class="jumbotron">
+			<h1 class='context' i18n='h2o'>Hello, world!</h1>
+			<p class='context' i18n='h2o_description'>...</p>
+			<p>
+				<a class="btn btn-default --primary btn-lg context "
+					i18n='learn_more' href="#" role="button">Learn more</a>
+			</p>
+		</div>
 
-		<h1>-- FLOW --</h1>
+		<h1 class='center'>
+			-- <span class='context' i18n='flow'> </span> --
+		</h1>
 
 
-		<div class='page-foot side-bar '>
-			<div>
-				<span class='i18n' i18n='no_more'> &gt;_&lt; ，没有了！ </span>
-			</div>
+		<div class='page-foot side-bar center '>
+			<span class='i18n' i18n='no_more'> </span>
 		</div>
 
 	</div>
@@ -74,40 +74,24 @@ h1 {
 	<script src="./lib/import/snowflake/listview.js"></script>
 
 
-	<script src="./lib/export/h2o/js/h2o-rest-api.js"></script>
-	<script src="./lib/export/h2o/js/viewport.js"></script>
 	<script src="./lib/export/h2o/js/widget.js"></script>
+	<script src="./lib/export/h2o/js/h2o-rest-api.js"></script>
+	<script src="./lib/export/h2o/js/i18n.js"></script>
+	<script src="./lib/export/h2o/js/viewport.js"></script>
 	<script src="./lib/export/h2o/js/folder.js"></script>
 	<script src="./lib/export/h2o/js/cli.js"></script>
 	<script src="./lib/export/h2o/js/console.js"></script>
 	<script src="./lib/export/h2o/js/vfs.js"></script>
 	<script src="./lib/export/h2o/js/head.js"></script>
 
-
 	<script src="./lib/js/config/base.js"></script>
-	<script src="./lib/js/config/i18n-base.js"></script>
 	<script src="./lib/js/config/final.js"></script>
-	<script src="./lib/js/ui/app-home.html.js"></script>
+	<script src="./lib/js/i18n/default.js"></script>
+	<script src="./lib/js/ui/app-index.html.js"></script>
 
 
-	<script src="./this.js"></script>
 	<script src="./current-viewport.js?service=active-www"></script>
-	<!-- script src="./i18n.js?service=active-www"></script -->
 
-
-	<script type="text/javascript">
-		$(document).ready(function() {
-
-			var AppHomeHtml = com.boluozhai.h2o.html.AppHomeHtml;
-			var context = Snowflake.getContext();
-			var ctrl = new AppHomeHtml(context);
-			ctrl.init();
-
-		});
-	</script>
 
 </body>
 </html>
-
-
-
