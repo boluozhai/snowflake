@@ -47,4 +47,7 @@ this.h2o.i18n.StringResTable.mapping['default'] = {
 	yes : 'Yes',
 	back : 'Back',
 	has_sign_out : 'You have signed out.',
+
+	repositories : 'Repositories',
+
 };

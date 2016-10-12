@@ -61,9 +61,25 @@ JS.module(function(mc) {
 			// output i18n mapping
 			var i18n = context.getBean('i18n');
 			var js = i18n.getStringTable();
+			js = this.sort_map(js);
 			var str = JSON.stringify(js, null, 4);
 			$('.i18n-out').text('i18n = ' + str);
 
+		},
+
+		sort_map : function(map) {
+			var keys = [];
+			for ( var key in map) {
+				keys.push(key);
+			}
+			keys = keys.sort();
+			var m2 = {};
+			for ( var i in keys) {
+				var key = keys[i];
+				var value = map[key];
+				m2[key] = value;
+			}
+			return m2;
 		},
 
 	};
