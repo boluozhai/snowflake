@@ -20,6 +20,7 @@ JS.module(function(mc) {
 	// .import("com.boluozhai.snowflake.rest.api.JSONRestRequest");
 
 	var ResourceLoader = snowflake.ResourceLoader;
+	var I18nResManager = snowflake.I18nResManager;
 
 	/***************************************************************************
 	 * class InnerHolder
@@ -211,10 +212,12 @@ JS.module(function(mc) {
 			var vpt = new Viewport();
 
 			var lang = vpt.myLanguage();
-			if (lang == null) {
-				lang = 'default';
-			}
-			var url = '~/lib/js/i18n/' + lang + '.js';
+
+			var res_man = new I18nResManager(context);
+			var res_set = res_man.forLang(lang);
+			var url = res_set.getResPath('strings.js');
+			lang = res_set.lang();
+
 			loader.loadJS(url, function() {
 				var i18n = context.getBean('i18n');
 				i18n.lang(lang);
@@ -235,10 +238,16 @@ JS.module(function(mc) {
 
 			var vpt = new Viewport();
 
+			var ses_lang = vpt.myLanguage();
 			var ses_uid = vpt.myUid();
 			var vpt_uid = vpt.ownerUid();
 			var vpt_repo_id = vpt.repositoryName();
 
+			if (ses_lang == null) {
+				ses_lang = 'default';
+			}
+
+			context.attr('session-lang', ses_lang);
 			context.attr('session-uid', ses_uid);
 			context.attr('viewport-uid', vpt_uid);
 			context.attr('viewport-repo-name', vpt_repo_id);

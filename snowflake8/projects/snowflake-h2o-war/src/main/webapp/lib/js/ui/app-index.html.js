@@ -21,6 +21,7 @@ JS.module(function(mc) {
 	var widget_x = 'com.boluozhai.h2o.widget';
 	var HeadCtrl = mc.import(widget_x + '.head.HeadCtrl');
 	var HeadPanel = mc.import(widget_x + '.head.HeadPanel');
+	var FootCtrl = mc.import(widget_x + '.foot.FootCtrl');
 
 	var Viewport = mc.import('com.boluozhai.snowflake.web.Viewport');
 	var WebPageController = mc
@@ -48,6 +49,7 @@ JS.module(function(mc) {
 			var context = this._context;
 			var self = this;
 
+			// head
 			var head_ctrl = new HeadCtrl(context);
 			this._head_ctrl = head_ctrl;
 			head_ctrl.binder().parent('#page-head');
@@ -58,6 +60,12 @@ JS.module(function(mc) {
 			// head_ctrl.addPanel(panel_a);
 			// head_ctrl.addPanel(panel_b);
 			head_ctrl.setCurrentPanel(panel_b.name());
+
+			// foot
+			var foot_ctrl = new FootCtrl(context);
+			this._foot_ctrl = foot_ctrl;
+			foot_ctrl.binder().parent('#page-foot');
+			foot_ctrl.init();
 
 		},
 

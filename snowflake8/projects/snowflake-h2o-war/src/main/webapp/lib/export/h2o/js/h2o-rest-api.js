@@ -434,6 +434,26 @@ JS.module(function(mc) {
 
 	};
 
+	/***************************************************************************
+	 * class LanguageModel
+	 */
+
+	function LanguageModel(init) {
+	}
+
+	mc.class(function(cc) {
+		cc.type(LanguageModel);
+		cc.extends(BaseModel);
+	});
+
+	LanguageModel.prototype = {
+
+		f_viewport : function(v) {
+			return this.__field__('viewport', v);
+		},
+
+	};
+
 });
 
 JS.module(function(mc) {
@@ -521,9 +541,12 @@ JS.module(function(mc) {
 
 		registerAll : function() {
 
+			// TODO reg types
+
 			this.currentService('system-api');
 			this.register('auth', new AuthModel());
 			this.register('viewport', new ViewportModel());
+			this.register('language', new LanguageModel());
 
 			this.currentService('user-api');
 
@@ -748,6 +771,8 @@ JS.module(function(mc) {
 	var owner = vpt.f_owner();
 
 });
+
+this.snowflake.JSONRestRequest = this.com.boluozhai.snowflake.rest.api.JSONRestRequest;
 
 /*******************************************************************************
  * EOF

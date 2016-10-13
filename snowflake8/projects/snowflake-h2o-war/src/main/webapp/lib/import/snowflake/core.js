@@ -137,6 +137,14 @@ Snowflake.init = function(root) {
 			return type._class_context._this_class;
 		},
 
+		use : function(clazz) {
+			if (clazz == null) {
+				throw new SnowflakeException('need class.');
+			} else {
+				return clazz;
+			}
+		},
+
 		getClassLoader : function() {
 			return this._sfcore.getClassLoader();
 		},

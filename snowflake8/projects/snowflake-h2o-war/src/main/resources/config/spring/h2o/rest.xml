@@ -69,6 +69,7 @@
 				<value>.jpg</value>
 				<value>.jpeg</value>
 				<value>.gif</value>
+				<value>.svg</value>
 
 			</list>
 		</property>

@@ -24,6 +24,10 @@ JS.module(function(mc) {
 	var Viewport = mc.import('com.boluozhai.snowflake.web.Viewport');
 	var HtmlCtrl = mc.import('snowflake.html.HtmlCtrl');
 
+	var I18nResManager = mc.use(snowflake.I18nResManager);
+	var I18n = mc.use(snowflake.I18n);
+	var JSONRestRequest = mc.use(snowflake.JSONRestRequest);
+
 	/***************************************************************************
 	 * class LanguageHtml
 	 */
@@ -54,6 +58,8 @@ JS.module(function(mc) {
 			// this.setupViewportInfo();
 			// this.setupRepositoryList();
 
+			this.setupLangListView($('.lang-list'), $('.lang-item'));
+
 			var input = $('.input-lang-name');
 			input.val('zh_CN');
 			$('.btn-setup').click(do_setup);
@@ -65,6 +71,102 @@ JS.module(function(mc) {
 			var str = JSON.stringify(js, null, 4);
 			$('.i18n-out').text('i18n = ' + str);
 
+		},
+
+		setupLangListView : function(qParent, qItem) {
+
+			var model = this.resSetList();
+			var qDefault = null;
+			var i18n = new I18n();
+
+			qParent.empty();
+
+			for ( var i in model) {
+
+				// model
+				var res_set = model[i];
+
+				var lang = res_set.lang();
+				var img_url = res_set.getResPath('flag.svg');
+				var label = i18n.getString(lang);
+
+				if (label == null) {
+					label = '$' + lang;
+				}
+
+				// view
+				var it = qItem.clone();
+
+				var img = it.find('.lang-item-image');
+				var txt = it.find('.lang-item-text');
+				var btn = it.find('.btn');
+
+				img.attr('src', img_url);
+				txt.text(label);
+
+				if (lang == 'default') {
+					qDefault = it;
+				} else {
+					qParent.append(it);
+				}
+
+				this.setupLangButtonOnClick(btn, lang);
+
+			}
+
+			if (qDefault != null) {
+				qParent.append(qDefault);
+			}
+
+		},
+
+		setupLangButtonOnClick : function(btn, lang) {
+			var self = this;
+			btn.click(function() {
+				self.onClickLangBtn(lang);
+			});
+		},
+
+		onClickLangBtn : function(lang) {
+
+			var jrr = new JSONRestRequest();
+			jrr.open('PUT', {
+				uid : '',
+				repo : '',
+				api : '',
+				type : 'language',
+				id : '',
+			});
+
+			jrr.onResult(function() {
+
+				alert('set lang as : ' + lang);
+
+			});
+			jrr.send();
+
+		},
+
+		resSetList : function() {
+			var context = this._context;
+			var res_man = new I18nResManager(context);
+			var list = this.langList();
+			var li2 = [];
+			for ( var i in list) {
+				var lang = list[i];
+				if (lang == null) {
+					continue;
+				}
+				var res_set = res_man.forLang(lang);
+				li2.push(res_set);
+			}
+			return li2;
+		},
+
+		langList : function() {
+			var list = [ 'default', 'de_DE', 'en_GB', 'en_US', 'es_ES',
+					'fr_FR', 'it_IT', 'ja_JP', 'ko_KR', 'ru_RU', 'zh_CN', ];
+			return list.sort();
 		},
 
 		sort_map : function(map) {

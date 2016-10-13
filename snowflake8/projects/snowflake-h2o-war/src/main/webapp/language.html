@@ -38,32 +38,43 @@
 
 		<div id='page-head'></div>
 
-		<!-- for debug -->
-
 
 		<h1 class='i18n' i18n='language'>Language</h1>
 
 
-		<div class="row">
+		<ul class='lang-list'>
+			<li class='lang-item'><btn class='btn btn-default i18n-flag-btn'>
+				<img class='lang-item-image i18n-flag' /> <span
+					class='lang-item-text'></span> </btn></li>
+		</ul>
 
-			<div class="col-lg-6">
-				<div class="input-group">
-					<input type="text" class=" input-lang-name form-control"> <span
-						class="input-group-btn">
-						<button class="btn btn-default  i18n btn-setup " i18n='setup'
-							type="button">设置</button>
-					</span>
+
+		<div class='debug  hide '>
+
+			<!-- for debug -->
+
+			<div class="row">
+
+				<div class="col-lg-6">
+					<div class="input-group">
+						<input type="text" class=" input-lang-name form-control">
+						<span class="input-group-btn">
+							<button class="btn btn-default  i18n btn-setup " i18n='setup'
+								type="button">设置</button>
+						</span>
+					</div>
 				</div>
+
 			</div>
 
-		</div>
+			<div>
+				<pre class='i18n-out'></pre>
+			</div>
 
-		<div>
-			<pre class='i18n-out'></pre>
-		</div>
+			<div class='page-foot side-bar center '>
+				<span class='i18n' i18n='no_more'> </span>
+			</div>
 
-		<div class='page-foot side-bar center '>
-			<span class='i18n' i18n='no_more'> </span>
 		</div>
 
 	</div>
@@ -89,9 +100,10 @@
 	<script src="./lib/export/h2o/js/head.js"></script>
 
 
-	<script src="./lib/js/i18n/default.js"></script>
-	<script src="./lib/js/i18n/en_US.js"></script>
-	<script src="./lib/js/i18n/zh_CN.js"></script>
+	<script src="./lib/i18n/default/default.strings.js"></script>
+	<script src="./lib/i18n/en_US/en_US.strings.js"></script>
+	<script src="./lib/i18n/zh_CN/zh_CN.strings.js"></script>
+
 	<script src="./lib/js/config/base.js"></script>
 	<script src="./lib/js/config/final.js"></script>
 	<script src="./lib/js/ui/app-language.html.js"></script>

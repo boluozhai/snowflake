@@ -12,6 +12,8 @@ JS.module(function(mc) {
 
 	mc.package('h2o.i18n');
 
+	var Attributes = mc.import('js.lang.Attributes');
+
 	/***************************************************************************
 	 * class StringResTable
 	 */
@@ -281,6 +283,71 @@ JS.module(function(mc) {
 	};
 
 	/***************************************************************************
+	 * class I18nResManager
+	 */
+
+	function I18nResManager(context) {
+
+		this._context = context;
+		this.basePath('~/lib/i18n/');
+
+	}
+
+	mc.class(function(cc) {
+		cc.type(I18nResManager);
+		cc.extends(Attributes);
+	});
+
+	I18nResManager.prototype = {
+
+		basePath : function(path) {
+			return this.attr('base_path', path);
+		},
+
+		forLang : function(lang) {
+			if (lang == null) {
+				lang = 'default';
+			}
+			var context = this._context;
+			var url = this.basePath();
+			url = context.normalizeURL(url);
+			if (url.lastIndexOf('/') == url.length - 1) {
+				url += lang;
+			} else {
+				url += ('/' + lang);
+			}
+			return new I18nResSet(url, lang);
+		},
+
+	};
+
+	/***************************************************************************
+	 * class I18nResSet
+	 */
+
+	function I18nResSet(path, lang) {
+		this._path = path;
+		this._lang = lang;
+	}
+
+	mc.class(function(cc) {
+		cc.type(I18nResSet);
+		cc.extends(Attributes);
+	});
+
+	I18nResSet.prototype = {
+
+		lang : function() {
+			return this._lang;
+		},
+
+		getResPath : function(file_name) {
+			return (this._path + '/' + this._lang + '.' + file_name);
+		},
+
+	};
+
+	/***************************************************************************
 	 * class I18n
 	 */
 
@@ -319,3 +386,8 @@ JS.module(function(mc) {
 });
 
 this.snowflake.I18n = h2o.i18n.I18n;
+this.snowflake.I18nResManager = h2o.i18n.I18nResManager;
+
+/*******************************************************************************
+ * EOF
+ */

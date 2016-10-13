@@ -1,3 +1,22 @@
 .center {
 	text-align: center;
 }
+
+.lang-item-image {
+	
+}
+
+.lang-item-text {
+	margin: 10px;
+}
+
+.i18n-flag-btn {
+	min-width: 200px;
+	min-height: 40px;
+	margin: 20px;
+	padding: 10px;
+}
+
+.lang-item {
+	display: inline;
+}

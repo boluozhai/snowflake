@@ -6,3 +6,12 @@
 	margin-top: 20px;
 	margin-bottom: 20px;
 }
+
+.i18n-flag {
+	max-width: 48px;
+	max-height: 32px;
+}
+
+.i18n-flag-btn {
+	padding: 0px;
+}

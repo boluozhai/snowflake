@@ -50,4 +50,16 @@ this.h2o.i18n.StringResTable.mapping['default'] = {
 
 	repositories : 'Repositories',
 
+	de_DE : 'de guo',
+	en_GB : 'English(GB)',
+	en_US : 'English(USA)',
+	es_ES : 'xi ban ya',
+	fr_FR : 'fa(4) guo',
+	it_IT : 'yi da li',
+	ja_JP : 'ri ben',
+	ko_KR : 'han guo',
+	ru_RU : 'e guo',
+	zh_CN : '中文（中国）',
+	'default' : '默认',
+
 };
