@@ -161,7 +161,7 @@ JS.module(function(mc) {
 
 			jrr.onResult(function() {
 
-				alert('set lang as : ' + lang);
+				// alert('set lang as : ' + lang);
 				self.refresh();
 
 			});

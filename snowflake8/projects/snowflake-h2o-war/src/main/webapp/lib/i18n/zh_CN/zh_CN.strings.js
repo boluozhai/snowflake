@@ -31,6 +31,7 @@ this.h2o.i18n.StringResTable.mapping.zh_CN = {
 	"register_account" : "注册新帐号",
 	"remember_me" : "记住我的登录状态",
 	"repository" : "库",
+	"repositories" : "库",
 	"search_for" : "仓库，帐号...",
 	"settings" : "设置",
 	"setup" : "设置",

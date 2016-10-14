@@ -71,13 +71,13 @@ JS.module(function(mc) {
 
 			if (my != null) {
 				if (my.exists) {
-					this.myLanguage(my.language);
 					this.myLocation(my.location);
-					this.myNickname(my.nickname);
 					this.mySigned(my.login);
 					this.mySignTime(my.loginTimestamp);
 					this.myUid(my.uid);
 				}
+				this.myLanguage(my.language);
+				this.myNickname(my.nickname);
 			}
 
 			if (owner != null) {

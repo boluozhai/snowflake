@@ -55,6 +55,12 @@ public class SessionCtrl extends RestController {
 			final SessionInfo ses_info = req_info.getSessionInfo();
 			final SessionModel ses_model = ses_info.getModel();
 
+			SessionProfile ses_profile = ses_model.getSession();
+			if (ses_profile == null) {
+				ses_profile = new SessionProfile();
+				ses_model.setSession(ses_profile);
+			}
+
 			this.update_data_table(src, req_info, ses_info, ses_model);
 			this.update_session(src, req_info, ses_info, ses_model);
 
@@ -76,6 +82,7 @@ public class SessionCtrl extends RestController {
 				SessionModel ses_model) {
 
 			final SessionProfile ses_profile = ses_model.getSession();
+
 			if (ses_profile.isExists() && ses_profile.isLogin()) {
 				// continue
 			} else {

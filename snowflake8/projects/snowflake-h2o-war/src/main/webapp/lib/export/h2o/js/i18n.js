@@ -102,6 +102,13 @@ JS.module(function(mc) {
 
 		translate : function(context, query) {
 			this.trans_elements(context, query);
+			this.setup_no_impl(context, query);
+		},
+
+		setup_no_impl : function(context, query) {
+			query.find('.no-impl').click(function() {
+				alert('施工中...');
+			});
 		},
 
 		trans_atts_in_string : function(context, str) {
