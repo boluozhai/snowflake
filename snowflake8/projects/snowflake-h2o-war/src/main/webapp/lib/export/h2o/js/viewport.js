@@ -66,8 +66,8 @@ JS.module(function(mc) {
 			// TODO
 
 			var my = vpt.operator;
-			var owner = vpt.xxx;
-			var repo = vpt.xxx;
+			var owner = vpt.owner;
+			var repo = vpt.repository;
 
 			if (my != null) {
 				if (my.exists) {
@@ -78,10 +78,13 @@ JS.module(function(mc) {
 				}
 				this.myLanguage(my.language);
 				this.myNickname(my.nickname);
+				this.myExists(my.exists);
 			}
 
 			if (owner != null) {
-				this.myNickname(owner.xxx);
+				this.ownerUid(owner.uid);
+				this.ownerNickname(owner.nickname);
+				this.ownerExists(owner.exists);
 			}
 
 			if (repo != null) {
@@ -116,8 +119,20 @@ JS.module(function(mc) {
 			return this.attr('my_uid', v, def);
 		},
 
+		myExists : function(v, def) {
+			return this.attr('my_exists', v, def);
+		},
+
 		ownerUid : function(v, def) {
 			return this.attr('owner_uid', v, def);
+		},
+
+		ownerNickname : function(v, def) {
+			return this.attr('owner_nickname', v, def);
+		},
+
+		ownerExists : function(v, def) {
+			return this.attr('owner_exists', v, def);
 		},
 
 		repo : function(v, def) {
@@ -167,6 +182,10 @@ JS.module(function(mc) {
 
 		ownerUid : function(def) {
 			return this._inner.ownerUid(null, def);
+		},
+
+		ownerNickname : function(def) {
+			return this._inner.ownerNickname(null, def);
 		},
 
 		repositoryName : function(def) {

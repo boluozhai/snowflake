@@ -2,12 +2,30 @@ package com.boluozhai.snowflake.rest.element;
 
 public class GitObjectDescriptor {
 
-	private String type;
+	private String name; // file-name
+	private String contentType; // mime-type
+	private String type; // git-object-type
 	private String id;
 	private String owner;
 	private String repository;
 	private String url;
 	private long length;
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getContentType() {
+		return contentType;
+	}
+
+	public void setContentType(String contentType) {
+		this.contentType = contentType;
+	}
 
 	public String getType() {
 		return type;

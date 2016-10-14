@@ -218,6 +218,7 @@ JS.module(function(mc) {
 		// GitObjectDescriptor icon;
 
 		this.icon = new GitObjectDescriptor(this.icon);
+		this.owner = new AccountProfile(this.owner);
 
 	}
 
@@ -225,6 +226,21 @@ JS.module(function(mc) {
 		cc.type(RepositoryProfile);
 		cc.extends(BaseElement);
 	});
+
+	RepositoryProfile.createList = function(li) {
+		var rlt = [];
+		if (li == null) {
+			return rlt;
+		}
+		for ( var i in li) {
+			var it = li[i];
+			if (it == null) {
+				continue;
+			}
+			rlt.push(new RepositoryProfile(it));
+		}
+		return rlt;
+	};
 
 	RepositoryProfile.prototype = {
 
@@ -403,6 +419,7 @@ JS.module(function(mc) {
 	var BaseModel = mc.import(base_pkg + '.BaseModel');
 
 	var AuthProfile = mc.import(element_pkg + '.AuthProfile');
+	var RepositoryProfile = mc.import(element_pkg + '.RepositoryProfile');
 	var SessionProfile = mc.import(element_pkg + '.SessionProfile');
 	var ViewportProfile = mc.import(element_pkg + '.ViewportProfile');
 
@@ -480,6 +497,35 @@ JS.module(function(mc) {
 
 	};
 
+	/***************************************************************************
+	 * class RepositoryModel TODO
+	 */
+
+	function RepositoryModel(init) {
+		this.BaseModel(init);
+
+		this.repository = new RepositoryProfile(this.repository);
+		this.list = RepositoryProfile.createList(this.list);
+
+	}
+
+	mc.class(function(cc) {
+		cc.type(RepositoryModel);
+		cc.extends(BaseModel);
+	});
+
+	RepositoryModel.prototype = {
+
+		f_repository : function(v) {
+			return this.__field__('repository', v);
+		},
+
+		f_list : function(v) {
+			return this.__field__('list', v);
+		},
+
+	};
+
 });
 
 JS.module(function(mc) {
@@ -495,6 +541,7 @@ JS.module(function(mc) {
 	var REST = mc.import('snowflake.rest.REST');
 
 	var AuthModel = mc.import(model_pkg + '.AuthModel');
+	var RepositoryModel = mc.import(model_pkg + '.RepositoryModel');
 	var SessionModel = mc.import(model_pkg + '.SessionModel');
 	var ViewportModel = mc.import(model_pkg + '.ViewportModel');
 
@@ -572,12 +619,14 @@ JS.module(function(mc) {
 
 			this.currentService('system-api');
 			this.register('auth', new AuthModel());
-			this.register('viewport', new ViewportModel());
 			this.register('session', new SessionModel());
+			this.register('viewport', new ViewportModel());
 
 			this.currentService('user-api');
+			// this.register('repository', new RepositoryModel());
 
 			this.currentService('repo-api');
+			this.register('repository', new RepositoryModel());
 
 		},
 
@@ -650,8 +699,10 @@ JS.module(function(mc) {
 			var type_reg = RestModelRegistrar.getInstance();
 			var info = type_reg.getTypeInfo(param.type, true);
 			var clazz = info.getModelClass();
-			var service = info.service();
+			var service = info.service(); // the api name
 			var entity = clazz.newInstance();
+
+			param.api = service;
 
 			this._method = method.toLowerCase();
 			this._param = param;

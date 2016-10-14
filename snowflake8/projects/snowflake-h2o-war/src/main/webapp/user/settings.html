@@ -4,7 +4,7 @@
 <!--
 /***********************************************************************
  * 
- * user/index.html (user-home)
+ * ~/user/settings.html (user-home)
  * 
  * @Copyright (c) 2016 boluozhai.com
  * @License MIT License
@@ -15,104 +15,41 @@
 
 <head>
 
+
 <meta charset='utf-8' />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<title class='i18n' i18n='title_working'>Working</title>
 
-<link href="./../lib/import/bootstrap/css/bootstrap.min.css"
-	rel="stylesheet" type="text/css" />
-
-<link href="./../lib/export/h2o/css/console.css" rel="stylesheet"
-	type="text/css" />
-
-<link href="./../lib/export/h2o/css/folder.css" rel="stylesheet"
-	type="text/css" />
-
-<link href="./../lib/css/working.css" rel="stylesheet" type="text/css" />
+<title class='i18n' i18n='h2o'>h2o</title>
 
 
-<style type="text/css">
-.page-foot {
-	text-align: center;
-}
+<link rel="stylesheet"
+	href="./../lib/import/bootstrap/css/bootstrap.min.css" />
 
-h1 {
-	text-align: center;
-}
+<link rel="stylesheet" href='./../lib/css/h2o.css' />
+<link rel="stylesheet" href="./../lib/css/working.css" />
+<link rel="stylesheet" href='./../lib/css/user-home.css' />
 
-.owner-info {
-	margin-top: 100px;
-	margin-bottom: 100px;
-}
-
-.repo-icon {
-	width: 160px;
-	height: 160px;
-}
-
-.thumbnail {
-	text-align: center;
-}
-</style>
 
 </head>
 <body>
 
 	<div id='client' class='container'>
 
-		<h1>User Settings</h1>
-
 
 		<div id='page-head'></div>
 
-		<h1>Account Settings</h1>
-
-		<div class='owner-info'>
-			<h2 class='nickname  i18n' i18n='nickname'>User Nickname</h2>
-			<p class='uid i18n' i18n='no_this_user'>uid</p>
-		</div>
+		<h1 class='context' i18n='no_impl'></h1>
 
 
-		<div class='repository-list'>
+		<h1>settings</h1>
 
-			<h2 class='i18n hide ' i18n='repository-list'>repos</h2>
-
-			<div class="row">
-
-				<div class="col-sm-6 col-md-4">
-					<div class="thumbnail">
-						<img class='context repo-icon'
-							context-src="~/lib/image/bucket.png" alt="...">
-						<div class="caption">
-							<h3>
-								<a href='#'>[repo-name]</a>
-							</h3>
-							<p class=''>[repo-description]</p>
-						</div>
-					</div>
-				</div>
-
-				<div class="col-sm-6 col-md-4 hide ">
-					<div class="thumbnail">
-						<img alt="...">
-						<div class="caption">
-							<h3>[repo-name]</h3>
-							<p class=''>[repo-description]</p>
-						</div>
-					</div>
-				</div>
-
-			</div>
-
-		</div>
+		<h1 class='center'>
+			-- <span class='context' i18n='flow'> </span> --
+		</h1>
 
 
-		<div class='page-foot side-bar '>
-			<div>
-				<span class='i18n hide ' i18n='no_more'> &gt;_&lt; ，没有了！ </span>
-			</div>
-		</div>
+		<div id='page-foot'></div>
 
 	</div>
 
@@ -128,41 +65,26 @@ h1 {
 	<script src="./../lib/import/snowflake/listview.js"></script>
 
 
-	<script src="./../lib/export/h2o/js/h2o-rest-api.js"></script>
-	<script src="./../lib/export/h2o/js/session.js"></script>
-	<script src="./../lib/export/h2o/js/viewport.js"></script>
 	<script src="./../lib/export/h2o/js/widget.js"></script>
+	<script src="./../lib/export/h2o/js/h2o-rest-api.js"></script>
+	<script src="./../lib/export/h2o/js/i18n.js"></script>
+	<script src="./../lib/export/h2o/js/viewport.js"></script>
 	<script src="./../lib/export/h2o/js/folder.js"></script>
 	<script src="./../lib/export/h2o/js/cli.js"></script>
 	<script src="./../lib/export/h2o/js/console.js"></script>
 	<script src="./../lib/export/h2o/js/vfs.js"></script>
 	<script src="./../lib/export/h2o/js/head.js"></script>
+	<script src="./../lib/export/h2o/js/foot.js"></script>
 
 
 	<script src="./../lib/js/config/base.js"></script>
-	<script src="./../lib/js/config/i18n-base.js"></script>
 	<script src="./../lib/js/config/final.js"></script>
-	<script src="./../lib/js/ui/user-home.html.js"></script>
-
-
-
+	<script src="./../lib/i18n/default/default.strings.js"></script>
 	<script src="./current-viewport.js?service=active-www"></script>
-	<!-- script src="./../u/r/api/type/id/i18n.js"></script -->
 
 
-	<script type="text/javascript">
-		$(document).ready(function() {
+	<script src="./../lib/js/ui/user-settings.html.js"></script>
 
-			var UserHomeHtml = com.boluozhai.h2o.html.UserHomeHtml;
-			var context = Snowflake.getContext();
-			var ctrl = new UserHomeHtml(context);
-			ctrl.init();
-
-		});
-	</script>
 
 </body>
 </html>
-
-
-

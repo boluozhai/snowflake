@@ -4,7 +4,7 @@
 <!--
 /***********************************************************************
  * 
- * ~/user/index.html (user-home)
+ * ~/user/repositories.html (user-home)
  * 
  * @Copyright (c) 2016 boluozhai.com
  * @License MIT License
@@ -39,13 +39,35 @@
 
 		<div id='page-head'></div>
 
-		<h1 class='context' i18n='no_impl'></h1>
+		<h1 class='--context' i18n='no_impl'></h1>
 
-		<h1>index</h1>
 
-		<h1 class='center'>
-			-- <span class='context' i18n='flow'> </span> --
-		</h1>
+		<div class='repo-list-head'>
+			<h1 class=' inline '>
+				<span class='owner-name'> </span>
+			</h1>
+			<div class='inline'>
+				<span> ( </span> <span class='owner-uid'> </span> <span> ) </span>
+			</div>
+		</div>
+
+
+		<div>
+			<h3>
+				<span class='context' i18n='repository_list'> </span>
+			</h3>
+		</div>
+
+		<div id='repo-list' class='list'>
+			<div class='list-item panel panel-default  '>
+				<div class=' panel-body '>
+					<h2>
+						<a class='repo-name repo-href ' href='#'>RepoName</a>
+					</h2>
+					<p class='repo-description'>description</p>
+				</div>
+			</div>
+		</div>
 
 
 		<div id='page-foot'></div>
@@ -82,8 +104,6 @@
 	<script src="./current-viewport.js?service=active-www"></script>
 
 
-	<script src="./../lib/js/ui/user-index.html.js"></script>
-
-
+	<script src="./../lib/js/ui/user-repositories.html.js"></script>
 </body>
 </html>

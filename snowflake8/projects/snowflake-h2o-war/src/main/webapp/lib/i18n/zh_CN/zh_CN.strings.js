@@ -46,4 +46,7 @@ this.h2o.i18n.StringResTable.mapping.zh_CN = {
 	"working_space" : "工作空间",
 	"zh_CN" : "简体中文(中国)",
 
+	repository_list : '仓库列表',
+	no_impl : '施工中...',
+
 };

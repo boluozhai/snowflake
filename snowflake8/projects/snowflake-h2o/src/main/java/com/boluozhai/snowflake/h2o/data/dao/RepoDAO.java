@@ -21,4 +21,8 @@ public class RepoDAO {
 		return item;
 	}
 
+	public RepoDTM getRepoModel(String uid) {
+		return client.get(uid, RepoDTM.class);
+	}
+
 }

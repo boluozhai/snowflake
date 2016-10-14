@@ -8,7 +8,16 @@ public class RepoItem {
 	private String description;
 	private String descriptor;
 	private String location; // file:url
+	private String ownerUid;
 	private GitObjectDescriptor icon;
+
+	public String getOwnerUid() {
+		return ownerUid;
+	}
+
+	public void setOwnerUid(String ownerUid) {
+		this.ownerUid = ownerUid;
+	}
 
 	public String getDescriptor() {
 		return descriptor;
