@@ -20,6 +20,7 @@ JS.module(function(mc) {
 
 	var widget_x = 'com.boluozhai.h2o.widget';
 	var HeadCtrl = mc.import(widget_x + '.head.HeadCtrl');
+	var FootCtrl = mc.import(widget_x + '.foot.FootCtrl');
 
 	var Viewport = mc.import('com.boluozhai.snowflake.web.Viewport');
 	var HtmlCtrl = mc.import('snowflake.html.HtmlCtrl');
@@ -55,10 +56,16 @@ JS.module(function(mc) {
 			head_ctrl.binder().parent('#page-head');
 			head_ctrl.init();
 
+			var foot_ctrl = new FootCtrl(context);
+			this._foot_ctrl = foot_ctrl;
+			foot_ctrl.binder().parent('#page-foot');
+			foot_ctrl.init();
+
 			// this.setupViewportInfo();
 			// this.setupRepositoryList();
 
 			this.setupLangListView($('.lang-list'), $('.lang-item'));
+			this.setupCurLangInfo(context);
 
 			var input = $('.input-lang-name');
 			input.val('zh_CN');
@@ -71,6 +78,16 @@ JS.module(function(mc) {
 			var str = JSON.stringify(js, null, 4);
 			$('.i18n-out').text('i18n = ' + str);
 
+		},
+
+		setupCurLangInfo : function(context) {
+			var lang = context.attr('session-lang');
+			var i18n = context.getBean('i18n');
+			var name = i18n.getString(lang);
+			if (name == null) {
+				name = lang;
+			}
+			$('.cur-lang-name').text(name);
 		},
 
 		setupLangListView : function(qParent, qItem) {
@@ -129,22 +146,32 @@ JS.module(function(mc) {
 
 		onClickLangBtn : function(lang) {
 
-			var jrr = new JSONRestRequest();
-			jrr.open('PUT', {
-				uid : '',
-				repo : '',
-				api : '',
-				type : 'language',
-				id : '',
+			var self = this;
+			var context = this._context;
+			var jrr = new JSONRestRequest(context);
+			var tx = jrr.open('PUT', {
+				uid : 'u',
+				repo : 'r',
+				api : 'system-api',
+				type : 'session',
+				id : 'x',
 			});
+
+			tx.f_session().f_language(lang);
 
 			jrr.onResult(function() {
 
 				alert('set lang as : ' + lang);
+				self.refresh();
 
 			});
-			jrr.send();
+			jrr.send(tx);
 
+		},
+
+		refresh : function() {
+			var url = window.location.href;
+			window.location = url;
 		},
 
 		resSetList : function() {

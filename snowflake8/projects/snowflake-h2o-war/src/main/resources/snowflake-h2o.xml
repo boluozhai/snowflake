@@ -11,5 +11,7 @@
 	<import resource="classpath:config/spring/h2o/site.xml" />
 	<import resource="classpath:config/spring/h2o/access.xml" />
 	<import resource="classpath:config/spring/h2o/datatable.xml" />
-		
+
+	<!-- import resource="classpath:config/spring/h2o/pojo-bridge.xml" / -->
+
 </beans>

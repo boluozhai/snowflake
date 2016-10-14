@@ -12,11 +12,25 @@
 
 .i18n-flag-btn {
 	min-width: 200px;
-	min-height: 40px;
+	min-height: 52px;
 	margin: 20px;
 	padding: 10px;
 }
 
+.lang-list {
+	padding: 0px;
+}
+
 .lang-item {
 	display: inline;
+}
+
+.current-sel-lang {
+	text-align: center;
+	margin-top: 50px;
+	margin-bottom: 50px;
+}
+
+.cur-flag {
+	margin: 20px;
 }

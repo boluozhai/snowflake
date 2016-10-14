@@ -42,37 +42,28 @@
 		<h1 class='i18n' i18n='language'>Language</h1>
 
 
-		<ul class='lang-list'>
+		<div class='current-sel-lang'>
+			<span class='context' i18n='current_selection'></span>: <img
+				class='i18n-flag cur-flag  context'
+				context-src='~/lib/i18n/{attr:session-lang}/{attr:session-lang}.flag.svg'
+				alt='flag' /> <span class='context'></span> <span class='cur-lang-name'></span>
+		</div>
+
+		<ul class='lang-list center '>
 			<li class='lang-item'><btn class='btn btn-default i18n-flag-btn'>
 				<img class='lang-item-image i18n-flag' /> <span
 					class='lang-item-text'></span> </btn></li>
 		</ul>
 
 
-		<div class='debug  hide '>
-
+		<div class='debug   hide '>
 			<!-- for debug -->
-
-			<div class="row">
-
-				<div class="col-lg-6">
-					<div class="input-group">
-						<input type="text" class=" input-lang-name form-control">
-						<span class="input-group-btn">
-							<button class="btn btn-default  i18n btn-setup " i18n='setup'
-								type="button">设置</button>
-						</span>
-					</div>
-				</div>
-
-			</div>
-
 			<div>
 				<pre class='i18n-out'></pre>
 			</div>
 
-			<div class='page-foot side-bar center '>
-				<span class='i18n' i18n='no_more'> </span>
+			<div id='page-foot' class='page-foot side-bar center --hide '>
+				<div class='i18n hide ' i18n='no_more'></div>
 			</div>
 
 		</div>
@@ -98,11 +89,12 @@
 	<script src="./lib/export/h2o/js/viewport.js"></script>
 	<script src="./lib/export/h2o/js/auth.js"></script>
 	<script src="./lib/export/h2o/js/head.js"></script>
+	<script src="./lib/export/h2o/js/foot.js"></script>
 
 
 	<script src="./lib/i18n/default/default.strings.js"></script>
-	<script src="./lib/i18n/en_US/en_US.strings.js"></script>
-	<script src="./lib/i18n/zh_CN/zh_CN.strings.js"></script>
+	<!-- script src="./lib/i18n/en_US/en_US.strings.js"></script -->
+	<!-- script src="./lib/i18n/zh_CN/zh_CN.strings.js"></script -->
 
 	<script src="./lib/js/config/base.js"></script>
 	<script src="./lib/js/config/final.js"></script>

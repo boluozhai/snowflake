@@ -364,6 +364,31 @@ JS.module(function(mc) {
 
 	};
 
+	/***************************************************************************
+	 * class SessionProfile
+	 */
+
+	function SessionProfile(init) {
+		this.AccountProfile(init);
+	}
+
+	mc.class(function(cc) {
+		cc.type(SessionProfile);
+		cc.extends(AccountProfile);
+	});
+
+	SessionProfile.prototype = {
+
+		f_login : function(v) {
+			return this.__field__('login', v);
+		},
+
+		f_loginTimestamp : function(v) {
+			return this.__field__('loginTimestamp', v);
+		},
+
+	};
+
 });
 
 JS.module(function(mc) {
@@ -378,6 +403,7 @@ JS.module(function(mc) {
 	var BaseModel = mc.import(base_pkg + '.BaseModel');
 
 	var AuthProfile = mc.import(element_pkg + '.AuthProfile');
+	var SessionProfile = mc.import(element_pkg + '.SessionProfile');
 	var ViewportProfile = mc.import(element_pkg + '.ViewportProfile');
 
 	/***************************************************************************
@@ -416,9 +442,7 @@ JS.module(function(mc) {
 
 	function ViewportModel(init) {
 		this.BaseModel(init);
-
 		this.viewport = new ViewportProfile(this.viewport);
-
 	}
 
 	mc.class(function(cc) {
@@ -435,21 +459,23 @@ JS.module(function(mc) {
 	};
 
 	/***************************************************************************
-	 * class LanguageModel
+	 * class SessionModel
 	 */
 
-	function LanguageModel(init) {
+	function SessionModel(init) {
+		this.BaseModel(init);
+		this.session = new SessionProfile(this.session);
 	}
 
 	mc.class(function(cc) {
-		cc.type(LanguageModel);
+		cc.type(SessionModel);
 		cc.extends(BaseModel);
 	});
 
-	LanguageModel.prototype = {
+	SessionModel.prototype = {
 
-		f_viewport : function(v) {
-			return this.__field__('viewport', v);
+		f_session : function(v) {
+			return this.__field__('session', v);
 		},
 
 	};
@@ -469,6 +495,7 @@ JS.module(function(mc) {
 	var REST = mc.import('snowflake.rest.REST');
 
 	var AuthModel = mc.import(model_pkg + '.AuthModel');
+	var SessionModel = mc.import(model_pkg + '.SessionModel');
 	var ViewportModel = mc.import(model_pkg + '.ViewportModel');
 
 	/***************************************************************************
@@ -546,7 +573,7 @@ JS.module(function(mc) {
 			this.currentService('system-api');
 			this.register('auth', new AuthModel());
 			this.register('viewport', new ViewportModel());
-			this.register('language', new LanguageModel());
+			this.register('session', new SessionModel());
 
 			this.currentService('user-api');
 

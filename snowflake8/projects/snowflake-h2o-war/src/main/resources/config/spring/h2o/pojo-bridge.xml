@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" 
+ "http://www.springframework.org/dtd/spring-beans-2.0.dtd" >
+<beans>
+
+
+	<!-- factory -->
+
+	<bean id='com.boluozhai.snowflake.pojo.bridge.BridgeFactory'
+		class='com.boluozhai.snowflake.pojo.bridge.support.DefaultBridgeFactory'>
+
+		<property name='defaultConfiguration'>
+			<ref bean='bridge:config:default' />
+		</property>
+
+	</bean>
+
+
+	<!-- configuration -->
+
+	<bean id='bridge:config:default'
+		class='com.boluozhai.snowflake.pojo.bridge.config.BridgeConfiguration'>
+
+		<property name="mappings">
+			<list>
+				<ref bean='bridge:mapping:A:B' />
+			</list>
+		</property>
+
+	</bean>
+
+
+	<!-- base -->
+
+	<bean id='bridge:mapping:base'
+		class='com.boluozhai.snowflake.pojo.bridge.config.BridgeMapping'>
+
+		<property name="mapper">
+			<bean class='com.boluozhai.snowflake.pojo.bridge.support.DefaultPojoMapper'></bean>
+		</property>
+
+	</bean>
+
+
+	<!-- configuration -->
+
+	<bean id='bridge:mapping:A:B' parent='bridge:mapping:base'>
+
+		<!-- this is a example -->
+
+		<property name="from">
+			<bean class='com.boluozhai.snowflake.pojo.bridge.config.BridgeMapping' />
+		</property>
+		<property name="to">
+			<bean
+				class='com.boluozhai.snowflake.pojo.bridge.config.BridgeConfiguration' />
+		</property>
+	</bean>
+
+
+</beans>

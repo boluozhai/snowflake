@@ -42,18 +42,22 @@ public class RestController implements RestRequestHandler {
 
 	protected void rest_get(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
+		throw new RuntimeException("no impl");
 	}
 
 	protected void rest_post(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
+		throw new RuntimeException("no impl");
 	}
 
 	protected void rest_put(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
+		throw new RuntimeException("no impl");
 	}
 
 	protected void rest_delete(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
+		throw new RuntimeException("no impl");
 	}
 
 }
