@@ -1,7 +1,8 @@
 package com.boluozhai.snowflake.context;
 
 public interface SnowflakeContext extends SnowflakeContextMeta, BeanFactory,
-		SnowflakeProperties, SnowflakeAttributes, SnowflakeParameters, SnowflakeEnvironments {
+		SnowflakeProperties, SnowflakeAttributes, SnowflakeParameters,
+		SnowflakeEnvironments {
 
 	/****
 	 * use this object as the defaultValue , while get attr/prop/param, will get
@@ -9,5 +10,7 @@ public interface SnowflakeContext extends SnowflakeContextMeta, BeanFactory,
 	 * */
 
 	static final Object throw_exception_while_nil = new Object();
+
+	ContextBuilder child();
 
 }

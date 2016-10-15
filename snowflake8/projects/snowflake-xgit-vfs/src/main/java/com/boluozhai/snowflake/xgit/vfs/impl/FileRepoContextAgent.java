@@ -2,6 +2,7 @@ package com.boluozhai.snowflake.xgit.vfs.impl;
 
 import java.net.URI;
 
+import com.boluozhai.snowflake.context.ContextBuilder;
 import com.boluozhai.snowflake.context.SnowflakeContext;
 import com.boluozhai.snowflake.mvc.model.Component;
 import com.boluozhai.snowflake.mvc.model.ComponentContext;
@@ -136,6 +137,11 @@ final class FileRepoContextAgent {
 
 		public String getEnvironment(String name, Object defaultValue) {
 			return core.getEnvironment(name, defaultValue);
+		}
+
+		@Override
+		public ContextBuilder child() {
+			return core.child();
 		}
 
 	}

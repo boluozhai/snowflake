@@ -17,4 +17,6 @@ public interface XGitSite {
 
 	SystemRepository getSystemRepository();
 
+	RepositorySpaceAllocator getRepositorySpaceAllocator();
+
 }

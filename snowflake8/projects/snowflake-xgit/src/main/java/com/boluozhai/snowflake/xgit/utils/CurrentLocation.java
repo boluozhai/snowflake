@@ -2,7 +2,7 @@ package com.boluozhai.snowflake.xgit.utils;
 
 import java.net.URI;
 
-import com.boluozhai.snowflake.context.MutableContext;
+import com.boluozhai.snowflake.context.MutableAttributes;
 import com.boluozhai.snowflake.context.SnowflakeContext;
 
 public interface CurrentLocation {
@@ -17,7 +17,7 @@ public interface CurrentLocation {
 			return (CurrentLocation) context.getAttribute(key);
 		}
 
-		public static void bind(MutableContext context, CurrentLocation inst) {
+		public static void bind(MutableAttributes context, CurrentLocation inst) {
 			context.setAttribute(key, inst);
 		}
 

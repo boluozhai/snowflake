@@ -2,6 +2,7 @@ package com.boluozhai.snowflake.context.support;
 
 import java.net.URI;
 
+import com.boluozhai.snowflake.context.ContextBuilder;
 import com.boluozhai.snowflake.context.MutableContext;
 import com.boluozhai.snowflake.context.SnowflakeContext;
 
@@ -119,6 +120,11 @@ public class MutableContextWrapper implements MutableContext {
 
 	public void setDescription(String desc) {
 		_inner.setDescription(desc);
+	}
+
+	@Override
+	public ContextBuilder child() {
+		return _inner.child();
 	}
 
 }

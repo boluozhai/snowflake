@@ -7,6 +7,7 @@ import com.boluozhai.snowflake.xgit.XGit;
 import com.boluozhai.snowflake.xgit.XGitContext;
 import com.boluozhai.snowflake.xgit.repository.Repository;
 import com.boluozhai.snowflake.xgit.repository.RepositoryManager;
+import com.boluozhai.snowflake.xgit.site.RepositorySpaceAllocator;
 import com.boluozhai.snowflake.xgit.site.SystemRepository;
 import com.boluozhai.snowflake.xgit.site.XGitSite;
 import com.boluozhai.snowflake.xgit.site.XGitSiteContext;
@@ -41,6 +42,11 @@ final class XGitSiteImpl implements XGitSite {
 		String key = XGitSiteContext.component.system_repo;
 		return cc.getBean(key, SystemRepository.class);
 
+	}
+
+	@Override
+	public RepositorySpaceAllocator getRepositorySpaceAllocator() {
+		return new XGitSiteRepoAllocatorImpl(this);
 	}
 
 }

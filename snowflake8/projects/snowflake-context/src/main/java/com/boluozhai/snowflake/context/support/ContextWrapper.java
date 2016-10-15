@@ -2,6 +2,7 @@ package com.boluozhai.snowflake.context.support;
 
 import java.net.URI;
 
+import com.boluozhai.snowflake.context.ContextBuilder;
 import com.boluozhai.snowflake.context.SnowflakeContext;
 
 public class ContextWrapper implements SnowflakeContext {
@@ -86,6 +87,11 @@ public class ContextWrapper implements SnowflakeContext {
 
 	public String getEnvironment(String name, Object defaultValue) {
 		return _inner.getEnvironment(name, defaultValue);
+	}
+
+	@Override
+	public ContextBuilder child() {
+		return _inner.child();
 	}
 
 }
