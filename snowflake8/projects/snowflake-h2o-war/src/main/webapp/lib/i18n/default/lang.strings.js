@@ -1,8 +1,8 @@
 /*******************************************************************************
- * default.strings.langs.js
+ * lang.strings.js
  */
 
-this.h2o.i18n.StringResTable.mapping['default'] = {
+this.h2o.i18n.StringResTable.mapping['languages'] = {
 
 	de_DE : 'Deutsch',
 	en_GB : 'English(GB)',
@@ -14,6 +14,6 @@ this.h2o.i18n.StringResTable.mapping['default'] = {
 	ko_KR : '한국어, 조선어',
 	ru_RU : 'Русский',
 	zh_CN : '中文（中国）',
-	'default' : '默认',
+	'default' : 'Default',
 
 };

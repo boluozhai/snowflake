@@ -50,7 +50,7 @@ JS.module(function(mc) {
 				onClickOK(ctrl);
 			});
 			set_ui_mode(false);
-			init_4_debug();
+			init_4_debug(this._context);
 
 		},
 
@@ -76,11 +76,15 @@ JS.module(function(mc) {
 
 	});
 
-	function init_4_debug() {
+	function init_4_debug(context) {
 
-		$('#edit-email').val('test@blz.com');
-		$('#edit-passwd').val('1234');
-		$('#edit-passwd-2').val('1234');
+		var i18n = context.getBean('i18n');
+		var testing_user = i18n.getString('test_uid');
+		var testing_passwd = i18n.getString('test_psw');
+
+		$('#edit-email').val(testing_user);
+		$('#edit-passwd').val(testing_passwd);
+		$('#edit-passwd-2').val(testing_passwd);
 
 	}
 

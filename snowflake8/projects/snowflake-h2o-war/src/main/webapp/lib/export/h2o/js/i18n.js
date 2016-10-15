@@ -58,7 +58,11 @@ JS.module(function(mc) {
 
 		getString : function(key) {
 			var table = this._word_table;
-			return table[key];
+			var value = table[key];
+			if (value == null) {
+				value = 'i18n(' + key + ')';
+			}
+			return value;
 		},
 
 		getStringTable : function() {
