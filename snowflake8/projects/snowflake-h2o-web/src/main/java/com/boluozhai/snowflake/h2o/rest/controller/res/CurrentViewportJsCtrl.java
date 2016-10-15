@@ -1,6 +1,7 @@
 package com.boluozhai.snowflake.h2o.rest.controller.res;
 
 import java.io.IOException;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -39,8 +40,8 @@ public class CurrentViewportJsCtrl extends RestController {
 	protected void rest_get(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 
-		MyJsBuilder builder = new MyJsBuilder();
-		builder.load(request);
+		MyJsBuilder builder = new MyJsBuilder(request);
+		builder.load();
 
 		builder.append_this_js();
 		builder.append_i18n_js();
@@ -52,9 +53,14 @@ public class CurrentViewportJsCtrl extends RestController {
 
 	private static class MyJsBuilder {
 
+		private final HttpServletRequest request;
 		private ViewportModel _model;
 		private String _this_path;
 		private final StringBuilder sb = new StringBuilder();
+
+		public MyJsBuilder(HttpServletRequest request2) {
+			this.request = request2;
+		}
 
 		public void writeTo(HttpServletResponse response) throws IOException {
 
@@ -112,7 +118,7 @@ public class CurrentViewportJsCtrl extends RestController {
 
 		}
 
-		public void load(HttpServletRequest request) {
+		public void load() {
 
 			final RestRequestInfo rr = RestRequestInfo.Factory
 					.getInstance(request);
@@ -224,12 +230,33 @@ public class CurrentViewportJsCtrl extends RestController {
 
 			if (profile == null) {
 				profile = new SessionProfile();
-				profile.setLanguage("default");
 			}
+			profile = this.checkLang(profile);
 
 			vpt.setOperator(profile);
 
 		}
+
+		private SessionProfile checkLang(SessionProfile opt) {
+			if (opt == null) {
+				opt = new SessionProfile();
+			}
+			String lang = opt.getLanguage();
+			if (lang == null) {
+				// by agent
+				Locale loc = this.request.getLocale();
+				if (loc != null) {
+					String c = loc.getCountry();
+					String l = loc.getLanguage();
+					lang = l + '_' + c;
+					System.out.println("set default Lang as " + lang);
+				}
+				// by server (NOP)
+				opt.setLanguage(lang);
+			}
+			return opt;
+		}
+
 	}
 
 }

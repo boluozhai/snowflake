@@ -4,6 +4,7 @@
 
 this.h2o.i18n.StringResTable.mapping.zh_CN = {
 
+	"current_language" : "当前语言",
 	"current_selection" : "当前选项",
 	"default" : "默认",
 	"do_search" : "找一找",
@@ -48,5 +49,7 @@ this.h2o.i18n.StringResTable.mapping.zh_CN = {
 
 	repository_list : '仓库列表',
 	no_impl : '施工中...',
+
+	copyright_info : '(C)2016 菠萝斋',
 
 };

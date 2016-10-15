@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<!--
+/***********************************************************************
+ * 
+ * ~/admin/tools/lang-tools.html
+ * 
+ * @Copyright (c) 2016 boluozhai.com
+ * @License MIT License
+ * @Author xukun<xukun17@sina.com>
+ * 
+ */
+-->
+
+<head>
+
+
+<meta charset='utf-8' />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+<title>Language-Tools</title>
+
+
+<link rel="stylesheet"
+	href="./../../lib/import/bootstrap/css/bootstrap.min.css" />
+
+<link rel="stylesheet" href='./../../lib/css/h2o.css' />
+
+
+</head>
+<body>
+
+	<div class='container'>
+
+		<h1>Language-Tools</h1>
+
+
+		<div>
+			<h3>Mapping</h3>
+			<textarea class='input' rows="20" cols="80"></textarea>
+		</div>
+
+
+		<div>
+			<button class='btn btn-primary btn-reload '>Reload</button>
+			<button class='btn btn-primary btn-output '>Output</button>
+
+		</div>
+
+		<div>
+			<h3>JSON</h3>
+			<pre class='output'></pre>
+		</div>
+
+	</div>
+
+
+	<script src="./../../lib/import/jquery/jquery.min.js"></script>
+	<script src="./../../lib/import/bootstrap/js/bootstrap.min.js"></script>
+
+
+	<script src="./../../lib/import/snowflake/core.js"></script>
+	<script src="./../../lib/import/snowflake/context.js"></script>
+	<script src="./../../lib/import/snowflake/event.js"></script>
+	<script src="./../../lib/import/snowflake/rest.js"></script>
+
+
+	<script src="./../../lib/export/h2o/js/widget.js"></script>
+	<script src="./../../lib/export/h2o/js/h2o-rest-api.js"></script>
+	<script src="./../../lib/export/h2o/js/i18n.js"></script>
+	<script src="./../../lib/export/h2o/js/viewport.js"></script>
+
+
+	<script src="./../../lib/i18n/default/default.strings.js"></script>
+	<script src="./../../lib/i18n/en_US/en_US.strings.js"></script>
+	<script src="./../../lib/i18n/zh_CN/zh_CN.strings.js"></script>
+
+	<script src="./../../lib/js/config/base.js"></script>
+	<script src="./../../lib/js/config/final.js"></script>
+
+	<script src="./current-viewport.js?service=active-www"></script>
+
+	<!-- script src="./../../lib/js/ui/app-language.html.js"></script -->
+
+
+	<script type="text/javascript">
+		$(document).ready(function() {
+
+			$('.btn-reload').click(function() {
+				doReload();
+			});
+
+			$('.btn-output').click(function() {
+				doOutput();
+			});
+
+			doReload();
+
+		});
+
+		function sort_map(map) {
+			return map;
+		}
+
+		function properties2map(str /* properties format */) {
+			var map = {};
+			var array = str.split('\n');
+			for ( var i in array) {
+				var line = array[i];
+				var sp = line.indexOf('=');
+				if (sp < 0) {
+					continue;
+				}
+				var k = line.substring(0, sp).trim();
+				var v = line.substring(sp + 1).trim();
+				map[k] = v;
+			}
+			map = sort_map(map);
+			return map;
+		}
+
+		function map2properties(map) {
+			var keys = [];
+			for ( var k in map) {
+				keys.push(k);
+			}
+			keys = keys.sort();
+			var sb = '';
+			for ( var i in keys) {
+				var key = keys[i];
+				var val = map[key];
+				sb += (key + ' = ' + val + '\n');
+			}
+			return sb;
+		}
+
+		function doReload() {
+
+			var Viewport = snowflake.Viewport;
+			var vpt = new Viewport();
+			var lang = vpt.myLanguage();
+
+			var context = Snowflake.getContext();
+			var i18n = context.getBean('i18n');
+			i18n.lang(lang);
+			var table = i18n.getStringTable();
+
+			var str = map2properties(table);
+			var view_in = $('.input');
+			view_in.val(str);
+
+		}
+
+		function doOutput() {
+
+			var view_in = $('.input');
+			var view_out = $('.output');
+
+			var str1 = view_in.val();
+			var map = properties2map(str1);
+
+			var str2 = JSON.stringify(map, null, 4);
+			view_out.text('var mapping = ' + str2 + ';');
+
+		}
+	</script>
+
+</body>
+</html>

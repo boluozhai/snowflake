@@ -12,6 +12,27 @@
 	margin-bottom: 20px;
 }
 
+.foot-sp-bar {
+	height: 2px;
+	background: #ddd;
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+.foot-blz-logo {
+	width: 48px;
+	background: #777;
+}
+
+.foot-item {
+	display: inline;
+}
+
+.foot-copyright {
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
 .i18n-flag {
 	max-width: 48px;
 	max-height: 32px;
@@ -19,4 +40,9 @@
 
 .i18n-flag-btn {
 	padding: 0px;
+}
+
+.work-in-progress {
+	text-align: center;
+	font-size: 80px;
 }

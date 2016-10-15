@@ -4,6 +4,8 @@
 
 this.h2o.i18n.StringResTable.mapping['default'] = {
 
+	"current_language" : "Current Language",
+
 	"do_search" : "Search",
 	"h2o" : "H2O",
 	"last_modified" : "Mod Time",
@@ -53,6 +55,10 @@ this.h2o.i18n.StringResTable.mapping['default'] = {
 	current_selection : 'Current',
 	lang_name : 'Default',
 	lang_code : 'default',
+
+	copyright_info : '(C)2016 菠萝斋',
+
+	'work-in-progress' : '正在施工',
 
 	de_DE : 'Deutsch',
 	en_GB : 'English(GB)',

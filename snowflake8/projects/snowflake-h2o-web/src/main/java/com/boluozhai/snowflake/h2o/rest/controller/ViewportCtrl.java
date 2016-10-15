@@ -1,6 +1,7 @@
 package com.boluozhai.snowflake.h2o.rest.controller;
 
 import java.io.IOException;
+import java.util.Locale;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +18,7 @@ import com.boluozhai.snowflake.h2o.data.pojo.model.AccountDTM;
 import com.boluozhai.snowflake.rest.api.h2o.ViewportModel;
 import com.boluozhai.snowflake.rest.element.account.AccountProfile;
 import com.boluozhai.snowflake.rest.element.repository.RepositoryProfile;
+import com.boluozhai.snowflake.rest.element.session.SessionProfile;
 import com.boluozhai.snowflake.rest.element.viewport.ViewportProfile;
 import com.boluozhai.snowflake.rest.server.JsonRestView;
 import com.boluozhai.snowflake.rest.server.RestController;
@@ -59,7 +61,9 @@ public class ViewportCtrl extends RestController {
 
 			// operator
 			SessionInfo session = req_info.getSessionInfo();
-			viewport.setOperator(session.getModel().getSession());
+			SessionProfile opt = session.getModel().getSession();
+			opt = this.checkLang(opt);
+			viewport.setOperator(opt);
 
 			// target
 			PathInfo path_info = req_info.getPathInfo();
@@ -68,6 +72,26 @@ public class ViewportCtrl extends RestController {
 			this.fillViewport(viewport, req_info, user, repo);
 
 			return model;
+		}
+
+		private SessionProfile checkLang(SessionProfile opt) {
+			if (opt == null) {
+				opt = new SessionProfile();
+			}
+			String lang = opt.getLanguage();
+			if (lang == null) {
+				// by agent
+				Locale loc = this.request.getLocale();
+				if (loc != null) {
+					String c = loc.getISO3Country();
+					String l = loc.getISO3Language();
+					lang = l + '_' + c;
+					System.out.println("set default Lang as " + lang);
+				}
+				// by server (NOP)
+				opt.setLanguage(lang);
+			}
+			return opt;
 		}
 
 		private void fillViewport(ViewportProfile viewport,
