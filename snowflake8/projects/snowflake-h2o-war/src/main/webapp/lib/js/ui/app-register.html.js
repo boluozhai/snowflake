@@ -51,7 +51,7 @@ JS.module(function(mc) {
 			});
 			set_ui_mode(false);
 			init_4_debug(this._context);
-
+			this.set_ui_mode_normal(true);
 		},
 
 		register : function() {
@@ -59,6 +59,37 @@ JS.module(function(mc) {
 			var context = this._context;
 			var ctrl = new AuthCtrl(context);
 			return ctrl.register();
+
+		},
+
+		set_ui_mode_normal : function(normal) {
+
+			var main = $('.body');
+			var reg = $('.register-do');
+			var ok = $('.register-success');
+
+			if (normal) {
+				reg.show();
+				ok.hide();
+			} else {
+				ok.show();
+				reg.hide();
+			}
+
+			main.removeClass('hide');
+		},
+
+		onRegError : function(task) {
+			var msg = task.message();
+			alert('Error: ' + msg);
+		},
+
+		onRegOK : function(task) {
+
+			// alert('OK');
+			// goto login
+			// window.location = './login';
+			this.set_ui_mode_normal(false);
 
 		},
 
@@ -111,27 +142,14 @@ JS.module(function(mc) {
 		task.execute(function() {
 
 			if (task.success()) {
-				onLoginOK(task);
+				ctrl.onRegOK(task);
 			} else {
-				onLoginError(task);
+				ctrl.onRegError(task);
 			}
 
 			set_ui_mode(false);
 
 		});
-
-	}
-
-	function onLoginError(task) {
-		var msg = task.message();
-		alert('Error: ' + msg);
-	}
-
-	function onLoginOK(task) {
-		alert('OK');
-
-		// goto login
-		window.location = './login';
 
 	}
 

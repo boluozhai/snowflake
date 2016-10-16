@@ -289,7 +289,8 @@ public class PasswordAuthMech extends RestController {
 		private AuthModel inner_register(AuthModel model, DataClient dc)
 				throws IOException {
 
-			final String name = model.getRequest().getName();
+			final String mail = model.getRequest().getName();
+			final String uid = mail;
 			final String passwd = model.getRequest().getKey();
 			final String auth_type = "password";
 			final long now = System.currentTimeMillis();
@@ -297,43 +298,60 @@ public class PasswordAuthMech extends RestController {
 			final long max_age = (100L * 365 * 24 * 3600 * 1000L);
 			final String repo_name = "home";
 
+			final String user_number = this.inner_make_user_number(uid, dc);
+
+			// alias
+
+			final AliasItem mail_alias_item = new AliasItem();
+			final AliasItem numb_alias_item = new AliasItem();
+			final AliasDTM mail_alias = new AliasDTM(); // the master alias
+			final AliasDTM numb_alias = new AliasDTM();
+
+			mail_alias_item.setName(mail);
+
+			numb_alias_item.setName(user_number);
+
+			numb_alias.getFrom();
+			numb_alias.setName(user_number);
+			numb_alias.setTo(mail_alias_item);
+
+			mail_alias.setTo(null);
+			mail_alias.setName(mail);
+			mail_alias.getFrom()
+					.put(numb_alias_item.getName(), numb_alias_item);
+			mail_alias.getFrom()
+					.put(mail_alias_item.getName(), mail_alias_item);
+
+			dc.insert(mail_alias.getName(), mail_alias);
+			dc.insert(numb_alias.getName(), numb_alias);
+
 			// account
 			AccountDTM account = new AccountDTM();
-			account.setEmail(name);
+			account.setEmail(mail);
 			account.setLanguage("default");
 			account.setLocation("undefine");
-			account.setNickname(name);
-			account.setUid(name);
+			account.setNickname(mail);
+			account.setUid(user_number);
 			account.setAvatar(null);
 			account.setDescription("undefine");
 			account.setHashId(null);
-			account = dc.insert(name, account);
-
-			// alias
-			AliasItem alias_item = new AliasItem();
-			alias_item.setName(name);
-
-			AliasDTM alias = new AliasDTM();
-			alias.getFrom().put(name, alias_item);
-			alias.setName(name);
-			alias.setTo(null);
-			alias = dc.insert(name, alias);
+			account = dc.insert(uid, account);
 
 			// auth
 			AuthItem auth_item = new AuthItem();
 			auth_item.setType(auth_type);
-			auth_item.setName(name);
+			auth_item.setName(mail);
 			auth_item.setKey(passwd);
 			auth_item.setFromTime(now);
 			auth_item.setToTime(now + max_age);
 
 			AuthDTM auth = new AuthDTM();
 			auth.getTable().put(auth_type, auth_item);
-			auth = dc.insert(name, auth);
+			auth = dc.insert(uid, auth);
 
 			// home repository
 			RepoItem repo_item = new RepoItem();
-			repo_item.setOwnerUid(name);
+			repo_item.setOwnerUid(mail);
 			repo_item.setName(repo_name);
 			repo_item.setIcon(null);
 			repo_item.setDescription("undefine");
@@ -342,7 +360,7 @@ public class PasswordAuthMech extends RestController {
 
 			RepoDTM repo = new RepoDTM();
 			repo.getTable().put(repo_name, repo_item);
-			repo = dc.insert(name, repo);
+			repo = dc.insert(uid, repo);
 			repo.setDefaultRepository(repo_name);
 
 			// set response
@@ -354,6 +372,26 @@ public class PasswordAuthMech extends RestController {
 			resp.setStatus("ok");
 
 			return model;
+		}
+
+		private String inner_make_user_number(String uid, DataClient dc) {
+			final HashTools ht = new HashTools(HashTools.ALGORITHM.sha1);
+			final byte[] ba = ht.hash(uid);
+			long n = 0;
+			for (int i = 8; i > 0; i--) {
+				byte b = ba[i];
+				n = ((n << 8) | (b & 0xff));
+			}
+			final String str = Long.toString(n);
+			for (int i = 6; i < str.length(); i++) {
+				final String id = str.substring(0, i);
+				AccountDTM account = dc.get(id, AccountDTM.class);
+				if (account == null) {
+					return id;
+				}
+			}
+			final String msg = "cannot allocate number for user: " + uid;
+			throw new RuntimeException(msg);
 		}
 
 		private String inner_git_init_home(RepoItem repo_item)

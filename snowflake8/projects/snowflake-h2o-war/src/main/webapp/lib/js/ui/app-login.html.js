@@ -111,7 +111,7 @@ JS.module(function(mc) {
 	}
 
 	function onLoginOK(task) {
-		var url = '~/';
+		var url = '~/login-success.html';
 		var context = task._context;
 		url = context.normalizeURL(url);
 		window.location = url;

@@ -66,6 +66,10 @@ this.h2o.i18n.StringResTable.mapping['default'] = {
 	"work-in-progress" : "正在施工",
 	"working_space" : "工作空间",
 	"yes" : "Yes",
-	"zh_CN" : "简体中文(中国)"
+	"zh_CN" : "简体中文(中国)",
+
+	login_success : '登录成功',
+	register_success : '恭喜，注册成功！',
+	goto_login : '去登录',
 
 };

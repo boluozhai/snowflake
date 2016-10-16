@@ -187,6 +187,11 @@ JS.module(function(mc) {
 			return this._path_in_webapp;
 		},
 
+		navigate2 : function(url) {
+			url = this.normalizeURL(url);
+			window.location = url;
+		},
+
 		normalizeURL : function(path) {
 
 			// https://host.com/app/api/type

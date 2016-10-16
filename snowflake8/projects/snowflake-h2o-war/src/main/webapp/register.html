@@ -35,14 +35,20 @@
 <body>
 
 
-	<div class="container">
+	<div class='h2o-title center '>
+		<a href='./'>H2O</a>
+	</div>
 
-		<form class="form-signin" role="form">
+
+	<div class="container hide body">
+
+		<!-- head -->
 
 
-			<div class='h2o-title center '>
-				<a href='./'>H2O</a>
-			</div>
+		<!-- login main -->
+
+		<form class="form-signin  register-do " role="form">
+
 
 			<div>
 				<h2 class="form-signin-heading i18n " i18n='register_account'>注册个帐号</h2>
@@ -65,12 +71,22 @@
 				<button id='btn-ok' class="btn btn-lg btn-primary btn-block i18n "
 					type="button" i18n='ok'>确定</button>
 			</div>
+
+
+			<div class='to-reg'>
+				<a href='./login' class='i18n' i18n='i_have_a_account'>我有现成的帐号！</a>
+			</div>
+
+
+
 		</form>
 
 
-		<div class='to-reg'>
-			<a href='./login' class='i18n' i18n='i_have_a_account'>我有现成的帐号！</a>
+		<div class=' register-success center '>
+			<h2 class='context' i18n='register_success'>register OK</h2>
+			<a class='btn btn-primary context ' i18n='goto_login' href='./login'>Login-ok</a>
 		</div>
+
 
 		<div class='page-foot side-bar center hide'>
 			<span class='i18n' i18n='no_more'> </span>
