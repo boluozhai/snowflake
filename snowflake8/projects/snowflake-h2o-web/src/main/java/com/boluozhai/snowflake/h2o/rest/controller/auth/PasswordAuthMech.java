@@ -90,6 +90,9 @@ public class PasswordAuthMech extends RestController {
 			boolean done = model.getResponse().isDone();
 			if (ok && done) {
 				task.inner_make_session(request, response, model);
+				task.inner_delay_for_login(300);
+			} else {
+				task.inner_delay_for_login(2000);
 			}
 		}
 
@@ -105,6 +108,14 @@ public class PasswordAuthMech extends RestController {
 
 		public MyTaskContext(RestRequestInfo info) {
 			this._context = info.getContext();
+		}
+
+		public void inner_delay_for_login(int delay) {
+			try {
+				Thread.sleep(delay);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		}
 
 		private void inner_clear_session(HttpServletRequest request,
