@@ -332,6 +332,7 @@ public class PasswordAuthMech extends RestController {
 			RepoDTM repo = new RepoDTM();
 			repo.getTable().put(repo_name, repo_item);
 			repo = dc.insert(name, repo);
+			repo.setDefaultRepository(repo_name);
 
 			// set response
 			final AuthProfile resp = model.getResponse();

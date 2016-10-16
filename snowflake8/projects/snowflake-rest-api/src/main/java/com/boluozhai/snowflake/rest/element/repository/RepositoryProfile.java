@@ -9,8 +9,17 @@ public class RepositoryProfile {
 	private String description;
 	private String url;
 	private boolean exists;
+	private boolean theDefault;
 	private AccountProfile owner;
 	private GitObjectDescriptor icon;
+
+	public boolean isTheDefault() {
+		return theDefault;
+	}
+
+	public void setTheDefault(boolean theDefault) {
+		this.theDefault = theDefault;
+	}
 
 	public boolean isExists() {
 		return exists;

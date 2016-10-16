@@ -80,9 +80,11 @@ public class RepositoryCtrl extends RestController {
 				owner = this.make_owner_info(account, owner);
 
 				if (rpid == null) {
+					// list all
 					RepoDTM dm = repo_dao.getRepoModel(uid);
 					this.make_result_list(dm, owner);
 				} else {
+					// detail
 					RepoItem dm = repo_dao.findRepo(uid, rpid);
 					this.make_result_detail(dm, owner);
 				}
@@ -114,8 +116,12 @@ public class RepositoryCtrl extends RestController {
 		}
 
 		private void make_result_list(RepoDTM dm, AccountProfile owner) {
+
 			final List<RepositoryProfile> list;
 			final Map<String, RepoItem> table = dm.getTable();
+			final String def_repo_name = dm.getDefaultRepository();
+
+			RepositoryProfile def_repo = null;
 			List<String> keys = new ArrayList<String>(table.keySet());
 			Collections.sort(keys);
 			list = new ArrayList<RepositoryProfile>(keys.size());
@@ -126,10 +132,15 @@ public class RepositoryCtrl extends RestController {
 				if (profile == null) {
 					continue;
 				}
+				if (key.equals(def_repo_name)) {
+					def_repo = profile;
+					profile.setTheDefault(true);
+				}
 				list.add(profile);
 			}
 			RepositoryModel model = new RepositoryModel();
 			model.setList(list);
+			model.setRepository(def_repo);
 			this._result = model;
 		}
 

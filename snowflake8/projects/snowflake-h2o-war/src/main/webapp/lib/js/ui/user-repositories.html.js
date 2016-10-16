@@ -101,9 +101,19 @@ JS.module(function(mc) {
 
 				var name = data.f_name();
 				var description = data.f_description();
+				var is_default = data.f_theDefault();
+
+				var text_default = null; // ? text_default : '';
+				if (is_default) {
+					var i18n = context.getBean('i18n');
+					text_default = '(' + i18n.getString('default') + ')';
+				} else {
+					text_default = '';
+				}
 
 				view.find('.repo-name').text(name);
 				view.find('.repo-description').text(description);
+				view.find('.repo-is-default').text(text_default);
 
 			});
 

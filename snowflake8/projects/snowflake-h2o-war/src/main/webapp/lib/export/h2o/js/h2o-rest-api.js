@@ -213,8 +213,11 @@ JS.module(function(mc) {
 		this.BaseElement(init);
 
 		// String name; // the repo id
-		// String owner; // the uid of owner
 		// String description;
+		// String url;
+		// boolean exists;
+		// boolean theDefault;
+		// AccountProfile owner;
 		// GitObjectDescriptor icon;
 
 		this.icon = new GitObjectDescriptor(this.icon);
@@ -258,6 +261,18 @@ JS.module(function(mc) {
 
 		f_icon : function(v) {
 			return this.__field__('icon', v);
+		},
+
+		f_url : function(v) {
+			return this.__field__('url', v);
+		},
+
+		f_exists : function(v) {
+			return this.__field__('exists', v);
+		},
+
+		f_theDefault : function(v) {
+			return this.__field__('theDefault', v);
 		},
 
 	};

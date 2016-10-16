@@ -7,7 +7,7 @@ import com.boluozhai.snowflake.rest.element.repository.RepositoryProfile;
 
 public class RepositoryModel extends RestDoc {
 
-	private RepositoryProfile repository;
+	private RepositoryProfile repository; // the default or the query for
 	private List<RepositoryProfile> list;
 
 	public RepositoryProfile getRepository() {
