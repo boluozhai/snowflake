@@ -6,3 +6,8 @@
 .inline {
 	display: inline;
 }
+
+.owner-info {
+	background: #ddd;
+	padding: 36px;
+}

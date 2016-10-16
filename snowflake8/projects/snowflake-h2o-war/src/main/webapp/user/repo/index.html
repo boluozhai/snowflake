@@ -4,7 +4,7 @@
 <!--
 /***********************************************************************
  * 
- * user/repo/index.html (repo-home)
+ * ~/user/repo/index.html (repo-home)
  * 
  * @Copyright (c) 2016 boluozhai.com
  * @License MIT License
@@ -15,33 +15,26 @@
 
 <head>
 
+
 <meta charset='utf-8' />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
+
 <title class='i18n' i18n='title_repository_home'>RepoHome</title>
 
-<link href="./../../lib/import/bootstrap/css/bootstrap.min.css"
-	rel="stylesheet" type="text/css" />
 
-<link href="./../../lib/export/h2o/css/console.css" rel="stylesheet"
-	type="text/css" />
+<link rel="stylesheet"
+	href="./../../lib/import/bootstrap/css/bootstrap.min.css" />
 
-<link href="./../../lib/export/h2o/css/folder.css" rel="stylesheet"
-	type="text/css" />
+<link rel="stylesheet" href="./../../lib/export/h2o/css/console.css"
+	rel="stylesheet" />
 
-<link href="./../../lib/css/working.css" rel="stylesheet"
-	type="text/css" />
+<link rel="stylesheet" href="./../../lib/export/h2o/css/folder.css"
+	rel="stylesheet" />
 
+<link rel="stylesheet" href="./../../lib/css/working.css"
+	rel="stylesheet" />
 
-<style type="text/css">
-.page-foot {
-	text-align: center;
-}
-
-h1 {
-	text-align: center;
-}
-</style>
 
 </head>
 <body>
@@ -87,26 +80,13 @@ h1 {
 
 
 	<script src="./../../lib/js/config/base.js"></script>
-	<script src="./../../lib/js/config/i18n-base.js"></script>
 	<script src="./../../lib/js/config/final.js"></script>
-	<script src="./../../lib/js/ui/repo-home.html.js"></script>
+	<script src="./../../lib/i18n/default/default.strings.js"></script>
 
-
-	<script src="./this.js?service=www"></script>
 	<script src="./current-viewport.js?service=active-www"></script>
-	<!-- script src="./../../u/r/api/type/id/i18n.js"></script -->
+	<script src="./../../lib/js/ui/repo-index.html.js"></script>
 
 
-	<script type="text/javascript">
-		$(document).ready(function() {
-
-			var UserHomeHtml = com.boluozhai.h2o.html.UserHomeHtml;
-			var context = Snowflake.getContext();
-			var ctrl = new UserHomeHtml(context);
-			ctrl.init();
-
-		});
-	</script>
 
 </body>
 </html>

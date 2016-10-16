@@ -22,39 +22,52 @@ JS.module(function(mc) {
 	var HeadCtrl = mc.import(widget_x + '.head.HeadCtrl');
 
 	var Viewport = mc.import('com.boluozhai.snowflake.web.Viewport');
-	var WebPageController = mc
-			.import('com.boluozhai.snowflake.web.WebPageController');
+	var HtmlCtrl = mc.use(snowflake.HtmlCtrl);
 
 	/***************************************************************************
-	 * class UserHomeHtml
+	 * class RepoIndexHtml
 	 */
 
-	function UserHomeHtml(context) {
-		this.WebPageController(context);
+	function RepoIndexHtml(context) {
+		this.HtmlCtrl(context);
 	}
 
 	mc.class(function(cc) {
-		cc.type(UserHomeHtml);
-		cc.extends(WebPageController);
+		cc.type(RepoIndexHtml);
+		cc.extends(HtmlCtrl);
 	});
 
-	var is_head_visible = false;
+	RepoIndexHtml.prototype = {
 
-	UserHomeHtml.prototype = {
+		onCreate : function() {
 
-		init : function() {
-
-			var context = this._context;
 			var self = this;
+			var context = this._context;
 
 			var head_ctrl = new HeadCtrl(context);
 			this._head_ctrl = head_ctrl;
 			head_ctrl.binder().parent('#page-head');
 			head_ctrl.init();
 
+			// path-bar
+
+			// file-list
+
 		},
 
 	};
+
+	/***************************************************************************
+	 * main
+	 */
+
+	$(document).ready(function() {
+
+		var context = Snowflake.getContext();
+		var ctrl = new RepoIndexHtml(context);
+		ctrl.init();
+
+	});
 
 });
 

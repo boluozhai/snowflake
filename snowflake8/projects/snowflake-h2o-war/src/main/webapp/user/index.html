@@ -39,11 +39,47 @@
 
 		<div id='page-head'></div>
 
-		<h1 class='context work-in-progress' i18n='work-in-progress'></h1>
+		<h1 class='context work-in-progress hide ' i18n='work-in-progress'></h1>
 
-		<h1>index</h1>
 
-		<h1 class='center'>
+
+		<div class='owner-info'>
+			<div>
+				<h1 class='owner-nickname'></h1>
+			</div>
+			<div>
+				(id= <span class='owner-uid'></span> )
+			</div>
+		</div>
+
+
+
+		<div>
+			<table class='table repo-list ' id='repo-list'>
+
+				<tr class='list-head'>
+					<td class='context' i18n='repository_name'>Repo Name</td>
+					<td class='context' i18n='repository_description'>Description</td>
+				</tr>
+
+				<tr class='list-item'>
+					<td>
+						<h3>
+							<a class='repo-name repo-href'> </a> <span
+								class='repo-is-default'></span>
+						</h3>
+					</td>
+					<td>
+						<p class='repo-description'></p>
+					</td>
+				</tr>
+			</table>
+		</div>
+
+
+
+
+		<h1 class='center hide '>
 			-- <span class='context' i18n='flow'> </span> --
 		</h1>
 
