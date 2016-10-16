@@ -129,6 +129,10 @@ JS.module(function(mc) {
 
 	function onLoginOK(task) {
 		alert('OK');
+
+		// goto login
+		window.location = './login';
+
 	}
 
 });
