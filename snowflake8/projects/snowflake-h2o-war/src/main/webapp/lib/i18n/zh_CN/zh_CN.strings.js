@@ -66,5 +66,12 @@ this.h2o.i18n.StringResTable.mapping.zh_CN = {
 	"work-in-progress" : "正在施工",
 	"working_space" : "工作空间",
 	"yes" : "Yes",
-	"zh_CN" : "简体中文(中国)"
+	"zh_CN" : "简体中文(中国)",
+
+	"back" : "返回",
+	"has_sign_out" : "已退出。",
+	"logining" : "正在登录",
+	"want_to_logout" : "你确定要退出吗？",
+	"yes" : "是的",
+
 };

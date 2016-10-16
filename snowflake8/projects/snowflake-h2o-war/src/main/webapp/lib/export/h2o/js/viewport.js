@@ -88,7 +88,11 @@ JS.module(function(mc) {
 			}
 
 			if (repo != null) {
-				this.myNickname(repo.xxx);
+				this.repositoryName(repo.name);
+				this.repositoryDescription(repo.description);
+				this.repositoryExists(repo.exists);
+				this.repositoryURL(repo.url);
+				this.repositoryDefault(repo.theDefault);
 			}
 
 			// xxxx.xx();
@@ -135,8 +139,24 @@ JS.module(function(mc) {
 			return this.attr('owner_exists', v, def);
 		},
 
-		repo : function(v, def) {
+		repositoryName : function(v, def) {
 			return this.attr('repo_name', v, def);
+		},
+
+		repositoryDescription : function(v, def) {
+			return this.attr('repo_desc', v, def);
+		},
+
+		repositoryURL : function(v, def) {
+			return this.attr('repo_url', v, def);
+		},
+
+		repositoryExists : function(v, def) {
+			return this.attr('repo_exists', v, def);
+		},
+
+		repositoryDefault : function(v, def) {
+			return this.attr('repo_default', v, def);
 		},
 
 	};
@@ -189,7 +209,7 @@ JS.module(function(mc) {
 		},
 
 		repositoryName : function(def) {
-			return this._inner.repo(null, def);
+			return this._inner.repositoryName(null, def);
 		},
 
 		signed : function(def) {

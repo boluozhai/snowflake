@@ -72,4 +72,7 @@ this.h2o.i18n.StringResTable.mapping['default'] = {
 	register_success : '恭喜，注册成功！',
 	goto_login : '去登录',
 
+	repository_name : '仓库名称',
+	repository_description : '描述',
+
 };

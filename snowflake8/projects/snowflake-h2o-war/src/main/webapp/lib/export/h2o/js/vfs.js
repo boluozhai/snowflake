@@ -721,6 +721,8 @@ JS.module(function(mc) {
 
 });
 
+this.snowflake.VFSFactory = com.boluozhai.snowflake.vfs.VFSFactory;
+
 /*******************************************************************************
  * EOF
  */

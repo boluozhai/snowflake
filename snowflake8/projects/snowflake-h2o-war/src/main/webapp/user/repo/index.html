@@ -41,14 +41,21 @@
 
 	<div id='client' class='container'>
 
-		<h1>Repo Index</h1>
-
-
 		<div id='page-head'></div>
 
+		<h1>
+			<a class='context' context--text='{attr:viewport-uid}'
+				context-href='~/{attr:viewport-uid}/' href='#'> user</a> <span>
+				/ </span> <a class='context' context--text='{attr:viewport-repo-name}'
+				context-href='~/{attr:viewport-uid}/{attr:viewport-repo-name}/'
+				href='#'>repo</a>
+		</h1>
 
-		<h1>Repo Home</h1>
+		<div id='path-bar'>
+			<span class='path-bar-head'></span>
+		</div>
 
+		<div id='file-list'></div>
 
 		<div class='page-foot side-bar '>
 			<div>
@@ -70,8 +77,9 @@
 	<script src="./../../lib/import/snowflake/listview.js"></script>
 
 
-	<script src="./../../lib/export/h2o/js/viewport.js"></script>
 	<script src="./../../lib/export/h2o/js/widget.js"></script>
+	<script src="./../../lib/export/h2o/js/i18n.js"></script>
+	<script src="./../../lib/export/h2o/js/viewport.js"></script>
 	<script src="./../../lib/export/h2o/js/folder.js"></script>
 	<script src="./../../lib/export/h2o/js/cli.js"></script>
 	<script src="./../../lib/export/h2o/js/console.js"></script>

@@ -241,9 +241,20 @@ JS.module(function(mc) {
 		trans_task_context_x : function(task) {
 			var raw = task.value;
 			var context = task.context;
-			var value = context.normalizeURL(raw);
+			var value = raw;
+			var key = task.key;
+			var q = task.query;
+
+			if (value.indexOf('~/') == 0) {
+				value = context.normalizeURL(raw);
+			}
+
 			value = this.trans_atts_in_string(context, value);
-			task.query.attr(task.key, value);
+			if (key == '-text') {
+				q.text(value);
+			} else {
+				q.attr(key, value);
+			}
 		},
 
 	};
