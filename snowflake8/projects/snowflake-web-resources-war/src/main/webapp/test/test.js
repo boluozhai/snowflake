@@ -130,11 +130,11 @@ JS
 					res.part('api', 'RestAPI');
 					res.part('type', 'RestType');
 					res.part('id', 'RestId.json');
-					res.service('a-user-define-service');
 
 					// res1
 
 					var request = res.get();
+					request.parameter('service', 'a-user-define-service');
 					request.execute(callback);
 
 					// res2

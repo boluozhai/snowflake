@@ -144,10 +144,6 @@ JS.module(function(_mc_) {
 			return this._path_builder.create();
 		},
 
-		service : function(value) {
-			return this._path_builder.service(value);
-		},
-
 		part : function(key, value) {
 			return this._path_builder.part(key, value);
 		},
@@ -504,10 +500,6 @@ JS.module(function(_mc_) {
 			part.setValue(value);
 		},
 
-		service : function(value) {
-			return this.attr('service', value);
-		},
-
 		attr : function(k, v) {
 			k = '__attr_' + k;
 			if (v == null) {
@@ -526,14 +518,6 @@ JS.module(function(_mc_) {
 				var s = part.to_regular_string();
 				sb += ('/' + s);
 			}
-
-			var service = this.service();
-			if (service == null) {
-				// NOP
-			} else {
-				sb += ('?service=' + service);
-			}
-
 			var context = this._context;
 			return context.normalizeURL(sb);
 		},
@@ -548,6 +532,7 @@ JS.module(function(_mc_) {
 		this.RestMessage();
 		this._res = res;
 		this._method = method;
+		this._query = {};
 	}
 
 	_mc_.class(function(cc) {
@@ -562,7 +547,47 @@ JS.module(function(_mc_) {
 		},
 
 		getURL : function() {
-			return this._res.getURL();
+
+			var query = null;
+			var map = this._query;
+			if (map != null) {
+				for ( var key in map) {
+					var value = map[key];
+					if (query == null) {
+						query = '?';
+					} else {
+						query += '&';
+					}
+					query += (key + '=' + value);
+				}
+			}
+
+			if (query == null) {
+				query = '';
+			}
+
+			return this._res.getURL() + query;
+		},
+
+		parameter : function(k, v) {
+			if (v == null) {
+				v = this._query[k];
+			} else {
+				this._query[k] = v;
+			}
+			return v;
+		},
+
+		parameters : function(table) {
+			if (table == null) {
+				table = this._query;
+			} else {
+				for ( var k in table) {
+					var v = table[k];
+					this.parameter(k, v);
+				}
+			}
+			return table;
 		},
 
 	};

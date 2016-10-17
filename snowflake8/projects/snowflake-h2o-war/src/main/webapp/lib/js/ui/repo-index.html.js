@@ -32,7 +32,7 @@ JS.module(function(mc) {
 	var FileListCtrl = mc
 			.import('com.boluozhai.h2o.widget.folder.FileListCtrl');
 
-	var VFSFactory = mc.use(snowflake.VFSFactory);
+	var VFS = mc.use(snowflake.vfs.VFS);
 
 	/***************************************************************************
 	 * class RepoIndexHtml
@@ -131,12 +131,14 @@ JS.module(function(mc) {
 		setupVFS : function() {
 
 			// vfs
+
 			var context = this._context;
-			var vfs_factory = new VFSFactory();
-			vfs_factory.httpURI(this.genWorkingBaseHttpURI());
-			var vfs = vfs_factory.create(context);
+			var vfs = VFS.newInstance(context);
+
+			// vfs_factory.httpURI(this.genWorkingBaseHttpURI());
+
 			this._vfs = vfs;
-			vfs.ready(function() {
+			vfs.root().load(function() {
 				self.fireOnClickRootBtn();
 			});
 

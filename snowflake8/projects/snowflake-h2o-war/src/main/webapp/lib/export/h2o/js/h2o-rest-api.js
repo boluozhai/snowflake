@@ -358,6 +358,100 @@ JS.module(function(mc) {
 	};
 
 	/***************************************************************************
+	 * class Node & NodeList
+	 */
+
+	function Node(init) {
+		this.BaseElement(init);
+		// String name;
+		// long lastModified;
+		// long length;
+		// boolean directory;
+	}
+
+	mc.class(function(cc) {
+		cc.type(Node);
+		cc.extends(BaseElement);
+	});
+
+	Node.createList = function(src) {
+		var dst = [];
+		for ( var i in src) {
+			var item = src[i];
+			item = new Node(item);
+			dst.push(item);
+		}
+		return dst;
+	};
+
+	Node.prototype = {
+
+		f_name : function(v) {
+			return this.__field__('name', v);
+		},
+
+		f_directory : function(v) {
+			return this.__field__('directory', v);
+		},
+
+		f_length : function(v) {
+			return this.__field__('length', v);
+		},
+
+		f_lastModified : function(v) {
+			return this.__field__('lastModified', v);
+		},
+
+	};
+
+	// NodeList
+
+	function NodeList(init) {
+		this.Node(init);
+
+		// boolean exists;
+		// String fileURI; // a URI start with 'file:/'
+		// String baseURI; // the prefix of fileURI
+		// String debugBaseURI;
+		// String debugURI; // =(baseURI+path)
+		// String debugAbsPath;
+		// String[] path; // the offset base on baseURI
+
+		// List<Node> list;
+		this.list = Node.createList(this.list);
+
+	}
+
+	mc.class(function(cc) {
+		cc.type(NodeList);
+		cc.extends(Node);
+	});
+
+	NodeList.prototype = {
+
+		f_exists : function(v) {
+			return this.__field__('exists', v);
+		},
+
+		f_fileURI : function(v) {
+			return this.__field__('fileURI', v);
+		},
+
+		f_baseURI : function(v) {
+			return this.__field__('baseURI', v);
+		},
+
+		f_path : function(v) {
+			return this.__field__('path', v);
+		},
+
+		f_list : function(v) {
+			return this.__field__('list', v);
+		},
+
+	};
+
+	/***************************************************************************
 	 * class ViewportProfile
 	 */
 
@@ -437,6 +531,7 @@ JS.module(function(mc) {
 	var RepositoryProfile = mc.import(element_pkg + '.RepositoryProfile');
 	var SessionProfile = mc.import(element_pkg + '.SessionProfile');
 	var ViewportProfile = mc.import(element_pkg + '.ViewportProfile');
+	var NodeList = mc.import(element_pkg + '.NodeList');
 
 	/***************************************************************************
 	 * class AuthModel
@@ -464,6 +559,28 @@ JS.module(function(mc) {
 
 		f_response : function(v) {
 			return this.__field__('response', v);
+		},
+
+	};
+
+	/***************************************************************************
+	 * class FileModel
+	 */
+
+	function FileModel(init) {
+		this.BaseModel(init);
+		this.vfile = new NodeList(this.vfile);
+	}
+
+	mc.class(function(cc) {
+		cc.type(FileModel);
+		cc.extends(BaseModel);
+	});
+
+	FileModel.prototype = {
+
+		f_vfile : function(v) {
+			return this.__vfile__('vfile', v);
 		},
 
 	};
@@ -556,6 +673,7 @@ JS.module(function(mc) {
 	var REST = mc.import('snowflake.rest.REST');
 
 	var AuthModel = mc.import(model_pkg + '.AuthModel');
+	var FileModel = mc.import(model_pkg + '.FileModel');
 	var RepositoryModel = mc.import(model_pkg + '.RepositoryModel');
 	var SessionModel = mc.import(model_pkg + '.SessionModel');
 	var ViewportModel = mc.import(model_pkg + '.ViewportModel');
@@ -634,6 +752,7 @@ JS.module(function(mc) {
 
 			this.currentService('system-api');
 			this.register('auth', new AuthModel());
+			this.register('file', new FileModel());
 			this.register('session', new SessionModel());
 			this.register('viewport', new ViewportModel());
 
@@ -680,8 +799,9 @@ JS.module(function(mc) {
 		this._context = context;
 		this._facade = facade;
 		this._method = null;
-		this._param = null;
+		this._param = null; // properties
 		this._check_response_type = true;
+		this._query_table = {};
 	}
 
 	JSONRestRequestImpl.prototype = {
@@ -703,6 +823,15 @@ JS.module(function(mc) {
 
 			var model_class = model_info.getModelClass();
 			return model_class.newInstance(pojo);
+		},
+
+		query : function(k, v) {
+			if (v == null) {
+				v = this._query_table[k];
+			} else {
+				this._query_table[k] = v;
+			}
+			return v;
 		},
 
 		parse_response_error : function(txt) {
@@ -745,7 +874,6 @@ JS.module(function(mc) {
 			var client = REST.getClient(context);
 			var resource = client.getResource();
 			resource.parts(parts);
-			resource.service(this._service);
 
 			if (method == null) {
 				// NOP
@@ -765,6 +893,9 @@ JS.module(function(mc) {
 			if (request == null) {
 				throw new Exception('unsupported method: ' + method);
 			}
+
+			request.parameters(this._query_table);
+			request.parameter('service', this._service);
 
 			var self = this;
 			var req_ent = request.entity();
@@ -812,6 +943,17 @@ JS.module(function(mc) {
 
 		open : function(method, param) {
 			return this._impl.open(method, param);
+		},
+
+		parameter : function(k, v) {
+			return this._impl.query(k, v);
+		},
+
+		setParameters : function(map) {
+			for ( var key in map) {
+				var value = map[key];
+				this.parameter(key, value);
+			}
 		},
 
 		send : function(entity) {

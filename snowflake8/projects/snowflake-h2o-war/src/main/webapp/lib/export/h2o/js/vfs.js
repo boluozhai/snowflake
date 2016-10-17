@@ -21,128 +21,38 @@ JS.module(function(mc) {
 	 * class VFS
 	 */
 
-	function VFS(inner) {
-		this._inner = inner;
+	function VFS() {
 	}
 
 	mc.class(function(cc) {
 		cc.type(VFS);
-		// cc.extends(Attributes);
 	});
 
 	VFS.prototype = {
 
 		newFile : function(uri) {
-			return this._inner.newFile(uri);
+			throw new Exception('implements in sub-class');
 		},
 
 		context : function() {
-			return this._inner.context();
-		},
-
-		ready : function(fn /* () */) {
-			var ready = this._inner.isReady();
-			if (ready) {
-				if (fn != null) {
-					fn();
-				}
-			} else {
-				this.root().load(fn);
-			}
-			return ready;
+			throw new Exception('implements in sub-class');
 		},
 
 		root : function() {
-			return this._inner.root();
+			throw new Exception('implements in sub-class');
 		},
 
 	};
 
-	VFS.getInstance = function(context) {
-		var key = VFS.class.getName();
-		return context.getBean(key);
+	VFS.newInstance = function(context) {
+		var builder = VFS.newBuilder(context);
+		return builder.create(context);
 	};
 
-	/***************************************************************************
-	 * class VFSCore
-	 */
-
-	function InnerVFS(context, builder) {
-		this._context = context;
-		this._http_uri = builder.httpURI();
-		this._file_uri = builder.fileURI();
-	}
-
-	InnerVFS.prototype = {
-
-		init : function() {
-
-		},
-
-		context : function() {
-			return this._context;
-		},
-
-		isReady : function() {
-			var root = this.root();
-			var file_uri = root.toFileURI();
-			return (file_uri != null);
-		},
-
-		root : function() {
-			return this.inner_root().file();
-		},
-
-		inner_root : function() {
-			var r = this._in_root;
-			if (r == null) {
-				r = new InnerFile(this, null, null);
-				this._in_root = r;
-			}
-			return r;
-		},
-
-		vfs : function() {
-			var vfs = this._vfs;
-			if (vfs == null) {
-				vfs = new VFS(this);
-				this._vfs = vfs;
-			}
-			return vfs;
-		},
-
-		httpURI : function() {
-			return this._http_uri;
-		},
-
-		fileURI : function() {
-		},
-
-		newFile : function(uri) {
-
-			if (uri == null) {
-				throw new RuntimeException('unsupported');
-			} else if (uri.indexOf('file:') == 0) {
-
-				var prefix = this.fileURI();
-				if (uri.indexOf(prefix) == 0) {
-					var base = this.root();
-					var offset = uri.substring(base.length);
-					return base.child(offset);
-				} else {
-					throw new RuntimeException('bad uri : ' + uri);
-				}
-
-			} else if (uri.indexOf('http:') == 0) {
-				throw new RuntimeException('unsupported');
-			} else if (uri.indexOf('https:') == 0) {
-				throw new RuntimeException('unsupported');
-			} else {
-				throw new RuntimeException('unsupported');
-			}
-
-		},
-
+	VFS.newBuilder = function(context) {
+		var key = VFSFactory.class.getName();
+		var factory = context.getBean(key);
+		return factory.newBuilder(context);
 	};
 
 	/***************************************************************************
@@ -154,22 +64,38 @@ JS.module(function(mc) {
 
 	mc.class(function(cc) {
 		cc.type(VFSFactory);
-		cc.extends(Attributes);
+		// cc.extends(Attributes);
 	});
 
 	VFSFactory.prototype = {
 
-		create : function(context) {
-			var inner_vfs = new InnerVFS(context, this);
-			return inner_vfs.vfs();
+		newBuilder : function(context) {
+			return new VFSBuilder(context);
 		},
 
-		httpURI : function(value) {
-			return this.attr('http_uri', value);
+	};
+
+	/***************************************************************************
+	 * class VFSBuilder
+	 */
+
+	function VFSBuilder(context) {
+		this.context(context);
+	}
+
+	mc.class(function(cc) {
+		cc.type(VFSBuilder);
+		cc.extends(Attributes);
+	});
+
+	VFSBuilder.prototype = {
+
+		create : function() {
+			throw new Exception('implements in sub-class');
 		},
 
-		fileURI : function(value) {
-			return this.attr('file_uri', value);
+		context : function(context) {
+			return this.attr('context', context);
 		},
 
 	};
@@ -178,8 +104,7 @@ JS.module(function(mc) {
 	 * class VFile
 	 */
 
-	function VFile(inner) {
-		this._inner = inner;
+	function VFile() {
 	}
 
 	mc.class(function(cc) {
@@ -189,438 +114,201 @@ JS.module(function(mc) {
 	VFile.prototype = {
 
 		load : function(fn) {
-			return this._inner.load(fn);
+			throw new Exception('implements in sub-class');
 		},
 
 		vfs : function() {
-			return this._inner.vfs();
+			throw new Exception('implements in sub-class');
 		},
 
 		child : function(name) {
-			return this._inner.child(name);
+			throw new Exception('implements in sub-class');
 		},
 
 		// next: like java.io.File
 
 		canExecute : function() {
-			throw new RuntimeException('no impl');
+			throw new Exception('implements in sub-class');
 		},
 
 		canRead : function() {
-			throw new RuntimeException('no impl');
+			throw new Exception('implements in sub-class');
 		},
 
 		canWrite : function() {
-			throw new RuntimeException('no impl');
+			throw new Exception('implements in sub-class');
 		},
 
 		compareTo : function(pathname) {
-			throw new RuntimeException('no impl');
+			throw new Exception('implements in sub-class');
 		},
 
 		createNewFile : function() {
-			throw new RuntimeException('no impl');
+			throw new Exception('implements in sub-class');
 		},
 
 		del : function() {
-			throw new RuntimeException('no impl');
+			throw new Exception('implements in sub-class');
 		},
 
 		equals : function(obj) {
-			throw new RuntimeException('no impl');
+			throw new Exception('implements in sub-class');
 		},
 
 		exists : function() {
-			return this._inner.exists();
+			throw new Exception('implements in sub-class');
 		},
 
 		getAbsoluteFile : function() {
-			throw new RuntimeException('no impl');
+			throw new Exception('implements in sub-class');
 		},
 
 		getAbsolutePath : function() {
-			throw new RuntimeException('no impl');
+			throw new Exception('implements in sub-class');
 		},
 
 		getCanonicalFile : function() {
-			throw new RuntimeException('no impl');
+			throw new Exception('implements in sub-class');
 		},
 
 		getCanonicalPath : function() {
-			throw new RuntimeException('no impl');
+			throw new Exception('implements in sub-class');
 		},
 
 		getFreeSpace : function() {
-			throw new RuntimeException('no impl');
+			throw new Exception('implements in sub-class');
 		},
 
 		getName : function() {
-			return this._inner.name();
+			throw new Exception('implements in sub-class');
 		},
 
 		getParent : function() {
-			return this._inner.parent_path();
+			throw new Exception('implements in sub-class');
 		},
 
 		getParentFile : function() {
-			return this._inner.parent_file();
+			throw new Exception('implements in sub-class');
 		},
 
 		getPath : function() {
-			throw new RuntimeException('no impl');
+			throw new Exception('implements in sub-class');
 		},
 
 		getTotalSpace : function() {
-			throw new RuntimeException('no impl');
+			throw new Exception('implements in sub-class');
 		},
 
 		getUsableSpace : function() {
-			throw new RuntimeException('no impl');
+			throw new Exception('implements in sub-class');
 		},
 
 		hashCode : function() {
-			throw new RuntimeException('no impl');
+			throw new Exception('implements in sub-class');
 		},
 
 		isAbsolute : function() {
-			return this._inner.is_absolute();
+			throw new Exception('implements in sub-class');
 		},
 
 		isDirectory : function() {
-			return this._inner.is_directory();
+			throw new Exception('implements in sub-class');
 		},
 
 		isFile : function() {
-			return this._inner.is_file();
+			throw new Exception('implements in sub-class');
 		},
 
 		isHidden : function() {
-			return this._inner.is_hidden();
+			throw new Exception('implements in sub-class');
 		},
 
 		lastModified : function() {
-			return this._inner.last_modified();
+			throw new Exception('implements in sub-class');
 		},
 
 		length : function() {
-			return this._inner.length();
+			throw new Exception('implements in sub-class');
 		},
 
 		list : function() {
-			return this._inner.list();
+			throw new Exception('implements in sub-class');
 		},
 
 		list : function(filter) {
-			return this._inner.list(filter);
+			throw new Exception('implements in sub-class');
 		},
 
 		listFiles : function() {
-			throw new RuntimeException('no impl');
+			throw new Exception('implements in sub-class');
 		},
 
 		listFiles : function(filter) {
-			throw new RuntimeException('no impl');
+			throw new Exception('implements in sub-class');
 		},
 
 		listFiles : function(filter) {
-			throw new RuntimeException('no impl');
+			throw new Exception('implements in sub-class');
 		},
 
 		mkdir : function() {
-			throw new RuntimeException('no impl');
+			throw new Exception('implements in sub-class');
 		},
 
 		mkdirs : function() {
-			throw new RuntimeException('no impl');
+			throw new Exception('implements in sub-class');
 		},
 
 		renameTo : function(dest) {
-			throw new RuntimeException('no impl');
+			throw new Exception('implements in sub-class');
 		},
 
 		setExecutable : function(executable) {
-			throw new RuntimeException('no impl');
+			throw new Exception('implements in sub-class');
 		},
 
 		setExecutable : function(executable, ownerOnly) {
-			throw new RuntimeException('no impl');
+			throw new Exception('implements in sub-class');
 		},
 
 		setLastModified : function(time) {
-			throw new RuntimeException('no impl');
+			throw new Exception('implements in sub-class');
 		},
 
 		setReadable : function(readable) {
-			throw new RuntimeException('no impl');
+			throw new Exception('implements in sub-class');
 		},
 
 		setReadable : function(readable, ownerOnly) {
-			throw new RuntimeException('no impl');
+			throw new Exception('implements in sub-class');
 		},
 
 		setReadOnly : function() {
-			throw new RuntimeException('no impl');
+			throw new Exception('implements in sub-class');
 		},
 
 		setWritable : function(writable) {
-			throw new RuntimeException('no impl');
+			throw new Exception('implements in sub-class');
 		},
 
 		setWritable : function(writable, ownerOnly) {
-			throw new RuntimeException('no impl');
+			throw new Exception('implements in sub-class');
 		},
 
 		toString : function() {
-			return this._inner.fileURI();
+			throw new Exception('implements in sub-class');
 		},
 
 		toURI : function() {
-			return this._inner.toURI();
+			throw new Exception('implements in sub-class');
 		},
 
 		toHttpURI : function() {
-			return this._inner.httpURI();
+			throw new Exception('implements in sub-class');
 		},
 
 		toFileURI : function() {
-			return this._inner.fileURI();
-		},
-
-	};
-
-	/***************************************************************************
-	 * class InnerFile
-	 */
-
-	function InnerFile(in_vfs, in_parent, name, vfile) {
-
-		if (vfile == null) {
-			vfile = {};
-		}
-
-		this._in_vfs = in_vfs;
-		this._in_parent = in_parent;
-		this._vfs = in_vfs.vfs();
-		this.vfile = vfile;
-
-		if (in_parent == null) {
-			// the root
-			var base_http_uri = in_vfs.httpURI();
-			this._http_uri = base_http_uri;
-			this._name = '{root}';
-		} else {
-			// a child
-			var base_http_uri = in_parent.httpURI();
-			this._parent = in_parent.file();
-			this._http_uri = InnerFile.mix_url(base_http_uri, name);
-			this._name = name;
-		}
-
-	}
-
-	InnerFile.mix_url = function(base, offset) {
-		if (offset == null) {
-			return base;
-		}
-		if (base == null) {
-			return offset;
-		}
-		if (base.lastIndexOf('/') == base.length - 1) {
-			return (base + offset);
-		} else if (offset.indexOf('/') == 0) {
-			return (base + offset);
-		} else {
-			return (base + '/' + offset);
-		}
-	};
-
-	InnerFile.prototype = {
-
-		child_simple : function(name) {
-			return this.inner_child_simple(name).file();
-		},
-
-		inner_child_simple : function(name) {
-
-			var init_vfile = null;
-			var child = this.vfile.child;
-			if (child != null) {
-				init_vfile = child[name];
-			}
-
-			var in_vfs = this._in_vfs;
-			var in_parent = this;
-			return new InnerFile(in_vfs, in_parent, name, init_vfile);
-		},
-
-		child_array : function(array) {
-			var p = this;
-			for ( var index in array) {
-				var name = array[index];
-				p = p.inner_child_simple(name);
-			}
-			return p.file();
-		},
-
-		child : function(path) {
-
-			var in_base = null;
-			var array = null;
-
-			if (path.indexOf('file:') == 0) {
-				// to absolute
-				var prefix = this._vfs.root().toFileURI();
-				if (path.indexOf(prefix) == 0) {
-					in_base = this._in_vfs.inner_root();
-					path = path.substring(prefix.length);
-				} else {
-					throw new RuntimeException('bad location: ' + path);
-				}
-
-			} else if (path.indexOf('/') == 0) {
-				// a absolute
-				in_base = this._in_vfs.inner_root();
-
-			} else {
-				in_base = this;
-			}
-
-			array = [];
-			var a2 = path.split('/');
-			for ( var i in a2) {
-				var name = a2[i];
-				if (name == null) {
-					continue;
-				} else {
-					name = name.trim();
-				}
-				if (name.length == 0) {
-					continue;
-				} else {
-					array.push(name);
-				}
-			}
-
-			return in_base.child_array(array);
-
-		},
-
-		exists : function() {
-			return this.vfile.exists;
-		},
-
-		file : function() {
-			var file = this._file;
-			if (file == null) {
-				file = new VFile(this);
-				this._file = file;
-			}
-			return file;
-		},
-
-		is_directory : function() {
-			return this.vfile.directory;
-		},
-
-		parent_path : function() {
-			var parent = this._parent;
-			if (parent == null) {
-				return null;
-			} else {
-				return parent.getAbsolutePath();
-			}
-		},
-
-		parent_file : function() {
-			return this._parent;
-		},
-
-		last_modified : function() {
-			return this.vfile.lastModified;
-		},
-
-		length : function() {
-			return this.vfile.length;
-		},
-
-		list : function(filter) {
-			if (filter == null) {
-				filter = function() {
-					return true;
-				};
-			}
-			var list = [];
-			var src = this.vfile.child;
-			for ( var name in src) {
-				if (filter(name)) {
-					list.push(name);
-				}
-			}
-			return list;
-		},
-
-		name : function() {
-			return this._name;
-		},
-
-		fileURI : function() {
-			return this._file_uri;
-		},
-
-		httpURI : function() {
-			return this._http_uri;
-		},
-
-		load : function(fn) {
-
-			if (fn == null) {
-				fn = function() {
-				};
-			}
-
-			var self = this;
-			var url = this._http_uri;
-			var context = this._vfs.context();
-			url = context.normalizeURL(url);
-
-			CurrentLocationLoader_load(url, function(js) {
-				self.onload(js);
-				fn();
-			});
-
-		},
-
-		onload : function(js) {
-
-			this.vfile = js.vfile;
-			this._file_uri = js.vfile.fileURI;
-
-			var list = js.vfile.list;
-			var map = {};
-			for ( var i in list) {
-				var item = list[i];
-				var key = item.name;
-				map[key] = item;
-			}
-			js.vfile.child = map;
-
-			var http_uri = this._http_uri;
-			var ht1 = (http_uri.indexOf('http:') < 0);
-			var ht2 = (http_uri.indexOf('https:') < 0);
-			if (ht1 && ht2) {
-				this._http_uri = js.vfile.httpURI;
-			}
-
-			// System.out.println('onload(vfs.js,560) : ' + this._file_uri);
-
-		},
-
-		vfs : function() {
-			return this._vfs;
-		},
-
-		inner_vfs : function() {
-			return this._in_vfs;
+			throw new Exception('implements in sub-class');
 		},
 
 	};
@@ -644,23 +332,10 @@ JS.module(function(mc) {
 			if (file == null) {
 				file = this._location;
 			} else {
-				this.load(file);
 				this._location = file;
+				// CurrentLocation_onload(this, file);
 			}
 			return file;
-		},
-
-		load : function(file) {
-
-			var self = this;
-
-			file.load(function() {
-				// onload
-
-				CurrentLocation_onload(self, file);
-
-			});
-
 		},
 
 	};
@@ -691,37 +366,274 @@ JS.module(function(mc) {
 	}
 
 	/***************************************************************************
-	 * class CurrentLocationLoader
+	 * class VFSFacade
 	 */
 
-	function CurrentLocationLoader_load(url, fn /* (js) */) {
-
-		var request = {};
-
-		var xhr = new XMLHttpRequest();
-		xhr.open('GET', url, true);
-		xhr.onreadystatechange = function() {
-
-			var state = xhr.readyState;
-			if (state != 4) {
-				return;
-			}
-			var code = xhr.status;
-			if (code != 200) {
-				return;
-			}
-
-			var response = JSON.parse(xhr.responseText);
-			response.vfile.httpURI = xhr.responseURL;
-			fn(response);
-
-		};
-		xhr.send(JSON.stringify(request));
+	function VFSFacade(inner) {
+		this.inner = inner;
 	}
+
+	mc.class(function(cc) {
+		cc.type(VFSFacade);
+	});
+
+	VFSFacade.prototype = {
+
+		newFile : function(uri) {
+			return this.inner.newFile(uri);
+		},
+
+		context : function() {
+			return this.inner.context();
+		},
+
+		root : function() {
+			return this.inner.root();
+		},
+
+	};
+
+	/***************************************************************************
+	 * class VFileFacade
+	 */
+
+	function VFileFacade(inner) {
+		this.inner = inner;
+	}
+
+	mc.class(function(cc) {
+		cc.type(VFileFacade);
+	});
+
+	VFileFacade.prototype = {
+
+		load : function(fn) {
+			return this.inner.load(fn);
+		},
+
+		vfs : function() {
+			return this.inner.vfs();
+		},
+
+		child : function(name) {
+			return this.inner.child(name);
+		},
+
+		// next: like java.io.File
+
+		canExecute : function() {
+			return this.inner.canExecute();
+		},
+
+		canRead : function() {
+			return this.inner.canRead();
+		},
+
+		canWrite : function() {
+			return this.inner.canWrite();
+		},
+
+		compareTo : function(pathname) {
+			return this.inner.compareTo(pathname);
+		},
+
+		createNewFile : function() {
+			return this.inner.xxxxxxxxxx();
+		},
+
+		del : function() {
+			return this.inner.del();
+		},
+
+		equals : function(obj) {
+			return this.inner.equals(obj);
+		},
+
+		exists : function() {
+			return this.inner.exists();
+		},
+
+		getAbsoluteFile : function() {
+			return this.inner.xxxxxxxxxx();
+		},
+
+		getAbsolutePath : function() {
+			return this.inner.xxxxxxxxxx();
+		},
+
+		getCanonicalFile : function() {
+			return this.inner.xxxxxxxxxx();
+		},
+
+		getCanonicalPath : function() {
+			return this.inner.xxxxxxxxxx();
+		},
+
+		getFreeSpace : function() {
+			return this.inner.xxxxxxxxxx();
+		},
+
+		getName : function() {
+			return this.inner.getName();
+		},
+
+		getParent : function() {
+			return this.inner.getParent();
+		},
+
+		getParentFile : function() {
+			return this.inner.xxxxxxxxxx();
+		},
+
+		getPath : function() {
+			return this.inner.xxxxxxxxxx();
+		},
+
+		getTotalSpace : function() {
+			return this.inner.xxxxxxxxxx();
+		},
+
+		getUsableSpace : function() {
+			return this.inner.xxxxxxxxxx();
+		},
+
+		hashCode : function() {
+			return this.inner.hashCode();
+		},
+
+		isAbsolute : function() {
+			return this.inner.isAbsolute();
+		},
+
+		isDirectory : function() {
+			return this.inner.isDirectory();
+		},
+
+		isFile : function() {
+			return this.inner.isFile();
+		},
+
+		isHidden : function() {
+			return this.inner.xxxxxxxxxx();
+		},
+
+		lastModified : function() {
+			return this.inner.lastModified();
+		},
+
+		length : function() {
+			return this.inner.length();
+		},
+
+		list : function() {
+			return this.inner.list();
+		},
+
+		list : function(filter) {
+			return this.inner.xxxxxxxxxx();
+		},
+
+		listFiles : function() {
+			return this.inner.xxxxxxxxxx();
+		},
+
+		listFiles : function(filter) {
+			return this.inner.xxxxxxxxxx();
+		},
+
+		listFiles : function(filter) {
+			return this.inner.xxxxxxxxxx();
+		},
+
+		mkdir : function() {
+			return this.inner.xxxxxxxxxx();
+		},
+
+		mkdirs : function() {
+			return this.inner.xxxxxxxxxx();
+		},
+
+		renameTo : function(dest) {
+			return this.inner.xxxxxxxxxx();
+		},
+
+		setExecutable : function(executable) {
+			return this.inner.xxxxxxxxxx();
+		},
+
+		setExecutable : function(executable, ownerOnly) {
+			return this.inner.xxxxxxxxxx();
+		},
+
+		setLastModified : function(time) {
+			return this.inner.xxxxxxxxxx();
+		},
+
+		setReadable : function(readable) {
+			return this.inner.xxxxxxxxxx();
+		},
+
+		setReadable : function(readable, ownerOnly) {
+			return this.inner.xxxxxxxxxx();
+		},
+
+		setReadOnly : function() {
+			return this.inner.xxxxxxxxxx();
+		},
+
+		setWritable : function(writable) {
+			return this.inner.xxxxxxxxxx();
+		},
+
+		setWritable : function(writable, ownerOnly) {
+			return this.inner.xxxxxxxxxx();
+		},
+
+		toString : function() {
+			return this.inner.toString();
+		},
+
+		toURI : function() {
+			return this.inner.toURI();
+		},
+
+		toHttpURI : function() {
+			return this.inner.toHttpURI();
+		},
+
+		toFileURI : function() {
+			return this.inner.toFileURI();
+		},
+
+	};
 
 });
 
-this.snowflake.VFSFactory = com.boluozhai.snowflake.vfs.VFSFactory;
+JS.module(function(mc) {
+
+	mc.package('snowflake.vfs');
+
+	function PackageInfo() {
+	}
+
+	mc.class(function(cc) {
+		cc.type(PackageInfo);
+	});
+
+	PackageInfo.prototype = {};
+
+});
+
+// this.snowflake.VFSFactory = com.boluozhai.snowflake.vfs.VFSFactory;
+
+this.snowflake.vfs.VFSFactory = com.boluozhai.snowflake.vfs.VFSFactory;
+this.snowflake.vfs.VFSBuilder = com.boluozhai.snowflake.vfs.VFSBuilder;
+
+this.snowflake.vfs.VFS = com.boluozhai.snowflake.vfs.VFS;
+this.snowflake.vfs.VFSFacade = com.boluozhai.snowflake.vfs.VFSFacade;
+
+this.snowflake.vfs.VFile = com.boluozhai.snowflake.vfs.VFile;
+this.snowflake.vfs.VFileFacade = com.boluozhai.snowflake.vfs.VFileFacade;
 
 /*******************************************************************************
  * EOF
