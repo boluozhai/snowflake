@@ -332,8 +332,11 @@ JS.module(function(mc) {
 			if (file == null) {
 				file = this._location;
 			} else {
+				var self = this;
 				this._location = file;
-				// CurrentLocation_onload(this, file);
+				file.load(function() {
+					CurrentLocation_onload(self, file);
+				});
 			}
 			return file;
 		},
@@ -438,7 +441,7 @@ JS.module(function(mc) {
 		},
 
 		createNewFile : function() {
-			return this.inner.xxxxxxxxxx();
+			return this.inner.createNewFile();
 		},
 
 		del : function() {
@@ -454,23 +457,23 @@ JS.module(function(mc) {
 		},
 
 		getAbsoluteFile : function() {
-			return this.inner.xxxxxxxxxx();
+			return this.inner.getAbsoluteFile();
 		},
 
 		getAbsolutePath : function() {
-			return this.inner.xxxxxxxxxx();
+			return this.inner.getAbsolutePath();
 		},
 
 		getCanonicalFile : function() {
-			return this.inner.xxxxxxxxxx();
+			return this.inner.getCanonicalFile();
 		},
 
 		getCanonicalPath : function() {
-			return this.inner.xxxxxxxxxx();
+			return this.inner.getCanonicalPath();
 		},
 
 		getFreeSpace : function() {
-			return this.inner.xxxxxxxxxx();
+			return this.inner.getFreeSpace();
 		},
 
 		getName : function() {
@@ -482,19 +485,19 @@ JS.module(function(mc) {
 		},
 
 		getParentFile : function() {
-			return this.inner.xxxxxxxxxx();
+			return this.inner.getParentFile();
 		},
 
 		getPath : function() {
-			return this.inner.xxxxxxxxxx();
+			return this.inner.getPath();
 		},
 
 		getTotalSpace : function() {
-			return this.inner.xxxxxxxxxx();
+			return this.inner.getTotalSpace();
 		},
 
 		getUsableSpace : function() {
-			return this.inner.xxxxxxxxxx();
+			return this.inner.getUsableSpace();
 		},
 
 		hashCode : function() {
@@ -514,7 +517,7 @@ JS.module(function(mc) {
 		},
 
 		isHidden : function() {
-			return this.inner.xxxxxxxxxx();
+			return this.inner.isHidden();
 		},
 
 		lastModified : function() {
@@ -530,31 +533,31 @@ JS.module(function(mc) {
 		},
 
 		list : function(filter) {
-			return this.inner.xxxxxxxxxx();
+			return this.inner.list(filter);
 		},
 
 		listFiles : function() {
-			return this.inner.xxxxxxxxxx();
+			return this.inner.listFiles();
 		},
 
 		listFiles : function(filter) {
-			return this.inner.xxxxxxxxxx();
+			return this.inner.listFiles(filter);
 		},
 
 		listFiles : function(filter) {
-			return this.inner.xxxxxxxxxx();
+			return this.inner.listFiles(filter);
 		},
 
 		mkdir : function() {
-			return this.inner.xxxxxxxxxx();
+			return this.inner.mkdir();
 		},
 
 		mkdirs : function() {
-			return this.inner.xxxxxxxxxx();
+			return this.inner.mkdirs();
 		},
 
 		renameTo : function(dest) {
-			return this.inner.xxxxxxxxxx();
+			return this.inner.renameTo(dest);
 		},
 
 		setExecutable : function(executable) {

@@ -1,6 +1,7 @@
 package com.boluozhai.snowflake.h2o.rest.controller;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
 
 import javax.servlet.ServletException;
@@ -34,8 +35,7 @@ public class WorkingDirCtrl extends RestController {
 
 		Param param = new Param(request);
 		VFile base = param.get_base_dir();
-
-		PathPart offset = param.path_info.getRequiredPart("id");
+		PathPart offset = param.get_offset_part();
 
 		FolderView view = new FolderView();
 		view.setBaseAtFsRoot(false);
@@ -51,13 +51,25 @@ public class WorkingDirCtrl extends RestController {
 		public SnowflakeContext context;
 		public PathInfo path_info;
 		public RestRequestInfo rest_info;
+		private HttpServletRequest request;
 
 		public Param(HttpServletRequest request) {
 
 			this.rest_info = RestRequestInfo.Factory.getInstance(request);
 			this.path_info = this.rest_info.getPathInfo();
 			this.context = this.rest_info.getContext();
+			this.request = request;
 
+		}
+
+		public PathPart get_offset_part() throws UnsupportedEncodingException {
+
+			String offset = this.request.getParameter("offset");
+
+			offset = offset.replace('\\', '/');
+			String[] array = offset.split("/");
+			PathPart pp = new PathPart(array);
+			return pp.trim();
 		}
 
 		public VFile get_base_dir() {

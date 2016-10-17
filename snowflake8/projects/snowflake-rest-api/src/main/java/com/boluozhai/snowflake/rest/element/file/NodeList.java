@@ -9,7 +9,6 @@ public class NodeList extends Node {
 	private String[] path; // the offset base on baseURI
 
 	private List<Node> list;
-	private boolean exists;
 
 	private String debugBaseURI;
 	private String debugURI; // =(baseURI+path)
@@ -29,14 +28,6 @@ public class NodeList extends Node {
 
 	public void setPath(String[] path) {
 		this.path = path;
-	}
-
-	public boolean isExists() {
-		return exists;
-	}
-
-	public void setExists(boolean exists) {
-		this.exists = exists;
 	}
 
 	public String getDebugURI() {

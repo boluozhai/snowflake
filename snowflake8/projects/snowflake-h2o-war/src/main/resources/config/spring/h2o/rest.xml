@@ -161,6 +161,13 @@
 			<ref bean='rest:switch:system-api' />
 		</property>
 
+		<property name="listeners">
+			<list>
+				<bean
+					class='com.boluozhai.snowflake.h2o.rest.listener.QueryParamEncodingAdjustListener' />
+			</list>
+		</property>
+
 	</bean>
 
 
@@ -171,6 +178,13 @@
 			<ref bean='rest:switch:user-api' />
 		</property>
 
+		<property name="listeners">
+			<list>
+				<bean
+					class='com.boluozhai.snowflake.h2o.rest.listener.QueryParamEncodingAdjustListener' />
+			</list>
+		</property>
+
 	</bean>
 
 
@@ -179,6 +193,13 @@
 
 		<property name="nextHanlder">
 			<ref bean='rest:switch:repo-api' />
+		</property>
+
+		<property name="listeners">
+			<list>
+				<bean
+					class='com.boluozhai.snowflake.h2o.rest.listener.QueryParamEncodingAdjustListener' />
+			</list>
 		</property>
 
 	</bean>

@@ -553,6 +553,7 @@ JS.module(function(_mc_) {
 			if (map != null) {
 				for ( var key in map) {
 					var value = map[key];
+					value = encodeURIComponent(value);
 					if (query == null) {
 						query = '?';
 					} else {

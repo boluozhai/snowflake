@@ -402,6 +402,10 @@ JS.module(function(mc) {
 			return this.__field__('lastModified', v);
 		},
 
+		f_exists : function(v) {
+			return this.__field__('exists', v);
+		},
+
 	};
 
 	// NodeList
@@ -428,10 +432,6 @@ JS.module(function(mc) {
 	});
 
 	NodeList.prototype = {
-
-		f_exists : function(v) {
-			return this.__field__('exists', v);
-		},
 
 		f_fileURI : function(v) {
 			return this.__field__('fileURI', v);

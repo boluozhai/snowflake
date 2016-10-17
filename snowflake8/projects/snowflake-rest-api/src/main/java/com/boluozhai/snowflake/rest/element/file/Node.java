@@ -3,9 +3,18 @@ package com.boluozhai.snowflake.rest.element.file;
 public class Node {
 
 	private String name;
-	private long lastModified;
 	private long length;
+	private long lastModified;
+	private boolean exists;
 	private boolean directory;
+
+	public boolean isExists() {
+		return exists;
+	}
+
+	public void setExists(boolean exists) {
+		this.exists = exists;
+	}
 
 	public String getName() {
 		return name;

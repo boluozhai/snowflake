@@ -103,7 +103,7 @@ JS.module(function(mc) {
 
 		},
 
-		___init : function() {
+		__disabled_init : function() {
 
 			var context = this._context;
 			var self = this;
@@ -132,6 +132,7 @@ JS.module(function(mc) {
 
 			// vfs
 
+			var self = this;
 			var context = this._context;
 			var vfs = VFS.newInstance(context);
 

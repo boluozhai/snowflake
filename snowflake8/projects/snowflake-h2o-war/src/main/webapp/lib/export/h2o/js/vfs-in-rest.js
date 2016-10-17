@@ -71,14 +71,14 @@ JS.module(function(mc) {
 	};
 
 	/***************************************************************************
-	 * class RestVfsDataLoader
+	 * class MyDataLoader
 	 */
 
-	function RestVfsDataLoader(context) {
+	function MyDataLoader(context) {
 		this._context = context;
 	}
 
-	RestVfsDataLoader.prototype = {
+	MyDataLoader.prototype = {
 
 		toOffsetPath : function(file) {
 			var array = [];
@@ -88,7 +88,7 @@ JS.module(function(mc) {
 				if (name == null) {
 					continue;
 				} else {
-					array.push[name];
+					array.push(name);
 				}
 			}
 			array = array.reverse();
@@ -102,6 +102,7 @@ JS.module(function(mc) {
 
 		load : function(file, fn) {
 
+			var self = this;
 			var context = this._context;
 			var vpt = new Viewport();
 			var jrr = new JSONRestRequest(context);
@@ -127,6 +128,7 @@ JS.module(function(mc) {
 
 			jrr.onResult(function() {
 				if (jrr.ok()) {
+					self._model = jrr.responseEntity();
 					fn();
 				} else {
 				}
@@ -134,6 +136,77 @@ JS.module(function(mc) {
 
 			jrr.send();
 
+		},
+
+		model : function() {
+			return this._model;
+		},
+
+	};
+
+	/***************************************************************************
+	 * class MyDataAgent
+	 */
+
+	function MyDataAgent(in_vfile) {
+
+		this._key = in_vfile.getPath();
+		this._inner_vfs = in_vfile.inner_vfs();
+		this._cur_wrapper = null;
+		this._cur_item = {};
+
+	}
+
+	MyDataAgent.prototype = {
+
+		getNode : function() {
+			var wrapper_old = this._cur_wrapper;
+			var wrapper_new = this._inner_vfs.getModel();
+			if (wrapper_old != wrapper_new) {
+				this._cur_wrapper = wrapper_new;
+				this._cur_item = wrapper_new.getItem(this._key);
+			}
+			return this._cur_item;
+		},
+
+	};
+
+	/***************************************************************************
+	 * class MyDataWrapper
+	 */
+
+	function MyDataWrapper(model) {
+		this._model = model;
+		this._table = this.make_item_table(model);
+	}
+
+	MyDataWrapper.prototype = {
+
+		make_item_table : function(model) {
+			var table = {};
+			// make key by path parts
+			var dir = model.vfile;
+			var dir_key = '~';
+			var parts = dir.f_path();
+			for ( var i in parts) {
+				var s = parts[i];
+				dir_key += ('/' + s);
+			}
+			// parent
+			table[dir_key] = dir;
+			// children
+			var list = dir.list;
+			for ( var i in list) {
+				var item = list[i];
+				var name = item.f_name();
+				table[dir_key + '/' + name] = item;
+			}
+			return table;
+		},
+
+		getItem : function(key) {
+			var table = this._table;
+			return table[key];
 		},
 
 	};
@@ -166,6 +239,8 @@ JS.module(function(mc) {
 		this._name = name;
 		this._path = path;
 
+		this._data_agent = new MyDataAgent(this);
+
 	}
 
 	mc.class(function(cc) {
@@ -184,10 +259,27 @@ JS.module(function(mc) {
 				fn = function() {
 				};
 			}
-			var loader = this._inner_vfs.dataLoader();
-			loader.load(this, function() {
+			var self = this;
+			var context = this._vfs.context();
+			var loader = new MyDataLoader(context);
+			loader.load(this.facade(), function() {
+				self.inner_onload(loader);
 				fn();
 			});
+		},
+
+		inner_onload : function(loader) {
+			var model = loader.model();
+			model = new MyDataWrapper(model);
+			this._inner_vfs.setModel(model);
+		},
+
+		node : function() {
+			return this._data_agent.getNode();
+		},
+
+		inner_vfs : function() {
+			return this._inner_vfs;
 		},
 
 		vfs : function() {
@@ -232,7 +324,7 @@ JS.module(function(mc) {
 		},
 
 		exists : function() {
-			throw new Exception('implements in sub-class');
+			return this.node().f_exists();
 		},
 
 		getAbsoluteFile : function() {
@@ -293,7 +385,7 @@ JS.module(function(mc) {
 		},
 
 		isDirectory : function() {
-			throw new Exception('implements in sub-class');
+			return this.node().f_directory();
 		},
 
 		isFile : function() {
@@ -305,32 +397,50 @@ JS.module(function(mc) {
 		},
 
 		lastModified : function() {
-			throw new Exception('implements in sub-class');
+			return this.node().f_lastModified();
 		},
 
 		length : function() {
-			throw new Exception('implements in sub-class');
+			return this.node().f_length();
 		},
 
 		list : function() {
-			throw new Exception('implements in sub-class');
+			// To List<String>
+			var node = this.node();
+			var list = node.f_list();
+			var list2 = [];
+			for ( var i in list) {
+				var name = list[i].f_name();
+				list2.push(name);
+			}
+			return list2;
 		},
 
-		list : function(filter) {
-			throw new Exception('implements in sub-class');
-		},
+		// list : function(filter) {
+		// throw new Exception('implements in sub-class');
+		// },
 
 		listFiles : function() {
-			throw new Exception('implements in sub-class');
+
+			// To List<VFile>
+			var node = this.node();
+			var list = node.f_list();
+			var list2 = [];
+			for ( var i in list) {
+				var name = list[i].f_name();
+				var ch = this.child(name);
+				list2.push(ch);
+			}
+			return list2;
 		},
 
-		listFiles : function(filter) {
-			throw new Exception('implements in sub-class');
-		},
+		// listFiles : function(filter) {
+		// throw new Exception('implements in sub-class');
+		// },
 
-		listFiles : function(filter) {
-			throw new Exception('implements in sub-class');
-		},
+		// listFiles : function(filter) {
+		// throw new Exception('implements in sub-class');
+		// },
 
 		mkdir : function() {
 			throw new Exception('implements in sub-class');
@@ -404,7 +514,6 @@ JS.module(function(mc) {
 		this._facade = new VFSFacade(this);
 
 		this._root = VFSImpl_make_root(this);
-		this._data_loader = new RestVfsDataLoader(context);
 
 	}
 
@@ -420,8 +529,12 @@ JS.module(function(mc) {
 
 	VFSImpl.prototype = {
 
-		dataLoader : function() {
-			return this._data_loader;
+		getModel : function() {
+			return this._model;
+		},
+
+		setModel : function(model) {
+			this._model = model;
 		},
 
 		facade : function() {
