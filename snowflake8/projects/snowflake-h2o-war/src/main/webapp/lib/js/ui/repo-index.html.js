@@ -83,7 +83,7 @@ JS.module(function(mc) {
 			this.setupPathBarHead(path_bar_head);
 
 			path_bar_ctrl.binder().parent('#path-bar');
-			path_bar_ctrl.binder().head(path_bar_head);
+			path_bar_ctrl.binder().headOuter(path_bar_head);
 			// path_bar_ctrl.binder().onCreateHead(function(item) {
 			// self.setupMagicButton(item);
 			// });
@@ -182,7 +182,7 @@ JS.module(function(mc) {
 
 		setupMagicButton : function(q) {
 
-			var head = $('#page-head---');
+			var head = $('#page-head');
 			var speed = 200;
 
 			var base = q;

@@ -63,6 +63,13 @@ JS.module(function(mc) {
 	 */
 
 	function PathBarBinder() {
+
+		var inner = $('<div></div>');
+		var outer = $('<div></div>');
+		outer.append(inner);
+		this.headOuter(outer);
+		this.headInner(inner);
+
 	}
 
 	mc.class(function(cc) {
@@ -76,8 +83,12 @@ JS.module(function(mc) {
 			return this.bind('parent', value);
 		},
 
-		head : function(value) {
-			return this.bind('head', value);
+		headOuter : function(value) {
+			return this.attr('headOuter', value);
+		},
+
+		headInner : function(value) {
+			return this.attr('headInner', value);
 		},
 
 	// onCreateHead : function(fn /* (list_item) */) {
@@ -140,19 +151,31 @@ JS.module(function(mc) {
 		},
 
 		onHtmlReday : function(query) {
+			this.setupMyselfToParent(query);
+			this.setupRootButton(query);
+			this.setupListCtrl();
+		},
 
-			var head = this.binder().head();
-			if (head != null) {
-				var listhead = query.find('.list-head');
-				listhead.empty();
-				listhead.append(head);
-			}
-
+		setupMyselfToParent : function(query) {
 			var parent = this.binder().parent();
 			var child = query;
 			parent.append(child);
 			this._jq_view = child;
-			this.setupListCtrl();
+		},
+
+		setupRootButton : function(query) {
+
+			var parent = this.binder().headInner();
+			var child = query.find('.list-head-inner');
+			parent.empty();
+			parent.append(child);
+
+			var self = this;// TODO
+			var btn = child.find('.btn');
+			btn.click(function() {
+				self.fireOnClickRoot();
+			});
+
 		},
 
 		setupListCtrl : function() {
@@ -173,18 +196,10 @@ JS.module(function(mc) {
 
 			builder.addHead('.list-head').onCreate(function(item) {
 
-				var view = item.view();
-				var head = binder.head();
-
-				if (head == null) {
-					var btn = view.find('.btn-root-path');
-					btn.click(function() {
-						self.fireOnClickRoot();
-					});
-				} else {
-					view.empty();
-					view.append(head);
-				}
+				var parent = item.view().find('.list-head-outer');
+				var child = binder.headOuter();
+				parent.empty();
+				parent.append(child);
 
 			}).onUpdate(function(item) {
 				// NOP

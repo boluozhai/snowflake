@@ -74,5 +74,6 @@ this.h2o.i18n.StringResTable.mapping['default'] = {
 
 	repository_name : '仓库名称',
 	repository_description : '描述',
+	working_directory : '工作区',
 
 };
