@@ -82,4 +82,8 @@ this.h2o.i18n.StringResTable.mapping['default'] = {
 	download : '下载',
 	path : '路径',
 
+	upload_file : '+上传文件',
+	make_dir : '+新建文件夹',
+	remove_dir : '删除文件夹',
+
 };

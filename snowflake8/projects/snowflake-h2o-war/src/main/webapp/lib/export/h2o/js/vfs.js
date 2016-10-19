@@ -471,12 +471,31 @@ JS.module(function(mc) {
 
 		setLocation : function(location) {
 			if (location.isDirectory()) {
+				if (this.is_forbidden(location)) {
+					alert('Forbidden');
+					return;
+				}
 				this._location = location;
 				this._selection = null;
 				this._selections = null;
 				this.load(location);
 				this.fireOnLocate(location);
 			}
+		},
+
+		is_forbidden : function(file) {
+			var p = file;
+			for (; p != null; p = p.getParentFile()) {
+				var name = p.getName();
+				if (name == null) {
+					continue;
+				} else if (name.indexOf('.') == 0) {
+					return true;
+				} else {
+					continue;
+				}
+			}
+			return false;
 		},
 
 		load : function(file) {
