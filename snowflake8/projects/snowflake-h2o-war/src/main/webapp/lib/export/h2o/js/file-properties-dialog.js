@@ -24,6 +24,8 @@ JS.module(function(mc) {
 
 	function FilePropertiesDialog(context) {
 
+		this._context = context;
+
 		this.ModalDialog(context);
 
 		this.htmlURL('~/lib/export/h2o/html/FilePropertiesDialog.html');
@@ -39,6 +41,7 @@ JS.module(function(mc) {
 	FilePropertiesDialog.prototype = {
 
 		onCreate : function() {
+
 		},
 
 		setCurrentLocation : function(cl) {
@@ -64,6 +67,42 @@ JS.module(function(mc) {
 
 		},
 
+		setupDeleteButton : function(file) {
+
+			var context = this._context;
+			var query = this.dialogQuery();
+			var btn = query.find('#btn-delete');
+
+			var msg = 'work-in-progress';
+			var i18n = context.getBean('i18n');
+			msg = i18n.getString(msg);
+
+			btn.click(function() {
+				alert(msg);
+			});
+		},
+
+		setupDownloadButton : function(file) {
+
+			var context = this._context;
+			var query = this.dialogQuery();
+			var btn = query.find('#btn-download');
+			var txt = query.find('.text-url');
+			var ico = query.find('.image-file-properties-icon');
+
+			var url = '~/u/r/api/t/' + file.getName();
+			var fd = file.toDescriptor();
+			var query = {
+				service : 'plain-file-download',
+			};
+			url = context.normalizeURL(url);
+			url = fd.createURL(url, query);
+
+			btn.attr('href', url);
+			txt.text(url);
+			ico.attr('src', url);
+		},
+
 	};
 
 	function FilePropertiesDialog_onload(dlg, file) {
@@ -81,6 +120,9 @@ JS.module(function(mc) {
 		q.find('.file-type').text(type);
 		q.find('.file-time').text(time);
 		q.find('.file-path').text(path);
+
+		dlg.setupDeleteButton(file);
+		dlg.setupDownloadButton(file);
 
 	}
 
