@@ -64,6 +64,7 @@
 				<value>.html</value>
 				<value>.css</value>
 				<value>.js</value>
+				<value>.do</value>
 
 				<value>.png</value>
 				<value>.jpg</value>
@@ -205,6 +206,24 @@
 	</bean>
 
 
+	<bean id='rest:gateway:plain-file'
+		class='com.boluozhai.snowflake.rest.server.support.handler.DefaultRequestHandler'>
+
+		<property name="nextHanlder">
+			<bean
+				class='com.boluozhai.snowflake.h2o.rest.controller.res.WorkingFileUploadCtrl' />
+		</property>
+
+		<property name="listeners">
+			<list>
+				<bean
+					class='com.boluozhai.snowflake.h2o.rest.listener.QueryParamEncodingAdjustListener' />
+			</list>
+		</property>
+
+	</bean>
+
+
 	<!-- switch -->
 
 
@@ -246,6 +265,17 @@
 
 				<entry key='repo-api'>
 					<ref bean='rest:gateway:repo-api' />
+				</entry>
+
+
+				<!-- plain (working) file up/down -->
+
+				<entry key='plain-file-upload'>
+					<ref bean='rest:gateway:plain-file' />
+				</entry>
+
+				<entry key='plain-file-download'>
+					<ref bean='rest:gateway:plain-file' />
 				</entry>
 
 

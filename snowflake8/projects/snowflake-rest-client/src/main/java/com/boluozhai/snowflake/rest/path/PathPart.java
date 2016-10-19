@@ -30,6 +30,12 @@ public class PathPart {
 
 	}
 
+	public static PathPart parse(String s) {
+		s = s.replace('\\', '/');
+		String[] array = s.split("/");
+		return new PathPart(array);
+	}
+
 	public String[] toArray() {
 		String[] array = new String[length];
 		for (int i = length - 1; i >= 0; i--) {

@@ -1,7 +1,5 @@
 .f_name { -
-	-display: inline-block;
 	float: left;
-	margin-left: 20px;
 	margin-top: 8px;
 }
 

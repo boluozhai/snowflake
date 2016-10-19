@@ -490,7 +490,7 @@ JS.module(function(mc) {
 			builder.addItem('.list-item').onCreate(function(item) {
 
 				var view = item.view();
-				view.find('button.btn').click(function() {
+				view.find('.on-click').click(function() {
 					self.fireOnClickItem(item);
 				});
 
@@ -565,7 +565,7 @@ JS.module(function(mc) {
 			var data = item.data();
 			var file = data.file();
 			var cl = this.currentLocation();
-			cl.location(file);
+			cl.open(file);
 		},
 
 	};

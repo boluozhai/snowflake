@@ -37,6 +37,14 @@
 	</filter>
 
 
+	<!-- servlet -->
+
+	<servlet>
+		<servlet-name>file-upload-servlet</servlet-name>
+		<servlet-class>com.boluozhai.snowflake.h2o.servlet.FileUploadServlet</servlet-class>
+	</servlet>
+
+
 	<!-- mapping -->
 
 	<filter-mapping>
@@ -44,5 +52,9 @@
 		<url-pattern>*</url-pattern>
 	</filter-mapping>
 
+	<servlet-mapping>
+		<servlet-name>file-upload-servlet</servlet-name>
+		<url-pattern>/file-upload.do</url-pattern>
+	</servlet-mapping>
 
 </web-app>

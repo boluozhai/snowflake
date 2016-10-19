@@ -129,9 +129,10 @@ JS.module(function(mc) {
 			jrr.onResult(function() {
 				if (jrr.ok()) {
 					self._model = jrr.responseEntity();
-					fn();
 				} else {
+					self._model = null;
 				}
+				fn();
 			});
 
 			jrr.send();
@@ -140,73 +141,6 @@ JS.module(function(mc) {
 
 		model : function() {
 			return this._model;
-		},
-
-	};
-
-	/***************************************************************************
-	 * class MyDataAgent
-	 */
-
-	function MyDataAgent(in_vfile) {
-
-		this._key = in_vfile.getPath();
-		this._inner_vfs = in_vfile.inner_vfs();
-		this._cur_wrapper = null;
-		this._cur_item = {};
-
-	}
-
-	MyDataAgent.prototype = {
-
-		getNode : function() {
-			var wrapper_old = this._cur_wrapper;
-			var wrapper_new = this._inner_vfs.getModel();
-			if (wrapper_old != wrapper_new) {
-				this._cur_wrapper = wrapper_new;
-				this._cur_item = wrapper_new.getItem(this._key);
-			}
-			return this._cur_item;
-		},
-
-	};
-
-	/***************************************************************************
-	 * class MyDataWrapper
-	 */
-
-	function MyDataWrapper(model) {
-		this._model = model;
-		this._table = this.make_item_table(model);
-	}
-
-	MyDataWrapper.prototype = {
-
-		make_item_table : function(model) {
-			var table = {};
-			// make key by path parts
-			var dir = model.vfile;
-			var dir_key = '~';
-			var parts = dir.f_path();
-			for ( var i in parts) {
-				var s = parts[i];
-				dir_key += ('/' + s);
-			}
-			// parent
-			table[dir_key] = dir;
-			// children
-			var list = dir.list;
-			for ( var i in list) {
-				var item = list[i];
-				var name = item.f_name();
-				table[dir_key + '/' + name] = item;
-			}
-			return table;
-		},
-
-		getItem : function(key) {
-			var table = this._table;
-			return table[key];
 		},
 
 	};
@@ -239,7 +173,9 @@ JS.module(function(mc) {
 		this._name = name;
 		this._path = path;
 
-		this._data_agent = new MyDataAgent(this);
+		this._node = null;
+		this._node_chs = null; // the children
+		this._node_nil = null;
 
 	}
 
@@ -270,12 +206,57 @@ JS.module(function(mc) {
 
 		inner_onload : function(loader) {
 			var model = loader.model();
-			model = new MyDataWrapper(model);
-			this._inner_vfs.setModel(model);
+			var dir = model.vfile;
+			var list = dir.list;
+			var table = {};
+			if (list != null) {
+				for ( var i in list) {
+					var ch = list[i];
+					var name = ch.f_name();
+					table[name] = ch;
+				}
+			}
+			this._node = dir;
+			this._node_chs = table;
+
+			// this.xxx();
+		},
+
+		node_for_child : function(name) {
+			var table = this._node_chs;
+			if (table == null) {
+				return null;
+			} else {
+				return table[name];
+			}
 		},
 
 		node : function() {
-			return this._data_agent.getNode();
+
+			// get from self
+			var node = this._node;
+			if (node != null) {
+				return node;
+			}
+
+			// get from parent
+			var parent = this._inner_parent;
+			if (parent != null) {
+				var name = this._name;
+				node = parent.node_for_child(name);
+				if (node != null) {
+					return node;
+				}
+			}
+
+			// make a empty node
+			node = this._node_nil;
+			if (node == null) {
+				node = new Object();
+				this._node_nil = node;
+			}
+
+			return node;
 		},
 
 		inner_vfs : function() {
@@ -407,7 +388,10 @@ JS.module(function(mc) {
 		list : function() {
 			// To List<String>
 			var node = this.node();
-			var list = node.f_list();
+			var list = node.list;
+			if (list == null) {
+				list = [];
+			}
 			var list2 = [];
 			for ( var i in list) {
 				var name = list[i].f_name();
@@ -424,7 +408,10 @@ JS.module(function(mc) {
 
 			// To List<VFile>
 			var node = this.node();
-			var list = node.f_list();
+			var list = node.list;
+			if (list == null) {
+				list = [];
+			}
 			var list2 = [];
 			for ( var i in list) {
 				var name = list[i].f_name();
@@ -487,7 +474,7 @@ JS.module(function(mc) {
 		},
 
 		toString : function() {
-			throw new Exception('implements in sub-class');
+			return '[file ' + this.getPath() + ']';
 		},
 
 		toURI : function() {
@@ -528,14 +515,6 @@ JS.module(function(mc) {
 	}
 
 	VFSImpl.prototype = {
-
-		getModel : function() {
-			return this._model;
-		},
-
-		setModel : function(model) {
-			this._model = model;
-		},
 
 		facade : function() {
 			return this._facade;

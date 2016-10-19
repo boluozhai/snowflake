@@ -314,11 +314,70 @@ JS.module(function(mc) {
 	};
 
 	/***************************************************************************
+	 * class CurrentLocationEvent
+	 */
+
+	function CurrentLocationEvent() {
+	}
+
+	mc.class(function(cc) {
+		cc.type(CurrentLocationEvent);
+		cc.extends(Event);
+	});
+
+	CurrentLocationEvent.prototype = {
+
+		location : function(file) {
+			return this.attr('location', file);
+		},
+
+	};
+
+	CurrentLocationEvent.ON_LOAD = "ON_LOAD";
+	CurrentLocationEvent.ON_OPEN = "ON_OPEN";
+	CurrentLocationEvent.ON_LOCATE = "ON_LOCATE";
+	CurrentLocationEvent.ON_SELECT = "ON_SELECT";
+
+	/***************************************************************************
+	 * class CurrentLocationEventHandler
+	 */
+
+	function CurrentLocationEventHandler(cl) {
+		this.inner = new Event();
+		cl.addEventHandler(this);
+	}
+
+	CurrentLocationEventHandler.prototype = {
+
+		onEvent : function(e) {
+
+			var cl = e.source();
+			var code = e.code();
+			var node = e.location();
+
+			if (code == CurrentLocationEvent.ON_OPEN) {
+				if (node.isDirectory()) {
+					cl.location(node);
+				} else {
+					// alert('open ' + node);
+				}
+			}
+
+		},
+
+		hashCode : function() {
+			return this.inner.hashCode();
+		},
+
+	};
+
+	/***************************************************************************
 	 * class CurrentLocation
 	 */
 
 	function CurrentLocation(context) {
-		this._context = context;
+		this.inner = new CurrentLocationImpl(context, this);
+		this._default_event_handler = new CurrentLocationEventHandler(this);
 	}
 
 	mc.class(function(cc) {
@@ -328,45 +387,155 @@ JS.module(function(mc) {
 
 	CurrentLocation.prototype = {
 
+		open : function(file) {
+			if (file == null) {
+				// NOP
+			} else {
+				return this.inner.open(file);
+			}
+		},
+
 		location : function(file) {
 			if (file == null) {
-				file = this._location;
+				return this.inner.getLocation();
 			} else {
-				var self = this;
-				this._location = file;
-				file.load(function() {
-					CurrentLocation_onload(self, file);
-				});
+				return this.inner.setLocation(file);
 			}
-			return file;
+		},
+
+		selection : function(file) {
+			if (file == null) {
+				return this.inner.getSelection();
+			} else {
+				return this.inner.setSelection(file);
+			}
+		},
+
+		selections : function(file_list) {
+			if (file == null) {
+				return this.inner.getSelections();
+			} else {
+				return this.inner.setSelections(file_list);
+			}
 		},
 
 	};
 
-	function CurrentLocation_onload(cl, file) {
+	/***************************************************************************
+	 * class CurrentLocationImpl
+	 */
 
-		if (file.exists()) {
-			var e = new Event();
-			cl.dispatchEvent(e);
-			return;
-		}
-
-		var p = file;
-		for (; p != null; p = p.getParentFile()) {
-			if (p.exists()) {
-				break;
-			} else {
-				continue;
-			}
-		}
-
-		if (p == null) {
-			return;
-		} else {
-			cl.location(p);
-		}
-
+	function CurrentLocationImpl(context, facade) {
+		this._facade = facade;
+		this._context = context;
 	}
+
+	CurrentLocationImpl.prototype = {
+
+		getLocation : function() {
+			return this._location;
+		},
+
+		getSelection : function() {
+			return this._selection;
+		},
+
+		getSelections : function() {
+			var rlt = this._selections;
+			if (rlt == null) {
+				rlt = {};
+				this._selections = rlt;
+			}
+			return rlt;
+		},
+
+		setSelection : function(sel) {
+			this._selection = sel;
+			this._selections = null;
+			this.fireOnSelect(sel);
+		},
+
+		setSelections : function(sel) {
+			this._selection = null;
+			this._selections = sel;
+			this.fireOnSelect();
+		},
+
+		open : function(file) {
+			this.fireOnOpen(file);
+		},
+
+		setLocation : function(location) {
+			if (location.isDirectory()) {
+				this._location = location;
+				this._selection = null;
+				this._selections = null;
+				this.load(location);
+				this.fireOnLocate(location);
+			}
+		},
+
+		load : function(file) {
+			var self = this;
+			file.load(function() {
+				self.onload(file);
+			});
+		},
+
+		onload : function(file) {
+			if (file.exists()) {
+				this.fireOnLoad(file);
+				return;
+			}
+			// search for directory exists
+			var p = file;
+			for (; p != null; p = p.getParentFile()) {
+				if (p.exists()) {
+					break;
+				} else {
+					continue;
+				}
+			}
+			if (p == null) {
+				return;
+			} else {
+				this.setLocation(p);
+			}
+		},
+
+		fireOnEvent : function(file, type) {
+
+			// TODO
+
+			var facade = this._facade;
+			var event = new CurrentLocationEvent();
+
+			event.code(type);
+			event.message(type);
+			event.source(facade);
+			event.location(file);
+
+			facade.dispatchEvent(event);
+
+		},
+
+		fireOnLoad : function(file) {
+			this.fireOnEvent(file, 'ON_LOAD');
+		},
+
+		fireOnOpen : function(file) {
+			this.fireOnEvent(file, 'ON_OPEN');
+		},
+
+		fireOnLocate : function(file) {
+			this.fireOnEvent(file, 'ON_LOCATE');
+		},
+
+		fireOnSelect : function(file) {
+			this.fireOnEvent(file, 'ON_SELECT');
+		},
+
+	};
 
 	/***************************************************************************
 	 * class VFSFacade
@@ -627,7 +796,7 @@ JS.module(function(mc) {
 
 });
 
-// this.snowflake.VFSFactory = com.boluozhai.snowflake.vfs.VFSFactory;
+this.snowflake.CurrentLocationEvent = com.boluozhai.snowflake.vfs.CurrentLocationEvent;
 
 this.snowflake.vfs.VFSFactory = com.boluozhai.snowflake.vfs.VFSFactory;
 this.snowflake.vfs.VFSBuilder = com.boluozhai.snowflake.vfs.VFSBuilder;

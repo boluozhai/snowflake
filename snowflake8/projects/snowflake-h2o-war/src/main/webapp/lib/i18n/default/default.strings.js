@@ -76,4 +76,10 @@ this.h2o.i18n.StringResTable.mapping['default'] = {
 	repository_description : '描述',
 	working_directory : '工作区',
 
+	file_properties : '文件属性',
+	close : '关闭',
+	'delete' : '删除',
+	download : '下载',
+	path : '路径',
+
 };

@@ -20,6 +20,7 @@ JS.module(function(mc) {
 
 	var widget_x = 'com.boluozhai.h2o.widget';
 	var HeadCtrl = mc.import(widget_x + '.head.HeadCtrl');
+	var FootCtrl = mc.import(widget_x + '.foot.FootCtrl');
 
 	var Viewport = mc.use(snowflake.Viewport);
 	var HtmlCtrl = mc.use(snowflake.html.HtmlCtrl);
@@ -33,6 +34,9 @@ JS.module(function(mc) {
 			.import('com.boluozhai.h2o.widget.folder.FileListCtrl');
 
 	var VFS = mc.use(snowflake.vfs.VFS);
+
+	var FilePropertiesDialog = mc.use(snowflake.FilePropertiesDialog);
+	var FileUploadDialog = mc.use(snowflake.FileUploadDialog);
 
 	/***************************************************************************
 	 * class RepoIndexHtml
@@ -53,24 +57,56 @@ JS.module(function(mc) {
 
 			var self = this;
 			var context = this._context;
+			var cl = new CurrentLocation(context);
+			this._cur_location = cl;
 
+			this.setupHeadCtrl(cl);
+			this.setupFootCtrl(cl);
+			this.setupPathBar(cl);
+			this.setupFileList(cl);
+
+			this.setupDirectoryFunctionPanel(cl);
+			this.setupFilePropertiesDialog(cl);
+			this.setupFileUploadDialog(cl);
+			this.setupVFS(cl);
+
+		},
+
+		setupDirectoryFunctionPanel : function(cl) {
+			// TODO
+		},
+
+		setupFilePropertiesDialog : function(cl) {
+			var dlg = new FilePropertiesDialog(this._context);
+			dlg.setCurrentLocation(cl);
+			dlg.init();
+		},
+
+		setupFileUploadDialog : function(cl) {
+			var dlg = new FileUploadDialog(this._context);
+			dlg.setCurrentLocation(cl);
+			dlg.init();
+
+			$('.btn-file-upload').click(function() {
+				dlg.show();
+			});
+
+		},
+
+		setupHeadCtrl : function(cl) {
+			var context = this._context;
 			var head_ctrl = new HeadCtrl(context);
 			this._head_ctrl = head_ctrl;
 			head_ctrl.binder().parent('#page-head');
 			head_ctrl.init();
+		},
 
-			var cl = new CurrentLocation(context);
-			this._cur_location = cl;
-
-			// path-bar
-			this.setupPathBar(cl);
-
-			// file-list
-			this.setupFileList(cl);
-
-			// vfs
-			this.setupVFS();
-
+		setupFootCtrl : function(cl) {
+			var context = this._context;
+			var foot_ctrl = new FootCtrl(context);
+			this._foot_ctrl = foot_ctrl;
+			foot_ctrl.binder().parent('#page-foot');
+			foot_ctrl.init();
 		},
 
 		setupPathBar : function(location) {
@@ -100,31 +136,6 @@ JS.module(function(mc) {
 			filelist_ctrl.binder().parent('#file-list');
 
 			filelist_ctrl.init();
-
-		},
-
-		__disabled_init : function() {
-
-			var context = this._context;
-			var self = this;
-
-			// head
-
-			var head_ctrl = new HeadCtrl(context);
-			this._head_ctrl = head_ctrl;
-			head_ctrl.currentLocation(cl);
-			head_ctrl.binder().parent('#page-head');
-			head_ctrl.init();
-
-			// console
-
-			var console_ctrl = new ConsoleCtrl(context);
-			this._console_ctrl = console_ctrl;
-			console_ctrl.currentLocation(cl);
-			console_ctrl.binder().parent('#console');
-			console_ctrl.init();
-
-			// /////////////////////////
 
 		},
 
@@ -173,7 +184,7 @@ JS.module(function(mc) {
 
 			var self = this;
 			var btn = q.find('.h2o-root-button');
-			btn.text(user + '^' + repo);
+			// btn.text(user + '^' + repo);
 			btn.click(function() {
 				self.fireOnClickRootBtn();
 			});
@@ -182,26 +193,24 @@ JS.module(function(mc) {
 
 		setupMagicButton : function(q) {
 
-			var head = $('#page-head');
 			var speed = 200;
-
-			var base = q;
-			var btn = base.find('.btn-h2o-magic');
-			var mark = base.find('.mark-h2o-plus');
+			var btn = q.find('.btn-h2o-magic');
+			var mark = q.find('.mark-h2o-plus');
 
 			btn.click(function() {
+				var magic = $('.magic');
 				if (!is_head_visible) {
 					mark.text('-');
-					head.show(speed);
+					magic.show(speed);
 					is_head_visible = true;
 				} else {
 					mark.text('+');
-					head.hide(speed);
+					magic.hide(speed);
 					is_head_visible = false;
 				}
 			});
 
-			head.hide();
+			$('.magic').hide();
 			is_head_visible = false;
 
 		},

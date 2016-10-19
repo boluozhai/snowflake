@@ -1,0 +1,71 @@
+<html>
+
+<!-- FilePropertiesDialog.html  -->
+
+<meta charset='utf-8' />
+<body>
+
+	<!-- modal-dialog -->
+
+	<div class="modal fade" id='the-dialog'>
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+					</button>
+					<h4 class="modal-title context" i18n='file_properties'>Modal
+						title 1</h4>
+				</div>
+
+				<div class="modal-body">
+					<div class='center'>
+						<img class='  image-file-properties-icon context' alt='icon'
+							context-src='~/lib/image/boluo.png' />
+					</div>
+					<h3 class='center file-name '>File Name</h3>
+
+					<table class='table'>
+						<tr>
+							<td class='context' i18n='size'></td>
+							<td class='file-size'>x</td>
+						</tr>
+						<tr>
+							<td class='context' i18n='type'></td>
+							<td class='file-type'>x</td>
+						</tr>
+						<tr>
+							<td class='context' i18n='time'></td>
+							<td class='file-time'>x</td>
+						</tr>
+						<tr>
+							<td class='context' i18n='path'></td>
+							<td class='file-path'>x</td>
+						</tr>
+					</table>
+
+				</div>
+
+				<div class="modal-footer">
+
+					<button type="button" class="btn btn-danger context" i18n='delete'
+						style='float: left'>del</button>
+
+					<button type="button" class="btn btn-primary context"
+						i18n='download'>dl</button>
+
+					<button type="button" class="btn btn-default context"
+						data-dismiss="modal" i18n='close'>Close</button>
+
+					<button type="button" class="btn btn-primary hide">Save
+						changes</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!-- /.modal -->
+
+</body>
+</html>

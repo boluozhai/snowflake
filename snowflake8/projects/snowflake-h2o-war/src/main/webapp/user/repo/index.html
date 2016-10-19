@@ -26,14 +26,15 @@
 <link rel="stylesheet"
 	href="./../../lib/import/bootstrap/css/bootstrap.min.css" />
 
-<link rel="stylesheet" href="./../../lib/export/h2o/css/console.css"
-	rel="stylesheet" />
+<link rel="stylesheet" href="./../../lib/export/h2o/css/console.css" />
 
-<link rel="stylesheet" href="./../../lib/export/h2o/css/folder.css"
-	rel="stylesheet" />
+<link rel="stylesheet" href="./../../lib/export/h2o/css/folder.css" />
 
-<link rel="stylesheet" href="./../../lib/css/working.css"
-	rel="stylesheet" />
+<link rel="stylesheet"
+	href="./../../lib/export/h2o/css/file-properties-dialog.css" />
+
+<link rel="stylesheet" href="./../../lib/css/repo-home.css" />
+<link rel="stylesheet" href="./../../lib/css/h2o.css" />
 
 
 </head>
@@ -41,38 +42,66 @@
 
 	<div id='client' class='container'>
 
-		<div id='page-head'></div>
+		<div id='page-head' class='magic'></div>
 
-		<h1>
-			<a class='context' context--text='{attr:viewport-uid}'
-				context-href='~/{attr:viewport-uid}/' href='#'> user</a> <span>
-				/ </span> <a class='context' context--text='{attr:viewport-repo-name}'
-				context-href='~/{attr:viewport-uid}/{attr:viewport-repo-name}/'
-				href='#'>repo</a>
-		</h1>
+		<div id='page-panel' class='--hide'>
 
-		<div id='path-bar'>
+
+			<h1 class='hide'>
+				<a class='context' context--text='{attr:viewport-uid}'
+					context-href='~/{attr:viewport-uid}/' href='#'> user</a> <span>
+					/ </span> <a class='context' context--text='{attr:viewport-repo-name}'
+					context-href='~/{attr:viewport-uid}/{attr:viewport-repo-name}/'
+					href='#'>repo</a>
+			</h1>
+
+		</div>
+
+
+		<div id='path-bar' class=''>
 			<!-- span class='path-bar-head'></span -->
 		</div>
 
-		<div id='file-list'></div>
+		<div id='file-list' class=''></div>
 
-		<div class='page-foot side-bar hide '>
-			<div>
-				<span class='i18n' i18n='no_more'> &gt;_&lt; ，没有了！ </span>
-			</div>
+
+		<div style='height: 1px; background: #ddd; margin-bottom: 30px;'></div>
+
+		<div class='magic'>
+			<button class='btn btn-default btn-dir-insert '>+Dir</button>
+			<button class='btn btn-primary btn-file-upload'>+Upload</button>
+			<button class='btn btn-danger btn-dir-delete float-right '>Delete
+				Dir</button>
 		</div>
+
+
+		<div id='page-foot' class='page-foot side-bar magic '></div>
 
 	</div>
 
 
-	<div id='the-inline-widgets' class='hide'>
+	<div id='the-widgets' class='hide'>
+
+		<!-- the path bar head -->
+
 		<div class='path-bar-head'>
-			<button class='btn btn-default btn-h2o-magic'>
+
+			<button class='btn btn-default btn-h2o-magic btn-lg '
+				style='width: 48px'>
 				<span class='mark-h2o-plus'>+</span> <span i18n='magic'
-					class='context'>the-Magic</span>
+					class='context hide '>the-Magic</span>
 			</button>
-			<button class='btn btn-primary h2o-root-button'></button>
+
+			<div class="btn-group btn-group-lg ">
+
+				<a class='btn btn-primary h2o-root-button- context'
+					context--text='{attr:viewport-uid}'
+					context-href='~/{attr:viewport-uid}/' href='#'>User</a>
+
+				<button class='btn btn-primary h2o-root-button context'
+					context--text='{attr:viewport-repo-name}'>Repo</button>
+			</div>
+
 		</div>
 	</div>
 
@@ -92,12 +121,17 @@
 	<script src="./../../lib/export/h2o/js/widget.js"></script>
 	<script src="./../../lib/export/h2o/js/i18n.js"></script>
 	<script src="./../../lib/export/h2o/js/viewport.js"></script>
+	<script src="./../../lib/export/h2o/js/vfs.js"></script>
+	<script src="./../../lib/export/h2o/js/vfs-in-rest.js"></script>
+
+	<script src="./../../lib/export/h2o/js/modal-dialog.js"></script>
+	<script src="./../../lib/export/h2o/js/file-properties-dialog.js"></script>
+	<script src="./../../lib/export/h2o/js/file-upload-dialog.js"></script>
 	<script src="./../../lib/export/h2o/js/folder.js"></script>
 	<script src="./../../lib/export/h2o/js/cli.js"></script>
 	<script src="./../../lib/export/h2o/js/console.js"></script>
-	<script src="./../../lib/export/h2o/js/vfs.js"></script>
-	<script src="./../../lib/export/h2o/js/vfs-in-rest.js"></script>
 	<script src="./../../lib/export/h2o/js/head.js"></script>
+	<script src="./../../lib/export/h2o/js/foot.js"></script>
 
 
 	<script src="./../../lib/js/config/base.js"></script>
