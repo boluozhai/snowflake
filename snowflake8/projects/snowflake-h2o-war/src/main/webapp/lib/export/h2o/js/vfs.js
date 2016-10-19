@@ -311,6 +311,10 @@ JS.module(function(mc) {
 			throw new Exception('implements in sub-class');
 		},
 
+		toDescriptor : function() {
+			throw new Exception('implements in sub-class');
+		},
+
 	};
 
 	/***************************************************************************
@@ -566,6 +570,97 @@ JS.module(function(mc) {
 	};
 
 	/***************************************************************************
+	 * class VFileDescriptor
+	 */
+
+	function VFileDescriptor(init) {
+
+		if (init != null) {
+			this.owner(init.owner());
+			this.repository(init.repository());
+			this.type(init.type());
+			this.id(init.id());
+			this.base(init.base());
+			this.offset(init.offset());
+		}
+
+	}
+
+	mc.class(function(cc) {
+		cc.type(VFileDescriptor);
+		cc.extends(Attributes);
+	});
+
+	VFileDescriptor.prototype = {
+
+		owner : function(v) {
+			return this.attr('owner', v);
+		},
+
+		repository : function(v) {
+			return this.attr('repository', v);
+		},
+
+		type : function(v) {
+			return this.attr('type', v);
+		},
+
+		id : function(v) {
+			return this.attr('id', v);
+		},
+
+		base : function(v) {
+			return this.attr('base', v);
+		},
+
+		offset : function(v) {
+			return this.attr('offset', v);
+		},
+
+		createURL : function(base_url, query) {
+			query = this.createQuery(query);
+			var iq = base_url.indexOf('?');
+			if (iq < 0) {
+				// NOP
+			} else {
+				base_url = base_url.substring(0, iq);
+			}
+			var qstr = null;
+			for ( var key in query) {
+				var value = query[key];
+				value = encodeURIComponent(value);
+				if (qstr == null) {
+					qstr = '?';
+				} else {
+					qstr += '&';
+				}
+				qstr += key;
+				qstr += '=';
+				qstr += value;
+			}
+			if (qstr == null) {
+				return base_url;
+			} else {
+				return base_url + qstr;
+			}
+		},
+
+		createQuery : function(query) {
+			if (query == null) {
+				query = {};
+			}
+			query.owner = this.owner();
+			query.repository = this.repository();
+			query.type = this.type();
+			query.id = this.id();
+			query.base = this.base();
+			query.offset = this.offset();
+			return query;
+		},
+
+	};
+
+	/***************************************************************************
 	 * class VFileFacade
 	 */
 
@@ -777,6 +872,10 @@ JS.module(function(mc) {
 			return this.inner.toFileURI();
 		},
 
+		toDescriptor : function() {
+			return this.inner.toDescriptor();
+		},
+
 	};
 
 });
@@ -800,6 +899,7 @@ this.snowflake.CurrentLocationEvent = com.boluozhai.snowflake.vfs.CurrentLocatio
 
 this.snowflake.vfs.VFSFactory = com.boluozhai.snowflake.vfs.VFSFactory;
 this.snowflake.vfs.VFSBuilder = com.boluozhai.snowflake.vfs.VFSBuilder;
+this.snowflake.vfs.VFileDescriptor = com.boluozhai.snowflake.vfs.VFileDescriptor;
 
 this.snowflake.vfs.VFS = com.boluozhai.snowflake.vfs.VFS;
 this.snowflake.vfs.VFSFacade = com.boluozhai.snowflake.vfs.VFSFacade;

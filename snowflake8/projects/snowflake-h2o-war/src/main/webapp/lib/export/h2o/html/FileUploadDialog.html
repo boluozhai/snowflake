@@ -24,33 +24,21 @@
 					<button type="button" class="close" data-dismiss="modal">
 						<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
 					</button>
-					<h4 class="modal-title context" i18n='file_properties'>Modal
-						title 1</h4>
+					<h4 class="modal-title context" i18n='upload_file'>Modal title
+						1</h4>
 				</div>
 
 				<div class="modal-body">
-					<div class='center'>
-						<img draggable="true" class='  image-file-properties-icon context'
-							alt='icon' context-src='~/lib/image/boluo.png' />
-					</div>
-					<h3 class='center file-name '>File Name</h3>
+
 
 					<table class='table'>
 						<tr>
-							<td class='context' i18n='size'></td>
-							<td class='file-size'>x</td>
+							<th class='context' i18n='file-name'>name</th>
+							<th class='context' i18n='file-size'>size</th>
 						</tr>
 						<tr>
-							<td class='context' i18n='type'></td>
-							<td class='file-type'>x</td>
-						</tr>
-						<tr>
-							<td class='context' i18n='time'></td>
-							<td class='file-time'>x</td>
-						</tr>
-						<tr>
-							<td class='context' i18n='path'></td>
-							<td class='file-path'>x</td>
+							<td class='file-name'>name</td>
+							<td class='file-size'>size</td>
 						</tr>
 					</table>
 
@@ -59,19 +47,21 @@
 							action="upload.php">
 							<div class="row">
 								<label for="fileToUpload">Select a File to Upload</label> <input
-									type="file" name="fileToUpload" id="input-file" multiple />
+									class='btn btn-default' type="file" name="fileToUpload"
+									id="input-file" multiple />
 							</div>
 
-							<div>
-								<input type="hidden" name='test-key' value='test-value' />
+
+
+							<div class="row">
+								<input class='btn btn-default' type="button" id='input-upload'
+									value="Upload" />
 							</div>
+							<div id="progressNumber" class='progress'></div>
 
 							<pre class='output'> </pre>
 
-							<div class="row">
-								<input type="button" id='input-upload' value="Upload" />
-							</div>
-							<div id="progressNumber" class='progress'></div>
+
 						</form>
 					</div>
 
@@ -79,17 +69,9 @@
 
 				<div class="modal-footer">
 
-					<button type="button" class="btn btn-danger context" i18n='delete'
-						style='float: left'>del</button>
-
-					<button type="button" class="btn btn-primary context"
-						i18n='download'>dl</button>
-
 					<button type="button" class="btn btn-default context"
 						data-dismiss="modal" i18n='close'>Close</button>
 
-					<button type="button" class="btn btn-primary hide">Save
-						changes</button>
 				</div>
 			</div>
 			<!-- /.modal-content -->

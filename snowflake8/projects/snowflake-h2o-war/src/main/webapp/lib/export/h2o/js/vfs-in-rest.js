@@ -26,6 +26,7 @@ JS.module(function(mc) {
 	var VFSFacade = mc.use(snowflake.vfs.VFSFacade);
 	var VFile = mc.use(snowflake.vfs.VFile);
 	var VFileFacade = mc.use(snowflake.vfs.VFileFacade);
+	var VFileDescriptor = mc.use(snowflake.vfs.VFileDescriptor);
 
 	/***************************************************************************
 	 * class VFSFactory
@@ -104,28 +105,18 @@ JS.module(function(mc) {
 
 			var self = this;
 			var context = this._context;
-			var vpt = new Viewport();
 			var jrr = new JSONRestRequest(context);
-
-			var uid = vpt.ownerUid();
-			var repo = vpt.repositoryName();
-			var offset_path = this.toOffsetPath(file);
+			var descriptor = file.toDescriptor();
+			var query = descriptor.createQuery();
 
 			jrr.open('GET', {
-				uid : uid,
-				repo : repo,
+				uid : query.owner,
+				repo : query.repository,
 				api : 'repo-api',
 				type : 'file',
-				id : 'a-vfile-id',
+				id : query.id,
 			});
-
-			jrr.setParameters({
-				type : 'repository',
-				id : 'working',
-				base : '/',
-				offset : offset_path,
-			});
-
+			jrr.setParameters(query);
 			jrr.onResult(function() {
 				if (jrr.ok()) {
 					self._model = jrr.responseEntity();
@@ -134,9 +125,7 @@ JS.module(function(mc) {
 				}
 				fn();
 			});
-
 			jrr.send();
-
 		},
 
 		model : function() {
@@ -160,6 +149,7 @@ JS.module(function(mc) {
 			// the root
 			name = null;
 			path = '~';
+			this._root_descriptor = this.make_root_descriptor();
 		} else {
 			// a child
 			parent = parent.facade();
@@ -202,6 +192,18 @@ JS.module(function(mc) {
 				self.inner_onload(loader);
 				fn();
 			});
+		},
+
+		make_root_descriptor : function() {
+			var vpt = new Viewport();
+			var desc = new VFileDescriptor();
+			desc.owner(vpt.ownerUid());
+			desc.repository(vpt.repositoryName());
+			desc.type('file');
+			desc.id('working');
+			desc.base('/');
+			desc.offset('~');
+			return desc;
 		},
 
 		inner_onload : function(loader) {
@@ -487,6 +489,24 @@ JS.module(function(mc) {
 
 		toFileURI : function() {
 			throw new Exception('implements in sub-class');
+		},
+
+		toDescriptor : function() {
+			var parent = this.getParentFile();
+			if (parent == null) {
+				// this is the root
+				// make copy for root descriptor
+				var root_desc = this._root_descriptor;
+				return new VFileDescriptor(root_desc);
+			} else {
+				// this is a child
+				var vfs = this.vfs();
+				var root = vfs.root();
+				var desc = root.toDescriptor();
+				var path = this.getPath();
+				desc.offset(path);
+				return desc;
+			}
 		},
 
 	};

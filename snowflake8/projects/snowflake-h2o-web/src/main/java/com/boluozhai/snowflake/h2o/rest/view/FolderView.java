@@ -1,7 +1,6 @@
 package com.boluozhai.snowflake.h2o.rest.view;
 
 import java.io.IOException;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -173,28 +172,15 @@ public class FolderView extends RestView {
 		}
 
 		private VFile getThisNode() {
-
-			// TODO fix bug of path name in Chinese
-
-			final VFile file = this.base.file();
+			final VFile base = this.base.file();
 			final String off = this.offset.toString();
-			final String base;
-			if (this.baseAtFsRoot) {
-				base = "file:///";
-			} else {
-				base = file.toURI().toString();
+			VFile p = base;
+			PathPart pp = PathPart.parse(off);
+			String[] array = pp.trimToArray();
+			for (String s : array) {
+				p = p.child(s);
 			}
-			String url;
-			if (base.endsWith("/")) {
-				url = base + off;
-			} else {
-				url = base + "/" + off;
-			}
-			if (!url.endsWith("/")) {
-				url = url + '/';
-			}
-			final VFS vfs = file.vfs();
-			return vfs.newFile(URI.create(url));
+			return p;
 		}
 
 	}

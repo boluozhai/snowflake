@@ -134,9 +134,9 @@ public class WorkingFileUploadCtrl extends RestController {
 
 		public void preload() {
 
-			String uid = this.getRequiredParam("uid");
+			String uid = this.getRequiredParam("owner");
 			String repo_id = this.getRequiredParam("repository");
-			String path = this.getRequiredParam("path");
+			String path = this.getRequiredParam("offset");
 
 			DataClient client = null;
 

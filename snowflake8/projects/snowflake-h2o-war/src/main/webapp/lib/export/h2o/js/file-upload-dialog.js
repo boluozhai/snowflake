@@ -120,39 +120,33 @@ JS.module(function(mc) {
 
 		},
 
-		get_current_path : function() {
-			// TODO
-			var cl = this._outer._cur_location;
-			var file = cl.location();
-			var path = file.getPath();
-			return path;
+		get_current_location : function() {
+			return this._outer._cur_location;
 		},
 
 		onClickUpload : function(q) {
 
+			var self = this;
+
 			// load param
-			var vpt = new Viewport();
-			var uid = vpt.ownerUid();
-			var repo = vpt.repositoryName();
-			var path = this.get_current_path();
+			var cl = this.get_current_location();
+			var file = cl.location();
+			var desc = file.toDescriptor();
 
 			// make URL
 			var context = this._context;
-			var url = '';
-			url += '~/file-upload.do';
-			// url += '~/{user}/{repo}/repo-api/upload/file';
-			url += '?service=plain-file-upload';
-			url += '&uid={user}&repository={repo}&path={path}';
-			url = url.replace('{user}', uid);
-			url = url.replace('{repo}', repo);
-			url = url.replace('{path}', path);
+			var url = '~/file-upload.do';
+			var query = desc.createQuery();
+			query.service = 'plain-file-upload';
+			url = desc.createURL(url, query);
 			url = context.normalizeURL(url);
 
+			// make XHR
 			var xhr = new XMLHttpRequest();
 			var form1 = q.find('#form1')[0];
 			var fd = new FormData(form1);
 
-			/* event listners */
+			/* event listeners */
 
 			var uploadProgress = function(e) {
 				var str = '';
@@ -167,6 +161,7 @@ JS.module(function(mc) {
 			};
 			var uploadComplete = function(e) {
 				alert('completed');
+				self.onUploadCompleted();
 			};
 			var uploadFailed = function(e) {
 				alert('failed');
@@ -180,12 +175,18 @@ JS.module(function(mc) {
 			xhr.addEventListener("error", uploadFailed, false);
 			xhr.addEventListener("abort", uploadCanceled, false);
 			/*
-			 * Be sure to change the url below to the url of your upload server
+			 * Be sure to change the URL below to the URL of your upload server
 			 * side script
 			 */
 			xhr.open("POST", url);
 			xhr.send(fd);
 
+		},
+
+		onUploadCompleted : function() {
+			var cl = this.get_current_location();
+			var node = cl.location();
+			cl.location(node);
 		},
 
 	};
