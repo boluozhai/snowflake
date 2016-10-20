@@ -37,6 +37,7 @@ JS.module(function(mc) {
 
 	var FilePropertiesDialog = mc.use(snowflake.FilePropertiesDialog);
 	var FileUploadDialog = mc.use(snowflake.FileUploadDialog);
+	var AlertDialog = mc.use(snowflake.AlertDialog);
 
 	/***************************************************************************
 	 * class RepoIndexHtml
@@ -68,12 +69,28 @@ JS.module(function(mc) {
 			this.setupDirectoryFunctionPanel(cl);
 			this.setupFilePropertiesDialog(cl);
 			this.setupFileUploadDialog(cl);
+			this.setupDirectoryDeleteButton(cl);
+			this.setupDirectoryCreateButton(cl);
 			this.setupVFS(cl);
 
 		},
 
 		setupDirectoryFunctionPanel : function(cl) {
 			// TODO
+		},
+
+		setupDirectoryCreateButton : function(cl) {
+			var self = this;
+			$('.btn-dir-insert').click(function() {
+				self.doMakeDir();
+			});
+		},
+
+		setupDirectoryDeleteButton : function(cl) {
+			var self = this;
+			$('.btn-dir-delete').click(function() {
+				self.doDeleteDir();
+			});
 		},
 
 		setupFilePropertiesDialog : function(cl) {
@@ -221,6 +238,64 @@ JS.module(function(mc) {
 			var cl = this._cur_location;
 			var root = vfs.root();
 			cl.location(root);
+
+		},
+
+		doMakeDir : function() {
+
+			var self = this;
+			var i18n = this._context.getBean('i18n');
+
+			var dlg = new AlertDialog();
+			dlg.title(i18n.getString('make_dir'));
+			dlg.message(i18n.getString('input_dir_name'));
+			dlg.value('');
+			dlg.buttons({
+				'ok' : 'btn-primary',
+				'cancel' : 'btn-default',
+			});
+			dlg.show(function() {
+				var value = dlg.value();
+				var result = dlg.result();
+				if (result == 'ok') {
+					self.mkdir(value);
+				}
+			});
+
+		},
+
+		doDeleteDir : function() {
+
+			var i18n = this._context.getBean('i18n');
+			alert(i18n.getString('work-in-progress'));
+
+		},
+
+		mkdir : function(name) {
+
+			var name_ok = false;
+			if (name != null) {
+				name = name.trim();
+			}
+			if (name.length == 0) {
+			} else if (name.indexOf('/') >= 0) {
+			} else if (name.indexOf('\\') >= 0) {
+			} else {
+				name_ok = true;
+			}
+
+			var i18n = this._context.getBean('i18n');
+
+			if (!name_ok) {
+				var msg = i18n.getString('bad_dir_name');
+				alert(msg + ':' + name);
+				return;
+			}
+
+			var cl = this._cur_location;
+			var file = cl.location();
+			var dir = file.child(name);
+			dir.mkdir();
 
 		},
 

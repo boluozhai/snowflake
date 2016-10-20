@@ -101,6 +101,34 @@ JS.module(function(mc) {
 			return sb;
 		},
 
+		exec : function(cmd, file, fn) {
+
+			var self = this;
+			var context = this._context;
+			var jrr = new JSONRestRequest(context);
+			var descriptor = file.toDescriptor();
+			var query = descriptor.createQuery();
+
+			var ent = jrr.open('POST', {
+				uid : query.owner,
+				repo : query.repository,
+				api : 'repo-api',
+				type : 'command',
+				id : query.id,
+			});
+			jrr.setParameters(query);
+			jrr.onResult(function() {
+				if (jrr.ok()) {
+					// self._model = jrr.responseEntity();
+				} else {
+					// self._model = null;
+				}
+				fn();
+			});
+			jrr.send(ent);
+
+		},
+
 		load : function(file, fn) {
 
 			var self = this;
@@ -190,6 +218,20 @@ JS.module(function(mc) {
 			var loader = new MyDataLoader(context);
 			loader.load(this.facade(), function() {
 				self.inner_onload(loader);
+				fn();
+			});
+		},
+
+		execute : function(cmd, fn) {
+			if (fn == null) {
+				fn = function() {
+				};
+			}
+			var self = this;
+			var context = this._vfs.context();
+			var loader = new MyDataLoader(context);
+			loader.exec(cmd, this.facade(), function() {
+				self.inner_on_exe_done(loader);
 				fn();
 			});
 		},
@@ -431,12 +473,12 @@ JS.module(function(mc) {
 		// throw new Exception('implements in sub-class');
 		// },
 
-		mkdir : function() {
-			throw new Exception('implements in sub-class');
+		mkdir : function(fn) {
+			this.execute('mkdir', fn);
 		},
 
 		mkdirs : function() {
-			throw new Exception('implements in sub-class');
+			this.execute('mkdirs', fn);
 		},
 
 		renameTo : function(dest) {

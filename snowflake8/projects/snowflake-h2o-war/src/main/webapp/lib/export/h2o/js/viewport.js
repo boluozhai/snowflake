@@ -279,7 +279,9 @@ JS.module(function(mc) {
 
 			var ses_lang = vpt.myLanguage();
 			var ses_uid = vpt.myUid();
+			var ses_nickname = vpt.myNickname();
 			var vpt_uid = vpt.ownerUid();
+			var vpt_nickname = vpt.ownerNickname();
 			var vpt_repo_id = vpt.repositoryName();
 
 			if (ses_lang == null) {
@@ -288,7 +290,9 @@ JS.module(function(mc) {
 
 			context.attr('session-lang', ses_lang);
 			context.attr('session-uid', ses_uid);
+			context.attr('session-nickname', ses_nickname);
 			context.attr('viewport-uid', vpt_uid);
+			context.attr('viewport-nickname', vpt_nickname);
 			context.attr('viewport-repo-name', vpt_repo_id);
 
 		},
