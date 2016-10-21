@@ -16,7 +16,9 @@ import com.boluozhai.snowflake.h2o.data.dao.AliasDAO;
 import com.boluozhai.snowflake.h2o.data.dao.RepoDAO;
 import com.boluozhai.snowflake.h2o.data.pojo.element.RepoItem;
 import com.boluozhai.snowflake.h2o.rest.view.FolderView;
+import com.boluozhai.snowflake.rest.api.h2o.FileModel;
 import com.boluozhai.snowflake.rest.path.PathPart;
+import com.boluozhai.snowflake.rest.server.JsonRestPojoLoader;
 import com.boluozhai.snowflake.rest.server.RestController;
 import com.boluozhai.snowflake.rest.server.info.RestRequestInfo;
 import com.boluozhai.snowflake.rest.server.info.path.PathInfo;
@@ -46,6 +48,79 @@ public class WorkingDirCtrl extends RestController {
 
 	}
 
+	@Override
+	protected void rest_post(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+
+		Param param = new Param(request);
+		VFile base = param.get_base_dir();
+		PathPart offset = param.get_offset_part();
+
+		FolderView view = new FolderView();
+		view.setBaseAtFsRoot(false);
+		view.setOffset(offset.trim());
+		view.setBase(base.toPath());
+
+		// do VFile.mkdir()
+		final VFile vfile1 = view.toFile();
+		System.out.format("mkdir [%s]\n", vfile1);
+		if (vfile1.exists()) {
+			String msg = "the file/dir exists : [%s]";
+			msg = String.format(msg, vfile1);
+			throw new SnowflakeException(msg);
+		}
+		vfile1.mkdir();
+
+		view.handle(request, response);
+
+	}
+
+	@Override
+	protected void rest_put(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+
+		Param param = new Param(request);
+		VFile base = param.get_base_dir();
+		PathPart offset = param.get_offset_part();
+
+		FolderView view = new FolderView();
+		view.setBaseAtFsRoot(false);
+		view.setOffset(offset.trim());
+		view.setBase(base.toPath());
+
+		// do VFile.renameTo()
+		final String name2 = param.getName2();
+		final VFile vfile1 = view.toFile();
+		final VFile vfile2 = vfile1.getParentFile().child(name2);
+		System.out.format("rename [%s] to [%s]\n", vfile1, vfile2);
+		vfile1.renameTo(vfile2);
+
+		view.handle(request, response);
+
+	}
+
+	@Override
+	protected void rest_delete(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+
+		Param param = new Param(request);
+		VFile base = param.get_base_dir();
+		PathPart offset = param.get_offset_part();
+
+		FolderView view = new FolderView();
+		view.setBaseAtFsRoot(false);
+		view.setOffset(offset.trim());
+		view.setBase(base.toPath());
+
+		// do VFile.delete()
+		final VFile vfile1 = view.toFile();
+		System.out.format("delete [%s]\n", vfile1);
+		vfile1.delete();
+
+		view.handle(request, response);
+
+	}
+
 	private static class Param {
 
 		public SnowflakeContext context;
@@ -60,6 +135,12 @@ public class WorkingDirCtrl extends RestController {
 			this.context = this.rest_info.getContext();
 			this.request = request;
 
+		}
+
+		public String getName2() throws IOException {
+			JsonRestPojoLoader ploader = new JsonRestPojoLoader(request);
+			FileModel model = ploader.getPOJO(FileModel.class);
+			return model.getVfile().getName();
 		}
 
 		public PathPart get_offset_part() throws UnsupportedEncodingException {

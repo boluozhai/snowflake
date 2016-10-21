@@ -81,83 +81,81 @@ JS.module(function(mc) {
 
 	MyDataLoader.prototype = {
 
-		toOffsetPath : function(file) {
-			var array = [];
-			var p = file;
-			for (; p != null; p = p.getParentFile()) {
-				var name = p.getName();
-				if (name == null) {
-					continue;
-				} else {
-					array.push(name);
-				}
+		attr : function(k, v) {
+			k = '__attr__' + k;
+			if (v == null) {
+				v = this[k];
+			} else {
+				this[k] = v;
 			}
-			array = array.reverse();
-			var sb = '.';
-			for ( var i in array) {
-				var name = array[i];
-				sb = sb + '/' + name;
-			}
-			return sb;
+			return v;
 		},
 
-		exec : function(cmd, file, fn) {
+		requestModel : function(v) {
+			return this.attr('request_model', v);
+		},
+
+		responseModel : function(v) {
+			return this.attr('response_model', v);
+		},
+
+		onResult : function(v) {
+			return this.attr('on_result', v);
+		},
+
+		open : function(method, file1, file2) {
+
+			method = method.toUpperCase().trim();
+
+			if (file2 == null) {
+				file2 = file1;
+			}
 
 			var self = this;
 			var context = this._context;
 			var jrr = new JSONRestRequest(context);
-			var descriptor = file.toDescriptor();
-			var query = descriptor.createQuery();
+			var descriptor1 = file1.toDescriptor();
+			var descriptor2 = file2.toDescriptor();
+			var query1 = descriptor1.createQuery(); // for query
 
-			var ent = jrr.open('POST', {
-				uid : query.owner,
-				repo : query.repository,
-				api : 'repo-api',
-				type : 'command',
-				id : query.id,
-			});
-			jrr.setParameters(query);
-			jrr.onResult(function() {
-				if (jrr.ok()) {
-					// self._model = jrr.responseEntity();
-				} else {
-					// self._model = null;
-				}
-				fn();
-			});
-			jrr.send(ent);
-
-		},
-
-		load : function(file, fn) {
-
-			var self = this;
-			var context = this._context;
-			var jrr = new JSONRestRequest(context);
-			var descriptor = file.toDescriptor();
-			var query = descriptor.createQuery();
-
-			jrr.open('GET', {
-				uid : query.owner,
-				repo : query.repository,
+			// open path
+			var model = jrr.open(method, {
+				uid : query1.owner,
+				repo : query1.repository,
 				api : 'repo-api',
 				type : 'file',
-				id : query.id,
+				id : query1.id,
 			});
-			jrr.setParameters(query);
+
+			// set query
+			jrr.setParameters(query1);
+
+			// set entity
+			model.f_vfile().f_name(file2.getName());
+
+			this._method = method;
+			this._jrr = jrr;
+			this.requestModel(model);
+			return model;
+		},
+
+		send : function() {
+			var self = this;
+			var fn = this.onResult();
+			var jrr = this._jrr;
 			jrr.onResult(function() {
 				if (jrr.ok()) {
-					self._model = jrr.responseEntity();
+					self.responseModel(jrr.responseEntity());
 				} else {
-					self._model = null;
+					self.responseModel(null);
 				}
 				fn();
 			});
-			jrr.send();
-		},
-
-		model : function() {
-			return this._model;
+			var entity = this.requestModel();
+			if (this._method == 'GET') {
+				entity = null;
+			}
+			jrr.send(entity);
 		},
 
 	};
@@ -208,48 +206,26 @@ JS.module(function(mc) {
 			return this._facade;
 		},
 
-		load : function(fn) {
+		execute : function(method, fn, file2) {
+
 			if (fn == null) {
 				fn = function() {
 				};
 			}
+
 			var self = this;
 			var context = this._vfs.context();
 			var loader = new MyDataLoader(context);
-			loader.load(this.facade(), function() {
-				self.inner_onload(loader);
+			loader.open(method, this.facade(), file2);
+			loader.onResult(function() {
+				self.inner_on_exec_done(loader);
 				fn();
 			});
+			loader.send();
 		},
 
-		execute : function(cmd, fn) {
-			if (fn == null) {
-				fn = function() {
-				};
-			}
-			var self = this;
-			var context = this._vfs.context();
-			var loader = new MyDataLoader(context);
-			loader.exec(cmd, this.facade(), function() {
-				self.inner_on_exe_done(loader);
-				fn();
-			});
-		},
-
-		make_root_descriptor : function() {
-			var vpt = new Viewport();
-			var desc = new VFileDescriptor();
-			desc.owner(vpt.ownerUid());
-			desc.repository(vpt.repositoryName());
-			desc.type('file');
-			desc.id('working');
-			desc.base('/');
-			desc.offset('~');
-			return desc;
-		},
-
-		inner_onload : function(loader) {
-			var model = loader.model();
+		inner_on_exec_done : function(loader) {
+			var model = loader.responseModel();
 			var dir = model.vfile;
 			var list = dir.list;
 			var table = {};
@@ -264,6 +240,22 @@ JS.module(function(mc) {
 			this._node_chs = table;
 
 			// this.xxx();
+		},
+
+		load : function(fn) {
+			return this.execute('GET', fn, null);
+		},
+
+		make_root_descriptor : function() {
+			var vpt = new Viewport();
+			var desc = new VFileDescriptor();
+			desc.owner(vpt.ownerUid());
+			desc.repository(vpt.repositoryName());
+			desc.type('file');
+			desc.id('working');
+			desc.base('/');
+			desc.offset('~');
+			return desc;
 		},
 
 		node_for_child : function(name) {
@@ -340,8 +332,8 @@ JS.module(function(mc) {
 			throw new Exception('implements in sub-class');
 		},
 
-		del : function() {
-			throw new Exception('implements in sub-class');
+		del : function(fn) {
+			return this.execute('DELETE', fn, null);
 		},
 
 		equals : function(obj) {
@@ -474,15 +466,15 @@ JS.module(function(mc) {
 		// },
 
 		mkdir : function(fn) {
-			this.execute('mkdir', fn);
+			return this.execute('POST', fn, null);
 		},
 
 		mkdirs : function() {
-			this.execute('mkdirs', fn);
+			throw new Exception('implements in sub-class');
 		},
 
 		renameTo : function(dest) {
-			throw new Exception('implements in sub-class');
+			return this.execute('PUT', fn, dest);
 		},
 
 		setExecutable : function(executable) {

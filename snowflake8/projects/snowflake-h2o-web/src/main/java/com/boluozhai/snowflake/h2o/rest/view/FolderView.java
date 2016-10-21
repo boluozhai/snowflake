@@ -48,6 +48,17 @@ public class FolderView extends RestView {
 		this.base = base;
 	}
 
+	public VFile toFile() {
+		VPath p = this.base;
+		PathPart pp = this.offset;
+		final int end = pp.offset + pp.length;
+		for (int i = pp.offset; i < end; i++) {
+			String name = pp.data[i];
+			p = p.child(name);
+		}
+		return p.file();
+	}
+
 	@Override
 	public void handle(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {

@@ -102,6 +102,12 @@ JS.module(function(mc) {
 
 	/***************************************************************************
 	 * class VFile
+	 * 
+	 * @insert : post | mkdir(fn)
+	 * @delete : delete| delete(fn)
+	 * @update : put | renameTo(dst,fn)
+	 * @get : get | load(fn)
+	 * 
 	 */
 
 	function VFile() {
@@ -147,7 +153,7 @@ JS.module(function(mc) {
 			throw new Exception('implements in sub-class');
 		},
 
-		del : function() {
+		del : function(fn) {
 			throw new Exception('implements in sub-class');
 		},
 
@@ -251,7 +257,7 @@ JS.module(function(mc) {
 			throw new Exception('implements in sub-class');
 		},
 
-		mkdir : function() {
+		mkdir : function(fn) {
 			throw new Exception('implements in sub-class');
 		},
 
@@ -259,7 +265,7 @@ JS.module(function(mc) {
 			throw new Exception('implements in sub-class');
 		},
 
-		renameTo : function(dest) {
+		renameTo : function(dest, fn) {
 			throw new Exception('implements in sub-class');
 		},
 
@@ -727,8 +733,8 @@ JS.module(function(mc) {
 			return this.inner.createNewFile();
 		},
 
-		del : function() {
-			return this.inner.del();
+		del : function(fn) {
+			return this.inner.del(fn);
 		},
 
 		equals : function(obj) {
@@ -831,16 +837,16 @@ JS.module(function(mc) {
 			return this.inner.listFiles(filter);
 		},
 
-		mkdir : function() {
-			return this.inner.mkdir();
+		mkdir : function(fn) {
+			return this.inner.mkdir(fn);
 		},
 
 		mkdirs : function() {
 			return this.inner.mkdirs();
 		},
 
-		renameTo : function(dest) {
-			return this.inner.renameTo(dest);
+		renameTo : function(dest, fn) {
+			return this.inner.renameTo(dest, fn);
 		},
 
 		setExecutable : function(executable) {

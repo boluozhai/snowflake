@@ -13,11 +13,29 @@ public class FileCtrl extends RestController {
 	@Override
 	protected void rest_get(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-
 		WorkingDirCtrl next = new WorkingDirCtrl();
 		next.rest_get(request, response);
-		// throw new RuntimeException("not impl");
+	}
 
+	@Override
+	protected void rest_post(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		WorkingDirCtrl next = new WorkingDirCtrl();
+		next.rest_post(request, response);
+	}
+
+	@Override
+	protected void rest_put(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		WorkingDirCtrl next = new WorkingDirCtrl();
+		next.rest_put(request, response);
+	}
+
+	@Override
+	protected void rest_delete(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		WorkingDirCtrl next = new WorkingDirCtrl();
+		next.rest_delete(request, response);
 	}
 
 }

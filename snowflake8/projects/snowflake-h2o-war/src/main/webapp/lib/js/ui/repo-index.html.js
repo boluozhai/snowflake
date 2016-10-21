@@ -82,7 +82,7 @@ JS.module(function(mc) {
 		setupDirectoryCreateButton : function(cl) {
 			var self = this;
 			$('.btn-dir-insert').click(function() {
-				self.doMakeDir();
+				self.onClickMakeDir();
 			});
 		},
 
@@ -241,7 +241,20 @@ JS.module(function(mc) {
 
 		},
 
-		doMakeDir : function() {
+		doDeleteDir : function() {
+
+			// var i18n = this._context.getBean('i18n');
+			// alert(i18n.getString('work-in-progress'));
+
+			var cl = this._cur_location;
+			var file = cl.location();
+			file.del(function() {
+				alert('delete ' + file);
+			});
+
+		},
+
+		onClickMakeDir : function() {
 
 			var self = this;
 			var i18n = this._context.getBean('i18n');
@@ -258,21 +271,15 @@ JS.module(function(mc) {
 				var value = dlg.value();
 				var result = dlg.result();
 				if (result == 'ok') {
-					self.mkdir(value);
+					self.doMakeDir(value);
 				}
 			});
 
 		},
 
-		doDeleteDir : function() {
+		doMakeDir : function(name) {
 
-			var i18n = this._context.getBean('i18n');
-			alert(i18n.getString('work-in-progress'));
-
-		},
-
-		mkdir : function(name) {
-
+			var self = this;
 			var name_ok = false;
 			if (name != null) {
 				name = name.trim();
@@ -295,8 +302,16 @@ JS.module(function(mc) {
 			var cl = this._cur_location;
 			var file = cl.location();
 			var dir = file.child(name);
-			dir.mkdir();
+			dir.mkdir(function() {
+				self.refresh();
+			});
 
+		},
+
+		refresh : function() {
+			var cl = this._cur_location;
+			var file = cl.location();
+			cl.location(file);
 		},
 
 	};

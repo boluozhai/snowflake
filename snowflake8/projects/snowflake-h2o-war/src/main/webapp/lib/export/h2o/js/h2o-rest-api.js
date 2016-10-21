@@ -580,7 +580,7 @@ JS.module(function(mc) {
 	FileModel.prototype = {
 
 		f_vfile : function(v) {
-			return this.__vfile__('vfile', v);
+			return this.__field__('vfile', v);
 		},
 
 	};
