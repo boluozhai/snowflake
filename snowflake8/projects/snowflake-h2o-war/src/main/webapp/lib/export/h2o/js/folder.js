@@ -493,6 +493,9 @@ JS.module(function(mc) {
 				view.find('.on-click').click(function() {
 					self.fireOnClickItem(item);
 				});
+				view.find('.on-click-modify').click(function() {
+					self.fireOnClickItemModify(item);
+				});
 
 			}).onUpdate(function(item) {
 
@@ -566,6 +569,13 @@ JS.module(function(mc) {
 			var file = data.file();
 			var cl = this.currentLocation();
 			cl.open(file);
+		},
+
+		fireOnClickItemModify : function(item) {
+			var data = item.data();
+			var file = data.file();
+			var cl = this.currentLocation();
+			cl.selection(file);
 		},
 
 	};

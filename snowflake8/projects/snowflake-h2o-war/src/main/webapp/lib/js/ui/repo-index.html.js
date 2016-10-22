@@ -66,6 +66,8 @@ JS.module(function(mc) {
 			this.setupPathBar(cl);
 			this.setupFileList(cl);
 
+			this.setupCurrentLocationListener(cl);
+
 			this.setupDirectoryFunctionPanel(cl);
 			this.setupFilePropertiesDialog(cl);
 			this.setupFileUploadDialog(cl);
@@ -312,6 +314,63 @@ JS.module(function(mc) {
 			var cl = this._cur_location;
 			var file = cl.location();
 			cl.location(file);
+		},
+
+		setupCurrentLocationListener : function(cl) {
+			var self = this;
+			var handler = new js.lang.Object();
+			handler.onEvent = function(event) {
+				var code = event.code();
+				if (code == 'ON_SELECT') {
+					self.onClickModifyItem();
+				}
+			};
+			cl.addEventHandler(handler);
+		},
+
+		onClickModifyItem : function() {
+
+			var self = this;
+			var context = this._context;
+			var i18n = context.getBean('i18n');
+			var cl = this._cur_location;
+			var file = cl.selection();
+
+			// alert('select ' + sel);
+			// alert
+
+			var dlg = new AlertDialog();
+			dlg.title(i18n.getString('modify'));
+			dlg.message(file.getName());
+			dlg.buttons({
+				'delete' : 'btn-danger  float-left ',
+				'rename' : 'btn-primary',
+				'cancel' : 'btn-default',
+			});
+
+			dlg.show(function() {
+
+				var result = dlg.result();
+				if (result == null) {
+				} else if (result == 'delete') {
+					self.doDelete(file);
+				} else if (result == 'rename') {
+					self.doRename(file);
+				}
+
+			});
+
+		},
+
+		doDelete : function(file) {
+			var self = this;
+			file.del(function() {
+				// alert('delete ok.');
+				self.refresh();
+			});
+		},
+
+		doRename : function(file) {
 		},
 
 	};

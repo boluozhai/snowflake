@@ -45,6 +45,11 @@ JS.module(function(mc) {
 			var view = this._view;
 
 			self.open(model, view, function() {
+			});
+
+			var event_name = 'hidden.bs.modal';
+			view.off(event_name);
+			view.on(event_name, function(e) {
 				self.close(model, view);
 				fn();
 			});

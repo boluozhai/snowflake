@@ -50,3 +50,11 @@
 .navbar {
 	margin-bottom: 0px;
 }
+
+.float-left {
+	float: left;
+}
+
+.float-right {
+	float: right;
+}

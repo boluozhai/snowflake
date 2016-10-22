@@ -72,6 +72,11 @@
 				<value>.gif</value>
 				<value>.svg</value>
 
+				<value>.eot</value>
+				<value>.ttf</value>
+				<value>.woff</value>
+				<value>.woff2</value>
+
 			</list>
 		</property>
 

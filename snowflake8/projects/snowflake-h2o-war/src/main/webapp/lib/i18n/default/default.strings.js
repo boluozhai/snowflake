@@ -89,4 +89,7 @@ this.h2o.i18n.StringResTable.mapping['default'] = {
 	cancel : '取消',
 	input_dir_name : '输入文件夹名称',
 
+	modify : '修改',
+	rename : '重命名',
+
 };

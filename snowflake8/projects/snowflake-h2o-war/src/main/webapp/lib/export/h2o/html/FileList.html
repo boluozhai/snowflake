@@ -12,9 +12,11 @@
 				<th class='i18n' i18n='size'>size</th>
 				<th class='i18n' i18n='type'>type</th>
 				<th class='i18n' i18n='last_modified'>time</th>
+				<th class='i18n' i18n='modify'>modify</th>
 			</tr>
 
 			<tr class='list-item'>
+
 				<td>
 					<div>
 						<button class='btn btn-link on-click'>
@@ -27,6 +29,8 @@
 							class=' f_name filelist-icon '>[name-xxx-xxxx]</span>
 						</a>
 					</div></td>
+
+
 				<td><div class='field_xxx'>
 						<span class='f_size'>[size]</span>
 					</div></td>
@@ -36,6 +40,21 @@
 				<td><div class='field_xxx'>
 						<span class='f_time'>[time]</span>
 					</div></td>
+
+
+				<td>
+					<div class='btn-modify'>
+						<button class='btn btn-default on-click-modify '>
+							<span class='glyphicon glyphicon-pencil' />
+						</button>
+					</div>
+					<div class='modify-detail hide '>
+						<button class='btn btn-default context' i18n='rename'>改名</button>
+						<button class='btn btn-danger  context' i18n='delete'>删除</button>
+					</div>
+				</td>
+
+
 			</tr>
 
 		</table>

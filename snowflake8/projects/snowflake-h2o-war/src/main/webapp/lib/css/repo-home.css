@@ -5,3 +5,14 @@
 .float-right {
 	float: right;
 }
+
+.toolbar {
+	margin-top: 30px;
+	margin-bottom: 30px;
+}
+
+.--modify{
+	
+	display: none ;
+	
+}
