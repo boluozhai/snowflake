@@ -355,7 +355,7 @@ JS.module(function(mc) {
 				} else if (result == 'delete') {
 					self.doDelete(file);
 				} else if (result == 'rename') {
-					self.doRename(file);
+					self.showRenameDialog(file);
 				}
 
 			});
@@ -370,7 +370,45 @@ JS.module(function(mc) {
 			});
 		},
 
-		doRename : function(file) {
+		doRename : function(file, new_name) {
+			var self = this;
+			var parent = file.getParentFile();
+			var ch = parent.child(new_name);
+			file.renameTo(ch, function() {
+				// var str = file + ' >>> ' + ch;
+				// alert(str);
+				self.refresh();
+			});
+		},
+
+		showRenameDialog : function(file) {
+
+			var self = this;
+			var context = this._context;
+			var i18n = context.getBean('i18n');
+
+			var old = file.getName();
+			var nl = '\n';
+			var msg = i18n.getString('rename');
+			msg += (' ' + old + '' + nl);
+			// msg += i18n.getString('input_new_name');
+
+			var dlg = new AlertDialog();
+			dlg.title(i18n.getString('rename'));
+			dlg.message(msg);
+			dlg.value(old);
+			dlg.buttons({
+				'ok' : 'btn-primary',
+				'cancel' : 'btn-default',
+			});
+			dlg.show(function() {
+				var result = dlg.result();
+				var new_name = dlg.value();
+				if (result == 'ok') {
+					self.doRename(file, new_name);
+				}
+			});
+
 		},
 
 	};

@@ -473,7 +473,7 @@ JS.module(function(mc) {
 			throw new Exception('implements in sub-class');
 		},
 
-		renameTo : function(dest) {
+		renameTo : function(dest, fn) {
 			return this.execute('PUT', fn, dest);
 		},
 
