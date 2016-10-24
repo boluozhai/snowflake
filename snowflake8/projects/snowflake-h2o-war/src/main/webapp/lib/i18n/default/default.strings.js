@@ -92,4 +92,9 @@ this.h2o.i18n.StringResTable.mapping['default'] = {
 	modify : '修改',
 	rename : '重命名',
 
+	total_size : '总大小',
+	upload_start : '开始',
+	upload_cancel : '取消',
+	completed : '已完成',
+
 };

@@ -85,43 +85,69 @@ JS.module(function(mc) {
 
 			var self = this;
 			var input_file = q.find('#input-file');
-			var input_up = q.find('#input-upload');
+			var btn_start = q.find('#btn-upload-start');
+			var btn_cancel = q.find('#btn-upload-cancel');
 
 			input_file.change(function() {
 				self.onFileSelected(q);
 			});
 
-			input_up.click(function() {
+			btn_start.click(function() {
 				self.onClickUpload(q);
+			});
+
+			btn_cancel.click(function() {
+				self.onClickCancelUpload(q);
 			});
 
 		},
 
 		onFileSelected : function(q) {
 
-			var pre = q.find('.output');
+			var temp = q.find('.template');
+			var inst = q.find('.instance');
 			var input = q.find('#input-file')[0];
 			var files = input.files;
+			var total = 0;
 
-			pre.empty();
+			var table = temp.find('.list').clone();
+			var head = table.find('.list-head');
+			var item = table.find('.list-item');
+			table.empty();
+			table.append(head);
+			inst.empty();
+			inst.append(table);
 
 			if (files) {
 				var len = files.length;
 				for (var i = 0; i < len; i++) {
 					var file = files[i];
-					var sb = '';
-					sb += (' name:' + file.name);
-					sb += (' size:' + file.size);
-					sb += (' type:' + file.type);
-					sb += (' time:' + file.lastModified);
-					pre.append(sb + '\n');
+					var name = file.name;
+					var size = file.size;
+					var it = item.clone();
+					it.find('.file-name').text(name);
+					it.find('.file-size').text(size);
+					table.append(it);
+					total += size;
 				}
 			}
-
+			q.find('.total-size').text(total);
 		},
 
 		get_current_location : function() {
 			return this._outer._cur_location;
+		},
+
+		set_current_xhr : function(xhr) {
+			var old = this._cur_xhr;
+			this._cur_xhr = xhr;
+			if (old != null) {
+				old.abort();
+			}
+		},
+
+		onClickCancelUpload : function(q) {
+			this.set_current_xhr(null);
 		},
 
 		onClickUpload : function(q) {
@@ -153,21 +179,20 @@ JS.module(function(mc) {
 				if (e.lengthComputable) {
 					var cb = e.loaded;
 					var total = e.total;
-					str = cb + '/' + total;
+					self.onUploadProgress(cb, total, q);
 				} else {
-					str = 'err';
+					self.onUploadProgress(-1, -1, q);
 				}
-				q.find('.progress').text(str);
 			};
 			var uploadComplete = function(e) {
-				alert('completed');
+				self.close('completed');
 				self.onUploadCompleted();
 			};
 			var uploadFailed = function(e) {
-				alert('failed');
+				self.close('failed');
 			};
 			var uploadCanceled = function(e) {
-				alert('canceled');
+				self.close('canceled');
 			};
 
 			xhr.upload.addEventListener("progress", uploadProgress, false);
@@ -178,6 +203,8 @@ JS.module(function(mc) {
 			 * Be sure to change the URL below to the URL of your upload server
 			 * side script
 			 */
+
+			this.set_current_xhr(xhr);
 			xhr.open("POST", url);
 			xhr.send(fd);
 
@@ -187,6 +214,36 @@ JS.module(function(mc) {
 			var cl = this.get_current_location();
 			var node = cl.location();
 			cl.location(node);
+		},
+
+		onUploadProgress : function(done, total, query) {
+
+			var value = Math.floor(done * 100.0 / total);
+			var str = value + '';
+			var i = str.indexOf('.');
+			if (i < 0) {
+				// NOP
+			} else {
+				str = str.substring(0, i);
+			}
+			var txt = query.find('#text-progress');
+			var bar = query.find('.progress-bar-success');
+			txt.text(str + '%');
+			bar.attr('style', 'width:' + value + '%');
+		},
+
+		close : function(code) {
+
+			var i18n = this._context.getBean('i18n');
+			var txt = i18n.getString(code);
+			var q = this._outer.dialogQuery();
+			var bar = q.find('.progress-bar-success');
+
+			q.modal('hide');
+			bar.attr('style', 'width: 0%');
+
+			alert(txt);
+
 		},
 
 	};

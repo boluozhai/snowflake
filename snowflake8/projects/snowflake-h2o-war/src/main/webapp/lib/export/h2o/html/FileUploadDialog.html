@@ -31,38 +31,53 @@
 				<div class="modal-body">
 
 
-					<table class='table'>
-						<tr>
-							<th class='context' i18n='file-name'>name</th>
-							<th class='context' i18n='file-size'>size</th>
-						</tr>
-						<tr>
-							<td class='file-name'>name</td>
-							<td class='file-size'>size</td>
-						</tr>
-					</table>
-
-					<div>
+					<div class='  margin-3 '>
 						<form id="form1" enctype="multipart/form-data" method="post"
 							action="upload.php">
-							<div class="row">
-								<label for="fileToUpload">Select a File to Upload</label> <input
-									class='btn btn-default' type="file" name="fileToUpload"
-									id="input-file" multiple />
+							<div class=' margin-3 '>
+								<input class='btn btn-success file-sel from-control '
+									type="file" name="fileToUpload" id="input-file" multiple />
 							</div>
-
-
-
-							<div class="row">
-								<input class='btn btn-default' type="button" id='input-upload'
-									value="Upload" />
+							<div class='margin-3 center '>
+								<span class='context' i18n='total_size'>total size</span> : <span
+									class='total-size'>0</span>
 							</div>
-							<div id="progressNumber" class='progress'></div>
-
-							<pre class='output'> </pre>
-
-
 						</form>
+					</div>
+
+
+					<div class='list-component'>
+						<div class='hide template'>
+							<table class='table list'>
+								<tr class='list-head'>
+									<th class='context' i18n='name'>name</th>
+									<th class='context' i18n='size'>size</th>
+								</tr>
+								<tr class='list-item'>
+									<td class='file-name'>name</td>
+									<td class='file-size'>size</td>
+								</tr>
+							</table>
+						</div>
+						<div class='instance'></div>
+					</div>
+
+
+					<div id="progressNumber" class='progress hide '></div>
+					<div class="progress">
+						<div
+							class="progress-bar progress-bar-striped progress-bar-success active"
+							role="progressbar" aria-valuenow="45" aria-valuemin="0"
+							aria-valuemax="100" --style="width: 45%">
+							<span class="--sr-only " id='text-progress'>45% Complete</span>
+						</div>
+					</div>
+
+					<div class="margin-3 center ">
+						<button class='btn btn-success context' id='btn-upload-start'
+							i18n="upload_start"></button>
+						<button class='btn btn-danger context' id='btn-upload-cancel'
+							i18n="upload_cancel"></button>
 					</div>
 
 				</div>
