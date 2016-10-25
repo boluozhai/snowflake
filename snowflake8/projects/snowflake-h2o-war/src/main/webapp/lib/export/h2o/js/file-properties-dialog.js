@@ -88,19 +88,63 @@ JS.module(function(mc) {
 			var query = this.dialogQuery();
 			var btn = query.find('#btn-download');
 			var txt = query.find('.text-url');
-			var ico = query.find('.image-file-properties-icon');
+			var ico = query.find('.file-properties-icon');
 
+			// prepare a new icon image element
+			var ico_inst = ico.find('.instance');
+			ico_inst.empty();
+			var ico_image = ico.find('.image').clone();
+			ico_inst.append(ico_image);
+
+			// make URLs
+			var type = file.type();
+			var downloadURL = this.get_download_url(context, file);
+			var iconURL = null;
+			if (type.indexOf('image/') == 0) {
+				iconURL = this.get_thumb_url(context, file);
+			} else {
+				iconURL = this.get_icon_url(context, file);
+			}
+
+			// set tags
+			btn.attr('href', downloadURL);
+			txt.text(downloadURL);
+			ico_image.attr('src', iconURL);
+		},
+
+		get_download_url : function(context, file) {
 			var url = '~/u/r/api/t/' + file.getName();
 			var fd = file.toDescriptor();
 			var query = {
 				service : 'plain-file-download',
 			};
 			url = context.normalizeURL(url);
-			url = fd.createURL(url, query);
+			return fd.createURL(url, query);
+		},
 
-			btn.attr('href', url);
-			txt.text(url);
-			ico.attr('src', url);
+		get_thumb_url : function(context, file) {
+			var url = '~/u/r/api/t/' + file.getName();
+			var fd = file.toDescriptor();
+			var query = {
+				service : 'plain-file-thumb',
+				width : 256,
+				height : 256,
+			};
+			url = context.normalizeURL(url);
+			return fd.createURL(url, query);
+		},
+
+		get_icon_url : function(context, file) {
+			var type = file.type();
+			var index = type.indexOf('/');
+			if (index < 0) {
+				// NOP
+			} else {
+				type = type.substring(0, index);
+			}
+			var url = '~/lib/export/h2o/image/{type}.png';
+			url = url.replace('{type}', type);
+			return context.normalizeURL(url);
 		},
 
 	};
@@ -113,6 +157,7 @@ JS.module(function(mc) {
 		var fmt = context.getBean('format');
 		var fmt_time = fmt.from('time');
 		var fmt_size = fmt.from('size');
+		var fmt_type = fmt.from('type');
 
 		var name = file.getName();
 		var size = file.length();
@@ -120,8 +165,15 @@ JS.module(function(mc) {
 		var time = file.lastModified();
 		var path = file.getPath();
 
+		var size2 = '  (' + size + ')';
+		var type2 = '      (' + type + ')';
+
 		size = fmt_size.toString(size);
 		time = fmt_time.toString(time);
+		type = fmt_type.toString(type);
+
+		type = (type + type2);
+		size = (size + size2);
 
 		q.find('.file-name').text(name);
 		q.find('.file-size').text(size);

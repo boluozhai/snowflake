@@ -1,18 +1,19 @@
-.f_name { -
+.f_name {
 	float: left;
-	margin-top: 8px;
+	-margin-top: 8px;
 }
 
 .field_xxx {
-	margin-top: 18px;
+	-margin-top: 18px;
 }
 
 .f_icon {
-	width: 36px;
-	height: 36px;
 	display: inline-block;
 	background-repeat: no-repeat;
 	float: left;
+	background-size: 32px 32px;
+	width: 32px;
+	height: 32px;
 }
 
 .filelist-icon-dir {
@@ -21,4 +22,28 @@
 
 .filelist-icon-file {
 	background-image: url(./../image/file.png);
+}
+
+.filelist-icon-application {
+	background-image: url(./../image/file.png);
+}
+
+.filelist-icon-text {
+	background-image: url(./../image/text.png);
+}
+
+.filelist-icon-image {
+	background-image: url(./../image/image.png);
+}
+
+.filelist-icon-audio {
+	background-image: url(./../image/audio.png);
+}
+
+.filelist-icon-video {
+	background-image: url(./../image/video.png);
+}
+
+.filelist-icon-arch {
+	background-image: url(./../image/arch.png);
 }

@@ -1,9 +1,6 @@
 package com.boluozhai.snowflake.h2o.rest.helper;
 
 import java.net.URI;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -20,6 +17,8 @@ import com.boluozhai.snowflake.vfs.VFile;
 import com.boluozhai.snowflake.xgit.XGit;
 import com.boluozhai.snowflake.xgit.repository.Repository;
 import com.boluozhai.snowflake.xgit.repository.RepositoryManager;
+import com.boluozhai.snowflake.xgit.site.MimeTypeRegistrar;
+import com.boluozhai.snowflake.xgit.site.XGitSite;
 import com.boluozhai.snowflake.xgit.vfs.FileWorkspace;
 
 public class VFileDescriptorWrapper {
@@ -100,7 +99,7 @@ public class VFileDescriptorWrapper {
 		VFile file = this.make_path(wkdir, desc);
 
 		// mime type
-		String mime = this.get_mime_type(file);
+		String mime = this.get_mime_type(context, file);
 
 		this._file = file;
 		this._context = context;
@@ -108,53 +107,11 @@ public class VFileDescriptorWrapper {
 
 	}
 
-	private static Map<String, String> mime_types_table;
-
-	private String get_mime_type(VFile file) {
-
-		final String name = file.getName().toLowerCase();
-		final int idot = name.lastIndexOf('.');
-		final String suffix;
-		if (idot < 0) {
-			suffix = "";
-		} else {
-			suffix = name.substring(idot);
-		}
-
-		Map<String, String> map = mime_types_table;
-		if (map == null) {
-			map = new HashMap<String, String>();
-			this.init_mime_types_table(map);
-			map = Collections.synchronizedMap(map);
-			mime_types_table = map;
-		}
-
-		String mime = map.get(suffix);
-		if (mime == null) {
-			mime = map.get("");
-		}
-		return mime;
-	}
-
-	private void init_mime_types_table(Map<String, String> map) {
-
-		// TODO
-
-		map.put(".txt", "text/plain");
-		map.put(".html", "text/html");
-		map.put(".js", "application/javascript");
-		map.put(".css", "text/css");
-
-		map.put(".bmp", "image/bmp");
-		map.put(".png", "image/png");
-		map.put(".jpg", "image/jpeg");
-		map.put(".gif", "image/gif");
-
-		map.put(".mp3", "audio/mp3");
-		map.put(".mp4", "video/mpeg4");
-
-		map.put("", "octet-stream");
-
+	private String get_mime_type(SnowflakeContext context, VFile file) {
+		String name = file.getName();
+		XGitSite site = XGitSite.Agent.getSite(context);
+		MimeTypeRegistrar type_reg = site.getMimeTypeRegistrar();
+		return type_reg.getTypeNameByFileName(name);
 	}
 
 	private VFile make_path(VFile wkdir, VFileDescriptor desc) {

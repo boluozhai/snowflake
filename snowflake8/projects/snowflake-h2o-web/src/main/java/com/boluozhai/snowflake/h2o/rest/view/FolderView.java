@@ -8,15 +8,21 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.boluozhai.snowflake.context.SnowflakeContext;
 import com.boluozhai.snowflake.rest.api.h2o.FileModel;
 import com.boluozhai.snowflake.rest.element.file.Node;
 import com.boluozhai.snowflake.rest.element.file.NodeList;
 import com.boluozhai.snowflake.rest.path.PathPart;
 import com.boluozhai.snowflake.rest.server.JsonRestView;
 import com.boluozhai.snowflake.rest.server.RestView;
+import com.boluozhai.snowflake.rest.server.info.RestRequestInfo;
 import com.boluozhai.snowflake.vfs.VFS;
 import com.boluozhai.snowflake.vfs.VFile;
 import com.boluozhai.snowflake.vfs.VPath;
+import com.boluozhai.snowflake.xgit.XGitContext;
+import com.boluozhai.snowflake.xgit.site.MimeTypeRegistrar;
+import com.boluozhai.snowflake.xgit.site.SystemRepository;
+import com.boluozhai.snowflake.xgit.site.XGitSite;
 
 public class FolderView extends RestView {
 
@@ -68,6 +74,7 @@ public class FolderView extends RestView {
 		nlb.offset = this.offset;
 		nlb.uri = request.getRequestURL().toString();
 		nlb.baseAtFsRoot = this.baseAtFsRoot;
+		nlb.mime_types = Helper.getMimeTypeReg(request);
 
 		FileModel model = new FileModel();
 		model.setVfile(nlb.create());
@@ -78,12 +85,32 @@ public class FolderView extends RestView {
 
 	}
 
+	private static class Helper {
+
+		public static MimeTypeRegistrar getMimeTypeReg(
+				HttpServletRequest request) {
+
+			final String key = XGitContext.component.mime_types;
+
+			RestRequestInfo rrinfo = RestRequestInfo.Factory
+					.getInstance(request);
+			SnowflakeContext context = rrinfo.getContext();
+			XGitSite site = XGitSite.Agent.getSite(context);
+			SystemRepository sys = site.getSystemRepository();
+			MimeTypeRegistrar reg = (MimeTypeRegistrar) sys
+					.getComponentContext().getAttribute(key);
+			return reg.cache();
+		}
+
+	}
+
 	private static class NodeListBuilder {
 
 		public PathPart offset;
 		public VPath base;
 		public String uri;
 		public boolean baseAtFsRoot;
+		public MimeTypeRegistrar mime_types;
 
 		public NodeList create() {
 
@@ -113,21 +140,12 @@ public class FolderView extends RestView {
 		}
 
 		private String makeTypeForNode(VFile node) {
-			// TODO Auto-generated method stub
-
 			if (node.isDirectory()) {
 				return "directory";
 			}
-
 			final String name = node.getName();
-			final int index = name.lastIndexOf('.');
-			if (index < 0) {
-				return "file";
-			}
-
-			final String ext_name = name.substring(index).toLowerCase();
-
-			return ext_name;
+			final MimeTypeRegistrar mime_type_reg = this.mime_types;
+			return mime_type_reg.getTypeNameByFileName(name);
 		}
 
 		private long makeLengthForNode(VFile node) {

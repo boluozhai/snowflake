@@ -44,4 +44,8 @@ public class XGitSiteImplementation {
 		return UserManagerImpl.newBuilder();
 	}
 
+	public static ComponentBuilder newMimeTypeRegBuilder() {
+		return MimeTypeRegImpl.newBuilder();
+	}
+
 }

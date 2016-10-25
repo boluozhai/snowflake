@@ -24,6 +24,7 @@ JS.module(function(mc) {
 	function Formatter() {
 		this.from('size', new SizeFormatter());
 		this.from('time', new TimeFormatter());
+		this.from('type', new TypeFormatter());
 	}
 
 	mc.class(function(cc) {
@@ -57,6 +58,80 @@ JS.module(function(mc) {
 			var date = this.date;
 			date.setTime(data);
 			return date.toLocaleString();
+		},
+
+	};
+
+	/***************************************************************************
+	 * class TypeFormatter
+	 */
+
+	function TypeFormatter() {
+	}
+
+	mc.class(function(cc) {
+		cc.type(TypeFormatter);
+	});
+
+	TypeFormatter.prototype = {
+
+		getDisplayNames : function() {
+			var tab = this._table;
+			if (tab == null) {
+
+				tab = {};
+				var context = Snowflake.getContext();
+				var i18n = context.getBean('i18n');
+
+				tab.application = i18n.getString('file');
+				tab.directory = i18n.getString('directory');
+				tab.image = i18n.getString('image');
+				tab.text = i18n.getString('text');
+				tab.audio = i18n.getString('audio');
+				tab.video = i18n.getString('video');
+				tab.file = i18n.getString('file');
+
+				this._table = tab;
+			}
+			return tab;
+		},
+
+		toString : function(data) {
+
+			var displayNames = this.getDisplayNames();
+			var prefix = null;
+			var index = data.indexOf('/');
+			if (index < 0) {
+				prefix = data;
+			} else {
+				prefix = data.substring(0, index);
+			}
+
+			if (prefix == null) {
+				return displayNames.file;
+
+			} else if (prefix == 'application') {
+				return displayNames.application;
+
+			} else if (prefix == 'image') {
+				return displayNames.image;
+
+			} else if (prefix == 'text') {
+				return displayNames.text;
+
+			} else if (prefix == 'audio') {
+				return displayNames.audio;
+
+			} else if (prefix == 'video') {
+				return displayNames.video;
+
+			} else if (prefix == 'directory') {
+				return displayNames.directory;
+
+			} else {
+				return displayNames.file;
+			}
+
 		},
 
 	};

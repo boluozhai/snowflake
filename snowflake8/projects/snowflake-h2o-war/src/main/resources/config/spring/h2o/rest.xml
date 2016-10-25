@@ -283,6 +283,10 @@
 					<ref bean='rest:gateway:plain-file' />
 				</entry>
 
+				<entry key='plain-file-thumb'>
+					<ref bean='rest:gateway:plain-file' />
+				</entry>
+
 
 				<!-- info/refs?service=xxx -->
 

@@ -19,4 +19,6 @@ public interface XGitSite {
 
 	RepositorySpaceAllocator getRepositorySpaceAllocator();
 
+	MimeTypeRegistrar getMimeTypeRegistrar();
+
 }

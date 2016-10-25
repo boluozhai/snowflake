@@ -3,10 +3,12 @@ package com.boluozhai.snowflake.xgit.site.impl;
 import java.net.URI;
 
 import com.boluozhai.snowflake.context.SnowflakeContext;
+import com.boluozhai.snowflake.mvc.model.ComponentContext;
 import com.boluozhai.snowflake.xgit.XGit;
 import com.boluozhai.snowflake.xgit.XGitContext;
 import com.boluozhai.snowflake.xgit.repository.Repository;
 import com.boluozhai.snowflake.xgit.repository.RepositoryManager;
+import com.boluozhai.snowflake.xgit.site.MimeTypeRegistrar;
 import com.boluozhai.snowflake.xgit.site.RepositorySpaceAllocator;
 import com.boluozhai.snowflake.xgit.site.SystemRepository;
 import com.boluozhai.snowflake.xgit.site.XGitSite;
@@ -16,6 +18,7 @@ final class XGitSiteImpl implements XGitSite {
 
 	private final SnowflakeContext _context;
 	private SystemRepository _sys_repo;
+	private MimeTypeRegistrar _mime_type_reg;
 
 	public XGitSiteImpl(SnowflakeContext context) {
 		this._context = context;
@@ -47,6 +50,19 @@ final class XGitSiteImpl implements XGitSite {
 	@Override
 	public RepositorySpaceAllocator getRepositorySpaceAllocator() {
 		return new XGitSiteRepoAllocatorImpl(this);
+	}
+
+	@Override
+	public MimeTypeRegistrar getMimeTypeRegistrar() {
+		MimeTypeRegistrar reg = this._mime_type_reg;
+		if (reg == null) {
+			SystemRepository sys = this.getSystemRepository();
+			ComponentContext cc = sys.getComponentContext();
+			String key = XGitContext.component.mime_types;
+			reg = (MimeTypeRegistrar) cc.getBean(key);
+			this._mime_type_reg = reg;
+		}
+		return reg.cache();
 	}
 
 }

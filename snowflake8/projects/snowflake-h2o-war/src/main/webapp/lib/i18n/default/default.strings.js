@@ -101,4 +101,16 @@ this.h2o.i18n.StringResTable.mapping['default'] = {
 	items : '项',
 	wormhole : '时空隧道',
 
+	'items{count}' : '{count} 项',
+
+	audio : '音频',
+	file : '文件',
+	image : '图片',
+	text : '文本',
+	video : '视频',
+	directory : '文件夹',
+
+	byte : '字节',
+	bytes : '字节',
+
 };

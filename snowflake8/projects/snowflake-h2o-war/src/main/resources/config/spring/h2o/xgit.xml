@@ -232,10 +232,15 @@
 					<bean
 						class='com.boluozhai.snowflake.xgit.site.support.UserManagerFactory' />
 				</entry>
+				<entry key="xgit.mime_types">
+					<bean
+						class='com.boluozhai.snowflake.xgit.site.support.MimeTypeRegistrarFactory' />
+				</entry>
 			</map>
 		</property>
 
 	</bean>
+
 
 	<bean id='xgit:driver:site:partition:profile' class='com.boluozhai.snowflake.xgit.support.RepositoryProfile'>
 
@@ -251,6 +256,7 @@
 
 	</bean>
 
+
 	<bean id='xgit:driver:site:data:profile' class='com.boluozhai.snowflake.xgit.support.RepositoryProfile'>
 
 		<property name="parent">
@@ -264,6 +270,7 @@
 		</property>
 
 	</bean>
+
 
 	<bean id='xgit:driver:site:user:profile' class='com.boluozhai.snowflake.xgit.support.RepositoryProfile'>
 

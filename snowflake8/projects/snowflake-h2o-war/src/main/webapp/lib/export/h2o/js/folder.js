@@ -286,22 +286,7 @@ JS.module(function(mc) {
 		},
 
 		type : function() {
-			var t = this._type;
-			if (t == null) {
-				if (this.isdir()) {
-					t = 'DIR';
-				} else {
-					var name = this.name();
-					var i = name.lastIndexOf('.');
-					if (i < 0) {
-						t = 'FILE';
-					} else {
-						t = name.substring(i).toLowerCase();
-					}
-				}
-				this._type = t;
-			}
-			return t;
+			return this._file.type();
 		},
 
 		time : function() {
@@ -406,16 +391,36 @@ JS.module(function(mc) {
 	});
 
 	function select_icon_for_file(query, isdir, type) {
-		var current = isdir ? 'filelist-icon-dir' : 'filelist-icon-file';
-		var array = [ 'filelist-icon-dir', 'filelist-icon-file' ];
-		for ( var i in array) {
-			var cn = array[i];
-			if (cn == current) {
-				query.addClass(cn);
+		var key = null;
+		if (isdir) {
+			key = 'directory';
+		} else {
+			var i = type.indexOf('/');
+			if (i < 0) {
+				key = type;
 			} else {
-				query.removeClass(cn);
+				key = type.substring(0, i);
 			}
 		}
+		var table = {
+			directory : 'filelist-icon-dir',
+			file : 'filelist-icon-file',
+			application : 'filelist-icon-application',
+			text : 'filelist-icon-text',
+			image : 'filelist-icon-image',
+			audio : 'filelist-icon-audio',
+			video : 'filelist-icon-video',
+			arch : 'filelist-icon-arch'
+		};
+		for ( var k in table) {
+			var cn = table[k];
+			query.removeClass(cn);
+		}
+		var cn = table[key];
+		if (cn == null) {
+			cn = table.file;
+		}
+		query.addClass(cn);
 	}
 
 	FileListCtrl.prototype = {
@@ -476,9 +481,10 @@ JS.module(function(mc) {
 			var fmt = context.getBean('format');
 			var fmt_time = fmt.from('time');
 			var fmt_size = fmt.from('size');
+			var fmt_type = fmt.from('type');
 
 			var i18n = context.getBean('i18n');
-			var txt_item = i18n.getString('items');
+			var txt_item = i18n.getString('items{count}');
 			var txt_dir = i18n.getString('folder');
 
 			builder.view(view);
@@ -511,21 +517,21 @@ JS.module(function(mc) {
 				var view = item.view();
 				var data = item.data();
 
-				var name = data.name();
-				var isdir = data.isdir();
-				var type = data.type();
-				var size = data.size();
-				var time = data.time();
+				var name0 = data.name();
+				var isdir0 = data.isdir();
+				var type0 = data.type();
+				var size0 = data.size();
+				var time0 = data.time();
 
-				if (isdir) {
-					size = size + ' ' + txt_item;
-					type = txt_dir;
+				var name = name0;
+				var time = fmt_time.toString(time0);
+				var type = fmt_type.toString(type0);
+				var size = null;
+				if (isdir0) {
+					size = txt_item.replace('{count}', size0 + '');
 				} else {
-					// type = '<FILE>';
-					size = fmt_size.toString(size);
+					size = fmt_size.toString(size0);
 				}
-
-				time = fmt_time.toString(time);
 
 				view.find('.f_name').text(name);
 				view.find('.f_size').text(size);
@@ -533,7 +539,7 @@ JS.module(function(mc) {
 				view.find('.f_time').text(time);
 
 				var icon = view.find('.f_icon');
-				select_icon_for_file(icon, isdir, type);
+				select_icon_for_file(icon, isdir0, type0);
 
 			});
 

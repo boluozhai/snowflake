@@ -19,13 +19,22 @@
 				</div>
 
 				<div class="modal-body">
-					<div class='center'>
-						<img class='  image-file-properties-icon context' alt='icon'
-							context-src='~/lib/image/boluo.png' />
+
+					<div class='center file-properties-icon  '>
+						<div class='hide template '>
+							<img class='  image file-properties-icon-image context' alt='icon'
+								context-src='~/lib/export/h2o/image/file.png' />
+						</div>
+						<div class='instance'></div>
 					</div>
+
 					<h3 class='center file-name '>File Name</h3>
 
 					<table class='table'>
+						<tr>
+							<td class='context' i18n='path'></td>
+							<td class='file-path'>x</td>
+						</tr>
 						<tr>
 							<td class='context' i18n='size'></td>
 							<td class='file-size'>x</td>
@@ -35,12 +44,8 @@
 							<td class='file-type'>x</td>
 						</tr>
 						<tr>
-							<td class='context' i18n='time'></td>
+							<td class='context' i18n='last_modified'></td>
 							<td class='file-time'>x</td>
-						</tr>
-						<tr>
-							<td class='context' i18n='path'></td>
-							<td class='file-path'>x</td>
 						</tr>
 					</table>
 

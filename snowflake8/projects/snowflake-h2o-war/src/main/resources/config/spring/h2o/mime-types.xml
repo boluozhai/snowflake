@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" 
+ "http://www.springframework.org/dtd/spring-beans-2.0.dtd" >
+<beans>
+
+
+	<bean class='com.boluozhai.snowflake.xgit.site.MimeTypeInfo' id='mime:type-info:parent' />
+
+
+	<!-- application -->
+
+	<bean class='com.boluozhai.snowflake.xgit.site.MimeTypeSet'>
+		<property name="types">
+			<list>
+
+				<bean parent='mime:type-info:parent'>
+					<property name='suffix' value='.bin' />
+					<property name='mimeType' value='application/octet-stream' />
+				</bean>
+
+				<bean parent='mime:type-info:parent'>
+					<property name='suffix' value='.js' />
+					<property name='mimeType' value='application/javascript' />
+				</bean>
+
+				<bean parent='mime:type-info:parent'>
+					<property name='suffix' value='.json' />
+					<property name='mimeType' value='application/json' />
+				</bean>
+
+				<bean parent='mime:type-info:parent'>
+					<property name='suffix' value='.xml' />
+					<property name='mimeType' value='application/xml' />
+				</bean>
+
+			</list>
+		</property>
+	</bean>
+
+
+	<!-- audio -->
+
+	<bean class='com.boluozhai.snowflake.xgit.site.MimeTypeSet'>
+		<property name="types">
+			<list>
+
+				<bean parent='mime:type-info:parent'>
+					<property name='suffix' value='.3gp' />
+					<property name='mimeType' value='audio/3gpp' />
+				</bean>
+
+				<bean parent='mime:type-info:parent'>
+					<property name='suffix' value='.mka' />
+					<property name='mimeType' value='audio/x-matroska' />
+				</bean>
+
+				<bean parent='mime:type-info:parent'>
+					<property name='suffix' value='.mp3' />
+					<property name='mimeType' value='audio/mpeg' />
+				</bean>
+
+				<bean parent='mime:type-info:parent'>
+					<property name='suffix' value='.wav' />
+					<property name='mimeType' value='audio/wave' />
+				</bean>
+
+			</list>
+		</property>
+	</bean>
+
+
+	<!-- image -->
+
+	<bean class='com.boluozhai.snowflake.xgit.site.MimeTypeSet'>
+		<property name="types">
+			<list>
+
+				<bean parent='mime:type-info:parent'>
+					<property name='suffix' value='.bmp' />
+					<property name='mimeType' value='image/bmp' />
+				</bean>
+
+				<bean parent='mime:type-info:parent'>
+					<property name='suffix' value='.gif' />
+					<property name='mimeType' value='image/gif' />
+				</bean>
+
+				<bean parent='mime:type-info:parent'>
+					<property name='suffix' value='.jpg' />
+					<property name='mimeType' value='image/jpeg' />
+				</bean>
+
+				<bean parent='mime:type-info:parent'>
+					<property name='suffix' value='.png' />
+					<property name='mimeType' value='image/png' />
+				</bean>
+
+				<bean parent='mime:type-info:parent'>
+					<property name='suffix' value='.svg' />
+					<property name='mimeType' value='image/svg' />
+				</bean>
+
+			</list>
+		</property>
+	</bean>
+
+
+	<!-- multipart -->
+
+	<bean class='com.boluozhai.snowflake.xgit.site.MimeTypeSet'>
+		<property name="types">
+			<list>
+
+				<bean parent='mime:type-info:parent'>
+					<property name='suffix' value='.--multi-part--' />
+					<property name='mimeType' value='multipart/x' />
+				</bean>
+
+			</list>
+		</property>
+	</bean>
+
+
+	<!-- text -->
+
+	<bean class='com.boluozhai.snowflake.xgit.site.MimeTypeSet'>
+		<property name="types">
+			<list>
+
+				<bean parent='mime:type-info:parent'>
+					<property name='suffix' value='.css' />
+					<property name='mimeType' value='text/css' />
+				</bean>
+
+				<bean parent='mime:type-info:parent'>
+					<property name='suffix' value='.htm' />
+					<property name='mimeType' value='text/html' />
+				</bean>
+
+				<bean parent='mime:type-info:parent'>
+					<property name='suffix' value='.html' />
+					<property name='mimeType' value='text/html' />
+				</bean>
+
+				<bean parent='mime:type-info:parent'>
+					<property name='suffix' value='.txt' />
+					<property name='mimeType' value='text/plain' />
+				</bean>
+
+			</list>
+		</property>
+	</bean>
+
+
+	<!-- video -->
+
+	<bean class='com.boluozhai.snowflake.xgit.site.MimeTypeSet'>
+		<property name="types">
+			<list>
+
+				<bean parent='mime:type-info:parent'>
+					<property name='suffix' value='.mkv' />
+					<property name='mimeType' value='video/x-matroska' />
+				</bean>
+
+				<bean parent='mime:type-info:parent'>
+					<property name='suffix' value='.mp4' />
+					<property name='mimeType' value='video/mp4' />
+				</bean>
+
+			</list>
+		</property>
+	</bean>
+
+
+</beans>
