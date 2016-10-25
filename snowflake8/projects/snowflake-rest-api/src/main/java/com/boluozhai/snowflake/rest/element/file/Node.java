@@ -7,6 +7,15 @@ public class Node {
 	private long lastModified;
 	private boolean exists;
 	private boolean directory;
+	private String type;
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
 
 	public boolean isExists() {
 		return exists;

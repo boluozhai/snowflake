@@ -11,6 +11,7 @@ __config__.base = {
 
 	'snowflake.rest.RESTClientFactory' : 'snowflake.rest.RESTClientFactory',
 	'i18n' : 'h2o.i18n.I18n',
+	'format' : 'h2o.utils.Formatter',
 
 };
 

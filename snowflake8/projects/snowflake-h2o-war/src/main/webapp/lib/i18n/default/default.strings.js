@@ -61,6 +61,7 @@ this.h2o.i18n.StringResTable.mapping['default'] = {
 	"title_console" : "控制台",
 	"title_directory" : "目录",
 	"title_working" : "工作空间",
+	"title_repository_home" : "库",
 	"type" : "类型",
 	"want_to_logout" : "R U Want to Logout?",
 	"work-in-progress" : "正在施工",
@@ -96,5 +97,8 @@ this.h2o.i18n.StringResTable.mapping['default'] = {
 	upload_start : '开始',
 	upload_cancel : '取消',
 	completed : '已完成',
+	folder : '文件夹',
+	items : '项',
+	wormhole : '时空隧道',
 
 };

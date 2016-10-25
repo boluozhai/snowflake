@@ -406,6 +406,10 @@ JS.module(function(mc) {
 			return this.__field__('exists', v);
 		},
 
+		f_type : function(v) {
+			return this.__field__('type', v);
+		},
+
 	};
 
 	// NodeList

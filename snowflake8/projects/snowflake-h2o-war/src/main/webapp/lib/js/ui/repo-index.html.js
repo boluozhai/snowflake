@@ -73,12 +73,20 @@ JS.module(function(mc) {
 			this.setupFileUploadDialog(cl);
 			this.setupDirectoryDeleteButton(cl);
 			this.setupDirectoryCreateButton(cl);
+			this.setupWormholeButton(cl);
 			this.setupVFS(cl);
 
 		},
 
 		setupDirectoryFunctionPanel : function(cl) {
 			// TODO
+		},
+
+		setupWormholeButton : function(cl) {
+			var self = this;
+			$('.btn-wormhole').click(function() {
+				self.onClickWormhole();
+			});
 		},
 
 		setupDirectoryCreateButton : function(cl) {
@@ -253,6 +261,14 @@ JS.module(function(mc) {
 			file.del(function() {
 				alert('delete ' + file);
 			});
+
+		},
+
+		onClickWormhole : function() {
+
+			var i18n = this._context.getBean('i18n');
+			var txt = i18n.getString('work-in-progress');
+			alert(txt);
 
 		},
 

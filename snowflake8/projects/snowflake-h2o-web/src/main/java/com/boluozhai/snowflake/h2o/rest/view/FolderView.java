@@ -98,17 +98,47 @@ public class FolderView extends RestView {
 			nlist.setExists(node.exists());
 			nlist.setLastModified(node.lastModified());
 			nlist.setName(node.getName());
-			nlist.setLength(node.length());
+			nlist.setLength(this.makeLengthForNode(node));
 			nlist.setDirectory(node.isDirectory());
 			nlist.setFileURI(node.toURI().toString());
 			nlist.setBaseURI(this.makeBaseURI(nlist));
 			nlist.setPath(this.offset.toArray());
 			nlist.setList(list);
+			nlist.setType(this.makeTypeForNode(node));
 
 			nlist.setDebugAbsPath(node.getAbsolutePath());
 			nlist.setDebugURI(this.uri);
 
 			return nlist;
+		}
+
+		private String makeTypeForNode(VFile node) {
+			// TODO Auto-generated method stub
+
+			if (node.isDirectory()) {
+				return "directory";
+			}
+
+			final String name = node.getName();
+			final int index = name.lastIndexOf('.');
+			if (index < 0) {
+				return "file";
+			}
+
+			final String ext_name = name.substring(index).toLowerCase();
+
+			return ext_name;
+		}
+
+		private long makeLengthForNode(VFile node) {
+			if (!node.exists()) {
+				return 0;
+			} else if (node.isDirectory()) {
+				String[] li = node.list();
+				return li.length;
+			} else {
+				return node.length();
+			}
 		}
 
 		private boolean is_windows_root() {
@@ -157,6 +187,8 @@ public class FolderView extends RestView {
 			nlist.setDebugURI(this.uri);
 			nlist.setBaseURI("file:/");
 			nlist.setFileURI("file:/");
+			nlist.setType("directory");
+			nlist.setLength(roots.length);
 
 			return nlist;
 		}
@@ -176,7 +208,8 @@ public class FolderView extends RestView {
 				chn.setName(name);
 				chn.setDirectory(chf.isDirectory());
 				chn.setLastModified(chf.lastModified());
-				chn.setLength(chf.length());
+				chn.setLength(this.makeLengthForNode(chf));
+				chn.setType(this.makeTypeForNode(chf));
 				li.add(chn);
 			}
 			return li;

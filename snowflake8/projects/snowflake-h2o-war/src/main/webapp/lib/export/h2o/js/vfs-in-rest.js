@@ -310,6 +310,10 @@ JS.module(function(mc) {
 			return ch.facade();
 		},
 
+		type : function() {
+			return this.node().f_type();
+		},
+
 		// next: like java.io.File
 
 		canExecute : function() {

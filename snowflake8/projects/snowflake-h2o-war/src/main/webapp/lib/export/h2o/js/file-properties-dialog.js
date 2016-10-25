@@ -107,13 +107,21 @@ JS.module(function(mc) {
 
 	function FilePropertiesDialog_onload(dlg, file) {
 
+		var context = dlg._context;
 		var q = dlg.dialogQuery();
+
+		var fmt = context.getBean('format');
+		var fmt_time = fmt.from('time');
+		var fmt_size = fmt.from('size');
 
 		var name = file.getName();
 		var size = file.length();
-		var type = 'todo...'; // file.ty(); TODO
+		var type = file.type();
 		var time = file.lastModified();
 		var path = file.getPath();
+
+		size = fmt_size.toString(size);
+		time = fmt_time.toString(time);
 
 		q.find('.file-name').text(name);
 		q.find('.file-size').text(size);

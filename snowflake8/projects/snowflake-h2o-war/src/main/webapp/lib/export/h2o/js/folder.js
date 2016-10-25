@@ -468,9 +468,18 @@ JS.module(function(mc) {
 		setupListCtrl : function() {
 
 			var self = this;
+			var context = this._context;
 			var model = this.model();
 			var view = this._jq_view.find('.list');
 			var builder = new ListBuilder();
+
+			var fmt = context.getBean('format');
+			var fmt_time = fmt.from('time');
+			var fmt_size = fmt.from('size');
+
+			var i18n = context.getBean('i18n');
+			var txt_item = i18n.getString('items');
+			var txt_dir = i18n.getString('folder');
 
 			builder.view(view);
 			builder.model(model);
@@ -509,19 +518,19 @@ JS.module(function(mc) {
 				var time = data.time();
 
 				if (isdir) {
-					size = '-';
-					type = 'DIR';
+					size = size + ' ' + txt_item;
+					type = txt_dir;
 				} else {
 					// type = '<FILE>';
+					size = fmt_size.toString(size);
 				}
 
-				var date = new Date();
-				date.setTime(time);
+				time = fmt_time.toString(time);
 
 				view.find('.f_name').text(name);
 				view.find('.f_size').text(size);
 				view.find('.f_type').text(type);
-				view.find('.f_time').text(date.toLocaleString());
+				view.find('.f_time').text(time);
 
 				var icon = view.find('.f_icon');
 				select_icon_for_file(icon, isdir, type);

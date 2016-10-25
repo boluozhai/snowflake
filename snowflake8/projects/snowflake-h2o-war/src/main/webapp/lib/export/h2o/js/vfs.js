@@ -131,6 +131,10 @@ JS.module(function(mc) {
 			throw new Exception('implements in sub-class');
 		},
 
+		type : function() {
+			throw new Exception('implements in sub-class');
+		},
+
 		// next: like java.io.File
 
 		canExecute : function() {
@@ -709,6 +713,10 @@ JS.module(function(mc) {
 
 		child : function(name) {
 			return this.inner.child(name);
+		},
+
+		type : function() {
+			return this.inner.type();
 		},
 
 		// next: like java.io.File
