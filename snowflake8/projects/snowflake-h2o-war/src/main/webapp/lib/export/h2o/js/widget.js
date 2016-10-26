@@ -191,5 +191,113 @@ JS.module(function(mc) {
 this.snowflake.ResourceLoader = com.boluozhai.h2o.widget.ResourceLoader;
 
 /*******************************************************************************
+ * module 'snowflake.net'
+ */
+
+JS.module(function(mc) {
+
+	mc.package('snowflake.net');
+
+	var Attributes = mc.import('js.lang.Attributes');
+
+	/***************************************************************************
+	 * class URLElements
+	 */
+
+	function URLElements(init) {
+		this.Attributes();
+
+		this._param_ = {};
+
+		if (init) {
+			this.schema(init.schema());
+			this.user(init.user());
+			this.host(init.host());
+			this.port(init.port());
+			this.path(init.path());
+			this.query(init.query());
+			this.fragment(init.fragment());
+		}
+
+	}
+
+	mc.class(function(cc) {
+		cc.type(URLElements);
+		cc.extends(Attributes);
+	});
+
+	URLElements.prototype = {
+
+		schema : function(v) {
+			return this.attr('schema', v);
+		},
+
+		user : function(v) {
+			return this.attr('user', v);
+		},
+
+		host : function(v) {
+			return this.attr('host', v);
+		},
+
+		port : function(v) {
+			return this.attr('port', v);
+		},
+
+		path : function(v) {
+			return this.attr('path', v);
+		},
+
+		query : function(v) {
+			if (v == null) {
+				// TODO to string
+			} else {
+				// TODO parse v
+			}
+			return v;
+		},
+
+		parameter : function(k, v) {
+			var tab = this._param_;
+			if (v == null) {
+				v = tab[k];
+			} else {
+				tab[k] = v;
+			}
+			return v;
+		},
+
+		fragment : function(v) {
+			return this.attr('fragment', v);
+		},
+
+		toString : function() {
+			var builder = new URLBuilder(this, this._param_);
+			return builder.create();
+		},
+
+	};
+
+	/***************************************************************************
+	 * class URLParser
+	 */
+
+	function URLParser() {
+	}
+
+	URLParser.prototype = {};
+
+	/***************************************************************************
+	 * class URLBuilder
+	 */
+
+	function URLBuilder(elements) {
+	}
+
+	URLBuilder.prototype = {};
+
+});
+
+/*******************************************************************************
  * EOF
  */

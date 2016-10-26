@@ -31,6 +31,27 @@
 	</bean>
 
 
+	<!-- listener -->
+
+	<bean id='rest:listener:access-security'
+		class='com.boluozhai.snowflake.access.security.web.listener.AccessSecurityListener'>
+
+		<property name='roleManager'>
+			<ref bean='access:security:role-manager' />
+		</property>
+
+		<property name='roleComputer'>
+			<bean class='com.boluozhai.snowflake.h2o.rest.security.H2oRoleComputer' />
+		</property>
+
+		<property name='permissionComputer'>
+			<bean
+				class='com.boluozhai.snowflake.h2o.rest.security.H2oPermissionComputer' />
+		</property>
+
+	</bean>
+
+
 	<!-- expression -->
 
 
@@ -171,6 +192,7 @@
 			<list>
 				<bean
 					class='com.boluozhai.snowflake.h2o.rest.listener.QueryParamEncodingAdjustListener' />
+				<ref bean='rest:listener:access-security' />
 			</list>
 		</property>
 

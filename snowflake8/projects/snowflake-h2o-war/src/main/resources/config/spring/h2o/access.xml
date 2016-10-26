@@ -17,4 +17,76 @@
 
 	</bean>
 
+
+	<bean id='access:security:role-manager'
+		class='com.boluozhai.snowflake.access.security.support.DefaultRoleManager'>
+
+		<property name='roles'>
+			<list>
+				<ref bean='access:security:role:root' />
+				<ref bean='access:security:role:admin' />
+				<ref bean='access:security:role:owner' />
+			</list>
+		</property>
+
+	</bean>
+
+
+	<bean id='access:security:role:root'
+		class='com.boluozhai.snowflake.access.security.support.DefaultRole'>
+
+		<property name='name'>
+			<value>root</value>
+		</property>
+
+		<property name='permissions'>
+			<set>
+				<value>a</value>
+				<value>b</value>
+				<value>c</value>
+				<value>d</value>
+			</set>
+		</property>
+
+	</bean>
+
+
+	<bean id='access:security:role:admin'
+		class='com.boluozhai.snowflake.access.security.support.DefaultRole'>
+
+		<property name='name'>
+			<value>admin</value>
+		</property>
+
+		<property name='permissions'>
+			<set>
+				<value>a</value>
+				<value>b</value>
+				<value>c</value>
+				<value>d</value>
+			</set>
+		</property>
+
+	</bean>
+
+
+	<bean id='access:security:role:owner'
+		class='com.boluozhai.snowflake.access.security.support.DefaultRole'>
+
+		<property name='name'>
+			<value>owner</value>
+		</property>
+
+		<property name='permissions'>
+			<set>
+				<value>a</value>
+				<value>b</value>
+				<value>c</value>
+				<value>d</value>
+			</set>
+		</property>
+
+	</bean>
+
+
 </beans>

@@ -464,6 +464,11 @@ JS.module(function(mc) {
 		},
 
 		setSelection : function(sel) {
+
+			if (this.is_forbidden(sel)) {
+				return this.alert_forbidden(sel);
+			}
+
 			this._selection = sel;
 			this._selections = null;
 			this.fireOnSelect(sel);
@@ -476,26 +481,39 @@ JS.module(function(mc) {
 		},
 
 		open : function(file) {
+
+			if (this.is_forbidden(file)) {
+				return this.alert_forbidden(file);
+			}
+
 			this.fireOnOpen(file);
 		},
 
 		setLocation : function(location) {
+
+			if (this.is_forbidden(location)) {
+				return this.alert_forbidden(location);
+			}
+
 			if (location.isDirectory()) {
-				if (this.is_forbidden(location)) {
-					alert('Forbidden');
-					return;
-				}
 				this._location = location;
 				this._selection = null;
 				this._selections = null;
 				this.load(location);
 				this.fireOnLocate(location);
 			}
+
+		},
+
+		alert_forbidden : function(file) {
+			var context = this._context;
+			var i18n = context.getBean('i18n');
+			alert(i18n.getString('forbidden'));
+			return 0;
 		},
 
 		is_forbidden : function(file) {
-			var p = file;
-			for (; p != null; p = p.getParentFile()) {
+			for (var p = file; p != null; p = p.getParentFile()) {
 				var name = p.getName();
 				if (name == null) {
 					continue;

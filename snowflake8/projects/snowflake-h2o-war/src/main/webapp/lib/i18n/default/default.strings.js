@@ -112,5 +112,6 @@ this.h2o.i18n.StringResTable.mapping['default'] = {
 
 	byte : '字节',
 	bytes : '字节',
+	forbidden : '禁止访问',
 
 };
